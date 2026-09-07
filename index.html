@@ -38,7 +38,7 @@ background: rgba(253,246,240,0.96); backdrop-filter: blur(12px);
 border-bottom: 1px solid rgba(201,160,154,0.2);
 }
 .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; letter-spacing: 0.08em; color: var(--deep-rose); white-space: nowrap; cursor: pointer; }
-.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links { display: none; position: absolute; top: 100%; right: 4rem; flex-direction: column; gap: 0.9rem; list-style: none; background: var(--warm-white); border: 1px solid rgba(201,160,154,0.25); box-shadow: 0 12px 30px rgba(139,80,85,0.15); padding: 1.3rem 1.7rem; min-width: 210px; z-index: 200; } .nav-links.open { display: flex; } .nav-menu-toggle { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background: none; border: 1px solid rgba(201,160,154,0.4); font-size: 1rem; color: var(--deep-rose); cursor: pointer; transition: background 0.3s; } .nav-menu-toggle:hover { background: var(--blush); }
 .nav-links a { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 0.3s; cursor: pointer; }
 .nav-links a:hover { color: var(--rose); }
 .nav-cta { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.6rem 1.4rem; background: var(--deep-rose); color: white; transition: background 0.3s; white-space: nowrap; cursor: pointer; border: none; font-family: 'Jost', sans-serif; }
@@ -388,7 +388,7 @@ footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 
 <nav>
 <div class="nav-logo" onclick="showPage('main')">HerStyleVault</div>
-<ul class="nav-links">
+<button class="nav-menu-toggle" onclick="toggleNavMenu(event)" aria-label="Menu">☰</button> <ul class="nav-links" id="navLinks">
 <li><a onclick="showPage('main'); scrollToId('how')">How It Works</a></li>
 <li><a onclick="showPage('main'); scrollToId('services')">Packages</a></li>
 <li><a onclick="showPage('main'); scrollToId('curation')">Add-Ons</a></li>
@@ -1280,7 +1280,7 @@ const el = document.getElementById(id);
 if (el) el.scrollIntoView({ behavior: 'smooth' });
 }, 100);
 }
-function toggleFaq(el) {
+function toggleNavMenu(e) { e.stopPropagation(); document.getElementById('navLinks').classList.toggle('open'); } document.addEventListener('click', function(e) { const nav = document.getElementById('navLinks'); const toggle = document.querySelector('.nav-menu-toggle'); if (!nav || !toggle) return; if (nav.classList.contains('open') && (e.target.tagName === 'A' || (!nav.contains(e.target) && !toggle.contains(e.target)))) { nav.classList.remove('open'); } }); function toggleFaq(el) {
 const item = el.parentElement;
 const isOpen = item.classList.contains('open');
 document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
