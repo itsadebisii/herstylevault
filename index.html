@@ -178,6 +178,15 @@ section { padding: 6rem; }
 .testi-coming { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: var(--text-light); margin-bottom: 1rem; }
 .testi-placeholder { font-size: 0.72rem; color: var(--text-light); letter-spacing: 0.1em; text-transform: uppercase; }
 
+.about { background: var(--warm-white); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 6rem 4rem; }
+.about-text .section-title { margin-bottom: 2rem; }
+.about-text p { font-size: 0.87rem; color: var(--text-mid); line-height: 2; font-weight: 300; margin-bottom: 1.1rem; }
+.about-text p:last-child { margin-bottom: 0; }
+.about-text p em { font-style: italic; color: var(--rose); }
+.about-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.about-photo { background: #f2d9d0; min-height: 280px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.about-photo img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; display: block; }
+
 .faq { background: var(--cream); }
 .faq-text-center { text-align: center; }
 .faq-text-center .section-title, .faq-text-center .section-sub { margin-left: auto; margin-right: auto; }
@@ -370,6 +379,7 @@ section { padding: 4rem 2rem; }
 .for-you-grid, .how-grid, .packages-grid, .location-grid, .booking-steps-grid, .faq-grid, .testi-grid { grid-template-columns: 1fr; }
 .vault-teaser-grid, .vault-grid, .vault-elig-grid { grid-template-columns: 1fr; }
 .addon { grid-template-columns: 1fr; gap: 3rem; }
+.about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 2rem; }
 footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
 .policies-hero, .policies-content, .expect-hero, .expect-content { padding: 4rem 2rem; }
@@ -739,6 +749,25 @@ footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 <div class="testi reveal"><p class="testi-coming">"Client testimonial coming soon..."</p><p class="testi-placeholder">— First client session in progress</p></div>
 <div class="testi reveal"><p class="testi-coming">"Client testimonial coming soon..."</p><p class="testi-placeholder">— First client session in progress</p></div>
 <div class="testi reveal"><p class="testi-coming">"Client testimonial coming soon..."</p><p class="testi-placeholder">— First client session in progress</p></div>
+</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+<div class="about-text reveal">
+<p class="section-label">About</p>
+<h2 class="section-title">The woman behind <em>HerStyleVault</em></h2>
+<p>Some people find their calling. Mine found me.</p>
+<p>I have been expressing myself through clothing since I was old enough to pick out my own outfits — and yes, they were bold. Expressive. Unapologetically me. As I got older my style matured but it never quieted down, and somewhere along the way people started noticing. Friends asked for outfit advice. Then strangers. Then it became the thing everyone came to me for.</p>
+<p>It was my best friend who finally said what I already knew — <em>"You should be a stylist."</em></p>
+<p>I knew fashion was always going to be part of my story. I just needed the right moment to stop waiting and start. That moment is now. HerStyleVault is not just a business — it is everything I have always been, finally given a name.</p>
+<p>If you have ever felt like your wardrobe does not reflect who you really are — I built this for you. ✦</p>
+</div>
+<div class="about-photo-grid reveal">
+<div class="about-photo"><img src="images/About_Us_P1.jpg" alt="Woman in pinstripe blazer on sofa"></div>
+<div class="about-photo"><img src="images/About_Us_P2.jpg" alt="Woman in black outfit on burgundy sofa"></div>
+<div class="about-photo"><img src="images/About_Us_P3.jpg" alt="Childhood photo in pink leather jacket"></div>
+<div class="about-photo"><img src="images/About_Us_P4.jpg" alt="Woman in cowboy hat and wide leg pants"></div>
 </div>
 </section>
 
