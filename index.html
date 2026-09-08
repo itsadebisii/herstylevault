@@ -816,7 +816,7 @@ footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 <div class="b-step"><div class="b-step-num">04</div><div class="b-step-title">Sessions Begin</div><div class="b-step-desc">Sessions are scheduled at least 1 week apart. Full payment required before your final session. Style guide delivered within 1–2 weeks after.</div></div>
 </div>
 <div class="booking-cta reveal">
-<a class="btn-primary" href="https://tally.so/r/yPeEjp" target="_blank">Fill Out Intake Form ✦</a>
+<a class="btn-primary" href="https://tally.so/r/yPeEjp" data-tally-open="yPeEjp" data-tally-layout="modal" data-tally-width="700">Fill Out Intake Form ✦</a>
 <button class="btn-ghost" onclick="showPage('policies')">Read Our Policies First</button>
 </div>
 <p class="not-ready reveal">Not ready to book yet? <span style="cursor:pointer;text-decoration:underline;color:var(--mauve);" onclick="showPage('expect')">Learn what to expect from your sessions first →</span></p>
@@ -1087,7 +1087,7 @@ footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 <div class="book-option-note">Complete the intake form first — you'll be redirected to book your consultation immediately after submitting.</div>
 </div>
 <div class="book-option-actions">
-<a class="btn-primary" href="https://tally.so/r/yPeEjp" target="_blank">Fill Out Intake Form ✦</a>
+<a class="btn-primary" href="https://tally.so/r/yPeEjp" data-tally-open="yPeEjp" data-tally-layout="modal" data-tally-width="700">Fill Out Intake Form ✦</a>
 </div>
 </div>
 
@@ -1096,11 +1096,11 @@ footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 <div class="book-option-num">02</div>
 <div class="book-option-tag">Returning Clients</div>
 <div class="book-option-title">Book a Session</div>
-<div class="book-option-desc">Already worked with me before? Choose whichever option fits where you are right now — continuing a package you're already in, or starting a brand new one. Once confirmed you'll receive a short vision form from me within 48 hours.</div>
+<div class="book-option-desc">Already worked with me before? Choose whichever option fits where you are right now — continuing a package you're already in, or starting a brand new one. If you're starting a new package, you'll fill out a short form first so I have your updated vision before we get on the calendar. Once confirmed you'll receive a short vision form from me within 48 hours.</div>
 <div class="book-option-note">Need a consultation as a returning client? Reach out to hello@herstylevault.com before booking and I'll get you set up.</div>
 </div>
 <div class="book-option-actions">
-<div class="vault-book-btns"> <a class="btn-primary" href="https://calendly.com/herstylevault/book-a-session" target="_blank">Continuing a Package ✦</a> <a class="btn-primary" href="https://calendly.com/herstylevault/book-session" target="_blank">Starting a New Package</a> </div>
+<div class="vault-book-btns"> <a class="btn-primary" href="https://calendly.com/herstylevault/book-a-session" onclick="return openCalendlyPopup(event,'https://calendly.com/herstylevault/book-a-session')">Continuing a Package ✦</a> <a class="btn-primary" href="https://tally.so/r/GxY5bk" data-tally-open="GxY5bk" data-tally-layout="modal" data-tally-width="700">Starting a New Package</a> </div>
 </div>
 </div>
 
@@ -1320,10 +1320,10 @@ const reveals = document.querySelectorAll('.reveal:not(.visible)');
 const observer = new IntersectionObserver((entries) => {
 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
 }, { threshold: 0.08 });
-reveals.forEach(el => observer.observe(el));
+reveals.forEach(el => observer.observe(el)); window.openCalendlyPopup=function(e,url){if(e&&e.preventDefault)e.preventDefault();if(window.Calendly&&Calendly.initPopupWidget){Calendly.initPopupWidget({url:url});}else{window.location.href=url;}return false;};window.addEventListener('message',function(event){if(!event||!event.data)return;var data=event.data;if(data.event==='Tally.FormSubmitted'&&data.payload&&data.payload.formId==='GxY5bk'){if(window.Tally&&Tally.closePopup)Tally.closePopup('GxY5bk');setTimeout(function(){window.openCalendlyPopup(null,'https://calendly.com/herstylevault/book-session');},350);}});
 }
 observeReveals();
 </script>
 
-</body>
+<script async src="https://tally.so/widget/embed.js"></script><link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script></body>
 </html>
