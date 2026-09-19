@@ -77,6 +77,17 @@ border-bottom: 1px solid rgba(201,160,154,0.2);
 .card-price { margin-top: 0.8rem; font-size: 0.82rem; color: var(--deep-rose); font-weight: 500; }
 .hero-deco { position: absolute; top: 15%; right: 5%; width: 150px; height: 150px; border: 1px solid rgba(201,160,154,0.25); border-radius: 50%; }
 
+.service-strip { position: relative; background: var(--deep-rose); overflow: hidden; padding: 0.9rem 0; }
+.service-strip-track { display: flex; width: max-content; animation: service-strip-glide 24s linear infinite; }
+.service-strip:hover .service-strip-track { animation-play-state: paused; }
+.service-strip-set { display: flex; align-items: center; flex-shrink: 0; }
+.service-strip-item { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--warm-white); white-space: nowrap; padding: 0 1.4rem; font-weight: 400; }
+.service-strip-sep { color: var(--gold); font-size: 0.6rem; }
+@keyframes service-strip-glide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+.service-strip-track { animation: none; }
+}
+
 section { padding: 6rem; }
 .section-label { font-size: 0.63rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--mauve); margin-bottom: 1rem; }
 .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.15; color: var(--text-dark); margin-bottom: 1.2rem; }
@@ -484,6 +495,23 @@ footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 </div>
 </div>
 </section>
+
+<div class="service-strip">
+<div class="service-strip-track">
+<div class="service-strip-set">
+<span class="service-strip-item">Color Analysis</span><span class="service-strip-sep">✦</span>
+<span class="service-strip-item">Closet Audit</span><span class="service-strip-sep">✦</span>
+<span class="service-strip-item">Wardrobe Consulting</span><span class="service-strip-sep">✦</span>
+<span class="service-strip-item">Personal Shopping</span><span class="service-strip-sep">✦</span>
+</div>
+<div class="service-strip-set" aria-hidden="true">
+<span class="service-strip-item">Color Analysis</span><span class="service-strip-sep">✦</span>
+<span class="service-strip-item">Closet Audit</span><span class="service-strip-sep">✦</span>
+<span class="service-strip-item">Wardrobe Consulting</span><span class="service-strip-sep">✦</span>
+<span class="service-strip-item">Personal Shopping</span><span class="service-strip-sep">✦</span>
+</div>
+</div>
+</div>
 
 <!-- THIS IS FOR YOU -->
 
