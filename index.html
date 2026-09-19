@@ -188,9 +188,27 @@ section { padding: 6rem; }
 .about-text p { font-size: 0.87rem; color: var(--text-mid); line-height: 2; font-weight: 300; margin-bottom: 1.1rem; }
 .about-text p:last-child { margin-bottom: 0; }
 .about-text p em { font-style: italic; color: var(--rose); }
-.about-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.about-photo { background: #f2d9d0; min-height: 280px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.about-photo img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; display: block; }
+.about-carousel { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--blush); }
+.about-carousel-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; }
+.about-carousel-slide.active { opacity: 1; }
+.about-carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.about-carousel-glow { position: absolute; inset: -15%; background: linear-gradient(135deg, var(--rose), var(--gold) 55%, var(--mauve)); filter: blur(35px); opacity: 0; transition: opacity 0.8s ease; pointer-events: none; z-index: 2; }
+.about-carousel.transitioning .about-carousel-glow { opacity: 0.6; }
+.about-carousel-dots { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.4rem; z-index: 3; }
+.about-carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.55); transition: background 0.3s, transform 0.3s; }
+.about-carousel-dot.active { background: var(--warm-white); transform: scale(1.3); }
+
+.about-meet { background: var(--cream); text-align: center; padding: 6rem 4rem; }
+.about-meet-inner { max-width: 700px; margin: 0 auto 4rem; }
+.about-meet-inner .section-title, .about-meet-inner .section-label { margin-left: auto; margin-right: auto; }
+.about-meet-inner p { font-size: 0.87rem; color: var(--text-mid); line-height: 2; font-weight: 300; margin-bottom: 1.1rem; }
+.about-meet-inner p:last-child { margin-bottom: 0; }
+.about-why { max-width: 1100px; margin: 0 auto; }
+.about-why .section-title, .about-why .section-label { margin-left: auto; margin-right: auto; }
+.about-why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: left; margin-top: 2.5rem; }
+.about-why-item { padding: 2rem; background: white; border: 1px solid rgba(201,160,154,0.18); }
+.about-why-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-dark); margin-bottom: 0.5rem; }
+.about-why-desc { font-size: 0.78rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
 
 .faq { background: var(--cream); }
 .faq-text-center { text-align: center; }
@@ -385,6 +403,8 @@ section { padding: 4rem 2rem; }
 .vault-teaser-grid, .vault-grid, .vault-elig-grid { grid-template-columns: 1fr; }
 .addon { grid-template-columns: 1fr; gap: 3rem; }
 .about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 2rem; }
+.about-meet { padding: 4rem 2rem; }
+.about-why-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
 .policies-hero, .policies-content, .expect-hero, .expect-content { padding: 4rem 2rem; }
@@ -980,11 +1000,43 @@ footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
 <p>I knew fashion was always going to be part of my story. I just needed the right moment to stop waiting and start. That moment is now. HerStyleVault is not just a business — it is everything I have always been, finally given a name.</p>
 <p>If you have ever felt like your wardrobe does not reflect who you really are — I built this for you. ✦</p>
 </div>
-<div class="about-photo-grid reveal">
-<div class="about-photo"><img src="images/About_Us_P1.jpg" alt="Woman in pinstripe blazer on sofa"></div>
-<div class="about-photo"><img src="images/About_Us_P2.jpg" alt="Woman in black outfit on burgundy sofa"></div>
-<div class="about-photo"><img src="images/About_Us_P3.jpg" alt="Childhood photo in pink leather jacket"></div>
-<div class="about-photo"><img src="images/About_Us_P4.jpg" alt="Woman in cowboy hat and wide leg pants"></div>
+<div class="about-carousel reveal">
+<div class="about-carousel-slide active"><img src="images/About_Us_P1.jpg" alt="Woman in pinstripe blazer on sofa"></div>
+<div class="about-carousel-slide"><img src="images/About_Us_P2.jpg" alt="Woman in black outfit on burgundy sofa"></div>
+<div class="about-carousel-slide"><img src="images/About_Us_P3.jpg" alt="Childhood photo in pink leather jacket"></div>
+<div class="about-carousel-slide"><img src="images/About_Us_P4.jpg" alt="Woman in cowboy hat and wide leg pants"></div>
+<div class="about-carousel-slide"><img src="images/About_Us_P5.jpg" alt="Woman in a pink floral dress"></div>
+<div class="about-carousel-slide"><img src="images/About_Us_P6.jpg" alt="Woman in a burgundy leather jacket on a rooftop at dusk"></div>
+<div class="about-carousel-slide"><img src="images/About_Us_P7.jpg" alt="Woman in a brown tank top and yellow wide leg trousers outside a historic building"></div>
+<div class="about-carousel-glow"></div>
+<div class="about-carousel-dots">
+<span class="about-carousel-dot active"></span>
+<span class="about-carousel-dot"></span>
+<span class="about-carousel-dot"></span>
+<span class="about-carousel-dot"></span>
+<span class="about-carousel-dot"></span>
+<span class="about-carousel-dot"></span>
+<span class="about-carousel-dot"></span>
+</div>
+</div>
+</section>
+
+<section class="about-meet reveal">
+<div class="about-meet-inner">
+<p class="section-label">Meet Bisi</p>
+<h2 class="section-title">The stylist behind <em>HerStyleVault</em></h2>
+<p>I'm Bisi, a personal stylist and wardrobe consultant offering personal styling and wardrobe consulting to women who want their closets to actually work for them. I serve clients in person across Boston, MA and Southern NH, plus virtual styling nationwide — so no matter where you live, we can work together.</p>
+<p>My background is self-taught, built through years of styling friends and family and developing a real eye for color theory, fit, and what makes someone feel like the most elevated version of themselves.</p>
+</div>
+<div class="about-why">
+<p class="section-label">Why HerStyleVault</p>
+<h2 class="section-title">Real services, real results</h2>
+<div class="about-why-grid">
+<div class="about-why-item"><div class="about-why-title">Color Analysis</div><div class="about-why-desc">A personalized look at the tones, palettes, and undertones that genuinely work for you — not a generic warm/cool guess.</div></div>
+<div class="about-why-item"><div class="about-why-title">Closet Audit</div><div class="about-why-desc">A full pass through what you already own, so every piece in your closet has a purpose.</div></div>
+<div class="about-why-item"><div class="about-why-title">Wardrobe Consulting</div><div class="about-why-desc">Ongoing guidance to build a wardrobe that actually fits your life, your body, and your budget.</div></div>
+<div class="about-why-item"><div class="about-why-title">Personal Shopping</div><div class="about-why-desc">Hands-on shopping support, in-store or online, with every piece chosen with intention.</div></div>
+</div>
 </div>
 </section>
 
@@ -1546,6 +1598,27 @@ entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add(
 reveals.forEach(el => observer.observe(el)); window.openCalendlyPopup=function(e,url){if(e&&e.preventDefault)e.preventDefault();if(window.Calendly&&Calendly.initPopupWidget){Calendly.initPopupWidget({url:url});}else{window.location.href=url;}return false;};window.addEventListener('message',function(event){if(!event||!event.data)return;var data=event.data;if(data.event==='Tally.FormSubmitted'&&data.payload){if(data.payload.formId==='GxY5bk'){if(window.Tally&&Tally.closePopup)Tally.closePopup('GxY5bk');setTimeout(function(){window.openCalendlyPopup(null,'https://calendly.com/herstylevault/book-session');},350);}else if(data.payload.formId==='yPeEjp'){if(window.Tally&&Tally.closePopup)Tally.closePopup('yPeEjp');setTimeout(function(){window.openCalendlyPopup(null,'https://calendly.com/herstylevault/free-consultation');},350);}}});
 }
 observeReveals();
+function initAboutCarousel() {
+  var root = document.querySelector('.about-carousel');
+  if (!root) return;
+  var slides = root.querySelectorAll('.about-carousel-slide');
+  var dots = root.querySelectorAll('.about-carousel-dot');
+  var i = 0;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || slides.length < 2) return;
+  setInterval(function() {
+    root.classList.add('transitioning');
+    setTimeout(function() {
+      slides[i].classList.remove('active');
+      dots[i].classList.remove('active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('active');
+      dots[i].classList.add('active');
+      root.classList.remove('transitioning');
+    }, 400);
+  }, 4000);
+}
+initAboutCarousel();
 </script>
 
 <script async src="https://tally.so/widget/embed.js"></script><link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script></body>
