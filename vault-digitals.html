@@ -37,7 +37,8 @@ padding: 1.2rem 4rem;
 background: rgba(253,246,240,0.96); backdrop-filter: blur(12px);
 border-bottom: 1px solid rgba(201,160,154,0.2);
 }
-.nav-logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 400; letter-spacing: 0.08em; color: var(--deep-rose); text-decoration: none; white-space: nowrap; cursor: pointer; }
+.nav-logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 400; letter-spacing: 0.08em; color: var(--deep-rose); text-decoration: none; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 0.55rem; }
+.nav-logo-mark { width: 28px; height: 28px; flex-shrink: 0; }
 .nav-right { display: flex; align-items: center; gap: 0.9rem; }
 .nav-links { display: none; position: absolute; top: 100%; right: 0; flex-direction: column; gap: 0.9rem; list-style: none; background: var(--warm-white); border: 1px solid rgba(201,160,154,0.25); box-shadow: 0 12px 30px rgba(78,29,39,0.15); padding: 1.3rem 1.7rem; min-width: 210px; z-index: 200; margin-top: 0.6rem; }
 .nav-links.open { display: flex; }
@@ -91,7 +92,8 @@ section { padding: 4rem clamp(1.4rem, 6vw, 6rem); }
 .btn-light { display: inline-block; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--gold); color: var(--text-dark); padding: 1rem 2.4rem; text-decoration: none; font-weight: 500; }
 
 footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.4rem; text-align: center; }
-.footer-brand { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.5rem; color: var(--warm-white); font-weight: 400; margin-bottom: 0.5rem; }
+.footer-brand { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.5rem; color: var(--warm-white); font-weight: 400; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.footer-brand-mark { width: 26px; height: 26px; flex-shrink: 0; }
 .footer-tagline { font-size: 0.74rem; color: rgba(255,249,246,0.55); font-weight: 300; line-height: 1.7; max-width: 44ch; margin: 0 auto 1.6rem; }
 .footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 0; margin-bottom: 1.6rem; }
 .footer-nav a { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,249,246,0.8); text-decoration: none; padding: 0 0.85rem; cursor: pointer; transition: color 0.3s; }
@@ -111,7 +113,7 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 <body>
 
 <nav>
-<a class="nav-logo" href="index.html">HerStyleVault</a>
+<a class="nav-logo" href="index.html"><svg class="nav-logo-mark" viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="50" fill="none" stroke="#4e1d27" stroke-width="1.6"/><line x1="75" y1="19" x2="75" y2="27" stroke="#4e1d27" stroke-width="1.7"/><line x1="75" y1="123" x2="75" y2="131" stroke="#4e1d27" stroke-width="1.7"/><line x1="19" y1="75" x2="27" y2="75" stroke="#4e1d27" stroke-width="1.7"/><line x1="123" y1="75" x2="131" y2="75" stroke="#4e1d27" stroke-width="1.7"/><circle cx="75" cy="36" r="4.4" fill="#4e1d27"/><line x1="75" y1="40.4" x2="75" y2="50" stroke="#4e1d27" stroke-width="2.3" stroke-linecap="round"/><path d="M75 50 L44 76 Q38 80 44 83 L106 83 Q112 80 106 76 Z" fill="none" stroke="#4e1d27" stroke-width="2.3" stroke-linejoin="round"/></svg>HerStyleVault</a>
 <div class="nav-right">
 <button class="nav-menu-toggle" onclick="toggleNavMenu(event)" aria-label="Menu">☰</button>
 <ul class="nav-links" id="navLinks">
@@ -190,7 +192,7 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 </section>
 
 <footer>
-<div class="footer-brand">HerStyleVault</div>
+<div class="footer-brand"><svg class="footer-brand-mark" viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="50" fill="none" stroke="#e4d2a5" stroke-width="1.6"/><line x1="75" y1="19" x2="75" y2="27" stroke="#e4d2a5" stroke-width="1.7"/><line x1="75" y1="123" x2="75" y2="131" stroke="#e4d2a5" stroke-width="1.7"/><line x1="19" y1="75" x2="27" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><line x1="123" y1="75" x2="131" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><circle cx="75" cy="36" r="4.4" fill="#e4d2a5"/><line x1="75" y1="40.4" x2="75" y2="50" stroke="#e4d2a5" stroke-width="2.3" stroke-linecap="round"/><path d="M75 50 L44 76 Q38 80 44 83 L106 83 Q112 80 106 76 Z" fill="none" stroke="#e4d2a5" stroke-width="2.3" stroke-linejoin="round"/></svg>HerStyleVault</div>
 <p class="footer-tagline">Personal styling for the woman ready to show up as her most elevated self. Northern MA, Greater Boston, Southern NH & virtually nationwide.</p>
 <div class="footer-nav">
 <a href="index.html#main">Home</a><span>✦</span><a href="index.html#services">Packages</a><span>✦</span><a href="index.html#vault">Vault Exclusives</a><span>✦</span><a href="vault-digitals.html">Vault Digitals</a><span>✦</span><a href="index.html#about">About</a><span>✦</span><a href="index.html#policies">Policies</a>
