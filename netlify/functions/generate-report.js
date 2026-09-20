@@ -33,7 +33,10 @@ exports.handler = async (event) => {
   }
 
   // --- Step 1: verify payment server-side, every time. Never trust the client. ---
-  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  // STRIPE_SECRET_KEY_TEST, when set, always wins — lets us safely test with
+  // Stripe test-mode data without ever touching the live key. Delete it (or
+  // leave it unset) and this automatically falls back to the live key.
+  const stripeKey = process.env.STRIPE_SECRET_KEY_TEST || process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Server not configured (missing STRIPE_SECRET_KEY)' }) };
   }
