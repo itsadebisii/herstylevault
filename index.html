@@ -64,6 +64,8 @@ border-bottom: 1px solid rgba(201,160,154,0.2);
 .hero-actions { display: flex; gap: 1.2rem; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; flex-wrap: wrap; }
 .btn-primary { padding: 0.9rem 2.4rem; background: var(--deep-rose); color: white; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; display: inline-block; cursor: pointer; border: none; font-family: 'Jost', sans-serif; text-decoration: none; }
 .btn-primary:hover { background: var(--rose); transform: translateY(-1px); }
+.btn-secondary { padding: 0.9rem 2.4rem; background: transparent; color: var(--deep-rose); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; display: inline-block; cursor: pointer; border: 1px solid var(--deep-rose); font-family: 'Jost', sans-serif; text-decoration: none; }
+.btn-secondary:hover { background: var(--deep-rose); color: white; }
 .btn-ghost { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; border-bottom: 1px solid var(--mauve); padding-bottom: 2px; transition: color 0.3s; cursor: pointer; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Jost', sans-serif; }
 .btn-ghost:hover { color: var(--rose); }
 .hero-right { background: var(--blush); display: flex; align-items: center; justify-content: center; padding: 3rem; position: relative; overflow: hidden; }
@@ -485,7 +487,7 @@ window.TallyConfig = {
 </div>
 <div class="hero-actions">
 <button class="btn-primary" onclick="showPage('book')">Book Your Free Consultation</button>
-<button class="btn-ghost" onclick="showPage('services')">View Packages</button>
+<button class="btn-secondary" onclick="showPage('services')">View Packages</button>
 </div>
 </div>
 <div class="hero-right">
