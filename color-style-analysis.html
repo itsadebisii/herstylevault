@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signature Style Report | HerStyleVault</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blush: #f2d9d0;
+  --mauve: #c9a09a;
+  --rose: #4e1d27;
+  --deep-rose: #4e1d27;
+  --cream: #fdf6f0;
+  --warm-white: #fff9f6;
+  --text-dark: #1a1010;
+  --text-mid: #4a2e2e;
+  --text-light: #6b4a4a;
+  --gold: #e4d2a5;
+  --line: rgba(46,20,22,0.14);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.4rem; }
+
+.shell { width: 100%; max-width: 640px; background: var(--warm-white); border: 1px solid var(--line); box-shadow: 0 20px 50px -28px rgba(46,20,22,0.4); min-height: 560px; display: flex; flex-direction: column; }
+.pad { padding: clamp(1.6rem, 5vw, 2.6rem); flex: 1; display: flex; flex-direction: column; }
+
+.progress { display: flex; gap: 0.3rem; margin-bottom: 1.6rem; }
+.progress span { height: 3px; flex: 1; background: var(--blush); }
+.progress span.done { background: var(--rose); }
+
+.meta { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.8rem; }
+.qtext { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--text-dark); margin-bottom: 0.9rem; line-height: 1.25; }
+.hint { font-size: 0.78rem; color: var(--text-light); font-style: italic; margin-bottom: 1.2rem; }
+
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: auto; margin-bottom: 1.6rem; }
+.opt { border: 1px solid var(--line); background: var(--cream); padding: 0.9rem 1rem; font-size: 0.82rem; color: var(--text-mid); text-align: left; cursor: pointer; font-family: 'Jost', sans-serif; }
+.opt.sel { border-color: var(--rose); background: var(--blush); color: var(--text-dark); font-weight: 500; }
+
+.tone-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; margin-bottom: 1.6rem; margin-top: auto; }
+.tone-opt { border: 1px solid var(--line); background: var(--cream); padding: 0.7rem; text-align: center; cursor: pointer; }
+.tone-opt.sel { border-color: var(--rose); background: var(--blush); }
+.tone-swatch { width: 100%; aspect-ratio: 1; border-radius: 50%; margin: 0 auto 0.6rem; border: 1px solid rgba(0,0,0,0.08); }
+.tone-opt .lbl { font-size: 0.74rem; color: var(--text-mid); }
+.tone-opt.sel .lbl { color: var(--text-dark); font-weight: 500; }
+
+.group-lbl { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.5rem; margin-top: 0.9rem; }
+.group-lbl:first-of-type { margin-top: 0; }
+.tri-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+.tri-opt { border: 1px solid var(--line); background: var(--cream); padding: 0.7rem 0.5rem; text-align: center; cursor: pointer; }
+.tri-opt.sel { border-color: var(--rose); background: var(--blush); }
+.tri-opt .demo { display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem; height: 34px; }
+.tri-opt .demo div { width: 17px; height: 17px; border-radius: 50%; }
+.tri-opt .lbl { font-size: 0.66rem; color: var(--text-mid); line-height: 1.3; }
+.tri-opt.sel .lbl { color: var(--text-dark); font-weight: 500; }
+.tri-opt svg { width: 46px; height: 46px; margin-bottom: 0.4rem; }
+.notsure-wrap { max-width: 33%; margin-top: 0.9rem; }
+
+.shape-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.6rem; margin-top: auto; }
+.shape-opt { border: 1px solid var(--line); background: var(--cream); padding: 0.8rem 0.5rem; text-align: center; cursor: pointer; }
+.shape-opt.sel { border-color: var(--rose); background: var(--blush); }
+.shape-opt svg { width: 40px; height: 62px; margin-bottom: 0.4rem; }
+.shape-opt .lbl { font-size: 0.72rem; color: var(--text-dark); font-weight: 500; display: block; margin-bottom: 0.15rem; }
+.shape-opt .desc { font-size: 0.6rem; color: var(--text-light); line-height: 1.3; display: block; }
+.shape-fig { fill: var(--mauve); stroke: var(--rose); stroke-width: 1.1; stroke-linejoin: round; }
+.shape-head { fill: var(--mauve); stroke: var(--rose); stroke-width: 1.1; }
+
+textarea.freetext { width: 100%; min-height: 120px; border: 1px solid var(--line); background: var(--cream); padding: 0.9rem 1rem; font-family: 'Jost', sans-serif; font-size: 0.85rem; color: var(--text-dark); margin-top: auto; margin-bottom: 1.6rem; resize: vertical; }
+textarea.freetext:focus { outline: 1px solid var(--rose); }
+input.nameinput { width: 100%; border: 1px solid var(--line); background: var(--cream); padding: 0.9rem 1rem; font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--text-dark); margin-bottom: 1.4rem; }
+input.nameinput:focus { outline: 1px solid var(--rose); }
+
+.upload-box { border: 1px dashed var(--mauve); background: var(--cream); padding: 1.6rem 1rem; text-align: center; font-size: 0.78rem; color: var(--text-light); margin-top: auto; margin-bottom: 1.6rem; cursor: pointer; }
+.upload-box strong { display: block; color: var(--rose); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.upload-box img { max-width: 120px; max-height: 120px; margin-top: 0.8rem; border-radius: 4px; }
+.upload-box input[type=file] { display: none; }
+
+.nav { display: flex; justify-content: space-between; align-items: center; }
+.back-link { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); cursor: pointer; background: none; border: none; font-family: 'Jost', sans-serif; }
+.back-link:disabled { opacity: 0; pointer-events: none; }
+.next-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); padding: 0.75rem 1.8rem; border: none; cursor: pointer; }
+.next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.skip-link { font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); cursor: pointer; background: none; border: none; font-family: 'Jost', sans-serif; text-decoration: underline; margin-top: 0.6rem; align-self: center; }
+
+/* Cover slides */
+.cover { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+.cover-eyebrow { font-size: 0.62rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.9rem; }
+.cover-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(1.7rem, 6vw, 2.3rem); line-height: 1.1; margin-bottom: 0.9rem; color: var(--text-dark); }
+.cover-title em { font-style: italic; color: var(--rose); }
+.cover-sub { font-size: 0.85rem; line-height: 1.75; color: var(--text-mid); margin-bottom: 1.6rem; max-width: 46ch; }
+.cover-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); padding: 0.85rem 2rem; border: none; cursor: pointer; align-self: flex-start; }
+
+.error-box { border: 1px solid #b23a3a; background: #fbeaea; color: #7a2020; padding: 1rem 1.2rem; font-size: 0.82rem; margin-top: auto; }
+.loader { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 1.2rem; text-align: center; }
+.spinner { width: 34px; height: 34px; border: 2px solid var(--blush); border-top-color: var(--rose); border-radius: 50%; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 480px) {
+  .opts { grid-template-columns: 1fr; }
+  .tone-opts { grid-template-columns: repeat(2, 1fr); }
+  .tri-opts, .shape-opts { grid-template-columns: repeat(2, 1fr); }
+  .notsure-wrap { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="pad" id="app"></div>
+</div>
+
+<script>
+const STRIPE_LINK = 'https://buy.stripe.com/4gM7sMgEle946DOd577kc00';
+const STORAGE_KEY = 'hsv_analysis_data';
+
+const A = {}; // answers
+let name = '';
+let freeText = '';
+let photoBase64 = null;
+let photoMediaType = null;
+
+function opt(label, value) { return { label, value }; }
+
+// Standard multiple-choice questions, in display order.
+const QUESTIONS = [
+  { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold'), opt('Silver','silver'), opt('Both equally','both'), opt('Not sure','unsure')] },
+  { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('Rarely in sun','neither')] },
+  { section: 'color', n: 3, of: 8, key: 'veins', type: 'veins' },
+  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('Not sure','unsure')] },
+  { section: 'color', n: 5, of: 8, key: 'wash', text: 'Are there colors that wash you out?', options: [opt('Warm tones wash me out','warm'), opt('Cool tones wash me out','cool'), opt('Very pale / icy colors','pale'), opt('Nothing washes me out','none')] },
+  { section: 'color', n: 6, of: 8, key: 'depth', type: 'depth' },
+  { section: 'color', n: 7, of: 8, key: 'contrast', type: 'contrast' },
+  { section: 'color', n: 8, of: 8, key: 'chroma', text: 'Do bright, saturated colors or soft, muted colors look better on you?', options: [opt('Bright, saturated colors','bright'), opt('Soft, muted colors','muted'), opt('Both look good','both')] },
+  { section: 'body', n: 1, of: 8, key: 'fit', text: 'When you shop, what fits better — tops or bottoms?', options: [opt('Tops fit better','tops'), opt('Bottoms fit better','bottoms'), opt('Both fit well','both'), opt('Neither fits great','neither')] },
+  { section: 'body', n: 2, of: 8, key: 'weight', text: 'When you gain weight, where do you notice it first?', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
+  { section: 'body', n: 3, of: 8, key: 'styleGrav', text: 'Are there styles you always gravitate toward?', options: [opt('Flowy and loose','flowy'), opt('Fitted and structured','fitted'), opt('Anything that defines the waist','waist'), opt('Oversized and relaxed','oversized')] },
+  { section: 'body', n: 4, of: 8, key: 'dressSep', text: 'Dresses or separates — what works better on you?', options: [opt('Dresses work better','dresses'), opt('Separates work better','separates'), opt('Both equally','both')] },
+  { section: 'body', n: 5, of: 8, key: 'conf', text: 'Where do you feel most confident in your body?', options: [opt('Shoulders / collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('Overall confident','overall')] },
+  { section: 'body', n: 6, of: 8, key: 'shape', type: 'shape' },
+  { section: 'body', n: 7, of: 8, key: 'height', text: "What's your height range?", options: [opt("Petite — under 5'4\"",'petite'), opt("Average — 5'4\" to 5'7\"",'average'), opt("Tall — 5'8\" and up",'tall')] },
+  { section: 'body', n: 8, of: 8, key: 'proportion', text: 'Do you have a longer torso or longer legs?', options: [opt('Longer torso','longTorso'), opt('Longer legs','longLegs'), opt('Pretty balanced','balanced')] }
+];
+
+const SHAPE_SVGS = {
+  apple: { d: 'M20 22 C19 25 18 27 16 30 C16 37 19 43 18 48 C17 53 20 58 22 64 C22 72 25 78 24 86 L36 86 C35 78 38 72 38 64 C40 58 43 53 42 48 C41 43 44 37 44 30 C42 27 41 25 40 22 C37 25 26 25 20 22 Z', desc: 'Fuller midsection, slimmer legs' },
+  pear: { d: 'M22 22 C21.5 25 21.5 27 21 30 C20.5 37 26 43 25 48 C24 53 15 58 14 66 C13.5 72 15.5 78 18 86 L42 86 C44.5 78 46.5 72 46 66 C45 58 36 53 35 48 C34 43 39.5 37 39 30 C38.5 27 38.5 25 38 22 C34 25 26 25 22 22 Z', desc: 'Narrow shoulders, fuller hips & thighs' },
+  hourglass: { d: 'M19 22 C18 25 17.5 27 17 30 C16.5 37 26 43 26 48 C26 53 17.5 58 17 66 C16.5 72 18.5 78 21 86 L39 86 C41.5 78 43.5 72 43 66 C42.5 58 34 53 34 48 C34 43 43.5 37 43 30 C42.5 27 42 25 41 22 C37 25 23 25 19 22 Z', desc: 'Balanced, with a defined waist' },
+  rectangle: { d: 'M21 22 C20.5 25 20 27 20 30 C19.5 37 24 43 24 48 C24 53 21.5 58 21 66 C20.5 72 21.5 78 22 86 L38 86 C38.5 78 39.5 72 39 66 C38.5 58 36 53 36 48 C36 43 40.5 37 40 30 C40 27 39.5 25 39 22 C36 25 24 25 21 22 Z', desc: 'Similar measurements throughout' },
+  inverted: { d: 'M12 22 C13 25 14 27 15 30 C16 37 21.5 43 22 48 C22.5 53 23.5 58 23 64 C22.5 72 24.5 78 25 86 L35 86 C35.5 78 37.5 72 37 64 C36.5 58 37.5 53 38 48 C38.5 43 44 37 45 30 C46 27 47 25 48 22 C42 25 18 25 12 22 Z', desc: 'Broader shoulders, narrower hips' }
+};
+const SHAPE_LABELS = { apple: 'Apple', pear: 'Pear', hourglass: 'Hourglass', rectangle: 'Rectangle', inverted: 'Inverted Triangle' };
+
+function shapeSvg(key) {
+  const s = SHAPE_SVGS[key];
+  return `<svg viewBox="0 0 60 92"><circle class="shape-head" cx="30" cy="9" r="7"/><rect class="shape-head" x="26" y="15" width="8" height="7"/><path class="shape-fig" d="${s.d}"/></svg>`;
+}
+function veinsSvg(bg, stroke) {
+  return `<svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="8" fill="${bg}"/><path d="M14 40 Q22 20 30 32 T48 18" fill="none" stroke="${stroke}" stroke-width="3" stroke-linecap="round" opacity="0.85"/></svg>`;
+}
+
+// Slide list: covers + all 16 questions + free text + photo + payment
+const SLIDES = ['name-cover', 'color-cover', ...QUESTIONS.filter(q => q.section === 'color').map((q, i) => i), 'body-cover', ...QUESTIONS.filter(q => q.section === 'body').map((q, i) => i), 'freetext', 'photo'];
+// Build a flat ordered list with proper indices into QUESTIONS
+const FLOW = [];
+FLOW.push({ type: 'name-cover' });
+FLOW.push({ type: 'body-part-cover', part: 'color' });
+QUESTIONS.filter(q => q.section === 'color').forEach(q => FLOW.push({ type: 'question', q }));
+FLOW.push({ type: 'body-part-cover', part: 'body' });
+QUESTIONS.filter(q => q.section === 'body').forEach(q => FLOW.push({ type: 'question', q }));
+FLOW.push({ type: 'freetext' });
+FLOW.push({ type: 'photo' });
+
+let step = 0;
+const totalQuestions = 16;
+
+function questionsCompletedSoFar() {
+  let n = 0;
+  const idx = FLOW.slice(0, step + 1);
+  idx.forEach(f => { if (f.type === 'question') n++; });
+  return n;
+}
+
+function progressHtml() {
+  const done = questionsCompletedSoFar();
+  let spans = '';
+  for (let i = 0; i < totalQuestions; i++) spans += `<span class="${i < done ? 'done' : ''}"></span>`;
+  return `<div class="progress">${spans}</div>`;
+}
+
+function canAdvance() {
+  const f = FLOW[step];
+  if (f.type === 'question') return !!A[f.q.key];
+  return true;
+}
+
+function render() {
+  const f = FLOW[step];
+  const app = document.getElementById('app');
+  let html = '';
+
+  if (f.type === 'name-cover') {
+    html = `
+      <div class="cover">
+        <p class="cover-eyebrow">Signature Style Report</p>
+        <h1 class="cover-title">Let's find <em>your</em> colors and shape</h1>
+        <p class="cover-sub">16 quick questions about your natural coloring and body, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
+        <input type="text" class="nameinput" id="name-field" placeholder="What's your first name?" value="${name}">
+        <button class="cover-btn" id="begin-btn">Begin ✦</button>
+      </div>`;
+  } else if (f.type === 'body-part-cover') {
+    if (f.part === 'color') {
+      html = `
+        <div class="cover">
+          <p class="cover-eyebrow">Part One of Two</p>
+          <h1 class="cover-title">Your <em>Color</em> Analysis</h1>
+          <p class="cover-sub">8 quick questions about your natural coloring — jewelry, sun, veins, contrast. Pick whatever's closest, there are no wrong answers.</p>
+          <button class="cover-btn" id="next-cover-btn">Begin ✦</button>
+        </div>`;
+    } else {
+      html = `
+        <div class="cover">
+          <p class="cover-eyebrow">Part Two of Two</p>
+          <h1 class="cover-title">Your <em>Body &amp; Style</em></h1>
+          <p class="cover-sub">8 more questions about fit, shape, and what already feels confident on you.</p>
+          <button class="cover-btn" id="next-cover-btn">Continue ✦</button>
+        </div>`;
+    }
+  } else if (f.type === 'question') {
+    html = renderQuestion(f.q);
+  } else if (f.type === 'freetext') {
+    html = `
+      ${progressHtml()}
+      <p class="meta">Optional</p>
+      <p class="qtext">Anything else we should know?</p>
+      <textarea class="freetext" id="freetext-field" placeholder="e.g. I'm mostly shopping for work outfits, and I tend to play it safe with color.">${freeText}</textarea>
+      ${navHtml(true)}`;
+  } else if (f.type === 'photo') {
+    html = `
+      ${progressHtml()}
+      <p class="meta">Optional, sharpens your read</p>
+      <p class="qtext">Add a clear, well-lit photo</p>
+      <label class="upload-box" for="photo-field">
+        <strong>${photoBase64 ? 'Photo added — tap to change' : 'Upload a photo'}</strong>
+        ${photoBase64 ? '' : 'Natural light, no filter, facing the camera — or skip this step'}
+        ${photoBase64 ? `<img src="data:${photoMediaType};base64,${photoBase64}">` : ''}
+        <input type="file" accept="image/*" id="photo-field">
+      </label>
+      ${navHtml(true, 'Continue to Payment — $40')}`;
+  }
+
+  app.innerHTML = html;
+  attachHandlers(f);
+}
+
+function navHtml(showNext, nextLabel) {
+  const isLast = step === FLOW.length - 1;
+  const label = nextLabel || (isLast ? 'Continue to Payment — $40' : 'Next');
+  return `<div class="nav">
+    <button class="back-link" id="back-btn" ${step === 0 ? 'disabled' : ''}>← Back</button>
+    <button class="next-btn" id="next-btn" ${showNext && !canAdvanceForCurrent() ? 'disabled' : ''}>${label}</button>
+  </div>`;
+}
+
+function canAdvanceForCurrent() {
+  return canAdvance();
+}
+
+function renderQuestion(q) {
+  const sectionLabel = q.section === 'color' ? 'Color' : 'Body & Style';
+  let body = '';
+
+  if (q.type === 'depth') {
+    const opts = [
+      { v: 'fair', label: 'Fair / Light', hex: '#f2d3b8' },
+      { v: 'medium', label: 'Medium / Olive', hex: '#d9a877' },
+      { v: 'tan', label: 'Tan / Caramel', hex: '#a9713f' },
+      { v: 'deep', label: 'Deep / Rich', hex: '#5c3b23' }
+    ];
+    body = `<div class="tone-opts">${opts.map(o => `
+      <div class="tone-opt ${A.depth === o.v ? 'sel' : ''}" data-key="depth" data-val="${o.v}">
+        <div class="tone-swatch" style="background:${o.hex};"></div>
+        <span class="lbl">${o.label}</span>
+      </div>`).join('')}</div>`;
+  } else if (q.type === 'contrast') {
+    const groups = [
+      { label: 'Deeper Skin Tones', opts: [
+        { v: 'high', colors: ['#e8e2d4','#4a2e1c','#241812'], lbl: 'High — light hair or eyes against deep skin' },
+        { v: 'medium', colors: ['#5c3d24','#a9713f','#3a2418'], lbl: 'Medium — some difference between tones' },
+        { v: 'low', colors: ['#241812','#3a2418','#2a1810'], lbl: 'Low — deep skin, dark hair and eyes blend' }
+      ]},
+      { label: 'Lighter Skin Tones', opts: [
+        { v: 'high', colors: ['#241812','#f2d3b8','#3a2418'], lbl: 'High — dark hair against fair skin' },
+        { v: 'medium', colors: ['#6b5a48','#e0b894','#5a7a5a'], lbl: 'Medium — some difference between tones' },
+        { v: 'low', colors: ['#d4b483','#f2d3b8','#c9a074'], lbl: 'Low — fair skin, blonde hair blend softly' }
+      ]}
+    ];
+    body = groups.map(g => `
+      <p class="group-lbl">${g.label}</p>
+      <div class="tri-opts">${g.opts.map(o => `
+        <div class="tri-opt ${A.contrast === o.v ? 'sel' : ''}" data-key="contrast" data-val="${o.v}">
+          <div class="demo">${o.colors.map(c => `<div style="background:${c};"></div>`).join('')}</div>
+          <span class="lbl">${o.lbl}</span>
+        </div>`).join('')}</div>`).join('');
+  } else if (q.type === 'veins') {
+    const groups = [
+      { label: 'Deeper Skin Tones', bg: '#4a2e1c', opts: [
+        { v: 'blue', stroke: '#7a8cd4', lbl: 'Blue / Purple' },
+        { v: 'green', stroke: '#6bab6b', lbl: 'Green' },
+        { v: 'both', stroke: '#7c9c7c', lbl: 'Mix of both' }
+      ]},
+      { label: 'Lighter Skin Tones', bg: '#f2d3b8', opts: [
+        { v: 'blue', stroke: '#3a4a8c', lbl: 'Blue / Purple' },
+        { v: 'green', stroke: '#3a6b3a', lbl: 'Green' },
+        { v: 'both', stroke: '#4a5c4a', lbl: 'Mix of both' }
+      ]}
+    ];
+    body = `<p class="hint">Look at your wrist in natural light. Pick whichever example below looks most like you.</p>` +
+      groups.map(g => `
+        <p class="group-lbl">${g.label}</p>
+        <div class="tri-opts">${g.opts.map(o => `
+          <div class="tri-opt ${A.veins === o.v ? 'sel' : ''}" data-key="veins" data-val="${o.v}">
+            ${veinsSvg(g.bg, o.stroke)}
+            <span class="lbl">${o.lbl}</span>
+          </div>`).join('')}</div>`).join('') +
+      `<div class="notsure-wrap">
+        <div class="tri-opt ${A.veins === 'unsure' ? 'sel' : ''}" data-key="veins" data-val="unsure">
+          <svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="8" fill="#8c7a6a"/><text x="30" y="38" text-anchor="middle" font-size="22" fill="#fff9f6" font-family="Jost, sans-serif">?</text></svg>
+          <span class="lbl">Not sure / can't tell</span>
+        </div>
+      </div>`;
+  } else if (q.type === 'shape') {
+    body = `<div class="shape-opts">${Object.keys(SHAPE_SVGS).map(k => `
+      <div class="shape-opt ${A.shape === k ? 'sel' : ''}" data-key="shape" data-val="${k}">
+        ${shapeSvg(k)}
+        <span class="lbl">${SHAPE_LABELS[k]}</span>
+        <span class="desc">${SHAPE_SVGS[k].desc}</span>
+      </div>`).join('')}</div>`;
+  } else {
+    body = `<div class="opts">${q.options.map(o => `
+      <div class="opt ${A[q.key] === o.value ? 'sel' : ''}" data-key="${q.key}" data-val="${o.value}">${o.label}</div>`).join('')}</div>`;
+  }
+
+  return `
+    ${progressHtml()}
+    <p class="meta">${sectionLabel} · Question ${q.n} of ${q.of}</p>
+    <p class="qtext">${q.text || questionTextForType(q.type)}</p>
+    ${body}
+    ${navHtml(true)}`;
+}
+
+function questionTextForType(type) {
+  if (type === 'depth') return 'How would you describe your own skin tone depth?';
+  if (type === 'contrast') return 'How much contrast is there between your hair, skin, and eyes?';
+  if (type === 'veins') return 'Look at your wrist — are your veins more blue/purple or green?';
+  if (type === 'shape') return 'Which body shape best describes you?';
+  return '';
+}
+
+function attachHandlers(f) {
+  document.querySelectorAll('[data-key]').forEach(el => {
+    el.addEventListener('click', () => {
+      A[el.dataset.key] = el.dataset.val;
+      render();
+    });
+  });
+  const backBtn = document.getElementById('back-btn');
+  if (backBtn) backBtn.addEventListener('click', () => { if (step > 0) { step--; render(); } });
+  const nextBtn = document.getElementById('next-btn');
+  if (nextBtn) nextBtn.addEventListener('click', onNext);
+  const beginBtn = document.getElementById('begin-btn');
+  if (beginBtn) beginBtn.addEventListener('click', () => {
+    const nf = document.getElementById('name-field');
+    name = (nf && nf.value.trim()) || '';
+    step++; render();
+  });
+  const nextCoverBtn = document.getElementById('next-cover-btn');
+  if (nextCoverBtn) nextCoverBtn.addEventListener('click', () => { step++; render(); });
+
+  const freetextField = document.getElementById('freetext-field');
+  if (freetextField) freetextField.addEventListener('input', (e) => { freeText = e.target.value; });
+
+  const photoField = document.getElementById('photo-field');
+  if (photoField) photoField.addEventListener('change', handlePhoto);
+}
+
+function handlePhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      const maxDim = 700;
+      let w = img.width, h = img.height;
+      if (w > h && w > maxDim) { h = Math.round(h * maxDim / w); w = maxDim; }
+      else if (h > maxDim) { w = Math.round(w * maxDim / h); h = maxDim; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.72);
+      photoBase64 = dataUrl.split(',')[1];
+      photoMediaType = 'image/jpeg';
+      render();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function onNext() {
+  const isLast = step === FLOW.length - 1;
+  if (isLast) {
+    submitAndPay();
+    return;
+  }
+  step++;
+  render();
+}
+
+function submitAndPay() {
+  const data = { name, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    // Photo too large for localStorage — drop it and retry without it.
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, photoBase64: null, photoMediaType: null }));
+    } catch (e2) {}
+  }
+  window.location.href = STRIPE_LINK;
+}
+
+render();
+</script>
+
+</body>
+</html>

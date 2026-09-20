@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Signature Style Report | HerStyleVault</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blush: #f2d9d0;
+  --mauve: #c9a09a;
+  --rose: #4e1d27;
+  --deep-rose: #4e1d27;
+  --cream: #fdf6f0;
+  --warm-white: #fff9f6;
+  --text-dark: #1a1010;
+  --text-mid: #4a2e2e;
+  --text-light: #6b4a4a;
+  --gold: #e4d2a5;
+  --line: rgba(46,20,22,0.14);
+  --ok: #5c7a5e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--cream);
+  color: var(--text-dark);
+  font-family: 'Jost', sans-serif;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 5vw, 3rem) 4rem;
+}
+.wrap { max-width: 720px; margin: 0 auto; }
+
+.frame { background: var(--warm-white); border: 1px solid var(--line); box-shadow: 0 20px 44px -26px rgba(46,20,22,0.35); padding: clamp(1.8rem, 5vw, 2.6rem); }
+
+.rep-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ok); background: rgba(92,122,94,0.1); padding: 0.3rem 0.7rem; margin-bottom: 1.2rem; }
+.rep-badge::before { content: '✓'; font-weight: 700; }
+.rep-eyebrow { font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.6rem; }
+.rep-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--text-dark); margin-bottom: 0.3rem; }
+.rep-title em { font-style: italic; color: var(--rose); }
+.rep-sub { font-size: 0.8rem; color: var(--text-light); margin-bottom: 2rem; }
+.rep-narrative { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem; line-height: 1.85; color: var(--text-mid); background: var(--cream); border-left: 3px solid var(--rose); padding: 1.4rem 1.6rem; margin-bottom: 2.2rem; }
+.rep-narrative .tag { display: block; font-family: 'Jost', sans-serif; font-style: normal; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.6rem; }
+.rep-section { margin-bottom: 2.2rem; }
+.rep-section-label { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.5rem; }
+.rep-section-title { font-family: 'Fraunces', serif; font-size: 1.2rem; color: var(--text-dark); margin-bottom: 0.8rem; }
+.rep-section-body { font-size: 0.82rem; color: var(--text-mid); line-height: 1.8; }
+.swatch-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.8rem; }
+.swatch { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+.swatch .chip { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); }
+.swatch .name { font-size: 0.66rem; color: var(--text-mid); }
+.rep-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.rep-list li { font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; padding-left: 1.1rem; position: relative; }
+.rep-list li::before { content: '✦'; position: absolute; left: 0; color: var(--gold); font-size: 0.7rem; }
+.rep-list .why { display: block; font-size: 0.76rem; color: var(--text-light); font-style: italic; margin-top: 0.15rem; }
+.rep-avoid { background: var(--cream); border: 1px solid var(--line); padding: 1rem 1.2rem; font-size: 0.8rem; color: var(--text-mid); line-height: 1.7; }
+.rep-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+
+.loader { min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; text-align: center; }
+.spinner { width: 36px; height: 36px; border: 2px solid var(--blush); border-top-color: var(--rose); border-radius: 50%; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader p { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--text-mid); }
+.loader .sub { font-family: 'Jost', sans-serif; font-size: 0.8rem; color: var(--text-light); max-width: 40ch; }
+
+.err-box { min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 2rem; }
+.err-box h2 { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--text-dark); }
+.err-box p { font-size: 0.85rem; color: var(--text-mid); max-width: 44ch; line-height: 1.8; }
+.err-box a { color: var(--rose); font-weight: 500; }
+.retry-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); padding: 0.75rem 1.8rem; border: none; cursor: pointer; margin-top: 0.6rem; }
+
+@media (max-width: 600px) { .rep-two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="frame" id="app">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Generating your report...</p>
+      <p class="sub">This takes about 20-30 seconds — we're building your personalized color and style analysis now.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'hsv_analysis_data';
+
+function getSessionId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('session_id');
+}
+
+function showError(title, message, allowRetry) {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="err-box">
+      <h2>${title}</h2>
+      <p>${message}</p>
+      ${allowRetry ? '<button class="retry-btn" id="retry-btn">Try Again</button>' : ''}
+      <p style="margin-top:1rem;">Need help? Email <a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a> and we'll sort it out — your payment is confirmed either way.</p>
+    </div>`;
+  const retryBtn = document.getElementById('retry-btn');
+  if (retryBtn) retryBtn.addEventListener('click', init);
+}
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+function renderReport(r) {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="rep-badge">Payment confirmed</div>
+    <p class="rep-eyebrow">Signature Style Report</p>
+    <h2 class="rep-title">You're a <em>${esc(r.seasonLabel)}</em>, ${esc(r.clientName)}</h2>
+    <p class="rep-sub">${esc(r.bodyShapeLabel)} · Generated from your answers${r.hadPhoto ? ' + photo' : ''}</p>
+
+    <div class="rep-narrative">
+      <span class="tag">Why This Is You</span>
+      ${esc(r.narrative)}
+    </div>
+
+    <div class="rep-two-col">
+      <div class="rep-section">
+        <p class="rep-section-label">Color Type Identified</p>
+        <h3 class="rep-section-title">${esc(r.seasonLabel)} ✦</h3>
+        <p class="rep-section-body">${esc(r.seasonDesc)} Metal tone: ${esc(r.metal)}.</p>
+      </div>
+      <div class="rep-section">
+        <p class="rep-section-label">Body Shape Identified</p>
+        <h3 class="rep-section-title">${esc(r.bodyShapeLabel)} ✦</h3>
+        <p class="rep-section-body">${esc(r.bodyShapeDesc)} Goal: ${esc(r.bodyGoal)}</p>
+      </div>
+    </div>
+
+    <div class="rep-section">
+      <p class="rep-section-label">Your Wardrobe Base</p>
+      <h3 class="rep-section-title">Power Neutrals</h3>
+      <div class="swatch-row">
+        ${r.neutrals.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="rep-section">
+      <p class="rep-section-label">What Makes You Glow</p>
+      <h3 class="rep-section-title">Signature Colors</h3>
+      <div class="swatch-row">
+        ${r.signature.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="rep-section">
+      <p class="rep-section-label">Best Silhouettes For Your Shape</p>
+      <h3 class="rep-section-title">Looks That Work For You</h3>
+      <ul class="rep-list">
+        ${r.silhouettes.map(s => `<li>${esc(s.text)}<span class="why">${esc(s.reason)}</span></li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="rep-section">
+      <p class="rep-section-label">Step Back From</p>
+      <div class="rep-avoid">${esc(r.avoidText)}</div>
+    </div>
+  `;
+}
+
+async function init() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Generating your report...</p>
+      <p class="sub">This takes about 20-30 seconds — we're building your personalized color and style analysis now.</p>
+    </div>`;
+
+  const sessionId = getSessionId();
+  if (!sessionId) {
+    showError('We couldn\'t confirm your payment', 'This page needs to be reached through the payment confirmation link. If you just paid, check your email for the receipt link, or reach out below.', false);
+    return;
+  }
+
+  let data;
+  try {
+    data = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+  } catch (e) { data = null; }
+
+  if (!data || !data.answers) {
+    showError('We couldn\'t find your quiz answers', 'Your quiz answers are stored on the device and browser you took the quiz on. If you switched devices or cleared your browser data after paying, email us and we\'ll generate your report manually.', false);
+    return;
+  }
+
+  try {
+    const res = await fetch('/.netlify/functions/generate-report', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        name: data.name,
+        answers: data.answers,
+        freeText: data.freeText,
+        photoBase64: data.photoBase64,
+        photoMediaType: data.photoMediaType
+      })
+    });
+
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      if (res.status === 402) {
+        showError('Payment not confirmed yet', 'Give it a moment and try again — if this keeps happening, email us and we\'ll take care of it.', true);
+      } else {
+        showError('Something went wrong generating your report', errBody.error || 'Please try again in a moment.', true);
+      }
+      return;
+    }
+
+    const report = await res.json();
+    report.hadPhoto = !!data.photoBase64;
+    renderReport(report);
+  } catch (e) {
+    showError('Something went wrong generating your report', 'Please try again in a moment.', true);
+  }
+}
+
+init();
+</script>
+
+</body>
+</html>
