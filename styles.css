@@ -368,13 +368,13 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 
 /* VAULT EXCLUSIVES PAGE */
 .vault-page { padding-top: 80px; }
-.vault-hero { background: var(--text-dark); padding: 6rem 6rem 5rem; text-align: center; position: relative; overflow: hidden; }
-.vault-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.07) 0%, transparent 65%); pointer-events: none; }
-.vault-hero .section-label { color: rgba(201,160,154,0.55); }
+.vault-hero { background: var(--deep-rose); padding: 6rem 6rem 5rem; text-align: center; position: relative; overflow: hidden; }
+.vault-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 0%, rgba(228,210,165,0.12) 0%, transparent 65%); pointer-events: none; }
+.vault-hero .section-label { color: rgba(228,210,165,0.85); }
 .vault-hero-title { font-family: 'Fraunces', serif; font-size: clamp(2.5rem,5vw,4.5rem); font-weight: 300; line-height: 1.05; color: var(--blush); margin-bottom: 1.2rem; }
 .vault-hero-title em { font-style: italic; color: var(--gold); }
-.vault-hero p { font-size: 0.88rem; color: rgba(242,217,208,0.5); line-height: 1.9; font-weight: 300; max-width: 600px; margin: 0 auto 2rem; }
-.vault-hero-badge { display: inline-block; border: 1px solid rgba(201,169,110,0.35); padding: 0.6rem 1.8rem; font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+.vault-hero p { font-size: 0.88rem; color: rgba(255,249,246,0.82); line-height: 1.9; font-weight: 300; max-width: 600px; margin: 0 auto 2rem; }
+.vault-hero-badge { display: inline-block; border: 1px solid rgba(228,210,165,0.4); padding: 0.6rem 1.8rem; font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
 .vault-why { background: var(--cream); padding: 5rem 6rem; text-align: center; }
 .vault-why .section-title, .vault-why .section-sub { margin-left: auto; margin-right: auto; }
 .vault-services { background: var(--warm-white); padding: 5rem 6rem; }
