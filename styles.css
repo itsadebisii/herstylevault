@@ -247,7 +247,10 @@ section { padding: 6rem; }
 .policies-page { padding-top: 80px; }
 .policies-hero { background: var(--blush); padding: 5rem 6rem 4rem; }
 .policies-content { padding: 4rem 6rem; background: var(--warm-white); }
-.policy-section { margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(201,160,154,0.2); }
+.policy-jumpnav { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 3rem; }
+.policy-jumpnav a { font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--deep-rose); background: var(--blush); padding: 0.55rem 1.1rem; text-decoration: none; transition: background 0.3s, color 0.3s; }
+.policy-jumpnav a:hover { background: var(--deep-rose); color: white; }
+.policy-section { margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(201,160,154,0.2); scroll-margin-top: 100px; }
 .policy-section:last-child { border-bottom: none; }
 .policy-title { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 400; color: var(--text-dark); margin-bottom: 1rem; }
 .policy-text { font-size: 0.85rem; color: var(--text-mid); line-height: 1.9; font-weight: 300; margin-bottom: 0.8rem; }
@@ -347,11 +350,11 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 .book-option-desc { font-size: 0.82rem; color: var(--text-mid); line-height: 1.9; font-weight: 300; max-width: 480px; }
 .book-option-note { margin-top: 0.75rem; font-size: 0.72rem; color: var(--gold); font-style: italic; line-height: 1.7; padding: 0.75rem 1rem; background: rgba(201,169,110,0.07); border-left: 2px solid rgba(201,169,110,0.3); }
 .book-option-actions { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-end; flex-shrink: 0; }
-.book-option-vault { background: var(--text-dark); border-color: transparent; }
-.book-option-vault .book-option-num { color: rgba(255,255,255,0.06); }
+.book-option-vault { background: var(--deep-rose); border-color: transparent; }
+.book-option-vault .book-option-num { color: rgba(255,255,255,0.1); }
 .book-option-vault .book-option-tag { color: var(--gold); }
 .book-option-vault .book-option-title { color: var(--blush); }
-.book-option-vault .book-option-desc { color: rgba(242,217,208,0.5); }
+.book-option-vault .book-option-desc { color: rgba(255,249,246,0.82); }
 .book-option-vault .book-option-note { color: rgba(201,169,110,0.7); background: rgba(201,169,110,0.05); border-left-color: rgba(201,169,110,0.25); }
 .vault-book-btns { display: flex; flex-direction: column; gap: 0.75rem; }
 .btn-vault-outline { padding: 0.85rem 1.8rem; background: transparent; border: 1px solid var(--gold); color: var(--gold); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; cursor: pointer; font-family: 'Jost', sans-serif; text-decoration: none; display: inline-block; text-align: center; white-space: nowrap; }
