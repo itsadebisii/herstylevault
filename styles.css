@@ -252,8 +252,8 @@ section { padding: 6rem; }
 .policy-jumpnav { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 3rem; }
 .policy-jumpnav a { font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--deep-rose); background: var(--blush); padding: 0.55rem 1.1rem; text-decoration: none; transition: background 0.3s, color 0.3s; }
 .policy-jumpnav a:hover { background: var(--deep-rose); color: white; }
-.policy-section { margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(201,160,154,0.2); scroll-margin-top: 100px; }
-.policy-section:last-child { border-bottom: none; }
+.policy-section { background: white; border: 1px solid rgba(201,160,154,0.25); border-top: 3px solid var(--gold); padding: 2.2rem 2.4rem; margin-bottom: 1.5rem; scroll-margin-top: 100px; }
+.policy-section:last-child { margin-bottom: 0; }
 .policy-title { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 400; color: var(--text-dark); margin-bottom: 1rem; }
 .policy-text { font-size: 0.85rem; color: var(--text-mid); line-height: 1.9; font-weight: 300; margin-bottom: 0.8rem; }
 .policy-list { list-style: none; margin: 0.8rem 0; }
@@ -278,6 +278,15 @@ section { padding: 6rem; }
 .expect-package-section { margin-bottom: 4rem; }
 .expect-package-title { font-family: 'Fraunces', serif; font-size: 2rem; color: var(--deep-rose); margin-bottom: 0.5rem; }
 .expect-package-price { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mauve); margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(201,160,154,0.2); }
+.expect-callout { position: relative; min-height: 220px; padding: 2.2rem 2.4rem; margin-bottom: 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; background-size: cover; background-position: center; overflow: hidden; isolation: isolate; }
+.expect-callout::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,249,246,0.5) 0%, rgba(255,249,246,0.93) 62%, rgba(255,249,246,0.97) 100%); z-index: 0; }
+.expect-callout > * { position: relative; z-index: 1; margin-bottom: 0; }
+.expect-callout .expect-package-title { margin-bottom: 0.3rem; }
+.expect-callout .expect-package-price { margin-bottom: 0.8rem; padding-bottom: 0; border-bottom: none; }
+.expect-callout-summary { font-size: 0.83rem; color: var(--text-mid); line-height: 1.85; font-weight: 300; max-width: 480px; }
+.expect-callout-unlock { background-image: url('images/Expect_Unlock.jpg'); }
+.expect-callout-vaultedit { background-image: url('images/Expect_VaultEdit.jpg'); }
+.expect-callout-fullreveal { background-image: url('images/Expect_FullReveal.jpg'); }
 .expect-prep { background: var(--cream); padding: 2rem; margin-top: 2rem; }
 .expect-prep-title { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.8rem; }
 .expect-prep-list { list-style: none; }
