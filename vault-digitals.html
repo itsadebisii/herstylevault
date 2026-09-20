@@ -30,11 +30,30 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'Jost', sans-serif; background: var(--warm-white); color: var(--text-dark); overflow-x: hidden; }
 
-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 4rem; background: rgba(253,246,240,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(201,160,154,0.2); }
-.nav-logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 400; letter-spacing: 0.08em; color: var(--deep-rose); text-decoration: none; white-space: nowrap; }
-.nav-cta { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--deep-rose); color: white; padding: 0.8rem 1.8rem; text-decoration: none; }
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; justify-content: space-between; align-items: center;
+padding: 1.2rem 4rem;
+background: rgba(253,246,240,0.96); backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(201,160,154,0.2);
+}
+.nav-logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 400; letter-spacing: 0.08em; color: var(--deep-rose); text-decoration: none; white-space: nowrap; cursor: pointer; }
+.nav-right { display: flex; align-items: center; gap: 0.9rem; }
+.nav-links { display: none; position: absolute; top: 100%; right: 0; flex-direction: column; gap: 0.9rem; list-style: none; background: var(--warm-white); border: 1px solid rgba(201,160,154,0.25); box-shadow: 0 12px 30px rgba(78,29,39,0.15); padding: 1.3rem 1.7rem; min-width: 210px; z-index: 200; margin-top: 0.6rem; }
+.nav-links.open { display: flex; }
+.nav-menu-toggle { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background: none; border: 1px solid rgba(201,160,154,0.4); font-size: 1rem; color: var(--deep-rose); cursor: pointer; transition: background 0.3s; }
+.nav-menu-toggle:hover { background: var(--blush); }
+.nav-links a { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 0.3s; cursor: pointer; }
+.nav-links a:hover { color: var(--rose); }
+.book-now-wrap { position: relative; }
+.book-dropdown { display: none; position: absolute; top: 100%; right: 0; flex-direction: column; gap: 0.9rem; list-style: none; background: var(--warm-white); border: 1px solid rgba(201,160,154,0.25); box-shadow: 0 12px 30px rgba(78,29,39,0.15); padding: 1.3rem 1.7rem; min-width: 250px; z-index: 200; margin-top: 0.6rem; }
+.book-dropdown.open { display: flex; }
+.book-dropdown a { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 0.3s; cursor: pointer; line-height: 1.5; }
+.book-dropdown a:hover { color: var(--rose); }
+.nav-cta { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.6rem 1.4rem; background: var(--deep-rose); color: white; transition: background 0.3s; white-space: nowrap; cursor: pointer; border: none; font-family: 'Jost', sans-serif; }
+.nav-cta:hover { background: var(--rose); }
 
-.hero { padding: clamp(3.5rem, 8vw, 6rem) clamp(1.4rem, 6vw, 6rem) clamp(2.5rem, 6vw, 4rem); text-align: center; background: linear-gradient(160deg, var(--blush) 0%, var(--cream) 60%); }
+.hero { padding: calc(80px + clamp(2.4rem, 6vw, 4rem)) clamp(1.4rem, 6vw, 6rem) clamp(2.5rem, 6vw, 4rem); text-align: center; background: linear-gradient(160deg, var(--blush) 0%, var(--cream) 60%); }
 .eyebrow { font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--deep-rose); margin-bottom: 1.2rem; }
 .eyebrow::before, .eyebrow::after { content: '✦'; color: var(--gold); margin: 0 0.7em; }
 h1 { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1.12; color: var(--text-dark); margin-bottom: 1.2rem; }
@@ -85,7 +104,30 @@ footer p { font-size: 0.72rem; color: var(--text-light); margin-top: 0.6rem; }
 
 <nav>
 <a class="nav-logo" href="index.html">HerStyleVault</a>
-<a class="nav-cta" href="color-style-analysis.html">Start Your Analysis</a>
+<div class="nav-right">
+<button class="nav-menu-toggle" onclick="toggleNavMenu(event)" aria-label="Menu">☰</button>
+<ul class="nav-links" id="navLinks">
+<li><a href="index.html#how">How It Works</a></li>
+<li><a href="index.html#services">Packages</a></li>
+<li><a href="index.html#curation">Add-Ons</a></li>
+<li><a href="index.html#vault" style="color:var(--deep-rose);">Vault Exclusives</a></li>
+<li><a href="vault-digitals.html" style="color:var(--deep-rose);">Vault Digitals</a></li>
+<li><a href="index.html#locations">Locations</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a href="index.html#faq">FAQ</a></li>
+<li><a href="index.html#expect">What to Expect</a></li>
+<li><a href="index.html#policies">Policies</a></li>
+</ul>
+<div class="book-now-wrap">
+<button class="nav-cta" onclick="toggleBookDropdown(event)">Book Now</button>
+<ul class="book-dropdown" id="bookDropdown">
+<li><a href="https://tally.so/r/yPeEjp" data-tally-open="yPeEjp" data-tally-layout="modal" data-tally-width="700">First-Time Client</a></li>
+<li><a href="https://tally.so/r/GxY5bk" data-tally-open="GxY5bk" data-tally-layout="modal" data-tally-width="700">Returning — New Package</a></li>
+<li><a href="https://calendly.com/herstylevault/book-a-session" onclick="return openCalendlyPopup(event,'https://calendly.com/herstylevault/book-a-session')">Returning — Continuing Package</a></li>
+<li><a href="https://tally.so/r/yPeEjp" data-tally-open="yPeEjp" data-tally-layout="modal" data-tally-width="700" style="color:var(--mauve);font-style:italic;">Not Sure? Free Consultation</a></li>
+</ul>
+</div>
+</div>
 </nav>
 
 <section class="hero">
@@ -143,6 +185,32 @@ footer p { font-size: 0.72rem; color: var(--text-light); margin-top: 0.6rem; }
 <a href="index.html">HerStyleVault</a>
 <p>Personal Styling — Northern MA & Greater Boston · Southern NH · Virtual Nationwide</p>
 </footer>
+
+<script async src="https://tally.so/widgets/embed.js"></script>
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+function toggleNavMenu(e) { e.stopPropagation(); document.getElementById('bookDropdown').classList.remove('open'); document.getElementById('navLinks').classList.toggle('open'); }
+function toggleBookDropdown(e) { e.stopPropagation(); document.getElementById('navLinks').classList.remove('open'); document.getElementById('bookDropdown').classList.toggle('open'); }
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('navLinks');
+  const toggle = document.querySelector('.nav-menu-toggle');
+  const bookDd = document.getElementById('bookDropdown');
+  const bookBtn = document.querySelector('.nav-cta');
+  if (nav && toggle) {
+    if (nav.classList.contains('open') && (e.target.tagName === 'A' || (!nav.contains(e.target) && !toggle.contains(e.target)))) { nav.classList.remove('open'); }
+  }
+  if (bookDd && bookBtn) {
+    if (bookDd.classList.contains('open') && (e.target.tagName === 'A' || (!bookDd.contains(e.target) && !bookBtn.contains(e.target)))) { bookDd.classList.remove('open'); }
+  }
+});
+window.openCalendlyPopup = function(e, url) {
+  if (e && e.preventDefault) e.preventDefault();
+  if (window.Calendly && Calendly.initPopupWidget) { Calendly.initPopupWidget({ url: url }); }
+  else { window.location.href = url; }
+  return false;
+};
+</script>
 
 </body>
 </html>

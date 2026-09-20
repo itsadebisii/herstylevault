@@ -1681,6 +1681,10 @@ entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add(
 reveals.forEach(el => observer.observe(el)); window.openCalendlyPopup=function(e,url){if(e&&e.preventDefault)e.preventDefault();if(window.Calendly&&Calendly.initPopupWidget){Calendly.initPopupWidget({url:url});}else{window.location.href=url;}return false;};window.addEventListener('message',function(event){if(!event||!event.data)return;var data=event.data;if(data.event==='Tally.FormSubmitted'&&data.payload){if(data.payload.formId==='GxY5bk'){if(window.Tally&&Tally.closePopup)Tally.closePopup('GxY5bk');setTimeout(function(){window.openCalendlyPopup(null,'https://calendly.com/herstylevault/book-session');},350);}else if(data.payload.formId==='yPeEjp'){if(window.Tally&&Tally.closePopup)Tally.closePopup('yPeEjp');setTimeout(function(){window.openCalendlyPopup(null,'https://calendly.com/herstylevault/free-consultation');},350);}}});
 }
 observeReveals();
+if (window.location.hash) {
+  var hashPage = window.location.hash.slice(1);
+  if (document.getElementById('page-' + hashPage)) showPage(hashPage);
+}
 function initAboutCarousel() {
   var root = document.querySelector('.about-carousel');
   if (!root) return;
