@@ -113,31 +113,7 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 <body>
 
 <nav>
-<a class="nav-logo" href="index.html"><svg class="nav-logo-mark" viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="50" fill="none" stroke="#4e1d27" stroke-width="1.6"/><line x1="75" y1="19" x2="75" y2="27" stroke="#4e1d27" stroke-width="1.7"/><line x1="75" y1="123" x2="75" y2="131" stroke="#4e1d27" stroke-width="1.7"/><line x1="19" y1="75" x2="27" y2="75" stroke="#4e1d27" stroke-width="1.7"/><line x1="123" y1="75" x2="131" y2="75" stroke="#4e1d27" stroke-width="1.7"/><circle cx="75" cy="36" r="4.4" fill="#4e1d27"/><line x1="75" y1="40.4" x2="75" y2="50" stroke="#4e1d27" stroke-width="2.3" stroke-linecap="round"/><path d="M75 50 L44 76 Q38 80 44 83 L106 83 Q112 80 106 76 Z" fill="none" stroke="#4e1d27" stroke-width="2.3" stroke-linejoin="round"/></svg>HerStyleVault</a>
-<div class="nav-right">
-<button class="nav-menu-toggle" onclick="toggleNavMenu(event)" aria-label="Menu">☰</button>
-<ul class="nav-links" id="navLinks">
-<li><a href="index.html#how">How It Works</a></li>
-<li><a href="index.html#services">Packages</a></li>
-<li><a href="index.html#curation">Add-Ons</a></li>
-<li><a href="index.html#vault" style="color:var(--deep-rose);">Vault Exclusives</a></li>
-<li><a href="vault-digitals.html" style="color:var(--deep-rose);">Vault Digitals</a></li>
-<li><a href="index.html#locations">Locations</a></li>
-<li><a href="index.html#about">About</a></li>
-<li><a href="index.html#faq">FAQ</a></li>
-<li><a href="index.html#expect">What to Expect</a></li>
-<li><a href="index.html#policies">Policies</a></li>
-</ul>
-<div class="book-now-wrap">
-<button class="nav-cta" onclick="toggleBookDropdown(event)">Book Now</button>
-<ul class="book-dropdown" id="bookDropdown">
-<li><a href="https://tally.so/r/yPeEjp" data-tally-open="yPeEjp" data-tally-layout="modal" data-tally-width="700">First-Time Client</a></li>
-<li><a href="https://tally.so/r/GxY5bk" data-tally-open="GxY5bk" data-tally-layout="modal" data-tally-width="700">Returning — New Package</a></li>
-<li><a href="https://calendly.com/herstylevault/book-a-session" onclick="return openCalendlyPopup(event,'https://calendly.com/herstylevault/book-a-session')">Returning — Continuing Package</a></li>
-<li><a href="https://tally.so/r/yPeEjp" data-tally-open="yPeEjp" data-tally-layout="modal" data-tally-width="700" style="color:var(--mauve);font-style:italic;">Not Sure? Free Consultation</a></li>
-</ul>
-</div>
-</div>
+<div class="nav-mount"></div>
 </nav>
 
 <section class="hero">
@@ -191,43 +167,12 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 <a class="btn-light" href="color-style-analysis.html">Start Your Analysis — $40 ✦</a>
 </section>
 
-<footer>
-<div class="footer-brand"><svg class="footer-brand-mark" viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="50" fill="none" stroke="#e4d2a5" stroke-width="1.6"/><line x1="75" y1="19" x2="75" y2="27" stroke="#e4d2a5" stroke-width="1.7"/><line x1="75" y1="123" x2="75" y2="131" stroke="#e4d2a5" stroke-width="1.7"/><line x1="19" y1="75" x2="27" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><line x1="123" y1="75" x2="131" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><circle cx="75" cy="36" r="4.4" fill="#e4d2a5"/><line x1="75" y1="40.4" x2="75" y2="50" stroke="#e4d2a5" stroke-width="2.3" stroke-linecap="round"/><path d="M75 50 L44 76 Q38 80 44 83 L106 83 Q112 80 106 76 Z" fill="none" stroke="#e4d2a5" stroke-width="2.3" stroke-linejoin="round"/></svg>HerStyleVault</div>
-<p class="footer-tagline">Personal styling for the woman ready to show up as her most elevated self. Northern MA, Greater Boston, Southern NH & virtually nationwide.</p>
-<div class="footer-nav">
-<a href="index.html#main">Home</a><span>✦</span><a href="index.html#services">Packages</a><span>✦</span><a href="index.html#vault">Vault Exclusives</a><span>✦</span><a href="vault-digitals.html">Vault Digitals</a><span>✦</span><a href="index.html#about">About</a><span>✦</span><a href="index.html#policies">Policies</a>
-</div>
-<div class="footer-connect">
-<a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a><a href="https://instagram.com/herstylevault.official" target="_blank">Instagram</a><a href="https://tally.so/r/Np8azj" target="_blank">Leave a Testimonial</a>
-</div>
-<div class="footer-bottom"><span class="footer-copy">© 2026 HerStyleVault. All rights reserved.</span></div>
-</footer>
+<div class="footer-mount"></div>
 
 <script async src="https://tally.so/widgets/embed.js"></script>
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-<script>
-function toggleNavMenu(e) { e.stopPropagation(); document.getElementById('bookDropdown').classList.remove('open'); document.getElementById('navLinks').classList.toggle('open'); }
-function toggleBookDropdown(e) { e.stopPropagation(); document.getElementById('navLinks').classList.remove('open'); document.getElementById('bookDropdown').classList.toggle('open'); }
-document.addEventListener('click', function(e) {
-  const nav = document.getElementById('navLinks');
-  const toggle = document.querySelector('.nav-menu-toggle');
-  const bookDd = document.getElementById('bookDropdown');
-  const bookBtn = document.querySelector('.nav-cta');
-  if (nav && toggle) {
-    if (nav.classList.contains('open') && (e.target.tagName === 'A' || (!nav.contains(e.target) && !toggle.contains(e.target)))) { nav.classList.remove('open'); }
-  }
-  if (bookDd && bookBtn) {
-    if (bookDd.classList.contains('open') && (e.target.tagName === 'A' || (!bookDd.contains(e.target) && !bookBtn.contains(e.target)))) { bookDd.classList.remove('open'); }
-  }
-});
-window.openCalendlyPopup = function(e, url) {
-  if (e && e.preventDefault) e.preventDefault();
-  if (window.Calendly && Calendly.initPopupWidget) { Calendly.initPopupWidget({ url: url }); }
-  else { window.location.href = url; }
-  return false;
-};
-</script>
+<script src="shared.js"></script>
 
 </body>
 </html>
