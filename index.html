@@ -53,7 +53,11 @@ border-bottom: 1px solid rgba(201,160,154,0.2);
 .page { display: none; }
 .page.active { display: block; }
 
-.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; }
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; position: relative; }
+.scroll-cue { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; opacity: 0; animation: fadeIn 0.8s 1.4s forwards; z-index: 5; cursor: pointer; }
+.scroll-cue span { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-light); }
+.scroll-cue .chev { width: 12px; height: 12px; border-right: 1.5px solid var(--deep-rose); border-bottom: 1.5px solid var(--deep-rose); transform: rotate(45deg); animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: rotate(45deg) translate(0,0); opacity: 0.5; } 50% { transform: rotate(45deg) translate(4px,4px); opacity: 1; } }
 .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 5rem 3rem 5rem 6rem; }
 .hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--mauve); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
 .hero-title { font-family: 'Fraunces', serif; font-size: clamp(3rem, 5vw, 5rem); font-weight: 300; line-height: 1.05; color: var(--text-dark); margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
@@ -66,7 +70,7 @@ border-bottom: 1px solid rgba(201,160,154,0.2);
 .btn-primary { padding: 0.9rem 2.4rem; background: var(--deep-rose); color: white; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; display: inline-block; cursor: pointer; border: none; font-family: 'Jost', sans-serif; text-decoration: none; }
 .btn-primary:hover { background: var(--rose); transform: translateY(-1px); }
 .btn-secondary { padding: 0.9rem 2.4rem; background: transparent; color: var(--deep-rose); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; display: inline-block; cursor: pointer; border: 1px solid var(--deep-rose); font-family: 'Jost', sans-serif; text-decoration: none; }
-.btn-secondary:hover { background: var(--deep-rose); color: white; }
+.btn-secondary:hover { background: var(--deep-rose); color: white; transform: translateY(-1px); }
 .btn-ghost { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; border-bottom: 1px solid var(--mauve); padding-bottom: 2px; transition: color 0.3s; cursor: pointer; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Jost', sans-serif; }
 .btn-ghost:hover { color: var(--rose); }
 .hero-right { background: var(--blush); display: flex; align-items: center; justify-content: center; padding: 3rem; position: relative; overflow: hidden; }
@@ -313,7 +317,7 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 .addon-vault-link p { font-size: 0.76rem; color: var(--text-light); font-style: italic; margin-bottom: 0.6rem; }
 
 /* VAULT TEASER on main page */
-.vault-teaser { background: var(--text-dark); padding: 5rem 6rem; text-align: center; }
+.vault-teaser { background: var(--deep-rose); padding: 5rem 6rem; text-align: center; }
 .vault-teaser .section-label { color: rgba(201,160,154,0.55); }
 .vault-teaser-title { font-family: 'Fraunces', serif; font-size: clamp(2rem,3.5vw,3rem); font-weight: 300; line-height: 1.15; color: var(--blush); margin-bottom: 1.2rem; }
 .vault-teaser-title em { font-style: italic; color: var(--gold); }
@@ -364,7 +368,7 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 .book-option-vault .book-option-note { color: rgba(201,169,110,0.7); background: rgba(201,169,110,0.05); border-left-color: rgba(201,169,110,0.25); }
 .vault-book-btns { display: flex; flex-direction: column; gap: 0.75rem; }
 .btn-vault-outline { padding: 0.85rem 1.8rem; background: transparent; border: 1px solid var(--gold); color: var(--gold); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; cursor: pointer; font-family: 'Jost', sans-serif; text-decoration: none; display: inline-block; text-align: center; white-space: nowrap; }
-.btn-vault-outline:hover { background: var(--gold); color: var(--text-dark); }
+.btn-vault-outline:hover { background: var(--gold); color: var(--text-dark); transform: translateY(-1px); }
 .book-next { background: var(--cream); padding: 4rem 6rem; }
 .book-next-title { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 300; color: var(--text-dark); margin-bottom: 2rem; text-align: center; }
 .book-next-title em { font-style: italic; color: var(--rose); }
@@ -429,6 +433,7 @@ section { padding: 4rem 2rem; }
 .for-you { padding: 4rem 2rem; }
 .keep-in-mind { padding: 3rem 2rem; }
 .vault-teaser { padding: 4rem 2rem; }
+.vault-teaser .btn-vault-outline { white-space: normal; }
 .vd-teaser { padding: 4rem 2rem; }
 .vd-card { grid-template-columns: 1fr; }
 .for-you-grid, .how-grid, .packages-grid, .location-grid, .booking-steps-grid, .faq-grid, .testi-grid { grid-template-columns: 1fr; }
@@ -525,6 +530,10 @@ window.TallyConfig = {
 <div class="card-price">Starting at $175</div>
 </div>
 </div>
+</div>
+<div class="scroll-cue" onclick="scrollToId('for-you')" role="button" aria-label="Scroll to explore">
+<span>Scroll to Explore</span>
+<div class="chev"></div>
 </div>
 </section>
 
@@ -628,7 +637,7 @@ window.TallyConfig = {
 </div>
 </div>
 <p class="vault-elig-tag">Available after 3 completed package bookings · Cannot be bundled with a package · Not available to first-time clients</p>
-<button class="btn-vault" onclick="showPage('vault')">Learn More About Vault Exclusives ✦</button>
+<button class="btn-vault-outline" onclick="showPage('vault')">Learn More About Vault Exclusives ✦</button>
 </div>
 </section>
 
