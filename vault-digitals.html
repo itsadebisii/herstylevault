@@ -90,9 +90,17 @@ section { padding: 4rem clamp(1.4rem, 6vw, 6rem); }
 .final-cta p { font-size: 0.85rem; color: rgba(255,249,246,0.75); max-width: 46ch; margin: 0 auto 1.8rem; line-height: 1.75; }
 .btn-light { display: inline-block; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--gold); color: var(--text-dark); padding: 1rem 2.4rem; text-decoration: none; font-weight: 500; }
 
-footer { padding: 2.4rem clamp(1.4rem, 6vw, 6rem); text-align: center; border-top: 1px solid rgba(201,160,154,0.2); }
-footer a { font-family: 'Fraunces', serif; font-style: italic; color: var(--deep-rose); text-decoration: none; font-size: 1rem; }
-footer p { font-size: 0.72rem; color: var(--text-light); margin-top: 0.6rem; }
+footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.4rem; text-align: center; }
+.footer-brand { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.5rem; color: var(--warm-white); font-weight: 400; margin-bottom: 0.5rem; }
+.footer-tagline { font-size: 0.74rem; color: rgba(255,249,246,0.55); font-weight: 300; line-height: 1.7; max-width: 44ch; margin: 0 auto 1.6rem; }
+.footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 0; margin-bottom: 1.6rem; }
+.footer-nav a { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,249,246,0.8); text-decoration: none; padding: 0 0.85rem; cursor: pointer; transition: color 0.3s; }
+.footer-nav a:hover { color: var(--gold); }
+.footer-nav span { color: var(--gold); font-size: 0.6rem; }
+.footer-connect { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.4rem; margin-bottom: 1.8rem; }
+.footer-connect a { font-size: 0.68rem; letter-spacing: 0.06em; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(228,210,165,0.4); padding-bottom: 2px; cursor: pointer; }
+.footer-bottom { border-top: 1px solid rgba(255,249,246,0.12); padding-top: 1.1rem; text-align: center; }
+.footer-copy { font-size: 0.64rem; color: rgba(255,249,246,0.4); }
 
 @media (max-width: 800px) {
   nav { padding: 1rem 1.4rem; }
@@ -182,8 +190,15 @@ footer p { font-size: 0.72rem; color: var(--text-light); margin-top: 0.6rem; }
 </section>
 
 <footer>
-<a href="index.html">HerStyleVault</a>
-<p>Personal Styling — Northern MA & Greater Boston · Southern NH · Virtual Nationwide</p>
+<div class="footer-brand">HerStyleVault</div>
+<p class="footer-tagline">Personal styling for the woman ready to show up as her most elevated self. Northern MA, Greater Boston, Southern NH & virtually nationwide.</p>
+<div class="footer-nav">
+<a href="index.html#main">Home</a><span>✦</span><a href="index.html#services">Packages</a><span>✦</span><a href="index.html#vault">Vault Exclusives</a><span>✦</span><a href="vault-digitals.html">Vault Digitals</a><span>✦</span><a href="index.html#about">About</a><span>✦</span><a href="index.html#policies">Policies</a>
+</div>
+<div class="footer-connect">
+<a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a><a href="https://instagram.com/herstylevault.official" target="_blank">Instagram</a><a href="https://tally.so/r/Np8azj" target="_blank">Leave a Testimonial</a>
+</div>
+<div class="footer-bottom"><span class="footer-copy">© 2026 HerStyleVault. All rights reserved.</span></div>
 </footer>
 
 <script async src="https://tally.so/widgets/embed.js"></script>

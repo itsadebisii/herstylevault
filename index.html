@@ -287,15 +287,17 @@ section { padding: 6rem; }
 .expect-prep-list li { font-size: 0.8rem; color: var(--text-mid); padding: 0.3rem 0; display: flex; gap: 0.5rem; align-items: flex-start; font-weight: 300; line-height: 1.6; }
 .expect-prep-list li::before { content: '✦'; color: var(--mauve); font-size: 0.4rem; flex-shrink: 0; margin-top: 0.42rem; }
 
-footer { background: var(--text-dark); padding: 3.5rem 6rem; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
-.footer-brand { font-family: 'Fraunces', serif; font-size: 1.8rem; color: var(--blush); font-weight: 300; margin-bottom: 0.8rem; }
-.footer-tagline { font-size: 0.76rem; color: rgba(255,255,255,0.38); line-height: 1.8; font-weight: 300; }
-.footer-col h4 { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); margin-bottom: 1rem; }
-.footer-col a { display: block; font-size: 0.76rem; color: rgba(255,255,255,0.42); text-decoration: none; margin-bottom: 0.5rem; transition: color 0.3s; cursor: pointer; }
-.footer-col a:hover { color: var(--blush); }
-.footer-coming { font-size: 0.72rem; color: rgba(255,255,255,0.22); font-style: italic; margin-top: 0.3rem; }
-.footer-bottom { background: var(--text-dark); padding: 1rem 6rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
-.footer-copy { font-size: 0.66rem; color: rgba(255,255,255,0.2); }
+footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.4rem; text-align: center; }
+.footer-brand { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.5rem; color: var(--warm-white); font-weight: 400; margin-bottom: 0.5rem; }
+.footer-tagline { font-size: 0.74rem; color: rgba(255,249,246,0.55); font-weight: 300; line-height: 1.7; max-width: 44ch; margin: 0 auto 1.6rem; }
+.footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 0; margin-bottom: 1.6rem; }
+.footer-nav a { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,249,246,0.8); text-decoration: none; padding: 0 0.85rem; cursor: pointer; transition: color 0.3s; }
+.footer-nav a:hover { color: var(--gold); }
+.footer-nav span { color: var(--gold); font-size: 0.6rem; }
+.footer-connect { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.4rem; margin-bottom: 1.8rem; }
+.footer-connect a { font-size: 0.68rem; letter-spacing: 0.06em; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(228,210,165,0.4); padding-bottom: 2px; cursor: pointer; }
+.footer-bottom { border-top: 1px solid rgba(255,249,246,0.12); padding-top: 1.1rem; text-align: center; }
+.footer-copy { font-size: 0.64rem; color: rgba(255,249,246,0.4); }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -433,8 +435,7 @@ section { padding: 4rem 2rem; }
 .about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 2rem; }
 .about-meet { padding: 4rem 2rem; }
 .about-why-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
-.footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+footer { padding: 2.4rem 1.4rem 1.2rem; }
 .policies-hero, .policies-content, .expect-hero, .expect-content { padding: 4rem 2rem; }
 .vault-hero, .vault-why, .vault-services, .vault-eligibility, .vault-addon-note { padding: 4rem 2rem; }
 .book-hero, .book-content, .book-next { padding: 4rem 2rem; }
@@ -1493,11 +1494,16 @@ entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add(
 reveals.forEach(el => observer.observe(el)); window.openCalendlyPopup=function(e,url){if(e&&e.preventDefault)e.preventDefault();if(window.Calendly&&Calendly.initPopupWidget){Calendly.initPopupWidget({url:url});}else{window.location.href=url;}return false;};window.addEventListener('message',function(event){if(!event||!event.data)return;var data=event.data;if(data.event==='Tally.FormSubmitted'&&data.payload){if(data.payload.formId==='GxY5bk'){if(window.Tally&&Tally.closePopup)Tally.closePopup('GxY5bk');setTimeout(function(){window.openCalendlyPopup(null,'https://calendly.com/herstylevault/book-session');},350);}else if(data.payload.formId==='yPeEjp'){if(window.Tally&&Tally.closePopup)Tally.closePopup('yPeEjp');setTimeout(function(){window.openCalendlyPopup(null,'https://calendly.com/herstylevault/free-consultation');},350);}}});
 }
 const FOOTER_HTML = `<footer>
-<div><div class="footer-brand">HerStyleVault</div><p class="footer-tagline">Personal styling & wardrobe consulting for the woman ready to show up as her most elevated self — every single day. Serving Northern MA, Greater Boston, Southern NH & virtually nationwide.</p></div>
-<div class="footer-col"><h4>Navigate</h4><a onclick="showPage('main')">Home</a><a onclick="showPage('how')">How It Works</a><a onclick="showPage('services')">Packages</a><a onclick="showPage('curation')">Add-Ons</a><a onclick="showPage('vault')">Vault Exclusives</a><a href="vault-digitals.html">Vault Digitals</a><a onclick="showPage('locations')">Locations</a><a onclick="showPage('about')">About</a><a onclick="showPage('faq')">FAQ</a><a onclick="showPage('expect')">What to Expect</a><a onclick="showPage('policies')">Policies</a><a onclick="showPage('book')">Book Now</a></div>
-<div class="footer-col"><h4>Connect</h4><a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a><a href="https://instagram.com/herstylevault.official" target="_blank">@herstylevault.official</a><a href="https://pinterest.com/HerStyleVault" target="_blank">Pinterest</a><a href="https://tally.so/r/Np8azj" target="_blank">Leave a Testimonial</a></div>
-</footer>
-<div class="footer-bottom"><span class="footer-copy">© 2026 HerStyleVault. Personal Stylist Boston MA, Southern NH & Nationwide. All rights reserved.</span></div>`;
+<div class="footer-brand">HerStyleVault</div>
+<p class="footer-tagline">Personal styling for the woman ready to show up as her most elevated self. Northern MA, Greater Boston, Southern NH & virtually nationwide.</p>
+<div class="footer-nav">
+<a onclick="showPage('main')">Home</a><span>✦</span><a onclick="showPage('services')">Packages</a><span>✦</span><a onclick="showPage('vault')">Vault Exclusives</a><span>✦</span><a href="vault-digitals.html">Vault Digitals</a><span>✦</span><a onclick="showPage('about')">About</a><span>✦</span><a onclick="showPage('policies')">Policies</a>
+</div>
+<div class="footer-connect">
+<a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a><a href="https://instagram.com/herstylevault.official" target="_blank">Instagram</a><a href="https://tally.so/r/Np8azj" target="_blank">Leave a Testimonial</a>
+</div>
+<div class="footer-bottom"><span class="footer-copy">© 2026 HerStyleVault. All rights reserved.</span></div>
+</footer>`;
 function renderFooters() { document.querySelectorAll('.footer-mount').forEach(function(el) { el.outerHTML = FOOTER_HTML; }); }
 renderFooters();
 observeReveals();
