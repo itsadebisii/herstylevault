@@ -287,6 +287,14 @@ section { padding: 6rem; }
 .expect-callout-unlock { background-image: url('images/Expect_Unlock.jpg'); }
 .expect-callout-vaultedit { background-image: url('images/Expect_VaultEdit.jpg'); }
 .expect-callout-fullreveal { background-image: url('images/Expect_FullReveal.jpg'); }
+.expect-callout { cursor: pointer; margin-bottom: 0; transition: box-shadow 0.3s; }
+.expect-callout:hover { box-shadow: 0 12px 50px rgba(78,29,39,0.15); }
+.expect-toggle-icon { position: absolute; top: 1.3rem; right: 1.5rem; width: 34px; height: 34px; background: rgba(255,255,255,0.75); border: 1px solid rgba(78,29,39,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; color: var(--deep-rose); transition: transform 0.3s; z-index: 2; }
+.expect-toggle-hint { display: inline-block; margin-top: 1rem; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--deep-rose); border-bottom: 1px solid var(--deep-rose); padding-bottom: 2px; }
+.expect-details { display: none; background: var(--cream); padding: 2.5rem 2.4rem 0.5rem; }
+.expect-package-section.open .expect-details { display: block; }
+.expect-package-section.open .expect-toggle-icon { transform: rotate(45deg); }
+.expect-package-section .expect-prep { background: white; }
 .expect-prep { background: var(--cream); padding: 2rem; margin-top: 2rem; }
 .expect-prep-title { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.8rem; }
 .expect-prep-list { list-style: none; }

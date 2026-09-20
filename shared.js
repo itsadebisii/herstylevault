@@ -65,6 +65,9 @@ function toggleFaq(el) {
   document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
 }
+function toggleExpectPackage(el) {
+  el.parentElement.classList.toggle('open');
+}
 function observeReveals() {
   const reveals = document.querySelectorAll('.reveal:not(.visible)');
   const observer = new IntersectionObserver((entries) => {
