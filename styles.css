@@ -122,7 +122,8 @@ section { padding: 6rem; }
 .packages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
 .package { border: 1px solid rgba(201,160,154,0.28); padding: 2.5rem; background: white; transition: all 0.3s; display: flex; flex-direction: column; }
 .package:hover { box-shadow: 0 12px 50px rgba(78,29,39,0.12); transform: translateY(-4px); }
-.package.featured { background: var(--deep-rose); border-color: var(--deep-rose); }
+.package.featured { background: var(--deep-rose); border: 1px solid var(--gold); box-shadow: 0 8px 40px rgba(228,210,165,0.3); }
+.package.featured:hover { box-shadow: 0 14px 55px rgba(228,210,165,0.4); }
 .package.featured .pkg-name, .package.featured .pkg-price, .package.featured .pkg-desc, .package.featured .pkg-sessions-label { color: rgba(255,255,255,0.95); }
 .package.featured .pkg-includes li { color: rgba(255,255,255,0.82); border-color: rgba(255,255,255,0.08); }
 .package.featured .pkg-includes li::before { color: rgba(255,255,255,0.35); }
@@ -155,7 +156,8 @@ section { padding: 6rem; }
 .btn-pkg-outline:hover { background: var(--deep-rose); color: white; }
 .btn-pkg-white { background: white; color: var(--deep-rose); }
 .btn-pkg-white:hover { background: var(--blush); }
-.extra-session-note { text-align: center; margin-top: 2rem; font-size: 0.8rem; color: var(--text-light); font-style: italic; }
+.extra-session-note { text-align: center; margin-top: 2rem; }
+.extra-session-note .intro-note { font-style: normal; }
 
 .addon { background: var(--blush); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 .addon-cards { display: flex; flex-direction: column; gap: 0.9rem; }
