@@ -244,7 +244,7 @@ function render() {
       <label class="upload-box" for="photo-field">
         <strong>${photoBase64 ? 'Photo added — tap to change' : 'Upload a photo'}</strong>
         ${photoBase64 ? '' : 'Natural light, no filter, facing the camera — or skip this step'}
-        ${photoBase64 ? `<img src="data:${photoMediaType};base64,${photoBase64}">` : ''}
+        ${photoBase64 ? `<img src="data:${photoMediaType};base64,${photoBase64}" alt="Your uploaded photo">` : ''}
         <input type="file" accept="image/*" id="photo-field">
       </label>
       ${navHtml(true, 'Continue to Payment — $40')}`;
