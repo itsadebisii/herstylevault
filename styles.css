@@ -398,6 +398,8 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 .book-next { background: var(--cream); padding: 4rem 6rem; }
 .book-next-title { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 300; color: var(--text-dark); margin-bottom: 2rem; text-align: center; }
 .book-next-title em { font-style: italic; color: var(--rose); }
+.book-next-footnote { text-align: center; margin-top: 2rem; font-size: 0.8rem; color: var(--text-mid); font-weight: 300; }
+.book-next-footnote a { color: var(--deep-rose); text-decoration: underline; }
 .book-next-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; border: 1px solid rgba(201,160,154,0.2); }
 .book-next-step { padding: 2rem; border-right: 1px solid rgba(201,160,154,0.2); }
 .book-next-step:last-child { border-right: none; }
@@ -475,7 +477,8 @@ footer { padding: 2.4rem 1.4rem 1.2rem; }
 .book-hero, .book-content, .book-next { padding: 4rem 2rem; }
 .expect-session { grid-template-columns: 60px 1fr; gap: 1rem; }
 .book-option { grid-template-columns: 1fr; gap: 1.5rem; }
-.book-option-actions { align-items: flex-start; }
+.book-option-actions { align-items: stretch; }
+.book-option-actions .btn-vault, .book-option-actions .btn-vault-outline { white-space: normal; text-align: center; }
 .book-next-grid { grid-template-columns: 1fr 1fr; }
 .book-next-step { border-bottom: 1px solid rgba(201,160,154,0.2); }
 }
