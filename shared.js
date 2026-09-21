@@ -68,6 +68,35 @@ function toggleFaq(el) {
 function toggleExpectPackage(el) {
   el.parentElement.classList.toggle('open');
 }
+function togglePolicyReveal(el) {
+  el.classList.toggle('open');
+}
+function initPolicyReveal() {
+  var cards = document.querySelectorAll('.policy-section[data-reveal]');
+  if (!cards.length) return;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    cards.forEach(function(el) {
+      el.addEventListener('mousemove', function(e) {
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = 'translate(' + (x * 6).toFixed(1) + 'px, ' + (y * 6).toFixed(1) + 'px)';
+      });
+      el.addEventListener('mouseleave', function() { el.style.transform = ''; });
+    });
+  }
+  function openPolicyById(id) {
+    var el = document.getElementById(id);
+    if (el && el.hasAttribute('data-reveal')) el.classList.add('open');
+  }
+  document.querySelectorAll('.policy-jumpnav a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      openPolicyById(a.getAttribute('href').replace('#', ''));
+    });
+  });
+  if (window.location.hash) openPolicyById(window.location.hash.replace('#', ''));
+}
 function observeReveals() {
   const reveals = document.querySelectorAll('.reveal:not(.visible)');
   const observer = new IntersectionObserver((entries) => {
@@ -119,3 +148,4 @@ renderNav();
 renderFooters();
 observeReveals();
 initAboutCarousel();
+initPolicyReveal();
