@@ -196,7 +196,6 @@ img.addon-card-photo-img { position: absolute; inset: 0; width: 100%; height: 10
 .location-card-icon svg { width: 18px; height: 18px; stroke: var(--deep-rose); fill: none; stroke-width: 1.5; }
 .location-title { font-family: 'Fraunces', serif; font-size: 1.2rem; color: var(--text-dark); margin-bottom: 0.5rem; }
 .location-desc { font-size: 0.78rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
-.location-card-boston { background-image: url('images/Locations_Boston.jpg'); background-size: cover; background-position: center; }
 img.location-card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; margin: 0; }
 
 .testimonials { background: var(--warm-white); text-align: center; }
