@@ -177,6 +177,7 @@ Style archetype name to weave in naturally if it fits: "${archetype}"`
     bodyShapeLabel: bodyFacts.shape,
     bodyShapeDesc: bodyFacts.desc,
     bodyGoal: bodyFacts.goal,
+    shopKeywords: bodyFacts.shopKeywords,
     archetype,
     narrative: aiJson.narrative,
     silhouettes: aiJson.silhouettes,

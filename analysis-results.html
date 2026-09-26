@@ -99,6 +99,17 @@ body {
 .rep-avoid { background: var(--text-dark); color: var(--warm-white); border: none; padding: 1.2rem 1.3rem; font-size: 0.82rem; line-height: 1.8; }
 .rep-avoid strong { color: var(--gold); font-weight: 500; }
 
+.shop-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; }
+.shop-chip { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.03em; color: var(--rose); background: var(--blush); border: 1px solid rgba(78,29,39,0.15); padding: 0.5rem 0.9rem; text-decoration: none; border-radius: 999px; transition: background 0.15s, color 0.15s; }
+.shop-chip:hover { background: var(--rose); color: var(--warm-white); }
+.shop-chip::after { content: '↗'; font-size: 0.65rem; }
+.shop-note { font-size: 0.72rem; color: var(--text-light); margin-top: 0.7rem; line-height: 1.6; }
+
+.edu-grid { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 0.9rem; }
+.edu-card { background: var(--cream); border-left: 2px solid var(--gold); padding: 1rem 1.1rem; }
+.edu-card h4 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 0.95rem; color: var(--text-dark); margin-bottom: 0.4rem; }
+.edu-card p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.7; }
+
 .rep-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
 
 /* Closing brand CTA — matches the site's final-cta band elsewhere */
@@ -200,6 +211,18 @@ function chipCard(look) {
   </div>`;
 }
 
+const EDUCATION_CARDS = [
+  { h4: 'Why Your Color Season Matters', p: 'The right colors don’t just look nice — they reflect more light onto your face, which is why the same red can look washed out on one person and electric on another. Once you know your season, shopping gets faster: you stop buying things that photograph dull and start buying things that photograph like you.' },
+  { h4: 'Dressing Your Shape, Not Against It', p: 'Every body shape has silhouettes that do the work for you — creating a waist, balancing proportions, elongating a line — without needing shapewear or a total overhaul. The goal was never to change your shape. It was to stop fighting it with the wrong cut.' },
+  { h4: 'Building Around Your Signature Colors', p: 'You don’t need a closet full of new clothes to see a difference — you need 5-6 signature colors and neutrals that all work together, so every piece you already own (or add next) mixes and matches instead of sitting unworn.' }
+];
+
+function shopChips(keywords) {
+  if (!keywords) return '';
+  const terms = keywords.split(',').map(t => t.trim()).filter(Boolean);
+  return terms.map(t => `<a class="shop-chip" href="https://www.nordstrom.com/sr?keyword=${encodeURIComponent(t)}" target="_blank" rel="noopener">${esc(t)}</a>`).join('');
+}
+
 function renderSilhouette(s) {
   const look = findLook(s.text);
   if (!look) {
@@ -283,9 +306,25 @@ function renderReport(r) {
         </ul>
       </div>
 
-      <div class="rep-section" style="margin-bottom:0;">
+      <div class="rep-section">
         <p class="rep-section-label">Step Back From</p>
         <div class="rep-avoid">${esc(r.avoidText)}</div>
+      </div>
+
+      <div class="rep-section">
+        <p class="rep-section-label">Start Building</p>
+        <h3 class="rep-section-title">Shop These Recommendations</h3>
+        <p class="rep-section-body">Search terms pulled straight from your body shape's best silhouettes — open any of these to start browsing.</p>
+        <div class="shop-chips">${shopChips(r.shopKeywords)}</div>
+        <p class="shop-note">These open a live search on Nordstrom so results stay current — not a specific curated product.</p>
+      </div>
+
+      <div class="rep-section" style="margin-bottom:0;">
+        <p class="rep-section-label">Worth Knowing</p>
+        <h3 class="rep-section-title">Style Notes</h3>
+        <div class="edu-grid">
+          ${EDUCATION_CARDS.map(c => `<div class="edu-card"><h4>${esc(c.h4)}</h4><p>${esc(c.p)}</p></div>`).join('')}
+        </div>
       </div>
     </div>
 
