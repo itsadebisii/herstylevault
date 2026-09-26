@@ -191,9 +191,9 @@ const LOGO_SVG = `<svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" 
 // Curated reference photos, matched to silhouette recommendation text by keyword.
 // Each has a statement color + a light pairing color pulled from the client's real season data.
 const SILHOUETTE_LOOKS = [
-  { match: /corset/i, img: null, statement: { n: 'Green Olive', h: '#7c7b45' }, pair: { n: 'Pomegranate', h: '#6e1b26' } },
-  { match: /belt/i, img: null, statement: { n: 'Hot Chocolate', h: '#4a2e20' }, pair: { n: 'Lemon Grass', h: '#a6a24a' } },
-  { match: /fit and flare/i, img: null, statement: { n: 'Bronze Brown', h: '#7a4b2a' }, pair: { n: 'Shirt White', h: '#f7f3ec' } }
+  { match: /corset/i, img: 'images/report/corset-style.jpg', statement: { n: 'Green Olive', h: '#7c7b45' }, pair: { n: 'Pomegranate', h: '#6e1b26' } },
+  { match: /belt/i, img: 'images/report/belted-styles.jpg', statement: { n: 'Hot Chocolate', h: '#4a2e20' }, pair: { n: 'Lemon Grass', h: '#a6a24a' } },
+  { match: /fit and flare/i, img: 'images/report/fit-and-flare.jpg', statement: { n: 'Bronze Brown', h: '#7a4b2a' }, pair: { n: 'Shirt White', h: '#f7f3ec' } }
 ];
 
 function findLook(silhouetteText) {
