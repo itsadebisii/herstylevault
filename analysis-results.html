@@ -94,6 +94,7 @@ body {
 .look-info { padding: 0.9rem 1rem 0.9rem 0; display: flex; flex-direction: column; justify-content: center; gap: 0.3rem; }
 .look-info .name { font-size: 0.85rem; font-weight: 500; color: var(--text-dark); }
 .look-info .why { font-size: 0.78rem; color: var(--text-light); font-style: italic; line-height: 1.6; }
+.look-info .ref-note { font-size: 0.64rem; color: var(--mauve); letter-spacing: 0.01em; margin-top: 0.2rem; }
 @media (max-width: 480px) { .look-card { grid-template-columns: 96px 1fr; } }
 
 .rep-avoid { background: var(--text-dark); color: var(--warm-white); border: none; padding: 1.2rem 1.3rem; font-size: 0.82rem; line-height: 1.8; }
@@ -189,24 +190,25 @@ function splitLede(text) {
 const LOGO_SVG = `<svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="50" fill="none" stroke="#e4d2a5" stroke-width="1.6"/><line x1="75" y1="19" x2="75" y2="27" stroke="#e4d2a5" stroke-width="1.7"/><line x1="75" y1="123" x2="75" y2="131" stroke="#e4d2a5" stroke-width="1.7"/><line x1="19" y1="75" x2="27" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><line x1="123" y1="75" x2="131" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><circle cx="75" cy="36" r="4.4" fill="#e4d2a5"/><line x1="75" y1="40.4" x2="75" y2="50" stroke="#e4d2a5" stroke-width="2.3" stroke-linecap="round"/><path d="M75 50 L44 76 Q38 80 44 83 L106 83 Q112 80 106 76 Z" fill="none" stroke="#e4d2a5" stroke-width="2.3" stroke-linejoin="round"/></svg>`;
 
 // Curated reference photos, matched to silhouette recommendation text by keyword.
-// Each has a statement color + a light pairing color pulled from the client's real season data.
+// These show the SILHOUETTE only — the color chip always uses the viewing client's
+// own real signature/neutral colors, never the colors the photo happens to be shot in.
 const SILHOUETTE_LOOKS = [
-  { match: /corset/i, img: 'images/report/corset-style.jpg', statement: { n: 'Green Olive', h: '#7c7b45' }, pair: { n: 'Pomegranate', h: '#6e1b26' } },
-  { match: /belt/i, img: 'images/report/belted-styles.jpg', statement: { n: 'Hot Chocolate', h: '#4a2e20' }, pair: { n: 'Lemon Grass', h: '#a6a24a' } },
-  { match: /fit and flare/i, img: 'images/report/fit-and-flare.jpg', statement: { n: 'Bronze Brown', h: '#7a4b2a' }, pair: { n: 'Shirt White', h: '#f7f3ec' } }
+  { match: /corset/i, img: 'images/report/corset-style.jpg' },
+  { match: /belt/i, img: 'images/report/belted-styles.jpg' },
+  { match: /fit and flare/i, img: 'images/report/fit-and-flare.jpg' }
 ];
 
 function findLook(silhouetteText) {
   return SILHOUETTE_LOOKS.find(l => l.match.test(silhouetteText));
 }
 
-function chipCard(look) {
+function chipCard(mainColor, secondColor) {
   return `<div class="chip-card">
-    <div class="chip-block" style="background:${look.statement.h};"></div>
-    <div class="chip-block" style="background:${look.pair.h}; height:14px;"></div>
+    <div class="chip-block" style="background:${mainColor.h};"></div>
+    <div class="chip-block" style="background:${secondColor.h}; height:14px;"></div>
     <div class="chip-label">
-      <span class="chip-name">${esc(look.statement.n)}</span>
-      <span class="chip-hex">${esc(look.statement.h.toUpperCase())}</span>
+      <span class="chip-name">${esc(mainColor.n)}</span>
+      <span class="chip-hex">${esc(mainColor.h.toUpperCase())}</span>
     </div>
   </div>`;
 }
@@ -223,20 +225,23 @@ function shopChips(keywords) {
   return terms.map(t => `<a class="shop-chip" href="https://www.nordstrom.com/sr?keyword=${encodeURIComponent(t)}" target="_blank" rel="noopener">${esc(t)}</a>`).join('');
 }
 
-function renderSilhouette(s) {
+function renderSilhouette(s, i, r) {
   const look = findLook(s.text);
   if (!look) {
     return `<li><span class="name">${esc(s.text)}</span><span class="why">${esc(s.reason)}</span></li>`;
   }
+  const mainColor = r.signature[i % r.signature.length];
+  const secondColor = r.neutrals[i % r.neutrals.length];
   const photoInner = look.img
     ? `<img src="${esc(look.img)}" alt="${esc(s.text)} example">`
     : `<div class="look-photo-placeholder">Reference photo</div>`;
   return `<li style="padding:0; border-left:none; background:none;">
     <div class="look-card">
-      <div class="look-photo-wrap">${photoInner}${chipCard(look)}</div>
+      <div class="look-photo-wrap">${photoInner}${chipCard(mainColor, secondColor)}</div>
       <div class="look-info">
         <span class="name">${esc(s.text)}</span>
         <span class="why">${esc(s.reason)}</span>
+        <span class="ref-note">Pictured as reference — shop the silhouette in your own colors</span>
       </div>
     </div>
   </li>`;
@@ -302,7 +307,7 @@ function renderReport(r) {
         <p class="rep-section-label">Best Silhouettes For Your Shape</p>
         <h3 class="rep-section-title">Looks That Work For You</h3>
         <ul class="rep-list">
-          ${r.silhouettes.map(renderSilhouette).join('')}
+          ${r.silhouettes.map((s, i) => renderSilhouette(s, i, r)).join('')}
         </ul>
       </div>
 
