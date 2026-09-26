@@ -76,26 +76,41 @@ body {
 .swatch .chip { width: 100%; height: 64px; border-radius: 6px; border: 1px solid var(--line); box-shadow: 0 6px 14px -8px rgba(46,20,22,0.4); }
 .swatch .name { font-size: 0.66rem; color: var(--text-mid); text-align: center; line-height: 1.3; }
 
-.rep-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
-.rep-list li { font-size: 0.85rem; color: var(--text-dark); line-height: 1.7; padding: 0.9rem 1rem 0.9rem 1.1rem; background: var(--cream); border-left: 2px solid var(--gold); position: relative; }
-.rep-list li .name { font-weight: 500; }
-.rep-list .why { display: block; font-size: 0.78rem; color: var(--text-light); font-style: italic; margin-top: 0.3rem; }
+/* Toolbar (download/print) */
+.rep-toolbar { display: flex; justify-content: flex-end; padding: 0.7rem clamp(1.8rem, 5vw, 2.6rem); background: var(--cream); border-bottom: 1px solid var(--line); }
+.toolbar-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose); background: none; border: 1px solid var(--rose); padding: 0.5rem 1rem; cursor: pointer; }
+.toolbar-btn:hover { background: var(--rose); color: var(--warm-white); }
 
-/* Look cards — photo example + color-chip card, for silhouettes we have curated reference images for */
-.look-card { display: grid; grid-template-columns: 128px 1fr; gap: 1rem; background: var(--cream); border: 1px solid var(--line); overflow: hidden; }
-.look-photo-wrap { position: relative; background: #e8dfd6; aspect-ratio: 3/4; }
-.look-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.look-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Jost', sans-serif; font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,16,16,0.35); text-align: center; padding: 0.5rem; }
-.chip-card { position: absolute; bottom: 0.5rem; left: 0.5rem; width: 60px; background: var(--warm-white); box-shadow: 0 10px 22px -12px rgba(26,16,16,0.55); }
-.chip-card .chip-block { height: 26px; }
-.chip-card .chip-label { padding: 0.28rem 0.34rem 0.36rem; }
-.chip-card .chip-name { display: block; font-family: 'Jost', sans-serif; font-size: 0.5rem; font-weight: 500; letter-spacing: 0.02em; color: var(--text-dark); line-height: 1.3; }
-.chip-card .chip-hex { display: block; font-family: 'Jost', sans-serif; font-size: 0.44rem; letter-spacing: 0.03em; color: var(--text-light); margin-top: 0.1rem; }
-.look-info { padding: 0.9rem 1rem 0.9rem 0; display: flex; flex-direction: column; justify-content: center; gap: 0.3rem; }
-.look-info .name { font-size: 0.85rem; font-weight: 500; color: var(--text-dark); }
-.look-info .why { font-size: 0.78rem; color: var(--text-light); font-style: italic; line-height: 1.6; }
-.look-info .ref-note { font-size: 0.64rem; color: var(--mauve); letter-spacing: 0.01em; margin-top: 0.2rem; }
-@media (max-width: 480px) { .look-card { grid-template-columns: 96px 1fr; } }
+/* Paginated topic slides */
+.pager-slide { display: none; }
+.pager-slide.active { display: block; }
+.pager-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.pager-btn { font-family: 'Jost', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); border: none; padding: 0.7rem 1.3rem; cursor: pointer; }
+.pager-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.pager-btn.pager-prev { background: none; color: var(--rose); border: 1px solid var(--rose); }
+.pager-count { font-family: 'Jost', sans-serif; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-light); }
+
+/* Flip card — photo front, client's own colors on the back */
+.look-flip { perspective: 1200px; width: 100%; max-width: 300px; aspect-ratio: 3/4; margin: 0.9rem auto 1rem; cursor: pointer; }
+.look-flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.55s ease; transform-style: preserve-3d; }
+.look-flip:hover .look-flip-inner, .look-flip.flipped .look-flip-inner { transform: rotateY(180deg); }
+.look-flip-front, .look-flip-back { position: absolute; inset: 0; backface-visibility: hidden; box-shadow: 0 20px 40px -20px rgba(46,20,22,0.5); }
+.look-flip-front img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.look-flip-front .flip-hint { position: absolute; bottom: 0.6rem; right: 0.6rem; background: rgba(26,16,16,0.55); color: var(--warm-white); font-family: 'Jost', sans-serif; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.6rem; }
+.look-flip-back { transform: rotateY(180deg); background: var(--warm-white); display: flex; flex-direction: column; }
+.look-flip-back .flip-chip { flex: 1; }
+.look-flip-back .flip-label { padding: 1rem; text-align: center; }
+.look-flip-back .flip-name { display: block; font-family: 'Fraunces', serif; font-size: 1rem; color: var(--text-dark); margin-bottom: 0.2rem; }
+.look-flip-back .flip-hex { display: block; font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--text-light); }
+.flip-caption { text-align: center; font-size: 0.66rem; color: var(--mauve); margin-top: -0.5rem; margin-bottom: 0.9rem; }
+
+@media print {
+  .rep-toolbar, .pager-nav { display: none !important; }
+  .pager-slide { display: block !important; page-break-inside: avoid; margin-bottom: 1.6rem; }
+  .look-flip-inner { transform: none !important; }
+  .look-flip { perspective: none; }
+  .look-flip-back { display: none; }
+}
 
 .rep-avoid { background: var(--text-dark); color: var(--warm-white); border: none; padding: 1.2rem 1.3rem; font-size: 0.82rem; line-height: 1.8; }
 .rep-avoid strong { color: var(--gold); font-weight: 500; }
@@ -111,7 +126,6 @@ body {
 .edu-card h4 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 0.95rem; color: var(--text-dark); margin-bottom: 0.4rem; }
 .edu-card p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.7; }
 
-.rep-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
 
 /* Closing brand CTA — matches the site's final-cta band elsewhere */
 .rep-cta { background: var(--rose); text-align: center; padding: clamp(2rem, 6vw, 2.8rem) clamp(1.8rem, 5vw, 2.6rem); }
@@ -133,7 +147,6 @@ body {
 .err-box a { color: var(--rose); font-weight: 500; }
 .retry-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); padding: 0.75rem 1.8rem; border: none; cursor: pointer; margin-top: 0.6rem; }
 
-@media (max-width: 600px) { .rep-two-col { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -202,17 +215,6 @@ function findLook(silhouetteText) {
   return SILHOUETTE_LOOKS.find(l => l.match.test(silhouetteText));
 }
 
-function chipCard(mainColor, secondColor) {
-  return `<div class="chip-card">
-    <div class="chip-block" style="background:${mainColor.h};"></div>
-    <div class="chip-block" style="background:${secondColor.h}; height:14px;"></div>
-    <div class="chip-label">
-      <span class="chip-name">${esc(mainColor.n)}</span>
-      <span class="chip-hex">${esc(mainColor.h.toUpperCase())}</span>
-    </div>
-  </div>`;
-}
-
 const EDUCATION_CARDS = [
   { h4: 'Why Your Color Season Matters', p: 'The right colors don’t just look nice — they reflect more light onto your face, which is why the same red can look washed out on one person and electric on another. Once you know your season, shopping gets faster: you stop buying things that photograph dull and start buying things that photograph like you.' },
   { h4: 'Dressing Your Shape, Not Against It', p: 'Every body shape has silhouettes that do the work for you — creating a waist, balancing proportions, elongating a line — without needing shapewear or a total overhaul. The goal was never to change your shape. It was to stop fighting it with the wrong cut.' },
@@ -225,32 +227,128 @@ function shopChips(keywords) {
   return terms.map(t => `<a class="shop-chip" href="https://www.nordstrom.com/sr?keyword=${encodeURIComponent(t)}" target="_blank" rel="noopener">${esc(t)}</a>`).join('');
 }
 
-function renderSilhouette(s, i, r) {
+function silhouetteSlide(s, i, r) {
   const look = findLook(s.text);
-  if (!look) {
-    return `<li><span class="name">${esc(s.text)}</span><span class="why">${esc(s.reason)}</span></li>`;
-  }
   const mainColor = r.signature[i % r.signature.length];
   const secondColor = r.neutrals[i % r.neutrals.length];
-  const photoInner = look.img
-    ? `<img src="${esc(look.img)}" alt="${esc(s.text)} example">`
-    : `<div class="look-photo-placeholder">Reference photo</div>`;
-  return `<li style="padding:0; border-left:none; background:none;">
-    <div class="look-card">
-      <div class="look-photo-wrap">${photoInner}${chipCard(mainColor, secondColor)}</div>
-      <div class="look-info">
-        <span class="name">${esc(s.text)}</span>
-        <span class="why">${esc(s.reason)}</span>
-        <span class="ref-note">Pictured as reference — shop the silhouette in your own colors</span>
+  const photoBlock = look && look.img
+    ? `<div class="look-flip" tabindex="0" role="button" aria-label="Tap to see this in your own colors">
+        <div class="look-flip-inner">
+          <div class="look-flip-front"><img src="${esc(look.img)}" alt="${esc(s.text)} example"><span class="flip-hint">Tap for your colors ✦</span></div>
+          <div class="look-flip-back">
+            <div class="flip-chip" style="background:${mainColor.h};"></div>
+            <div class="flip-chip" style="background:${secondColor.h}; flex:0 0 22%;"></div>
+            <div class="flip-label"><span class="flip-name">${esc(mainColor.n)}</span><span class="flip-hex">${esc(mainColor.h.toUpperCase())}</span></div>
+          </div>
+        </div>
       </div>
-    </div>
-  </li>`;
+      <p class="flip-caption">Pictured as reference — hover or tap to see it in your own colors</p>`
+    : '';
+  return `
+    <p class="rep-section-label">Best Silhouettes For Your Shape</p>
+    <h3 class="rep-section-title">${esc(s.text)}</h3>
+    ${photoBlock}
+    <p class="rep-section-body">${esc(s.reason)}</p>
+  `;
+}
+
+let pagerSlideCount = 0;
+let pagerIndex = 0;
+
+function showPagerSlide(i) {
+  const slides = document.querySelectorAll('.pager-slide');
+  slides.forEach((el, idx) => el.classList.toggle('active', idx === i));
+  pagerIndex = i;
+  const countEl = document.getElementById('pager-count');
+  if (countEl) countEl.textContent = `${i + 1} / ${pagerSlideCount}`;
+  const prevBtn = document.getElementById('pager-prev');
+  const nextBtn = document.getElementById('pager-next');
+  if (prevBtn) prevBtn.disabled = i === 0;
+  if (nextBtn) {
+    const isLast = i === pagerSlideCount - 1;
+    nextBtn.textContent = isLast ? 'Done ✦' : 'Next →';
+    nextBtn.disabled = isLast;
+  }
+  const slidesWrap = document.querySelector('.pager-slides');
+  if (slidesWrap) slidesWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderReport(r) {
   const frame = document.getElementById('frame');
   const bandColors = [...(r.signature || []), ...(r.neutrals || [])];
   const { lede, rest } = splitLede(r.narrative);
+
+  // Each topic is its own slide — client clicks Next to move through the report one idea at a time.
+  const slides = [];
+
+  slides.push(`
+    <span class="tag">Why This Is You</span>
+    <div class="rep-narrative">
+      <span class="lede">${esc(lede)}</span>
+      ${rest ? `<span class="rest">${esc(rest)}</span>` : ''}
+    </div>
+  `);
+
+  slides.push(`
+    <div class="rep-section id-card">
+      <div class="swatch-mini" style="background:${esc((r.signature && r.signature[0] && r.signature[0].h) || '#4e1d27')};"></div>
+      <p class="rep-section-label">Color Type Identified</p>
+      <h3 class="rep-section-title">${esc(r.seasonLabel)} ✦</h3>
+      <p class="rep-section-body">${esc(r.seasonDesc)} Metal tone: ${esc(r.metal)}.</p>
+    </div>
+  `);
+
+  slides.push(`
+    <div class="rep-section id-card">
+      <p class="rep-section-label">Body Shape Identified</p>
+      <h3 class="rep-section-title">${esc(r.bodyShapeLabel)} ✦</h3>
+      <p class="rep-section-body">${esc(r.bodyShapeDesc)} Goal: ${esc(r.bodyGoal)}</p>
+    </div>
+  `);
+
+  slides.push(`
+    <p class="rep-section-label">What Makes You Glow</p>
+    <h3 class="rep-section-title">Signature Colors</h3>
+    <div class="swatch-row">
+      ${r.signature.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
+    </div>
+  `);
+
+  slides.push(`
+    <p class="rep-section-label">Your Wardrobe Base</p>
+    <h3 class="rep-section-title">Power Neutrals</h3>
+    <div class="swatch-row">
+      ${r.neutrals.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
+    </div>
+  `);
+
+  (r.silhouettes || []).forEach((s, i) => slides.push(silhouetteSlide(s, i, r)));
+
+  slides.push(`
+    <p class="rep-section-label">Step Back From</p>
+    <div class="rep-avoid">${esc(r.avoidText)}</div>
+  `);
+
+  slides.push(`
+    <p class="rep-section-label">Start Building</p>
+    <h3 class="rep-section-title">Shop These Recommendations</h3>
+    <p class="rep-section-body">Search terms pulled straight from your body shape's best silhouettes — open any of these to start browsing.</p>
+    <div class="shop-chips">${shopChips(r.shopKeywords)}</div>
+    <p class="shop-note">These open a live search on Nordstrom so results stay current — not a specific curated product.</p>
+  `);
+
+  slides.push(`
+    <p class="rep-section-label">Worth Knowing</p>
+    <h3 class="rep-section-title">Style Notes</h3>
+    <div class="edu-grid">
+      ${EDUCATION_CARDS.map(c => `<div class="edu-card"><h4>${esc(c.h4)}</h4><p>${esc(c.p)}</p></div>`).join('')}
+    </div>
+  `);
+
+  pagerSlideCount = slides.length;
+
+  const bookHref = r.isReturning ? 'book.html' : 'https://tally.so/r/yPeEjp';
+  const bookLabel = r.isReturning ? 'Book Your Session ✦' : 'Fill Out Your Intake Form ✦';
 
   frame.innerHTML = `
     <div class="brand-hero">
@@ -266,70 +364,18 @@ function renderReport(r) {
       <div class="palette-band">${bandColors.map(c => `<span style="background:${c.h};" title="${esc(c.n)}"></span>`).join('')}</div>
     </div>
 
+    <div class="rep-toolbar">
+      <button class="toolbar-btn" id="download-btn">⤓ Download Report</button>
+    </div>
+
     <div class="frame-inner">
-      <div class="rep-narrative">
-        <span class="tag">Why This Is You</span>
-        <span class="lede">${esc(lede)}</span>
-        ${rest ? `<span class="rest">${esc(rest)}</span>` : ''}
+      <div class="pager-slides">
+        ${slides.map((html, i) => `<div class="pager-slide${i === 0 ? ' active' : ''}" data-slide="${i}">${html}</div>`).join('')}
       </div>
-
-      <div class="rep-two-col">
-        <div class="rep-section id-card">
-          <div class="swatch-mini" style="background:${esc((r.signature && r.signature[0] && r.signature[0].h) || '#4e1d27')};"></div>
-          <p class="rep-section-label">Color Type Identified</p>
-          <h3 class="rep-section-title">${esc(r.seasonLabel)} ✦</h3>
-          <p class="rep-section-body">${esc(r.seasonDesc)} Metal tone: ${esc(r.metal)}.</p>
-        </div>
-        <div class="rep-section id-card">
-          <p class="rep-section-label">Body Shape Identified</p>
-          <h3 class="rep-section-title">${esc(r.bodyShapeLabel)} ✦</h3>
-          <p class="rep-section-body">${esc(r.bodyShapeDesc)} Goal: ${esc(r.bodyGoal)}</p>
-        </div>
-      </div>
-
-      <div class="rep-section">
-        <p class="rep-section-label">What Makes You Glow</p>
-        <h3 class="rep-section-title">Signature Colors</h3>
-        <div class="swatch-row">
-          ${r.signature.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
-        </div>
-      </div>
-
-      <div class="rep-section">
-        <p class="rep-section-label">Your Wardrobe Base</p>
-        <h3 class="rep-section-title">Power Neutrals</h3>
-        <div class="swatch-row">
-          ${r.neutrals.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
-        </div>
-      </div>
-
-      <div class="rep-section">
-        <p class="rep-section-label">Best Silhouettes For Your Shape</p>
-        <h3 class="rep-section-title">Looks That Work For You</h3>
-        <ul class="rep-list">
-          ${r.silhouettes.map((s, i) => renderSilhouette(s, i, r)).join('')}
-        </ul>
-      </div>
-
-      <div class="rep-section">
-        <p class="rep-section-label">Step Back From</p>
-        <div class="rep-avoid">${esc(r.avoidText)}</div>
-      </div>
-
-      <div class="rep-section">
-        <p class="rep-section-label">Start Building</p>
-        <h3 class="rep-section-title">Shop These Recommendations</h3>
-        <p class="rep-section-body">Search terms pulled straight from your body shape's best silhouettes — open any of these to start browsing.</p>
-        <div class="shop-chips">${shopChips(r.shopKeywords)}</div>
-        <p class="shop-note">These open a live search on Nordstrom so results stay current — not a specific curated product.</p>
-      </div>
-
-      <div class="rep-section" style="margin-bottom:0;">
-        <p class="rep-section-label">Worth Knowing</p>
-        <h3 class="rep-section-title">Style Notes</h3>
-        <div class="edu-grid">
-          ${EDUCATION_CARDS.map(c => `<div class="edu-card"><h4>${esc(c.h4)}</h4><p>${esc(c.p)}</p></div>`).join('')}
-        </div>
+      <div class="pager-nav">
+        <button class="pager-btn pager-prev" id="pager-prev" disabled>← Back</button>
+        <span class="pager-count" id="pager-count">1 / ${pagerSlideCount}</span>
+        <button class="pager-btn pager-next" id="pager-next">Next →</button>
       </div>
     </div>
 
@@ -337,9 +383,20 @@ function renderReport(r) {
       <p class="rep-eyebrow">Ready For More?</p>
       <h3>This is the starting point — <em>let's go deeper</em></h3>
       <p class="copy">A free consultation turns this into an actual wardrobe: real outfits, real pieces, built around you.</p>
-      <a class="btn-gold" href="index.html">Book Your Free Consultation ✦</a>
+      <a class="btn-gold" href="${esc(bookHref)}">${esc(bookLabel)}</a>
     </div>
   `;
+
+  pagerIndex = 0;
+  showPagerSlide(0);
+
+  document.getElementById('pager-prev').addEventListener('click', () => { if (pagerIndex > 0) showPagerSlide(pagerIndex - 1); });
+  document.getElementById('pager-next').addEventListener('click', () => { if (pagerIndex < pagerSlideCount - 1) showPagerSlide(pagerIndex + 1); });
+  document.getElementById('download-btn').addEventListener('click', () => window.print());
+  frame.querySelectorAll('.look-flip').forEach(el => {
+    el.addEventListener('click', () => el.classList.toggle('flipped'));
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.classList.toggle('flipped'); } });
+  });
 }
 
 async function init() {
@@ -374,6 +431,7 @@ async function init() {
       body: JSON.stringify({
         sessionId,
         name: data.name,
+        returningClient: data.returningClient,
         answers: data.answers,
         freeText: data.freeText,
         photoBase64: data.photoBase64,

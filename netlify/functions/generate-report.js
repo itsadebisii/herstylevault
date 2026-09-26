@@ -23,7 +23,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON body' }) };
   }
 
-  const { sessionId, name, answers, freeText, photoBase64, photoMediaType } = payload;
+  const { sessionId, name, returningClient, answers, freeText, photoBase64, photoMediaType } = payload;
 
   if (!sessionId) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing sessionId' }) };
@@ -166,6 +166,7 @@ Style archetype name to weave in naturally if it fits: "${archetype}"`
   // --- Step 4: merge AI narrative with fixed factual data and return. ---
   const report = {
     clientName,
+    isReturning: !!returningClient,
     seasonKey,
     seasonLabel: colorFacts.label,
     seasonDesc: colorFacts.desc,
