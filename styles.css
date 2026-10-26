@@ -459,6 +459,16 @@ footer { background: var(--deep-rose); padding: 3rem clamp(1.4rem, 5vw, 3rem) 1.
 .vault-addon-note { background: var(--warm-white); padding: 4rem 6rem; text-align: center; }
 .vault-addon-note .section-title, .vault-addon-note .section-sub { margin-left: auto; margin-right: auto; }
 
+.promo-popup { position: fixed; bottom: 1.6rem; right: 1.6rem; max-width: 340px; background: var(--warm-white); border: 1px solid rgba(201,160,154,0.3); box-shadow: 0 18px 45px rgba(78,29,39,0.25); padding: 1.8rem 1.7rem 1.6rem; z-index: 500; opacity: 0; visibility: hidden; transform: translateY(16px); transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s; }
+.promo-popup.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.promo-popup-close { position: absolute; top: 0.6rem; right: 0.7rem; width: 26px; height: 26px; background: none; border: none; font-size: 1.1rem; line-height: 1; color: var(--text-light); cursor: pointer; }
+.promo-popup-close:hover { color: var(--deep-rose); }
+.promo-popup-eyebrow { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--deep-rose); font-weight: 500; margin-bottom: 0.5rem; }
+.promo-popup h3 { font-size: 1.05rem; line-height: 1.4; color: var(--text-dark); margin-bottom: 0.6rem; font-weight: 500; }
+.promo-popup h3 em { font-style: italic; color: var(--deep-rose); }
+.promo-popup p { font-size: 0.78rem; line-height: 1.7; color: var(--text-mid); font-weight: 300; margin-bottom: 1.1rem; }
+.promo-popup .btn-primary { padding: 0.75rem 1.6rem; font-size: 0.65rem; }
+
 @media (max-width: 900px) {
 nav { padding: 1rem 1.5rem; }
 .nav-links { display: none; }

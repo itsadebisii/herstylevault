@@ -39,17 +39,6 @@
 <link rel="stylesheet" href="styles.css">
 
 
-<script>
-window.TallyConfig = {
-  "formId": "68qARk",
-  "popup": {
-    "emoji": { "text": "👋", "animation": "wave" },
-    "open": { "trigger": "time", "ms": 8000 }
-  }
-};
-</script>
-<script async src="https://tally.so/widgets/embed.js"></script>
-
 </head>
 <body>
 
@@ -264,7 +253,29 @@ window.TallyConfig = {
 
 <div class="footer-mount"></div>
 
+<div class="promo-popup" id="promoPopup">
+<button class="promo-popup-close" onclick="closePromoPopup()" aria-label="Close">×</button>
+<p class="promo-popup-eyebrow">Vault Digitals</p>
+<h3>Find your <em>colors</em> and <em>shape</em> — before you even book</h3>
+<p>Try the Signature Style Report — a personalized color + body analysis in about 3 minutes. $40, instant results, no appointment needed.</p>
+<a class="btn-primary" href="vault-digitals.html">Get My Report ✦</a>
+</div>
+
 <script async src="https://tally.so/widgets/embed.js"></script><link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <script src="shared.js"></script>
+<script>
+(function(){
+  try { if (sessionStorage.getItem('hsv_promo_dismissed')) return; } catch(e) {}
+  setTimeout(function(){
+    var el = document.getElementById('promoPopup');
+    if (el) el.classList.add('show');
+  }, 8000);
+})();
+function closePromoPopup(){
+  var el = document.getElementById('promoPopup');
+  if (el) el.classList.remove('show');
+  try { sessionStorage.setItem('hsv_promo_dismissed','1'); } catch(e) {}
+}
+</script>
 </body>
 </html>
