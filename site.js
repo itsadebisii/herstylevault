@@ -129,7 +129,7 @@ window.addEventListener('message', function(event){
 
 /* Paste each Tally form ID (the part after tally.so/r/) to turn a service button into your pop-up form.
    Until an ID is added, the button opens an email to hello@herstylevault.com. */
-var SERVICE_FORMS = { occasion: '', ensemble: '', mini: '', detox: '' };
+var SERVICE_FORMS = { occasion: 'BEpEg1', ensemble: 'Z9O9yV', mini: '7XKXza', detox: 'aO4OPX' };
 function applyBookButtons(){
   document.querySelectorAll('.book-btn').forEach(function(b){
     var id = SERVICE_FORMS[b.dataset.form];
