@@ -26,7 +26,7 @@ var DIGITALS = [
       ['Is this the same as booking a session?', 'No — this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
       ['What does it cost?', '$40, one-time. No subscription, no hidden extras.']
     ],
-    cta: { label: 'Start Your Analysis — $40 ✦', href: 'color-style-analysis.html' },
+    cta: { label: 'Start Your Analysis — $40', href: 'color-style-analysis.html' },
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
@@ -49,7 +49,7 @@ var DIGITALS = [
       ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The guide is the do-it-yourself version.'],
       ['Is it a physical product?', 'No. It is a digital guide, delivered instantly.']
     ],
-    cta: { label: 'Get The Wardrobe Detox Guide — $19.99 ✦', href: 'STRIPE_LINK_HERE' },
+    cta: { label: 'Get The Wardrobe Detox Guide — $19.99', href: 'STRIPE_LINK_HERE' },
     meta: 'Instant access · One-time payment'
   }
 ];

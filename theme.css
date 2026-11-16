@@ -318,3 +318,6 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 .promo-popup h3 em{font-style:italic; color:var(--accent);}
 .promo-popup p{font-size:13.5px; color:var(--ink-soft); margin:0 0 1rem; line-height:1.6;}
 @media (prefers-reduced-motion:reduce){.promo-popup{transition:none;}}
+
+.ticker-sep{display:inline-flex; align-items:center;}
+.digital-cover em{display:inline-flex;}
