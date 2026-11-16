@@ -3,3 +3,13 @@
 
 [functions]
   node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/add-ons.html"
+  to = "/services.html"
+  status = 301
+
+[[redirects]]
+  from = "/vault-exclusives.html"
+  to = "/packages.html"
+  status = 301
