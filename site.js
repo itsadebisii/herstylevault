@@ -126,3 +126,18 @@ window.addEventListener('message', function(event){
   if (window.Tally && Tally.closePopup) Tally.closePopup(data.payload.formId);
   setTimeout(function(){ window.openCalendlyPopup(null, next); }, 350);
 });
+
+/* Paste each Tally form ID (the part after tally.so/r/) to turn a service button into your pop-up form.
+   Until an ID is added, the button opens an email to hello@herstylevault.com. */
+var SERVICE_FORMS = { occasion: '', ensemble: '', mini: '', detox: '' };
+function applyBookButtons(){
+  document.querySelectorAll('.book-btn').forEach(function(b){
+    var id = SERVICE_FORMS[b.dataset.form];
+    if (id) { b.href = 'https://tally.so/r/' + id; b.setAttribute('data-tally-open', id); b.setAttribute('data-tally-layout', 'modal'); b.setAttribute('data-tally-width', '700'); b.textContent = 'Book ' + b.dataset.service; }
+    else { b.textContent = 'Request ' + b.dataset.service; }
+  });
+}
+
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+function hsvScrollTop(){ var h = location.hash.replace('#',''); if (!h || !document.getElementById(h)) window.scrollTo(0, 0); }
+window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScrollTop, 120); });
