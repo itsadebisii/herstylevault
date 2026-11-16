@@ -1,9 +1,19 @@
-const NAV_HTML = `<div class="site-ticker ticker">
-<div class="ticker-track">
-<div class="ticker-set"><span class="ticker-item">Color Analysis</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Wardrobe Detox</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Wardrobe Consulting</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Personal Shopping</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Now Booking — Limited Introductory Pricing</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span></div>
-<div class="ticker-set" aria-hidden="true"><span class="ticker-item">Color Analysis</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Wardrobe Detox</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Wardrobe Consulting</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Personal Shopping</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span><span class="ticker-item">Now Booking — Limited Introductory Pricing</span><span class="ticker-sep"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/></svg></span></div>
-</div>
-</div>
+var HSV_ICON_BASE = '<svg viewBox="0 0 24 24" width="SIZE" height="SIZE" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">';
+var HSV_ICONS = {
+  hanger: '<circle cx="12" cy="5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 6.4V9M12 9 3.6 16c-.9.8-.3 1.5.6 1.5h15.6c.9 0 1.5-.7.6-1.5L12 9Z"/>',
+  bag: '<path d="M5.2 9h13.6l1 11.5H4.2L5.2 9Z"/><path d="M8.6 9V7.2a3.4 3.4 0 0 1 6.8 0V9"/>',
+  dress: '<path d="M9.2 3 8.4 9 4.8 21h14.4L15.6 9l-.8-6"/><path d="M8.4 9h7.2M9.2 3c.8 1.4 1.8 2 2.8 2s2-.6 2.8-2"/>',
+  shades: '<path d="M2.8 9.4h18.4"/><path d="M4.4 9.4c.2 3.6 1.6 5.6 3.8 5.6 2.1 0 3.4-1.7 3.6-5.6"/><path d="M12.2 9.4c.2 3.9 1.5 5.6 3.6 5.6 2.2 0 3.6-2 3.8-5.6"/>'
+};
+function hsvIcon(name, size){ return HSV_ICON_BASE.replace(/SIZE/g, size || 14) + HSV_ICONS[name] + '</svg>'; }
+var TICKER_ITEMS = ['Color Analysis','Wardrobe Detox','Wardrobe Consulting','Personal Shopping','Now Booking — Limited Introductory Pricing'];
+var TICKER_MARKS = ['hanger','bag','dress','shades','hanger'];
+function tickerSet(hidden){
+  return '<div class="ticker-set"' + (hidden ? ' aria-hidden="true"' : '') + '>' + TICKER_ITEMS.map(function(t,i){ return '<span class="ticker-item">' + t + '</span><span class="ticker-sep">' + hsvIcon(TICKER_MARKS[i], 15) + '</span>'; }).join('') + '</div>';
+}
+var TICKER_HTML = '<div class="site-ticker ticker"><div class="ticker-track">' + tickerSet(false) + tickerSet(true) + '</div></div>';
+
+const NAV_HTML = `${TICKER_HTML}
 <div class="nav-inner">
 <a class="wordmark" href="index.html">HerStyleVault</a>
 <ul class="nav-links" id="navLinks">
@@ -33,6 +43,7 @@ const FOOTER_HTML = `<div class="wrap">
 <div>
 <div class="footer-word">HerStyleVault</div>
 <p class="footer-tagline">Personal styling for the woman ready to show up as her most elevated self.</p>
+<div class="footer-icons">${hsvIcon("hanger",18)}${hsvIcon("bag",18)}${hsvIcon("dress",18)}${hsvIcon("shades",18)}</div>
 </div>
 <div class="footer-col">
 <h5>Styling &amp; Digitals</h5>

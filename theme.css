@@ -321,3 +321,6 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 
 .ticker-sep{display:inline-flex; align-items:center;}
 .digital-cover em{display:inline-flex;}
+
+.q-icon{display:block; color:var(--accent); margin-bottom:0.8rem; line-height:0;}
+.footer-icons{display:flex; gap:0.9rem; color:var(--ink-soft); margin-top:1rem;}
