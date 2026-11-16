@@ -324,3 +324,14 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 
 .q-icon{display:block; color:var(--accent); margin-bottom:0.8rem; line-height:0;}
 .footer-icons{display:flex; gap:0.9rem; color:var(--ink-soft); margin-top:1rem;}
+
+/* ---------- Homepage "Three Ways" hover cards ---------- */
+.how-card{position:relative; overflow:hidden; text-decoration:none; color:inherit; padding-bottom:3.6rem; transition:transform .25s ease, border-color .25s ease;}
+.how-card:hover, .how-card:focus-visible{transform:translateY(-6px); border-color:var(--accent);}
+.how-overlay{position:absolute; left:0; right:0; bottom:0; background:var(--accent); color:var(--accent-ink); text-align:center; padding:0.95rem 1rem; font-size:13px; font-weight:500; letter-spacing:0.06em; transform:translateY(101%); transition:transform .25s ease;}
+.how-card:hover .how-overlay, .how-card:focus-visible .how-overlay{transform:translateY(0);}
+@media (hover:none){
+  .how-card{padding-bottom:0;}
+  .how-overlay{position:static; transform:none; margin:1.2rem -1.8rem 0; display:block;}
+}
+@media (prefers-reduced-motion:reduce){ .how-card, .how-overlay{transition:none;} .how-card:hover, .how-card:focus-visible{transform:none;} }
