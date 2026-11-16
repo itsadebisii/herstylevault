@@ -7,6 +7,7 @@ var DIGITALS = [
     name: 'Signature Style Report',
     tag: 'Digital · Instant',
     price: '$40', priceNote: 'one-time',
+    previews: [], /* sneak peek: [{src:'images/digitals/report-1.jpg', alt:'Sample report page'}, {src:'images/digitals/report-2-blur.jpg', alt:'Locked report page', locked:true}] */
     short: "16 quick questions, an optional photo, and a personalized digital report built from HerStyleVault's 12-season color and body-shape framework — your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> — in about 3 minutes',
     lead: "The Signature Style Report is a personalized digital color and body style analysis, built from the same professional styling knowledge HerStyleVault uses with real clients. No appointment, no waiting.",
@@ -35,6 +36,7 @@ var DIGITALS = [
     name: 'The Wardrobe Detox Guide',
     tag: 'Digital · Guide',
     price: '$19.99', priceNote: 'one-time',
+    previews: [],
     short: 'Tips and tricks to declutter your closet efficiently, yours to keep and reuse anytime.',
     headline: 'Declutter your closet, <em>efficiently</em>',
     lead: 'The Wardrobe Detox Guide is HerStyleVault’s tips-and-tricks method for decluttering your closet, written so you can use it again every season.',

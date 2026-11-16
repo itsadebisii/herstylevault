@@ -37,6 +37,7 @@
       '<p class="sub" style="margin-bottom:1.2rem;">' + p.lead + '</p>' +
       '<div class="price" style="margin-bottom:1rem;">' + p.price + ' <span>' + p.priceNote + '</span></div>' +
       '<a class="btn btn-primary" href="' + p.cta.href + '">' + p.cta.label + '</a><p class="meta">' + p.meta + '</p></div></div></section>';
+    if (p.previews && p.previews.length) h += '<section class="band wrap"><p class="eyebrow center">Sneak Peek</p><h2 class="heading center">A look <em>inside</em></h2><div class="peek"><div class="peek-frame"><img id="peekImg" alt=""><div class="peek-lock" id="peekLock" hidden><div class="peek-lock-box"><p>Pay ' + p.price + ' to continue</p><a class="btn btn-primary" href="' + p.cta.href + '">Unlock ' + p.name + '</a></div></div></div><div class="peek-nav"><button type="button" id="peekPrev" aria-label="Previous">\u2190</button><span id="peekCount"></span><button type="button" id="peekNext" aria-label="Next">\u2192</button></div><p class="peek-cap">Sample pages. Your own copy is built for you after you purchase.</p></div></section>';
     h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">What You Get</p><h2 class="heading center">Inside <em>' + p.name.replace(/^The /,'') + '</em></h2>' +
       '<ul class="includes-list">' + p.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul></section>';
     h += '<section class="band wrap"><p class="eyebrow center">How It Works</p><h2 class="heading center">Three <em>simple</em> steps</h2><div class="pkg-grid">' +
@@ -47,6 +48,13 @@
       p.faqs.map(function(f){ return '<div class="acc-item"><div class="acc-q" data-acc-toggle>' + f[0] + '<span class="acc-icon">+</span></div><div class="acc-a">' + f[1] + '</div></div>'; }).join('') + '</div></section>';
     if (others.length) h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">More From Vault Digitals</p><h2 class="heading center">You may also <em>like</em></h2><div class="vd-grid">' + others.map(digitalCard).join('') + '</div><div class="cta-row"><a class="compare-link" href="vault-digitals.html">See All Vault Digitals →</a></div></section>';
     main.innerHTML = h;
+    if (p.previews && p.previews.length) (function(){
+      var i = 0, img = document.getElementById('peekImg'), lock = document.getElementById('peekLock'), cnt = document.getElementById('peekCount');
+      function show(n){ i = Math.max(0, Math.min(p.previews.length - 1, n)); var v = p.previews[i]; img.src = v.src; img.alt = v.alt || ''; lock.hidden = !v.locked; cnt.textContent = (i + 1) + ' / ' + p.previews.length; document.getElementById('peekPrev').disabled = i === 0; document.getElementById('peekNext').disabled = i === p.previews.length - 1; }
+      document.getElementById('peekPrev').addEventListener('click', function(){ show(i - 1); });
+      document.getElementById('peekNext').addEventListener('click', function(){ show(i + 1); });
+      show(0);
+    })();
     if (window.initAccordions) initAccordions('.acc-item');
     window.scrollTo(0,0);
   }
