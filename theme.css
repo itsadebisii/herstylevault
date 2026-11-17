@@ -64,7 +64,7 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 .nav-toggle{display:none; align-items:center; justify-content:center; width:38px; height:38px; border:1px solid var(--line); background:none; border-radius:2px; cursor:pointer; font-size:16px; color:var(--ink);}
 .nav-right{display:flex; align-items:center; gap:0.8rem;}
 
-.btn{display:inline-block; font-family:var(--font-body); font-weight:500; font-size:13px; letter-spacing:0.06em; border-radius:2px; padding:0.8rem 1.6rem; text-decoration:none; cursor:pointer; white-space:nowrap; border:1px solid transparent;}
+.btn{display:inline-block; font-family:var(--font-body); font-weight:500; font-size:13px; letter-spacing:0.06em; border-radius:6px; padding:0.8rem 1.6rem; text-decoration:none; cursor:pointer; white-space:nowrap; border:1px solid transparent;}
 .btn-primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
 .btn-primary:hover{background:var(--accent-deep); border-color:var(--accent-deep);}
 .btn-secondary{background:transparent; color:var(--accent); border-color:var(--accent);}

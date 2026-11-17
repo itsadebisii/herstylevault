@@ -15,7 +15,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .wrap{max-width:900px;margin:0 auto;}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;color:var(--ink);}
 .topbar .brand{font-family:var(--font-display);font-weight:500;font-size:1.5rem;letter-spacing:0.03em;}
-.dl-btn{background:var(--ink);color:var(--accent-ink);border:none;padding:0.8rem 1.3rem;font:inherit;font-weight:500;letter-spacing:0.05em;cursor:pointer;border-radius:2px;}
+.dl-btn{background:var(--ink);color:var(--accent-ink);border:none;padding:0.8rem 1.3rem;font:inherit;font-weight:500;letter-spacing:0.05em;cursor:pointer;border-radius:6px;}
 .dl-btn:hover{background:var(--accent-deep);}
 .dl-btn[disabled]{opacity:0.6;cursor:wait;}
 .hint{color:var(--ink-soft);font-size:0.85rem;margin-bottom:1rem;line-height:1.6;}
@@ -25,13 +25,13 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 @keyframes spin{to{transform:rotate(360deg);}}
 .err-box{background:var(--bg);padding:2rem;max-width:560px;margin:2rem auto;line-height:1.7;}
 .err-box h2{font-family:var(--font-display);margin-bottom:0.6rem;}
-.retry-btn{margin-top:1rem;padding:0.7rem 1.2rem;border:1px solid var(--accent);background:transparent;cursor:pointer;font:inherit;}
+.retry-btn{border-radius:6px;margin-top:1rem;padding:0.7rem 1.2rem;border:1px solid var(--accent);background:transparent;cursor:pointer;font:inherit;}
 .prev-slot{position:relative;margin:0 auto 1.2rem;overflow:hidden;background:var(--bg);border:1px solid var(--line);}
 .prev-slot .pdf-page{transform-origin:top left;}
 .cta{background:var(--bg);border:1px solid var(--line);text-align:center;padding:2rem 1.4rem;margin-top:1.4rem;color:var(--ink);}
 .cta h3{font-family:var(--font-display);font-weight:500;font-weight:400;font-size:1.5rem;margin-bottom:0.5rem;}
 .cta p{font-size:0.9rem;line-height:1.7;margin-bottom:1rem;color:var(--ink-soft);}
-.cta a{display:inline-block;background:var(--ink);color:var(--accent-ink);padding:0.85rem 1.5rem;text-decoration:none;letter-spacing:0.05em;font-size:0.85rem;}
+.cta a{border-radius:6px;display:inline-block;background:var(--ink);color:var(--accent-ink);padding:0.85rem 1.5rem;text-decoration:none;letter-spacing:0.05em;font-size:0.85rem;}
 /* ===== PDF page engine (same pages as the stylist tools: 816 x 1056 px) ===== */
 #pdf-root{position:fixed;top:0;left:-99999px;width:816px;}
 .pdf-page{width:816px;height:1056px;background:#FAF9F6;padding:60px 64px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;color:#181716;position:relative;overflow:hidden;}
