@@ -42,7 +42,8 @@
       : i.image ? '<img src="' + i.image + '" alt="' + i.title + '">'
       : '<span class="look-ph">' + (i.type === 'Videos' ? '<i class="look-play"></i>' : '') + i.label + '</span>';
     return '<div class="look-tile" data-type="' + i.type + '"><div class="board-frame look-frame">' + media + '</div>' +
-      '<div class="board-name">' + i.title + '</div><p class="board-caption">' + i.caption + '</p></div>';
+      '<div class="board-name">' + i.title + '</div><p class="board-caption">' + i.caption + '</p>' +
+      '<p class="look-cta">Want looks like this for your exact proportions? <a href="services.html">Explore Services</a><span> · </span><a href="vault-digitals.html">Find your color season first</a></p></div>';
   }
   grid.innerHTML = LOOKBOOK.map(tile).join('');
   if (types.length > 1) {
