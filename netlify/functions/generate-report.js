@@ -8,7 +8,9 @@ const {
   joinList,
   buildColorNarrative,
   buildBodyNarrative,
-  proportionTipFor
+  proportionTipFor,
+  computeBodyShape,
+  computeIntensity
 } = require('./lib/knowledge');
 
 const ANTHROPIC_MODEL = 'claude-opus-5';
@@ -206,7 +208,7 @@ exports.handler = async (event) => {
   if (!sessionId) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing sessionId' }) };
   }
-  if (!answers || !answers.shape) {
+  if (!answers || (!answers.shape && !(answers.shoulderHip && answers.waistDef && answers.bustHip))) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing quiz answers' }) };
   }
 
@@ -237,6 +239,9 @@ exports.handler = async (event) => {
   }
 
   // --- Step 2: compute the factual season/shape data from the classifier. ---
+  // Shape comes from the three proportion answers; older quiz sessions that self-selected a shape still work.
+  if (answers.shoulderHip && answers.waistDef && answers.bustHip) { answers.shape = computeBodyShape(answers); }
+  answers.intensity = answers.shape ? computeIntensity(answers.shape, answers) : 'plain';
   const { key: seasonKey, axes } = getSeason(answers);
   const colorFacts = colorData[seasonKey];
   const extras = seasonExtras[seasonKey];
@@ -312,6 +317,12 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     colorAvoid: colorFacts.avoid,
     extras,
     bodyShapeKey: answers.shape,
+    intensity: answers.intensity,
+    bodyNarrative: buildBodyNarrative(answers, bodyFacts),
+    height: answers.height || 'average',
+    proportion: answers.proportion || 'balanced',
+    accessory: colorFacts.accessory,
+    bodyGuide: { tops: bodyFacts.tops || bodyFacts.necks || [], bots: bodyFacts.bots || [], acc: bodyFacts.acc || [], avd: bodyFacts.avd || [], fabGood: bodyFacts.fabGood, fabAvoid: bodyFacts.fabAvoid },
     bodyShapeLabel: bodyFacts.shape,
     bodyShapeDesc: bodyFacts.desc,
     bodyGoal: bodyFacts.goal,

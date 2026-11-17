@@ -98,7 +98,7 @@ function buildBodyNarrative(a,shapeData){
     out=`Shape comes from your overall proportions, not from which pieces fit off the rack or where weight lands first, since those vary a lot from person to person. Your shoulder-to-hip balance, waist definition and bust-to-hip proportion point to ${art} ${shapeName}, and that is what the recommendations below are built around.`;
   }
   out+=` You feel most confident in ${confText}, so every recommendation below is built to keep highlighting that.`;
-  const tip=proportionTipFor(key,a.height,a.proportion);if(tip){out+=` One more thing that's specific to you: ${tip}`;}
+  const tip=proportionTipFor(key,a.height,a.proportion);if(tip){out+=` One more thing that's specific to you: ${tip.charAt(0).toLowerCase()+tip.slice(1)}`;}
   return out;
 }
 
@@ -536,7 +536,60 @@ const bodyData = {
   inverted: { shape: 'Inverted Triangle Shape', desc: 'Broader shoulders and fuller bust with narrower hips.', goal: 'Balance the strong upper body by drawing attention downward and adding volume to hips and legs.', sils: ['Wide leg trousers with a simple top', 'A-line and flared skirts', 'Fit and flare dresses', 'Maxi skirts with volume'], tops: ['V-necks and scoop necks', 'Simple halter necks', 'Dark solid colors on top', 'Simple fitted tees with statement bottoms'], bots: ['Bold prints and bright colors on bottom', 'Wide leg and flared trousers', 'Full and A-line skirts'], acc: ['Long pendant necklaces', 'Hip bags and belt bags', 'Ankle boots and statement shoes'], avd: ['Boat necks and very wide necklines', 'Shoulder pads and puff sleeves', 'Strapless styles that emphasize shoulders'], fabGood: 'Flowy fabrics on the bottom — chiffon, georgette, flared denim. Simple structured fabrics on top.', fabAvoid: 'Stiff structured fabrics on top that add shoulder width.', shopKeywords: 'wide leg pants, flared trousers, A-line skirt, tiered skirt, bold print skirt, V-neck top' }
 };
 
+/* Body shape and intensity from the three proportion answers (same rules as the stylist tools). */
+function computeBodyShape(a){
+  const score={apple:0,pear:0,hourglass:0,rectangle:0,inverted:0};
+  // Pear is only possible when the hips really are wider than the shoulders.
+  const hipsWider=['hipsSlightlyWider','hipsMuchWider','hipsWiderShouldersFull'].indexOf(a.shoulderHip)>-1;
+  if(a.shoulderHip==='shouldersMuchWider')score.inverted+=2;
+  if(a.shoulderHip==='shouldersSlightlyWider')score.inverted+=2;
+  if(a.shoulderHip==='hipsMuchWider')score.pear+=2;
+  if(a.shoulderHip==='hipsSlightlyWider')score.pear+=2;
+  if(a.shoulderHip==='hipsWiderShouldersFull')score.pear+=1;
+  if(a.shoulderHip==='equal'){score.hourglass+=2;score.rectangle+=2;}
+  if(a.waistDef==='veryDefined'){score.hourglass+=2;score.inverted+=1;if(hipsWider)score.pear+=1;}
+  if(a.waistDef==='slightlyDefined'){score.inverted+=1;score.rectangle+=1;if(hipsWider)score.pear+=1;}
+  if(a.waistDef==='barelyDefined')score.rectangle+=2;
+  if(a.waistDef==='fullMidsection')score.apple+=3;
+  if(a.bustHip==='bustMuchLarger'){score.apple+=1;score.inverted+=1;}
+  if(a.bustHip==='bustSlightlyLarger'){score.apple+=1;score.inverted+=1;}
+  if(a.bustHip==='hipsMuchLarger')score.pear+=2;
+  if(a.bustHip==='hipsSlightlyLarger')score.pear+=2;
+  if(a.bustHip==='roughlyEqual'){score.hourglass+=2;score.rectangle+=2;}
+  if(a.bustHip==='fullBoth'){score.hourglass+=1;score.apple+=1;}
+  if(!hipsWider)score.pear=-1;
+  let best='hourglass',bestScore=-1;
+  const order=['hourglass','pear','inverted','apple','rectangle'];
+  order.forEach(k=>{if(score[k]>bestScore){bestScore=score[k];best=k;}});
+  return best;
+}
+
+function computeIntensity(shape,a){
+  if(shape==='pear'||shape==='hourglass'){
+    if(a.waistDef==='veryDefined')return 'defined';
+    if(a.waistDef==='slightlyDefined')return 'soft';
+    return 'plain';
+  }
+  if(shape==='inverted'){
+    if(a.shoulderHip==='shouldersMuchWider')return 'defined';
+    if(a.shoulderHip==='shouldersSlightlyWider')return 'soft';
+    return 'plain';
+  }
+  if(shape==='apple'){
+    if(a.waistDef==='fullMidsection')return 'defined';
+    if(a.waistDef==='barelyDefined')return 'plain';
+    return 'soft';
+  }
+  if(shape==='rectangle'){
+    const closeCount=(a.shoulderHip==='equal'?1:0)+(a.bustHip==='roughlyEqual'?1:0);
+    return closeCount===2?'defined':'soft';
+  }
+  return 'plain';
+}
+
 module.exports = {
+  computeBodyShape,
+  computeIntensity,
   computeColorAxes,
   getSeason,
   SEASON_FAMILY,

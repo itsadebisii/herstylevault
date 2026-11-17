@@ -137,14 +137,16 @@ const QUESTIONS = [
   { section: 'color', n: 6, of: 8, key: 'depth', type: 'depth' },
   { section: 'color', n: 7, of: 8, key: 'contrast', type: 'contrast' },
   { section: 'color', n: 8, of: 8, key: 'chroma', text: 'Do bright, saturated colors or soft, muted colors look better on you?', options: [opt('Bright, saturated colors','bright'), opt('Soft, muted colors','muted'), opt('Both look good','both')] },
-  { section: 'body', n: 1, of: 8, key: 'fit', text: 'When you shop, what fits better — tops or bottoms?', options: [opt('Tops fit better','tops'), opt('Bottoms fit better','bottoms'), opt('Both fit well','both'), opt('Neither fits great','neither')] },
-  { section: 'body', n: 2, of: 8, key: 'weight', text: 'When you gain weight, where do you notice it first?', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
-  { section: 'body', n: 3, of: 8, key: 'styleGrav', text: 'Are there styles you always gravitate toward?', options: [opt('Flowy and loose','flowy'), opt('Fitted and structured','fitted'), opt('Anything that defines the waist','waist'), opt('Oversized and relaxed','oversized')] },
-  { section: 'body', n: 4, of: 8, key: 'dressSep', text: 'Dresses or separates — what works better on you?', options: [opt('Dresses work better','dresses'), opt('Separates work better','separates'), opt('Both equally','both')] },
-  { section: 'body', n: 5, of: 8, key: 'conf', text: 'Where do you feel most confident in your body?', options: [opt('Shoulders / collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('Overall confident','overall')] },
-  { section: 'body', n: 6, of: 8, key: 'shape', type: 'shape' },
-  { section: 'body', n: 7, of: 8, key: 'height', text: "What's your height range?", options: [opt("Petite — under 5'4\"",'petite'), opt("Average — 5'4\" to 5'7\"",'average'), opt("Tall — 5'8\" and up",'tall')] },
-  { section: 'body', n: 8, of: 8, key: 'proportion', text: 'Do you have a longer torso or longer legs?', options: [opt('Longer torso','longTorso'), opt('Longer legs','longLegs'), opt('Pretty balanced','balanced')] }
+  { section: 'body', n: 1, of: 10, key: 'fit', text: 'When you shop, what fits better — tops or bottoms?', options: [opt('Tops fit better','tops'), opt('Bottoms fit better','bottoms'), opt('Both fit well','both'), opt('Neither fits great','neither')] },
+  { section: 'body', n: 2, of: 10, key: 'weight', text: 'When you gain weight, where do you notice it first?', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
+  { section: 'body', n: 3, of: 10, key: 'styleGrav', text: 'Are there styles you always gravitate toward?', options: [opt('Flowy and loose','flowy'), opt('Fitted and structured','fitted'), opt('Anything that defines the waist','waist'), opt('Oversized and relaxed','oversized')] },
+  { section: 'body', n: 4, of: 10, key: 'dressSep', text: 'Dresses or separates — what works better on you?', options: [opt('Dresses work better','dresses'), opt('Separates work better','separates'), opt('Both equally','both')] },
+  { section: 'body', n: 5, of: 10, key: 'conf', text: 'Where do you feel most confident in your body?', options: [opt('Shoulders / collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('Overall confident','overall')] },
+  { section: 'body', n: 6, of: 10, key: 'shoulderHip', text: 'How do your shoulders compare to your hips?', options: [opt('Shoulders noticeably wider than hips','shouldersMuchWider'), opt('Shoulders slightly wider than hips','shouldersSlightlyWider'), opt('Shoulders and hips about the same width','equal'), opt('Hips slightly wider than shoulders','hipsSlightlyWider'), opt('Hips noticeably wider than shoulders','hipsMuchWider'), opt('Hips wider, but shoulders full too','hipsWiderShouldersFull')] },
+  { section: 'body', n: 7, of: 10, key: 'waistDef', text: 'How defined is your waist?', options: [opt('Very defined, much smaller than bust and hips','veryDefined'), opt('Slightly defined','slightlyDefined'), opt('Barely any waist definition','barelyDefined'), opt('Full midsection, waist is the widest part','fullMidsection')] },
+  { section: 'body', n: 8, of: 10, key: 'bustHip', text: 'How does your bust compare to your hips?', options: [opt('Bust noticeably larger than hips','bustMuchLarger'), opt('Bust slightly larger than hips','bustSlightlyLarger'), opt('Bust and hips roughly equal','roughlyEqual'), opt('Hips slightly larger than bust','hipsSlightlyLarger'), opt('Hips noticeably larger than bust','hipsMuchLarger'), opt('Full bust and full hips, both prominent','fullBoth')] },
+  { section: 'body', n: 9, of: 10, key: 'height', text: "What's your height range?", options: [opt("Petite — under 5'4\"",'petite'), opt("Average — 5'4\" to 5'7\"",'average'), opt("Tall — 5'8\" and up",'tall')] },
+  { section: 'body', n: 10, of: 10, key: 'proportion', text: 'Do you have a longer torso or longer legs?', options: [opt('Longer torso','longTorso'), opt('Longer legs','longLegs'), opt('Pretty balanced','balanced')] }
 ];
 
 const SHAPE_SVGS = {
@@ -164,7 +166,7 @@ function veinsSvg(bg, stroke) {
   return `<svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="8" fill="${bg}"/><path d="M14 40 Q22 20 30 32 T48 18" fill="none" stroke="${stroke}" stroke-width="3" stroke-linecap="round" opacity="0.85"/></svg>`;
 }
 
-// Slide list: covers + all 16 questions + free text + photo + payment
+// Slide list: covers + all 18 questions + free text + photo + payment
 const SLIDES = ['name-cover', 'color-cover', ...QUESTIONS.filter(q => q.section === 'color').map((q, i) => i), 'body-cover', ...QUESTIONS.filter(q => q.section === 'body').map((q, i) => i), 'freetext', 'photo'];
 // Build a flat ordered list with proper indices into QUESTIONS
 const FLOW = [];
@@ -209,7 +211,7 @@ function render() {
       <div class="cover">
         <p class="cover-eyebrow">Signature Style Report</p>
         <h1 class="cover-title">Let's find <em>your</em> colors and shape</h1>
-        <p class="cover-sub">16 quick questions about your natural coloring and body, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
+        <p class="cover-sub">18 quick questions about your natural coloring and body, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
         <input type="text" class="nameinput" id="name-field" placeholder="What's your first name?" value="${name}">
         <div class="returning-toggle">
           <button type="button" class="returning-opt ${!returningClient ? 'sel' : ''}" id="first-time-btn">First time here</button>
@@ -248,6 +250,7 @@ function render() {
     html = `
       ${progressHtml()}
       <p class="meta">Optional, sharpens your read</p>
+      <p class="meta" style="margin-top:-0.3rem;">Your photo is sent to an AI service only to write your report, and HerStyleVault does not store it.</p>
       <p class="qtext">Add a clear, well-lit photo</p>
       <label class="upload-box" for="photo-field">
         <strong>${photoBase64 ? 'Photo added — tap to change' : 'Upload a photo'}</strong>
