@@ -2,13 +2,13 @@ const {
   getSeason,
   SEASON_FAMILY,
   archetypesBySeasonFamily,
-  proportionTips,
   colorData,
   seasonExtras,
   bodyData,
   joinList,
   buildColorNarrative,
-  buildBodyNarrative
+  buildBodyNarrative,
+  proportionTipFor
 } = require('./lib/knowledge');
 
 const ANTHROPIC_MODEL = 'claude-opus-5';
@@ -248,9 +248,7 @@ exports.handler = async (event) => {
 
   const family = SEASON_FAMILY[seasonKey];
   const archetype = (archetypesBySeasonFamily[family] || {})[answers.shape] || 'That Girl';
-  const proportionNote = (answers.height && answers.proportion && proportionTips[answers.height])
-    ? proportionTips[answers.height][answers.proportion]
-    : null;
+  const proportionNote = proportionTipFor(answers.shape, answers.height, answers.proportion) || null;
 
   const clientName = (name || 'there').trim();
 

@@ -77,7 +77,7 @@ function buildColorNarrative(a,axes,season){
     if(against.length)out+=` A couple of signals pointed the other way (${joinList(against.slice(0,2))}). That is common, because vein color and sun reaction are the least reliable parts of a quiz, so more weight goes to the metals and colors you know flatter you.`;
   }
   const extra=[contrastText?`that ${contrastText}`:'',chromaText?`that ${chromaText}`:''].filter(Boolean);
-  out+=extra.length?` Add ${joinList(extra)}, and the full picture points to one specific color type: ${season.label}. ${season.desc}`:` The full picture points to one specific color type: ${season.label}. ${season.desc}`;
+  out+=extra.length?` Add ${joinList(extra)}, and the full picture points to one specific color type: ${String(season.label).replace(/\s*✦/,'')}. ${season.desc}`:` The full picture points to one specific color type: ${String(season.label).replace(/\s*✦/,'')}. ${season.desc}`;
   return out;
 }
 function buildBodyNarrative(a,shapeData){
@@ -86,7 +86,7 @@ function buildBodyNarrative(a,shapeData){
   const confText={shoulders:'your shoulders and collarbone',waist:'your waist',legs:'your legs',bust:'your bust',overall:'your overall silhouette'}[a.conf]||'your best features';
   const shapeName=(shapeData.shape||'').replace(/^[^A-Za-z]+/,'');
   const key=shapeName.toLowerCase().split(' ')[0];
-  const art=/^[AEIOUaeiou]/.test(shapeName)?'an':'a';
+  const art=(/^[AEIOUaeiou]/.test(shapeName)||/^hour/i.test(shapeName))?'an':'a';
   const m=bodyMarkerMatch(key,a);
   let out;
   if(m.fit&&m.weight&&fitText&&weightText){
@@ -98,7 +98,7 @@ function buildBodyNarrative(a,shapeData){
     out=`Shape comes from your overall proportions, not from which pieces fit off the rack or where weight lands first, since those vary a lot from person to person. Your shoulder-to-hip balance, waist definition and bust-to-hip proportion point to ${art} ${shapeName}, and that is what the recommendations below are built around.`;
   }
   out+=` You feel most confident in ${confText}, so every recommendation below is built to keep highlighting that.`;
-  if(a.height&&a.proportion&&proportionTips[a.height]&&proportionTips[a.height][a.proportion]){out+=` One more thing that's specific to you: ${proportionTips[a.height][a.proportion]}`;}
+  const tip=proportionTipFor(key,a.height,a.proportion);if(tip){out+=` One more thing that's specific to you: ${tip}`;}
   return out;
 }
 
@@ -116,6 +116,23 @@ const proportionTips = {
   average: { longTorso: "High-rise bottoms and slightly cropped tops help balance a longer torso — a belt sitting right at your natural waist does a lot of the work here.", longLegs: "Midi and maxi lengths are especially flattering on you — you can wear proportions a lot of people can't pull off.", balanced: "You can wear nearly any hem length or rise comfortably — dress to the occasion rather than to the proportion." },
   tall: { longTorso: "Look for tops with a little extra body length and high-rise bottoms so the waistline doesn't sit too low on you.", longLegs: "Maxi lengths, wide-leg trousers and longline blazers all read intentional and elegant rather than overwhelming on your frame.", balanced: "Nearly every silhouette reads elongated and put-together on your frame — this is a genuine advantage, lean into it." }
 };
+// Height and proportion advice, adjusted where the general tip would clash with a shape's own guidance.
+const proportionOverrides={
+  apple:{
+    petite:{longTorso:"Keep hemlines at or just above the knee and reach for smooth, contoured-waist bottoms — this shortens the torso visually and lengthens the leg line, which matters most on a petite frame."},
+    average:{longTorso:"Contoured-waist bottoms and tops that end at the hip help balance a longer torso, and an open blazer or a long necklace adds a vertical line that does a lot of the work here."},
+    tall:{longTorso:"Look for tops with a little extra body length and contoured-waist bottoms so the waistline doesn't sit too low on you."}
+  },
+  inverted:{
+    tall:{longLegs:"Maxi lengths, wide-leg trousers and longline cardigans all read intentional and elegant rather than overwhelming on your frame."}
+  }
+};
+function proportionTipFor(shapeKey,height,proportion){
+  const o=proportionOverrides[shapeKey]&&proportionOverrides[shapeKey][height]&&proportionOverrides[shapeKey][height][proportion];
+  if(o)return o;
+  return(proportionTips[height]&&proportionTips[height][proportion])||'';
+}
+
 
 const colorData = {
   lightSpring: { undertone: 'Light Spring', label: 'Light Spring', desc: 'A warm undertone with light, delicate coloring. You glow in warm colors kept light and clear — not deep, not muted.', metal: 'Light Gold / Champagne — brighter gold reads better than antique or deep gold', neutrals: [{n:'Ivory',h:'#f5efe0'},{n:'Camel',h:'#d4b896'},{n:'Light Warm Gray',h:'#c9c0b3'},{n:'Soft Peach Beige',h:'#e8d4bc'}], signature: [{n:'Peach',h:'#f4a97f'},{n:'Coral',h:'#ef8354'},{n:'Light Aqua',h:'#8fd3c8'},{n:'Warm Yellow',h:'#f2c14e'},{n:'Apple Green',h:'#9bc25c'},{n:'Light Turquoise',h:'#6fc7c0'}], accents: [{n:'Champagne Gold',h:'#d9c48a'},{n:'Light Coral',h:'#f2967a'},{n:'Aqua',h:'#7fd4c9'}], accessory: 'Bags — camel, ivory, light tan. Shoes — warm nude, light tan, coral. Jewelry — light/champagne gold always. Belts — light tan leather.', patterns: ['Light warm florals and watercolor prints', 'Small-to-medium scale prints in warm, clear colors', 'Soft tropical or botanical prints', 'Avoid heavy, dark, or busy large-scale prints'], avoid: 'Black, deep burgundy, icy pastels, and gray — all too heavy or cool for this light warm palette.' },
@@ -532,5 +549,6 @@ module.exports = {
   bodyMarkerMatch,
   buildColorNarrative,
   buildBodyNarrative,
+  proportionTipFor,
   bodyData
 };
