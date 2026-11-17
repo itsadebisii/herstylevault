@@ -1,15 +1,193 @@
 const {
   getSeason,
-  getPremiumBucket,
   SEASON_FAMILY,
   archetypesBySeasonFamily,
   proportionTips,
   colorData,
-  premiumColorData,
-  bodyData
+  seasonExtras,
+  bodyData,
+  joinList,
+  buildColorNarrative,
+  buildBodyNarrative
 } = require('./lib/knowledge');
 
 const ANTHROPIC_MODEL = 'claude-opus-5';
+const AI_TIMEOUT_MS = 20000;
+
+// Phrases that make a report sound machine-written, plus any echo of the quiz wording.
+// Anything the model returns that matches is thrown away and replaced by the template version.
+const BANNED = /absolutely|stunning|\bicon\b|iconic|icon energy|unforgettable|elevate|game[- ]?changer|you selected|you chose|you picked|you told us|you said|based on (your|what you)|fabulous|gorgeous|obsessed|slay|bestie|queen|journey|embrace your|unlock your|chef's kiss|look no further|level up|stand out from the crowd|it's not (just )?[a-z ]+, it's/i;
+
+const wordCount = (t) => String(t || '').trim().split(/\s+/).filter(Boolean).length;
+const lcFirst = (t) => (t ? t.charAt(0).toLowerCase() + t.slice(1) : t);
+const cap = (t) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
+const stripEnd = (t) => String(t || '').trim().replace(/[.\s]+$/, '');
+
+const SYSTEM_PROMPT = `You are writing the personal section of a HerStyleVault Style Analysis. HerStyleVault is a personal styling business run by Adebisi in Boston, and this report is written as if Adebisi sat down and studied this one client.
+
+You are given the client's quiz answers and FIXED facts about her color season and body shape. The facts were produced by a tested classification system and are final. You never change them, add to them, or argue with them.
+
+Write ONLY these three things:
+1. "narrative": 110 to 160 words, plain text, no bullets, two short paragraphs at most. Explain why this season and this shape belong to this woman, the way a stylist would: by drawing a conclusion from the whole picture, not by reading her answers back to her. Name at most two small, specific details from her answers, woven in naturally (for example the metal she reaches for, or where she feels most confident), never as a list.
+2. "silhouettes": exactly 3 items copied EXACTLY, word for word, from the provided silhouette list. Each has a "reason": one sentence, 12 to 28 words, tied to something specific about her (a quiz answer, her height, her proportions, her free-text note).
+3. "avoidText": one sentence, 15 to 45 words, that combines the color-avoid facts and the body-avoid facts into natural, specific advice.
+
+VOICE
+- Warm, grounded, editorial and sure of itself. Plain words, concrete nouns, sentences of varied length. A stylist speaking to one person, not a brand speaking to an audience.
+- Second person ("you"). No hype, no flattery, no exclamation marks.
+- Use at most one em dash in the whole narrative. Prefer commas and full stops.
+
+NEVER WRITE
+- Hype or filler words: absolutely, stunning, gorgeous, iconic, icon energy, unforgettable, elevate, game-changer, fabulous, obsessed, slay, queen, journey, "unlock your", "embrace your", "look no further", "level up".
+- Echoes of the quiz: "You selected", "You chose", "You told us", "You said", "Based on your answers". Do not recite answers in the order she gave them.
+- The "it's not X, it's Y" construction, or three-item lists of adjectives used as decoration.
+- Horoscope language. You are explaining a result, not predicting one.
+
+CONFLICTING ANSWERS
+- If some of her answers point a different way from the result, do not apologize or hedge. Say plainly which signals carry the most weight (the metals that flatter her and the colors that wash her out, for color; her overall shoulder-to-hip and waist proportions, for shape) and move on with confidence.
+- Never call a quiz answer a "classic marker" of the shape unless it genuinely is one for that shape. Where weight sits and which pieces fit off the rack vary by person, so treat them as secondary to proportion.
+
+FACTS AND SAFETY
+- Never invent colors, hex codes, shade names, brands, measurements or styling rules. Use only the season and body data you are given.
+- Never assume her skin tone, body size, age or income. Do not describe her body in terms of weight.
+- If a photo is provided, you may mention visible color details (hair, skin undertone, contrast) to support the color reasoning. Do not comment on weight or age.
+- Respect any free-text note from her and answer it if it matters to the silhouettes or the avoid advice.
+
+OUTPUT
+Return ONLY a JSON object, no other text, in exactly this shape:
+{"narrative": "...", "silhouettes": [{"text": "...", "reason": "..."}, {"text": "...", "reason": "..."}, {"text": "...", "reason": "..."}], "avoidText": "..."}`;
+
+// ---------- Deterministic fallback ----------
+// Used when the AI call fails, times out, or returns something that fails validation.
+// Everything here is built from the fixed facts, so it cannot contradict the report.
+
+function fallbackNarrative(answers, axes, colorFacts, bodyFacts) {
+  const colorPart = buildColorNarrative(answers, axes, colorFacts);
+  const bodyPart = buildBodyNarrative(answers, bodyFacts);
+  return colorPart + ' ' + bodyPart;
+}
+
+function silhouetteReasons(sil, answers, bodyFacts) {
+  // Returns candidate reasons, most specific first. The caller picks the first one not already used.
+  const s = sil.toLowerCase();
+  const grav = answers.styleGrav;
+  const height = answers.height;
+  const goal = lcFirst(stripEnd(bodyFacts.goal));
+  const out = [];
+  if (grav === 'flowy' && /flow|a-line|maxi|wrap|fit and flare/.test(s)) out.push('You lean toward pieces with movement, and this one gives that ease a clear shape that suits your proportions.');
+  if (grav === 'fitted' && /fit|structured|wrap|belt|corset|bodycon|pencil/.test(s)) out.push('You like clothes that fit with intention, and this silhouette gives you structure exactly where it helps.');
+  if (grav === 'waist' && /waist|belt|wrap|fit and flare|peplum|corset/.test(s)) out.push('You reach for anything that defines the waist, and this silhouette does that in a way that works for your shape.');
+  if (answers.dressSep === 'dresses' && /dress/.test(s)) out.push('Dresses work well on you, so a silhouette already built to flatter your shape saves you the guesswork.');
+  if (answers.dressSep === 'separates' && /trouser|pant|skirt|top|jean/.test(s)) out.push('Separates work better on you, and this is a piece you can adjust and restyle one item at a time.');
+  if (height === 'petite' && /maxi|wide leg|volume/.test(s)) out.push('On a petite frame, keep the proportions clean and the hem or rise sharp, and this silhouette holds up well.');
+  if (height === 'tall' && /maxi|wide leg|longline|volume/.test(s)) out.push('Your height carries length and volume easily, which makes this a natural fit.');
+  if (answers.conf && /waist|belt|wrap|fit and flare|peplum|corset|empire/.test(s) && answers.conf === 'waist') out.push('You feel most confident in your waist, and this silhouette keeps it in view.');
+  out.push('It supports your styling goal: ' + goal + '.');
+  out.push('It works with your proportions and keeps the attention where you want it.');
+  out.push('It is one of the most dependable cuts for your shape and easy to repeat in different fabrics.');
+  return out;
+}
+
+function fallbackSilhouettes(answers, bodyFacts) {
+  const list = (bodyFacts.sils || []).slice();
+  // prefer silhouettes that match her stated preference, then fill in order
+  const grav = answers.styleGrav;
+  const prefers = (s) => {
+    const t = s.toLowerCase();
+    if (grav === 'flowy') return /flow|a-line|maxi|wrap/.test(t) ? 1 : 0;
+    if (grav === 'fitted') return /fit|structured|wrap|belt|corset|bodycon|pencil/.test(t) ? 1 : 0;
+    if (grav === 'waist') return /waist|belt|wrap|fit and flare|peplum|corset/.test(t) ? 1 : 0;
+    if (answers.dressSep === 'dresses') return /dress/.test(t) ? 1 : 0;
+    if (answers.dressSep === 'separates') return /trouser|pant|skirt|top|jean/.test(t) ? 1 : 0;
+    return 0;
+  };
+  const ranked = list.map((s, idx) => ({ s, idx, p: prefers(s) })).sort((a, b) => b.p - a.p || a.idx - b.idx).slice(0, 3);
+  const used = new Set();
+  return ranked.map((r) => {
+    const reason = silhouetteReasons(r.s, answers, bodyFacts).find((x) => !used.has(x));
+    used.add(reason);
+    return { text: r.s, reason };
+  });
+}
+
+function fallbackAvoid(colorFacts, bodyFacts) {
+  const colorBit = stripEnd(colorFacts.avoid);
+  const shapeBits = (bodyFacts.avd || []).slice(0, 3).map((x) => lcFirst(stripEnd(x)));
+  const colorSentence = 'In color, step back from ' + lcFirst(colorBit) + '.';
+  const shapeSentence = shapeBits.length ? ' In shape, skip ' + joinList(shapeBits) + '.' : '';
+  return colorSentence + shapeSentence;
+}
+
+// ---------- Validation of the AI response ----------
+
+function cleanSilhouettes(ai, bodyFacts) {
+  if (!Array.isArray(ai) || ai.length !== 3) return null;
+  const list = bodyFacts.sils || [];
+  const norm = (t) => String(t || '').trim().toLowerCase();
+  const out = [];
+  for (const item of ai) {
+    if (!item || typeof item.text !== 'string' || typeof item.reason !== 'string') return null;
+    const match = list.find((s) => norm(s) === norm(item.text)) || list.find((s) => norm(item.text).startsWith(norm(s)) || norm(s).startsWith(norm(item.text)));
+    if (!match) return null;
+    const w = wordCount(item.reason);
+    if (w < 6 || w > 45 || BANNED.test(item.reason)) return null;
+    out.push({ text: match, reason: item.reason.trim() });
+  }
+  if (new Set(out.map((o) => o.text)).size !== 3) return null;
+  return out;
+}
+
+function cleanNarrative(t) {
+  if (typeof t !== 'string') return null;
+  const w = wordCount(t);
+  if (w < 80 || w > 230 || BANNED.test(t)) return null;
+  const emDashes = (t.match(/—/g) || []).length;
+  if (emDashes > 2) return null;
+  return t.trim();
+}
+
+function cleanAvoid(t) {
+  if (typeof t !== 'string') return null;
+  const w = wordCount(t);
+  if (w < 8 || w > 80 || BANNED.test(t)) return null;
+  return t.trim();
+}
+
+async function askClaude(anthropicKey, userContent) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': anthropicKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: ANTHROPIC_MODEL,
+        max_tokens: 1200,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: userContent }]
+      }),
+      signal: controller.signal
+    });
+    if (!res.ok) {
+      console.error('Claude API error:', res.status, await res.text());
+      return null;
+    }
+    const data = await res.json();
+    const rawText = (data.content || []).map((b) => b.text || '').join('');
+    const m = rawText.match(/\{[\s\S]*\}/);
+    if (!m) return null;
+    return JSON.parse(m[0]);
+  } catch (e) {
+    console.error('Report generation error:', e && e.message);
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -61,7 +239,7 @@ exports.handler = async (event) => {
   // --- Step 2: compute the factual season/shape data from the classifier. ---
   const { key: seasonKey, axes } = getSeason(answers);
   const colorFacts = colorData[seasonKey];
-  const premiumFacts = premiumColorData[getPremiumBucket(axes)];
+  const extras = seasonExtras[seasonKey];
   const bodyFacts = bodyData[answers.shape];
 
   if (!colorFacts || !bodyFacts) {
@@ -76,29 +254,22 @@ exports.handler = async (event) => {
 
   const clientName = (name || 'there').trim();
 
-  // --- Step 3: ask Claude to write the personalized narrative, grounded in the facts above. ---
+  // --- Step 3: build the deterministic version first. It is always available. ---
+  const fallback = {
+    narrative: fallbackNarrative(answers, axes, colorFacts, bodyFacts),
+    silhouettes: fallbackSilhouettes(answers, bodyFacts),
+    avoidText: fallbackAvoid(colorFacts, bodyFacts)
+  };
+
+  // --- Step 4: ask Claude for the personal wording, grounded in the facts above. ---
+  // If the key is missing, the call fails, or the answer does not pass validation, the
+  // matching template field is used so a paid client always gets a complete report.
+  let ai = null;
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
-  if (!anthropicKey) {
-    return { statusCode: 500, body: JSON.stringify({ error: 'Server not configured (missing ANTHROPIC_API_KEY)' }) };
-  }
-
-  const systemPrompt = `You are writing a personalized color and body style report for HerStyleVault, a personal styling business. You are given the client's quiz answers and FIXED, ALREADY-DETERMINED facts about their color season and body shape — these facts came from a tested classification system, not from you, and must not be contradicted or second-guessed. Your job is ONLY to:
-1. Write a warm, specific "Why This Is You" narrative (120-180 words) that walks through the client's actual answers and shows how they add up to the given season and shape — the way a real stylist would explain their reasoning, including calling out and resolving any answers that seem to point in different directions.
-2. Pick exactly 3 items from the provided silhouette list that best fit this specific client, each with a one-sentence personalized reason tied to their actual answers (not generic).
-3. Write one combined "step back from" sentence merging the color-avoid and body-avoid facts into natural, specific advice.
-
-Rules:
-- Never invent colors, hex codes, or styling facts beyond what is provided — use only the given season and body data as ground truth.
-- Never assume the client is light-skinned, thin, or any specific body size. Do not use language that implies a "default" skin tone or body type. Speak to this specific person based on their specific answers.
-- If a photo is provided, you may reference visible details (skin undertone, hair color, general silhouette) to strengthen the narrative, but do not comment on weight, age, or make assumptions unrelated to color/style analysis.
-- Tone: warm, confident, personal — like a stylist who really looked at their answers, not a horoscope.
-- Respond with ONLY a JSON object, no other text, matching exactly this shape:
-{"narrative": "...", "silhouettes": [{"text": "...", "reason": "..."}, {"text": "...", "reason": "..."}, {"text": "...", "reason": "..."}], "avoidText": "..."}`;
-
-  const userContent = [];
-  userContent.push({
-    type: 'text',
-    text: `Client name: ${clientName}
+  if (anthropicKey) {
+    const userContent = [{
+      type: 'text',
+      text: `Client name: ${clientName}
 
 QUIZ ANSWERS:
 ${JSON.stringify(answers, null, 2)}
@@ -114,56 +285,23 @@ Shape description: ${bodyFacts.desc}
 Styling goal: ${bodyFacts.goal}
 ${proportionNote ? `Proportion note: ${proportionNote}` : ''}
 
-Available silhouette options to choose 3 from (pick the 3 that best fit this client's specific answers):
+Available silhouette options to choose 3 from (copy the text exactly):
 ${JSON.stringify(bodyFacts.sils)}
 
 Color avoid facts: ${colorFacts.avoid}
-Body avoid facts: ${JSON.stringify(bodyFacts.avd)}
-
-Style archetype name to weave in naturally if it fits: "${archetype}"`
-  });
-
-  if (photoBase64 && photoMediaType) {
-    userContent.push({
-      type: 'image',
-      source: { type: 'base64', media_type: photoMediaType, data: photoBase64 }
-    });
-  }
-
-  let aiJson;
-  try {
-    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: ANTHROPIC_MODEL,
-        max_tokens: 1200,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userContent }]
-      })
-    });
-
-    if (!claudeRes.ok) {
-      const errText = await claudeRes.text();
-      console.error('Claude API error:', errText);
-      return { statusCode: 502, body: JSON.stringify({ error: 'Report generation failed, please try again' }) };
+Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
+    }];
+    if (photoBase64 && photoMediaType) {
+      userContent.push({ type: 'image', source: { type: 'base64', media_type: photoMediaType, data: photoBase64 } });
     }
-
-    const claudeData = await claudeRes.json();
-    const rawText = (claudeData.content || []).map((b) => b.text || '').join('');
-    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('No JSON found in model response');
-    aiJson = JSON.parse(jsonMatch[0]);
-  } catch (e) {
-    console.error('Report generation error:', e);
-    return { statusCode: 502, body: JSON.stringify({ error: 'Report generation failed, please try again' }) };
+    ai = await askClaude(anthropicKey, userContent);
   }
 
-  // --- Step 4: merge AI narrative with fixed factual data and return. ---
+  const narrative = cleanNarrative(ai && ai.narrative);
+  const silhouettes = cleanSilhouettes(ai && ai.silhouettes, bodyFacts);
+  const avoidText = cleanAvoid(ai && ai.avoidText);
+
+  // --- Step 5: merge with fixed factual data and return. ---
   const report = {
     clientName,
     isReturning: !!returningClient,
@@ -174,15 +312,21 @@ Style archetype name to weave in naturally if it fits: "${archetype}"`
     neutrals: colorFacts.neutrals,
     signature: colorFacts.signature,
     colorAvoid: colorFacts.avoid,
+    extras,
     bodyShapeKey: answers.shape,
     bodyShapeLabel: bodyFacts.shape,
     bodyShapeDesc: bodyFacts.desc,
     bodyGoal: bodyFacts.goal,
     shopKeywords: bodyFacts.shopKeywords,
     archetype,
-    narrative: aiJson.narrative,
-    silhouettes: aiJson.silhouettes,
-    avoidText: aiJson.avoidText
+    narrative: narrative || fallback.narrative,
+    silhouettes: silhouettes || fallback.silhouettes,
+    avoidText: avoidText || fallback.avoidText,
+    generatedBy: {
+      narrative: narrative ? 'ai' : 'template',
+      silhouettes: silhouettes ? 'ai' : 'template',
+      avoidText: avoidText ? 'ai' : 'template'
+    }
   };
 
   return {
