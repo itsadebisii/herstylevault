@@ -10,10 +10,11 @@ var OFFERS = [
     includes: ['5 complete outfit builds', 'Color & body analysis', 'Personal style profile', 'Personalized shopping list with links', 'Your style guide, delivered 1–2 weeks after your final session'],
     steps: [
       ['Free consultation (first-time clients)', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
-      ['Three sessions', 'Up to 1 hour each. We review your analysis and first 3 outfits, then your revised looks plus outfits 4 and 5, then sign off on everything.'],
+      ['Three sessions', 'Up to 1 hour each, in person or virtual. We review your analysis and first 3 outfits, then your revised looks plus outfits 4 and 5, then sign off on everything.'],
       ['Your style guide', 'Delivered 1–2 weeks after your final session.']
     ],
     faqs: [
+      ['Is it virtual or in person?', 'Either. Virtual sessions use Google Meet or Zoom. In person means we meet face to face and I can work with the pieces you own to build your outfits. A full closet audit and shopping trips are part of The Full Reveal. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.'],
       ['Do I need a lot of clothes?', 'Not at all. Whether you have a full closet or just a few pieces, I work with what you have and identify exactly what is missing.'],
       ['How long does it take?', 'Your first session sits at least 1 week after you book, sessions are at least 1 week apart, and everything wraps within 60 days of your deposit.'],
       ['Do I buy the pieces myself?', 'Yes. You get a shopping list with links and you purchase the pieces yourself.']
@@ -29,11 +30,11 @@ var OFFERS = [
     includes: ['7 complete outfit builds', 'Full digital access to The Wardrobe Detox Guide', 'Personalized shopping list with links', 'Your style guide PDF, delivered 1–2 weeks after your final session'],
     steps: [
       ['Free consultation (first-time clients)', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
-      ['Four sessions', 'Session 1 is up to 2 hours: your analysis and first 3 outfits. Then up to 1 hour each: revised looks plus new outfits, and a final recap and sign-off.'],
+      ['Four sessions', 'In person or virtual. Session 1 is up to 2 hours: your analysis and first 3 outfits. Then up to 1 hour each: revised looks plus new outfits, and a final recap and sign-off.'],
       ['Your style guide', 'Delivered 1–2 weeks after your final session.']
     ],
     faqs: [
-      ['Is it virtual or in person?', 'Either. Virtual sessions use Google Meet or Zoom. In person is free of travel fees within 1 hour of Boston or Southern NH, and $25 for 1 to 2.5 hours.'],
+      ['Is it virtual or in person?', 'Either. Virtual sessions use Google Meet or Zoom. In person means we meet face to face and I can work with the pieces you own to build your outfits. A full closet audit and shopping trips are part of The Full Reveal. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.'],
       ['Do I buy the pieces myself?', 'Yes. You get a shopping list with links and you purchase the pieces yourself.'],
       ['What is The Wardrobe Detox Guide?', 'My tips-and-tricks method for decluttering your closet efficiently. You get full digital access with this package.']
     ],
@@ -54,7 +55,7 @@ var OFFERS = [
     faqs: [
       ['Who pays for the clothes?', 'You do. You pay each retailer directly at checkout. I never charge or hold payment on your behalf.'],
       ['Why are photos and video required?', 'Before and after photos and short video document your transformation and help build your style guide. Using them for marketing is always optional and separate.'],
-      ['Is it in person?', 'The closet audit, shopping trips and The Reveal are in person, free of travel fees within 1 hour of Boston or Southern NH and $25 for 1 to 2.5 hours.']
+      ['Is it in person?', 'Yes, every session is in person: the closet audit, the shopping trips and The Reveal. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.']
     ],
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
