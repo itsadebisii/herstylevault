@@ -3,7 +3,7 @@
 var OFFERS = [
   {
     slug: 'the-unlock', kind: 'package', name: 'The Unlock', tag: 'Private Styling Package',
-    from: '$225', fromNote: '/ package', meta: '3 sessions + free consultation',
+    from: '$225', fromNote: '/ package', meta: '3 sessions + free first-time consultation',
     short: '3 sessions, 5 complete outfit builds',
     headline: 'Find your style identity, <em>unlocked</em>',
     lead: 'Strip it back, find your style identity, and build five complete outfits around you.',
@@ -23,7 +23,7 @@ var OFFERS = [
   },
   {
     slug: 'the-vault-edit', kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
-    from: '$400', fromNote: '/ package', meta: '4 sessions + free consultation',
+    from: '$400', fromNote: '/ package', meta: '4 sessions + free first-time consultation',
     short: '4 sessions, 7 complete outfit builds',
     headline: 'Build a wardrobe with <em>purpose</em>',
     lead: 'Seven complete outfit builds, a personalized shopping list, and everything you need to keep your closet working for you.',
@@ -42,7 +42,7 @@ var OFFERS = [
   },
   {
     slug: 'the-full-reveal', kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
-    from: '$725', fromNote: '/ package', meta: '5 sessions + free consultation',
+    from: '$725', fromNote: '/ package', meta: '5 sessions + free first-time consultation',
     short: '5 sessions, 10 outfits, in-person shopping trips',
     headline: 'The full transformation, <em>in person</em>',
     lead: 'A closet audit, three real shopping trips together, and ten complete outfit builds, ending in a try-on reveal of every final look.',
