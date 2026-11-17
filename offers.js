@@ -14,10 +14,11 @@ var OFFERS = [
       ['Your style guide', 'Delivered 1–2 weeks after your final session.']
     ],
     faqs: [
-      ['Is it virtual or in person?', 'Either. Virtual sessions use Google Meet or Zoom. In person means we meet face to face and I can work with the pieces you own to build your outfits. A full closet audit and shopping trips are part of The Full Reveal. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.'],
+      ['Is it virtual or in person?', 'Either. Virtual sessions use Google Meet or Zoom. In person means we meet face to face and I can work with the pieces you own to build your outfits. A full closet audit and three shopping trips are part of The Full Reveal, and one guided shopping trip can be added to The Unlock or The Vault Edit. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.'],
       ['Do I need a lot of clothes?', 'Not at all. Whether you have a full closet or just a few pieces, I work with what you have and identify exactly what is missing.'],
       ['Can you include pieces I already own?', 'Yes. Before your first outfit session, send photos of 10 to 15 pieces you love or want worked into your outfits. I build with them wherever they fit and tell you what is missing. A full closet audit is part of The Full Reveal, and The Wardrobe Detox is available as a separate in-person service.'],
       ['How long does it take?', 'Your first session sits at least 1 week after you book, sessions are at least 1 week apart, and everything wraps within 60 days of your deposit.'],
+      ['Can I add a shopping trip?', 'Yes, in person only. One Guided Shopping Trip is available as an add-on for $100 (up to 2 hours). Shop retail, thrift or a mix, tied to your shopping list and budget. Travel fees apply. Three shopping trips are included in The Full Reveal.'],
       ['Do I buy the pieces myself?', 'Yes. You get a shopping list with links and you purchase the pieces yourself.']
     ],
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
@@ -35,8 +36,9 @@ var OFFERS = [
       ['Your style guide', 'Delivered 1–2 weeks after your final session.']
     ],
     faqs: [
-      ['Is it virtual or in person?', 'Either. Virtual sessions use Google Meet or Zoom. In person means we meet face to face and I can work with the pieces you own to build your outfits. A full closet audit and shopping trips are part of The Full Reveal. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.'],
+      ['Is it virtual or in person?', 'Either. Virtual sessions use Google Meet or Zoom. In person means we meet face to face and I can work with the pieces you own to build your outfits. A full closet audit and three shopping trips are part of The Full Reveal, and one guided shopping trip can be added to The Unlock or The Vault Edit. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.'],
       ['Can you include pieces I already own?', 'Yes. Before your first outfit session, send photos of 10 to 15 pieces you love or want worked into your outfits. I build with them wherever they fit and tell you what is missing. A full closet audit is part of The Full Reveal, and The Wardrobe Detox is available as a separate in-person service.'],
+      ['Can I add a shopping trip?', 'Yes, in person only. One Guided Shopping Trip is available as an add-on for $100 (up to 2 hours). Shop retail, thrift or a mix, tied to your shopping list and budget. Travel fees apply. Three shopping trips are included in The Full Reveal.'],
       ['Do I buy the pieces myself?', 'Yes. You get a shopping list with links and you purchase the pieces yourself.'],
       ['What is The Wardrobe Detox Guide?', 'My tips-and-tricks method for decluttering your closet efficiently. You get full digital access with this package.']
     ],
