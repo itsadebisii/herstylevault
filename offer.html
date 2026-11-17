@@ -35,8 +35,8 @@
     document.title = o.name + ' | HerStyleVault';
     var isSvc = o.kind === 'service';
     var cta = isSvc
-      ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a><p class="meta">Pay upfront \u00b7 No consultation needed</p>'
-      : '<a class="btn btn-primary" href="' + o.cta.href + '">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + '</p>';
+      ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a><p class="meta">Pay upfront \u00b7 No consultation needed \u00b7 <a href="policies.html">Read our policies</a></p>'
+      : '<a class="btn btn-primary" href="' + o.cta.href + '">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Read our policies</a></p>';
     var h = '<section class="band wrap"><p class="crumb"><a href="' + (isSvc ? 'services.html' : 'packages.html') + '">' + (isSvc ? '\u00c0 La Carte Services' : 'Private Styling Packages') + '</a> / ' + o.name + '</p>' +
       '<div class="digital-hero"><div class="digital-cover"><span>' + o.tag + '</span><strong>' + o.name + '</strong><em>' + (window.hsvIcon ? hsvIcon('hanger', 22) : '') + '</em></div><div>' +
       '<p class="eyebrow">' + o.tag + '</p><h1 class="page-title" style="margin-bottom:1rem;">' + o.headline + '</h1>' +
