@@ -15,7 +15,7 @@ var OFFERS = [
     ],
     faqs: [
       ['Do I need a lot of clothes?', 'Not at all. Whether you have a full closet or just a few pieces, I work with what you have and identify exactly what is missing.'],
-      ['How long does it take?', 'Your first session sits at least 1 week after you book, sessions are at least 1 week apart, and everything wraps within 90 days of your deposit.'],
+      ['How long does it take?', 'Your first session sits at least 1 week after you book, sessions are at least 1 week apart, and everything wraps within 60 days of your deposit.'],
       ['Do I buy the pieces myself?', 'Yes. You get a shopping list with links and you purchase the pieces yourself.']
     ],
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
