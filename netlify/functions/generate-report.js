@@ -10,7 +10,8 @@ const {
   buildBodyNarrative,
   proportionTipFor,
   computeBodyShape,
-  computeIntensity
+  computeIntensity,
+  computePersona
 } = require('./lib/knowledge');
 
 const ANTHROPIC_MODEL = 'claude-opus-5';
@@ -328,6 +329,8 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     bodyGoal: bodyFacts.goal,
     shopKeywords: bodyFacts.shopKeywords,
     archetype,
+    personaAnswered: !!(answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3),
+    persona: (answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3) ? computePersona(answers) : null,
     narrative: narrative || fallback.narrative,
     silhouettes: silhouettes || fallback.silhouettes,
     avoidText: avoidText || fallback.avoidText,

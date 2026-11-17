@@ -587,7 +587,75 @@ function computeIntensity(shape,a){
   return 'plain';
 }
 
+/* ----- Age-aware Style Persona (shared wording with the quiz and the stylist tools) ----- */
+/* ===== Style Persona (age-aware) =====
+   Inputs on the answers object: ageBracket ('18-24'|'25-34'|'35-44'|'45+'), pq1, pq2, pq3.
+   Output: { vibe, name, tagline, formula:[a,b,c], rule, fabricNote } */
+const PERSONA_VIBES = ['luxury','tailored','sleek','feminine','casual','bold','classic','sporty'];
+const PERSONA_TABLE = {
+  luxury:   { young:{name:'Rich Auntie in Training',tagline:'Never underdressed, always smells expensive, and already owns a trench coat you swear by.'},
+              mature:{name:'Certified Rich Auntie',tagline:'Never underdressed, always has the best coat in the room, and knows your tailor by first name.'},
+              formula:['Structured Trench or Blazer','Monochrome Knit Base','Pointed Toe & Gold Hardware'],
+              rule:'Permission granted to skip the logo. Quality shows in the cut and the fabric, so one great coat does more than three trendy pieces.' },
+  tailored: { young:{name:'Boardroom Baddie',tagline:"You look like you're running a Fortune 500 meeting even when you're just picking up an iced matcha."},
+              mature:{name:'Corner Office Chic',tagline:'You make a sharp blazer and tailored trousers look completely effortless, and you always mean business.'},
+              formula:['Sharp Tailored Blazer','Straight-Leg Trouser','Pointed Flat or Loafer'],
+              rule:"Permission granted to soften the blazer. Pair it with a silk top or a relaxed trouser, because sharp doesn't have to mean stiff." },
+  sleek:    { young:{name:'The Black Cat',tagline:'Sleek, magnetic, and effortlessly cool: you favor sharp silhouettes, dark neutrals, and pieces that speak without trying too hard.'},
+              mature:{name:'The Black Cat',tagline:'Sleek, magnetic, and effortlessly cool: you favor sharp silhouettes, dark neutrals, and pieces that speak without trying too hard.'},
+              formula:['Sharp-Shouldered Outerwear','Sleek Column Silhouette','Architectural Bag & Dark Lenses'],
+              rule:'Permission granted to add one color. All-dark works because of contrast in texture, so a single rich accent from your palette keeps it from reading flat.' },
+  feminine: { young:{name:'Coquette Couture',tagline:'You love flattering waistlines, soft textures, and dainty gold details that make everyday dressing feel special.'},
+              mature:{name:'Gilded Grace',tagline:'You gravitate toward fluid fabrics, sculpted silhouettes, and romantic details with a refined, grown-woman finish.'},
+              formula:['Fluid Midi or Soft Knit','Defined Waist','Dainty Gold Jewelry'],
+              rule:'Permission granted to skip the ruffle. Romantic can be a clean line and a soft fabric, and one delicate detail is enough.' },
+  casual:   { young:{name:'Denim Darling',tagline:'You make everyday jeans, a sleek tank, and the right bag look like a full styling session.'},
+              mature:{name:'Modern Muse',tagline:'You master relaxed luxury: great tailoring, soft knits, and clean lines that never look overdone.'},
+              formulaYoung:['Great-Fitting Straight Denim','Elevated Crisp Tank or Tee','Intentional Belt & Leather Tote'],
+              formulaMature:['Relaxed Tailored Trouser','Soft Knit Layer','Clean Leather Loafer'],
+              rule:'Permission granted to dress up the denim. Casual-chic comes from one polished element, so a sharp shoe or a structured bag finishes the look.' },
+  bold:     { young:{name:'Dress Code: Extra',tagline:'You were never meant to blend into the background. You own dramatic sleeves, bold prints, and statement heels with zero apologies.'},
+              mature:{name:'The Showstopper',tagline:'You dress to be remembered, embracing rich color, sculptural silhouettes, and standout pieces with complete confidence.'},
+              formula:['One Statement Piece: Sleeve, Print or Cut','Clean Neutral Base','Statement Heel or Bag'],
+              rule:"Permission granted to ignore 'less is more.' Your coloring and presence carry bold proportions, so when everyone else plays it safe in beige, you're meant to wear the color and the sleeve." },
+  classic:  { young:{name:'Chic & Coordinated',tagline:'You love a crisp matching set, a structured handbag, and polished pieces that take you straight from daytime plans to dinner.'},
+              mature:{name:'Polished Society',tagline:'You love a crisp matching set, structured leather, and classic silhouettes with a modern twist.'},
+              formula:['Crisp Matching Set','Structured Bag','Polished Flat or Heel'],
+              rule:'Permission granted to break up the set. Wear the blazer with jeans and the trousers with a tee, because matching is a starting point, not a rule.' },
+  sporty:   { young:{name:'Pilates Princess',tagline:'You live in matching sets, sleek sunglasses, and clean sneakers, and you always look put-together on the go.'},
+              mature:{name:'Off-Duty Luxe',tagline:'You elevate everyday comfort with sleek matching sets, structured outerwear, and crisp sneakers.'},
+              formula:['Sleek Matching Set','Structured Outerwear','Crisp Sneaker & Sleek Sunglasses'],
+              rule:'Permission granted to wear the sneaker with something structured. Athleisure looks luxe when one piece is tailored.' }
+};
+const PERSONA_FABRIC = { tailored:'Structured wovens', feminine:'Fluid silk and jersey', luxury:'Luxe knits and wool', casual:'Breathable cotton and denim', bold:'Sculptural and textured fabrics' };
+const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', allblack:'sleek', bold:'bold', set:'classic', sporty:'sporty' };
+const PQ2_VIBE = { tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold' };
+function computePersona(a){
+  a = a || {};
+  const score = {}; PERSONA_VIBES.forEach(v => score[v] = 0);
+  const v1 = PQ1_VIBE[a.pq1], v2 = PQ2_VIBE[a.pq2];
+  if (v1) score[v1] += 2;
+  if (v2) score[v2] += 2;
+  // Q3: monochrome -> sleek; matching set -> classic; outerwear -> luxury, or sporty when her default move is the athleisure set;
+  // one standout piece -> bold when either earlier answer was bold, otherwise casual
+  if (a.pq3 === 'mono') score.sleek += 1;
+  else if (a.pq3 === 'set') score.classic += 1;
+  else if (a.pq3 === 'outerwear') score[v1 === 'sporty' ? 'sporty' : 'luxury'] += 1;
+  else if (a.pq3 === 'standout') score[(v1 === 'bold' || v2 === 'bold') ? 'bold' : 'casual'] += 1;
+  let best = null;
+  const order = [v1, v2].concat(PERSONA_VIBES); // ties: default move first, then what sold her, then list order
+  order.forEach(v => { if (v && (best === null || score[v] > score[best])) best = v; });
+  if (!best) best = 'tailored';
+  const t = PERSONA_TABLE[best];
+  const mature = a.ageBracket === '35-44' || a.ageBracket === '45+';
+  const who = mature ? t.mature : t.young;
+  const formula = best === 'casual' ? (mature ? t.formulaMature : t.formulaYoung) : t.formula;
+  return { vibe: best, name: who.name, tagline: who.tagline, formula: formula.slice(), rule: t.rule, fabricNote: PERSONA_FABRIC[best] || '' };
+}
+
+
 module.exports = {
+  computePersona,
   computeBodyShape,
   computeIntensity,
   computeColorAxes,

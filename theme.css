@@ -1,7 +1,7 @@
 /* ===== HerStyleVault — shared editorial theme ===== */
 :root{
-  --bg:#FAF7F5; --surface:#F2ECE7; --ink:#1E1E1E; --ink-soft:#5C5552;
-  --line:#E5DDD8; --accent:#5E0B15; --accent-ink:#FAF7F5;
+  --bg:#FAF9F6; --surface:#EFECE6; --ink:#181716; --ink-soft:#6B6862;
+  --line:#DCD8D0; --accent:#7A1321; --accent-deep:#4E0B14; --accent-ink:#FAF9F6;
   --font-display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-body:'Plus Jakarta Sans', -apple-system, 'Segoe UI', sans-serif;
   color-scheme: light;
@@ -21,7 +21,7 @@ a{color:inherit;}
 .band.stone{background:var(--surface);}
 .band.cherry{background:var(--accent); color:var(--accent-ink);}
 .eyebrow{font-family:var(--font-body); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent); margin:0 0 0.9rem;}
-.band.cherry .eyebrow{color:rgba(250,247,245,0.75);}
+.band.cherry .eyebrow{color:rgba(250,249,246,0.75);}
 h1.page-title{font-family:var(--font-display); font-weight:400; font-size:clamp(2rem,5.6vw,52px); line-height:1.1; letter-spacing:-0.02em; margin:0 0 1.2rem; text-wrap:balance;}
 h1.page-title em, h2.heading em{font-style:italic; color:var(--accent);}
 .band.cherry h2.heading em{color:var(--accent-ink);}
@@ -34,7 +34,7 @@ h3.card-title{font-family:var(--font-display); font-weight:500; font-size:26px; 
 .price span{font-family:var(--font-body); font-size:12px; color:var(--ink-soft); letter-spacing:0.04em;}
 
 /* ---------- Header ---------- */
-header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; background:rgba(250,247,245,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; background:rgba(250,249,246,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
 .site-ticker.ticker{border-top:none; padding-block:0.55rem; border-bottom:1px solid var(--line);}
 .nav-inner{max-width:1180px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:1.1rem 0; gap:1rem;}
 .wordmark{font-family:var(--font-display); font-weight:500; font-size:1.3rem; color:var(--ink); text-decoration:none; letter-spacing:0.01em; white-space:nowrap;}
@@ -66,6 +66,7 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 
 .btn{display:inline-block; font-family:var(--font-body); font-weight:500; font-size:13px; letter-spacing:0.06em; border-radius:2px; padding:0.8rem 1.6rem; text-decoration:none; cursor:pointer; white-space:nowrap; border:1px solid transparent;}
 .btn-primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
+.btn-primary:hover{background:var(--accent-deep); border-color:var(--accent-deep);}
 .btn-secondary{background:transparent; color:var(--accent); border-color:var(--accent);}
 .btn-cream{background:var(--accent-ink); color:var(--accent); border-color:var(--accent-ink);}
 .btn-ghost{background:none; border:none; color:var(--ink-soft); text-decoration:underline; font-size:13px; padding:0;}
@@ -84,7 +85,7 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 .about-carousel .about-slide.active{opacity:1; position:relative;}
 .about-carousel .about-slide:not(.active){position:absolute;}
 .about-dots{position:absolute; bottom:0.9rem; left:0; right:0; display:flex; justify-content:center; gap:0.5rem; z-index:5;}
-.about-dot{width:7px; height:7px; border-radius:50%; background:rgba(250,247,245,0.55); border:1px solid rgba(30,30,30,0.25); cursor:pointer;}
+.about-dot{width:7px; height:7px; border-radius:50%; background:rgba(250,249,246,0.55); border:1px solid rgba(24,23,22,0.25); cursor:pointer;}
 .about-dot.active{background:var(--accent-ink); border-color:var(--accent);}
 
 /* ---------- ticker ---------- */
@@ -151,12 +152,12 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 .banner{background:var(--accent); color:var(--accent-ink); border-radius:4px; padding:clamp(2.2rem,5vw,3.4rem);}
 .banner-grid{display:grid; grid-template-columns:1.2fr 0.8fr; gap:2rem; align-items:center;}
 @media (max-width:760px){.banner-grid{grid-template-columns:1fr;}}
-.banner-tag{font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,247,245,0.75); margin-bottom:0.8rem;}
+.banner-tag{font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,249,246,0.75); margin-bottom:0.8rem;}
 .banner h2{font-family:var(--font-display); font-size:clamp(1.6rem,3vw,2.1rem); margin:0 0 0.8rem;}
-.banner p{font-size:15px; color:rgba(250,247,245,0.88); line-height:1.7; margin:0 0 1.4rem; max-width:52ch;}
-.banner-box{border:1px solid rgba(250,247,245,0.4); border-radius:4px; padding:1.6rem; text-align:center;}
+.banner p{font-size:15px; color:rgba(250,249,246,0.88); line-height:1.7; margin:0 0 1.4rem; max-width:52ch;}
+.banner-box{border:1px solid rgba(250,249,246,0.4); border-radius:4px; padding:1.6rem; text-align:center;}
 .banner-price{font-family:var(--font-display); font-weight:500; font-size:30px;}
-.banner-sub{font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(250,247,245,0.7); margin-bottom:1rem;}
+.banner-sub{font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(250,249,246,0.7); margin-bottom:1rem;}
 
 /* ---------- vault digitals card grid (dedicated page) ---------- */
 .vd-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.4rem;}
@@ -276,9 +277,9 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 .digital-hero{display:grid; grid-template-columns:0.8fr 1.2fr; gap:clamp(2rem,5vw,4rem); align-items:center;}
 @media (max-width:800px){.digital-hero{grid-template-columns:1fr;}}
 .digital-cover{background:var(--accent); color:var(--accent-ink); border:1px solid var(--accent); border-radius:4px; aspect-ratio:4/5; max-width:380px; width:100%; display:flex; flex-direction:column; justify-content:space-between; padding:1.6rem;}
-.digital-cover span{font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,247,245,0.75);}
+.digital-cover span{font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,249,246,0.75);}
 .digital-cover strong{font-family:var(--font-display); font-weight:400; font-size:clamp(1.8rem,3.4vw,2.4rem); line-height:1.1;}
-.digital-cover em{font-style:normal; color:rgba(250,247,245,0.75); font-size:18px;}
+.digital-cover em{font-style:normal; color:rgba(250,249,246,0.75); font-size:18px;}
 .meta{font-size:12.5px; color:var(--ink-soft); margin:0.9rem 0 0;}
 .includes-list{max-width:640px; margin:0 auto; padding-left:1.2rem; line-height:2; font-size:15px;}
 
@@ -301,7 +302,7 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 
 /* ---------- Service booking button + pop-up preview ---------- */
 .svc-book{display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-top:1.2rem;}
-.modal{position:fixed; inset:0; z-index:100; background:rgba(30,30,30,0.45); display:flex; align-items:center; justify-content:center; padding:16px;}
+.modal{position:fixed; inset:0; z-index:100; background:rgba(24,23,22,0.45); display:flex; align-items:center; justify-content:center; padding:16px;}
 .modal[hidden]{display:none;}
 .modal-panel{background:var(--bg); border:1px solid var(--line); border-radius:4px; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; padding:1.8rem; position:relative;}
 .modal-close{position:absolute; top:0.6rem; right:0.8rem; background:none; border:none; font-size:24px; line-height:1; color:var(--ink); cursor:pointer;}
@@ -340,7 +341,7 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 .peek{max-width:760px; margin:0 auto; text-align:center;}
 .peek-frame{position:relative; border:1px solid var(--line); border-radius:4px; aspect-ratio:16/9; overflow:hidden; background:var(--surface);}
 .peek-frame img{width:100%; height:100%; object-fit:contain; display:block;}
-.peek-lock{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:1rem; background:rgba(250,247,245,0.35);}
+.peek-lock{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:1rem; background:rgba(250,249,246,0.35);}
 .peek-lock[hidden]{display:none;}
 .peek-lock-box{background:var(--bg); border:1px solid var(--line); border-radius:4px; padding:1.3rem 1.5rem; max-width:300px;}
 .peek-lock-box p{font-family:var(--font-display); font-size:22px; margin:0 0 0.9rem; line-height:1.2;}
@@ -351,3 +352,21 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 
 .look-cta{font-size:12.5px; color:var(--ink-soft); margin:0.5rem 0 0; line-height:1.6;}
 .look-cta a{color:var(--accent); text-decoration:underline; text-underline-offset:3px;}
+
+
+/* ---------- Homepage lookbook blueprints + Meet Your Stylist ---------- */
+.board-sheet{flex-direction:column; align-items:stretch; justify-content:flex-start; padding:26px 24px 22px; gap:0.6rem; text-align:center;}
+.board-sheet .sh-eyebrow{font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin:0; font-weight:500; position:relative; z-index:1;}
+.sh-swatches{display:flex; justify-content:center; gap:10px; position:relative; z-index:1;}
+.sh-sw{display:flex; flex-direction:column; align-items:center; gap:3px;}
+.sh-sw i{display:block; width:30px; height:34px; border-radius:15px 15px 3px 3px; border:1px solid var(--line);}
+.sh-sw b{font-weight:500; font-size:8.5px; letter-spacing:0.04em; color:var(--ink-soft);}
+.sh-art{flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; z-index:1;}
+.sh-art svg{width:68%; max-height:100%; height:auto;}
+.sh-rule{display:block; width:36px; height:1px; background:var(--accent); margin-top:4px;}
+.sh-formula{list-style:none; margin:0; padding:0; text-align:left; position:relative; z-index:1; border-top:1px solid var(--line); padding-top:0.6rem;}
+.sh-formula li{font-family:var(--font-display); font-size:16px; line-height:1.25; color:var(--ink); padding:2px 0;}
+.sh-formula li span{display:block; font-family:var(--font-body); font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft);}
+.meet-grid{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(1.6rem,4vw,3.4rem); align-items:center; max-width:980px; margin:0 auto;}
+.meet-grid img{width:100%; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--line); border-radius:2px;}
+@media (max-width:760px){.meet-grid{grid-template-columns:1fr;}}
