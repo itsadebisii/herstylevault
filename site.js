@@ -32,7 +32,7 @@ const NAV_HTML = `${TICKER_HTML}
 </ul>
 <div class="nav-right">
 <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
-<a class="btn btn-primary" href="book.html">Book Free Consult</a>
+<a class="btn btn-primary" href="book.html">Book Now</a>
 </div>
 </div>`;
 
