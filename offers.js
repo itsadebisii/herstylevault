@@ -9,7 +9,7 @@ var OFFERS = [
     lead: 'Strip it back, find your style identity, and build five complete outfits around you.',
     includes: ['5 complete outfit builds', 'Color & body analysis', 'Personal style profile', 'Personalized shopping list with links', 'Your style guide, delivered 1–2 weeks after your final session'],
     steps: [
-      ['Free consultation', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
+      ['Free consultation (first-time clients)', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
       ['Three sessions', 'Up to 1 hour each. We review your analysis and first 3 outfits, then your revised looks plus outfits 4 and 5, then sign off on everything.'],
       ['Your style guide', 'Delivered 1–2 weeks after your final session.']
     ],
@@ -18,7 +18,7 @@ var OFFERS = [
       ['How long does it take?', 'Your first session sits at least 1 week after you book, sessions are at least 1 week apart, and everything wraps within 90 days of your deposit.'],
       ['Do I buy the pieces myself?', 'Yes. You get a shopping list with links and you purchase the pieces yourself.']
     ],
-    cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every package begins with a free consultation. No commitment.'
+    cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
     slug: 'the-vault-edit', kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
@@ -28,7 +28,7 @@ var OFFERS = [
     lead: 'Seven complete outfit builds, a personalized shopping list, and everything you need to keep your closet working for you.',
     includes: ['7 complete outfit builds', 'Full digital access to The Wardrobe Detox Guide', 'Personalized shopping list with links', 'Your style guide PDF, delivered 1–2 weeks after your final session'],
     steps: [
-      ['Free consultation', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
+      ['Free consultation (first-time clients)', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
       ['Four sessions', 'Session 1 is up to 2 hours: your analysis and first 3 outfits. Then up to 1 hour each: revised looks plus new outfits, and a final recap and sign-off.'],
       ['Your style guide', 'Delivered 1–2 weeks after your final session.']
     ],
@@ -37,7 +37,7 @@ var OFFERS = [
       ['Do I buy the pieces myself?', 'Yes. You get a shopping list with links and you purchase the pieces yourself.'],
       ['What is The Wardrobe Detox Guide?', 'My tips-and-tricks method for decluttering your closet efficiently. You get full digital access with this package.']
     ],
-    cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every package begins with a free consultation. No commitment.'
+    cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
     slug: 'the-full-reveal', kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
@@ -47,7 +47,7 @@ var OFFERS = [
     lead: 'A closet audit, three real shopping trips together, and ten complete outfit builds, ending in a try-on reveal of every final look.',
     includes: ['10 complete outfit builds', 'Full closet audit, done in person', 'Three in-person shopping trips', 'Full digital access to The Wardrobe Detox Guide', 'Follow-up check-in call included', 'Your style guide PDF, delivered 1–2 weeks after your final session', 'Before and after photos and short video, part of this package'],
     steps: [
-      ['Free consultation', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
+      ['Free consultation (first-time clients)', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
       ['Five sessions', 'Session 1 (up to 2 hours): the breakdown, closet audit and planning. Sessions 2 to 4 (up to 2–3 hours each): in-person shopping trips. Session 5 (up to 1 hour): The Reveal, trying on every final look together.'],
       ['Your style guide', 'Delivered 1–2 weeks after your final session.']
     ],
@@ -56,7 +56,7 @@ var OFFERS = [
       ['Why are photos and video required?', 'Before and after photos and short video document your transformation and help build your style guide. Using them for marketing is always optional and separate.'],
       ['Is it in person?', 'The closet audit, shopping trips and The Reveal are in person, free of travel fees within 1 hour of Boston or Southern NH and $25 for 1 to 2.5 hours.']
     ],
-    cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every package begins with a free consultation. No commitment.'
+    cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
     slug: 'occasion-edit', kind: 'service', name: 'Occasion Edit', tag: 'À La Carte Service', formKey: 'occasion',
