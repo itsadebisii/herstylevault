@@ -131,18 +131,17 @@ function digitalCard(p){
     '<p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
     '<p class="vd-desc">' + (p.short || '') + '</p>' +
     '<div class="vd-foot">' + (p.price ? '<span class="price">' + p.price + (p.priceNote ? ' <span>' + p.priceNote + '</span>' : '') + '</span>' : '<span></span>') +
-    (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-cta">View Details →</span>') + '</div></div>';
-  return soon ? '<div class="vd-card is-soon">' + inner + '</div>'
-              : '<a class="vd-card" href="digital.html#' + p.slug + '">' + inner + '</a>';
+    (soon ? '<span class="vd-badge">Coming Soon · See details →</span>' : '<span class="vd-cta">View Details →</span>') + '</div></div>';
+  return '<a class="vd-card' + (soon ? ' is-soon' : '') + '" href="digital.html#' + p.slug + '">' + inner + '</a>';
 }
 
 /* compact card for "More From Vault Digitals": small cover, title, price, hover "Discover" */
 function digitalMini(p){
   var soon = digitalSoon(p);
-  var inner = '<div class="vd-thumb">' + digitalCover(p) + (soon ? '' : '<span class="vd-hover" aria-hidden="true">Discover</span>') + '</div>' +
+  var inner = '<div class="vd-thumb">' + digitalCover(p) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
     '<div class="vd-mini-body"><p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
     '<p class="vd-mini-meta">' + (p.price ? '<span class="price">' + p.price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
-  return soon ? '<div class="vd-mini is-soon">' + inner + '</div>' : '<a class="vd-mini" href="digital.html#' + p.slug + '">' + inner + '</a>';
+  return '<a class="vd-mini' + (soon ? ' is-soon' : '') + '" href="digital.html#' + p.slug + '">' + inner + '</a>';
 }
 
 /* "See more" appears only when a card description is cut off by the 2-line limit */
