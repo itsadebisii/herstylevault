@@ -27,10 +27,10 @@ var DIGITALS = [
     coverSub: 'Color · Shape · Style',
     price: '$40', priceNote: 'one-time',
     previews: [
-      {src:'images/digitals/report-persona.jpg', alt:'Sample report page: your style persona and 3-piece formula'},
-      {src:'images/digitals/report-palette.jpg', alt:'Sample report page: your color palette with hex codes'},
+      {src:'images/digitals/report-persona.jpg', alt:'Sample report page: your style persona, 3-piece formula and color palette'},
+      {src:'images/digitals/report-color.jpg', alt:'Sample report page: your color type and accessory color guide'},
       {src:'images/digitals/report-body.jpg', alt:'Sample report page: body shape and styling goal'},
-      {src:'images/digitals/report-locked.jpg', alt:'Locked report page: silhouettes and shopping links', locked:true}
+      {src:'images/digitals/report-locked.jpg', alt:'Locked report page: silhouettes, shopping links and fabric guide', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "22 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',

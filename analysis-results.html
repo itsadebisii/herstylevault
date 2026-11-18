@@ -46,6 +46,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-h1 em{color:#7A1321;font-style:italic;}
 .pdf-section-label{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;font-weight:500;margin:1.3rem 0 0.5rem;}
 .pdf-box{background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;padding:1rem 1.3rem;margin-bottom:0.9rem;font-size:0.82rem;line-height:1.7;color:#3F3C38;}
+.pdf-two{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;}.pdf-blk-n{margin-top:20px;padding-top:20px;border-top:1px solid #DCD8D0;}.pdf-pal-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.9rem;}.pdf-pal-tag{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:500;}
 .pdf-list{list-style:none;padding:0;margin:0;}
 .pdf-list li{padding:0.35rem 0;font-size:0.82rem;line-height:1.55;color:#3F3C38;border-bottom:1px solid #DCD8D0;}
 .pdf-list li:last-child{border-bottom:none;}
@@ -187,28 +188,57 @@ function nordstromChips(r){
   const sig=r.signature.slice(0,5);
   return '<div class="pdf-chips">'+kws.map((k,i)=>{const q=sig[i%sig.length].n+' '+k;return '<a class="pdf-chip" data-href="https://www.nordstrom.com/sr?keyword='+encodeURIComponent(q)+'" href="https://www.nordstrom.com/sr?keyword='+encodeURIComponent(q)+'" target="_blank" rel="noopener">'+esc(q)+'</a>';}).join('')+'</div>';
 }
+/* ---- Tight layout: sections are measured and packed onto as few pages as fit, so no page is left half empty ---- */
+const PAGE_CAP=915, BLK_GAP=41; /* content height that fits above the footer; px added between stacked sections */
+function makeBlocks(r){
+  const sig=r.signature.slice(0,5),neu=r.neutrals.slice(0,3);
+  const season=String(r.seasonLabel||'');
+  const b={height:r.height,intensity:r.intensity};
+  const img=CROQ_CACHE[croqKey(r.bodyShapeKey,b)]||'';const CL=croqLabelPos(b);
+  const L=[];
+  if(r.personaAnswered&&r.persona){const ps=r.persona;L.push({key:'persona',label:'Style Persona',html:'<p class="pdf-section-label" style="margin-top:0;">Your Style Persona</p><div class="pdf-persona-name">'+esc(ps.name)+'</div><p class="pdf-persona-tag">'+esc(ps.tagline)+'</p><p class="pdf-section-label">Your 3-Piece Signature Formula</p><div class="pdf-formula">'+ps.formula.map((f,i)=>(i?'<span class="pdf-plus">+</span>':'')+'<div class="pdf-fbox"><span class="pdf-fnum">0'+(i+1)+'</span>'+esc(f)+'</div>').join('')+'</div><div class="pdf-rulebox"><p class="pdf-section-label" style="margin-top:0;">The Styling Rule You Can Break</p><p>'+esc(ps.rule)+'</p></div>'});}
+  L.push({key:'palette',label:'Color Palette',html:'<div class="pdf-pal-head"><h1 class="pdf-h1" style="margin:0;">Your <em>Palette</em></h1><span class="pdf-pal-tag">'+esc(season)+'</span></div><p class="pdf-section-label" style="margin-top:0;">Power Neutrals</p>'+arches(neu)+'<p class="pdf-section-label">Signature Colors</p>'+arches(sig)+'<p class="pdf-section-label">Metal Tone</p><div class="pdf-box">'+esc(r.metal)+'</div>'});
+  L.push({key:'colortype',label:'Color Analysis',html:'<div class="pdf-colorband"><p class="pdf-section-label">Color Type</p><h1>You\'re a <em>'+esc(season)+'</em></h1></div>'
+    +'<div class="pdf-box"><p class="pdf-section-label" style="margin-top:0;">Color Type Identified</p><h2 class="pdf-h1" style="font-size:1.25rem;">'+esc(season)+'</h2>'+esc(r.seasonDesc)+'</div>'
+    +'<p class="pdf-section-label">Why This Is You</p><div class="pdf-box">'+esc(r.narrative)+'</div>'});
+  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'});
+  L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div>'
+    +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p><div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div></div></div>'
+    +'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4))});
+  L.push({key:'silh',label:'Silhouettes & Shopping',html:'<h1 class="pdf-h1" style="margin-top:0;">Silhouettes &amp; <em>Shopping</em></h1><p class="pdf-section-label" style="margin-top:0;">Best Silhouettes For Your Shape</p>'+(r.silhouettes||[]).map(s=>'<div class="pdf-box" style="margin-bottom:0.7rem;"><strong>'+esc(s.text)+'</strong><br>'+esc(s.reason)+'</div>').join('')
+    +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live Nordstrom search, so results stay current.</p>'+nordstromChips(r)+'</div></div>'});
+  L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
+    +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
+  return L;
+}
+let LAYOUT=null;
+async function layoutPages(r){
+  const blocks=makeBlocks(r);
+  const host=document.createElement('div');host.className='pdf-page';host.style.cssText='position:absolute;left:-10000px;top:0;height:auto;overflow:visible;';
+  host.innerHTML=blocks.map(b=>'<div class="pdf-blk">'+b.html+'</div>').join('');document.body.appendChild(host);
+  try{
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await Promise.all([...host.querySelectorAll('img')].map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve()));
+    const kids=[...host.children];blocks.forEach((b,i)=>{b.h=kids[i].offsetHeight;});
+  }finally{host.remove();}
+  /* in-order packing: keep the reading order, start a new page only when the next section no longer fits */
+  const pages=[];let cur=[],used=0;
+  blocks.forEach(b=>{const need=cur.length?b.h+BLK_GAP:b.h;if(cur.length&&used+need>PAGE_CAP){pages.push(cur);cur=[b];used=b.h;}else{cur.push(b);used+=need;}});
+  if(cur.length)pages.push(cur);
+  window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ');
+  LAYOUT=pages.map(pg=>pg.map(b=>b.key));
+}
 function buildPages(r){
   const label='Signature Style Report';
   const today=new Date();const date=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const until=new Date(today.getTime()+45*86400000).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  const b={height:r.height,intensity:r.intensity};
-  const img=CROQ_CACHE[croqKey(r.bodyShapeKey,b)]||'';const CL=croqLabelPos(b);
-  const sig=r.signature.slice(0,5),neu=r.neutrals.slice(0,3);
-  const season=String(r.seasonLabel||'');
+  const blocks=makeBlocks(r),byKey={};blocks.forEach(b=>{byKey[b.key]=b;});
   const pages=[];
   pages.push(pdfPage('pdf-cover','<div class="pdf-logo">HerStyleVault</div><div class="pdf-pkg-pill">Signature Style Report</div><div class="pdf-client-name">'+esc(r.clientName)+'</div><div class="pdf-date">Prepared '+esc(date)+'</div>'));
-  if(r.personaAnswered&&r.persona){const ps=r.persona;pages.push(pdfPage('','<p class="pdf-section-label" style="margin-top:0;">Your Style Persona</p><div class="pdf-persona-name">'+esc(ps.name)+'</div><p class="pdf-persona-tag">'+esc(ps.tagline)+'</p><p class="pdf-section-label">Your 3-Piece Signature Formula</p><div class="pdf-formula">'+ps.formula.map((f,i)=>(i?'<span class="pdf-plus">+</span>':'')+'<div class="pdf-fbox"><span class="pdf-fnum">0'+(i+1)+'</span>'+esc(f)+'</div>').join('')+'</div><div class="pdf-rulebox"><p class="pdf-section-label" style="margin-top:0;">The Styling Rule You Can Break</p><p>'+esc(ps.rule)+'</p></div>'+pdfFoot(label+' — Style Persona')));}
-  pages.push(pdfPage('','<div class="pdf-colorband"><p class="pdf-section-label">Color Type</p><h1>You\'re a <em>'+esc(season)+'</em></h1></div>'
-    +'<div class="pdf-box"><p class="pdf-section-label" style="margin-top:0;">Color Type Identified</p><h2 class="pdf-h1" style="font-size:1.25rem;">'+esc(season)+'</h2>'+esc(r.seasonDesc)+'</div>'
-    +'<p class="pdf-section-label">Why This Is You</p><div class="pdf-box">'+esc(r.narrative)+'</div>'+pdfFoot(label+' — Color Analysis')));
-  pages.push(pdfPage('','<h1 class="pdf-h1">Your <em>Palette</em></h1><p class="pdf-section-label" style="margin-top:0;">Power Neutrals</p>'+arches(neu)+'<p class="pdf-section-label">Signature Colors</p>'+arches(sig)+'<p class="pdf-section-label">Metal Tone</p><div class="pdf-box">'+esc(r.metal)+'</div>'+pdfFoot(label+' — Color Palette')));
-  pages.push(pdfPage('','<h1 class="pdf-h1">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+'</div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div>'+pdfFoot(label+' — Color Guidance')));
-  pages.push(pdfPage('','<p class="pdf-section-label">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div>'
-    +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p><div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div></div></div>'
-    +'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4))+pdfFoot(label+' — Body Analysis')));
-  pages.push(pdfPage('','<h1 class="pdf-h1">Silhouettes &amp; <em>Shopping</em></h1><p class="pdf-section-label" style="margin-top:0;">Best Silhouettes For Your Shape</p>'+(r.silhouettes||[]).map(s=>'<div class="pdf-box" style="margin-bottom:0.7rem;"><strong>'+esc(s.text)+'</strong><br>'+esc(s.reason)+'</div>').join('')
-    +'<p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'<p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.78rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live Nordstrom search, so results stay current.</p>'+nordstromChips(r)+pdfFoot(label+' — Silhouettes')));
-  pages.push(pdfPage('','<h1 class="pdf-h1">Fabric, Avoid &amp; <em>Accessories</em></h1><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div><p class="pdf-section-label">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'<p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+pdfFoot(label+' — Fabric Guide')));
+  (LAYOUT||blocks.map(b=>[b.key])).forEach(keys=>{
+    const bs=keys.map(k=>byKey[k]);
+    pages.push(pdfPage('',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
+  });
   pages.push(pdfPage('pdf-closing','<div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
     +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 45 days (by '+esc(until)+'). One use, on your first package. Mention your report on your free consultation and it comes off your deposit invoice. It cannot be combined with other offers.</div>'
     +'<p style="font-size:0.9rem;color:#3F3C38;">Book your free consultation at<br><strong data-href="https://herstylevault.com/book.html">herstylevault.com/book.html</strong></p><p style="font-size:0.9rem;color:#3F3C38;margin-top:1rem;">With love,<br><strong>Adebisi</strong><br>HerStyleVault</p>'));
@@ -220,7 +250,7 @@ function fitPreviews(){
   document.querySelectorAll('.prev-slot').forEach(el=>{el.style.width=(816*s)+'px';el.style.height=(1056*s)+'px';el.firstElementChild.style.transform='scale('+s+')';});
 }
 async function renderReport(r){
-  REPORT=r;await prepCroq(r);
+  REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
   document.getElementById('app').innerHTML='<p class="hint">Your report is ready. Scroll through it here, or download the PDF to keep.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
     +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 45 days.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Fill Out Your Intake Form')+'</a></div>';
