@@ -41,7 +41,7 @@
     var others = all.filter(function(d){ return d !== p; });
     var assure = (p.meta || 'Instant delivery · One-time payment').split(' · ');
     var buy = soon
-      ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span><p class="meta">Not available yet. Check back soon.</p>'
+      ? (p.soonCta ? '<a class="btn btn-primary" href="' + p.soonCta.href + '">' + p.soonCta.label + '</a>' : '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>') + '<p class="meta">Not available to buy yet. Check back soon.</p>'
       : '<a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a><ul class="dg-assure">' + assure.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
 
     /* flipper slides: cover first, then any sneak-peek pages */
@@ -64,7 +64,7 @@
       '<div class="dg-hero">' + media +
       '<div class="dg-info"><p class="eyebrow">' + cat.eyebrow + '</p><h1 class="page-title">' + (p.headline || p.name) + '</h1>' +
       (p.lead ? '<p class="sub" style="margin-bottom:1rem;">' + p.lead + '</p>' : '') +
-      '<div class="dg-price"><span class="price">' + (p.price || '') + '</span>' + (p.priceNote ? '<span class="meta" style="margin:0;">' + p.priceNote + '</span>' : '') + '</div>' + buy +
+      (p.price ? '<div class="dg-price"><span class="price">' + p.price + '</span>' + (p.priceNote ? '<span class="meta" style="margin:0;">' + p.priceNote + '</span>' : '') + '</div>' : '<p class="dg-soon">' + (p.soonNote || 'Coming soon.') + '</p>') + buy +
       (acc.length ? '<div class="dg-acc">' + acc.join('') + '</div>' : '') + '</div></div></section>';
     if (others.length) h += '<section class="band stone dg-more wrap" style="border-radius:4px;"><div class="more-head"><div><p class="eyebrow">More From Vault Digitals</p><h2>You may also <em>like</em></h2></div><a class="compare-link" href="vault-digitals.html">See all \u2192</a></div><div class="vd-mini-grid">' + others.map(digitalMini).join('') + '</div></section>';
     main.innerHTML = h;

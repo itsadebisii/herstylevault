@@ -514,3 +514,8 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
 .vd-mini-meta .price{font-size:22px;}
 .vd-go{display:none; font-size:12px; font-weight:500; letter-spacing:0.06em; color:var(--accent);}
 @media (hover:none){.vd-go{display:inline;}}
+
+.hero-links{display:flex; flex-wrap:wrap; gap:0.6rem 1.8rem; margin-top:1.3rem; font-size:13px; font-weight:500; letter-spacing:0.03em;}
+.hero-links a{color:var(--ink); text-decoration:none; border-bottom:1px solid var(--accent); padding-bottom:2px; transition:color .2s ease;}
+.hero-links a:hover,.hero-links a:focus-visible{color:var(--accent);}
+.dg-soon{font-size:15px; color:var(--ink); margin:0.4rem 0 1.3rem; padding-left:0.9rem; border-left:2px solid var(--accent); max-width:52ch;}

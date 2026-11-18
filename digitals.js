@@ -12,6 +12,7 @@
      coverTone    optional 'stone' (Cool Stone) | 'noir' (Bordeaux Noir). Default: reports=stone, guides=noir
      coverSub     optional small line printed on the generated cover
      price, priceNote, short (keep to ~2 lines), headline (may use <em>), lead
+     soonNote, soonCta  optional, for status 'coming-soon': a line shown instead of the price, and a {label, href} button (e.g. mailto)
      includes[]   What's Inside bullets
      steps[]      How It Works: [title, text] pairs (2 to 4 work best)
      trust[]      Why It's Different: [title, text] pairs;  trustTitle optional heading (may use <em>)
@@ -60,9 +61,11 @@ var DIGITALS = [
     name: 'The Wardrobe Detox Guide',
     category: 'guides', status: 'coming-soon', /* switch to 'live' once the Stripe link is in cta.href */
     coverSub: 'Closet · Declutter · Reset',
-    price: '$19.99', priceNote: 'one-time',
+    price: '', /* add the price (e.g. '$24') when you set status to 'live' */
+    soonNote: 'Coming soon to buy on its own. Already included with The Vault Edit and The Full Reveal.',
+    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Guide%20updates' },
     previews: [],
-    short: 'Tips and tricks to declutter your closet efficiently, yours to keep and reuse anytime.',
+    short: 'A do-it-yourself closet declutter you can reuse every season. Included with The Vault Edit and The Full Reveal.',
     headline: 'Declutter your closet, <em>efficiently</em>',
     lead: 'The Wardrobe Detox Guide is HerStyleVault’s tips-and-tricks method for decluttering your closet, written so you can use it again every season.',
     includes: ['A clear method for decluttering your closet efficiently', 'Tips and tricks you can reuse anytime', 'A digital guide that is yours to keep'],
@@ -109,7 +112,7 @@ function digitalCard(p){
   var inner = '<div class="vd-media">' + digitalCover(p) + '</div><div class="vd-body">' +
     '<p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
     '<p class="vd-desc">' + (p.short || '') + '</p>' +
-    '<div class="vd-foot"><span class="price">' + (p.price || '') + (p.priceNote ? ' <span>' + p.priceNote + '</span>' : '') + '</span>' +
+    '<div class="vd-foot">' + (p.price ? '<span class="price">' + p.price + (p.priceNote ? ' <span>' + p.priceNote + '</span>' : '') + '</span>' : '<span></span>') +
     (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-cta">View Details →</span>') + '</div></div>';
   return soon ? '<div class="vd-card is-soon">' + inner + '</div>'
               : '<a class="vd-card" href="digital.html#' + p.slug + '">' + inner + '</a>';
@@ -120,6 +123,6 @@ function digitalMini(p){
   var soon = digitalSoon(p);
   var inner = '<div class="vd-thumb">' + digitalCover(p) + (soon ? '' : '<span class="vd-hover" aria-hidden="true">Discover</span>') + '</div>' +
     '<div class="vd-mini-body"><p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
-    '<p class="vd-mini-meta"><span class="price">' + (p.price || '') + '</span>' + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
+    '<p class="vd-mini-meta">' + (p.price ? '<span class="price">' + p.price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
   return soon ? '<div class="vd-mini is-soon">' + inner + '</div>' : '<a class="vd-mini" href="digital.html#' + p.slug + '">' + inner + '</a>';
 }

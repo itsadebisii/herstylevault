@@ -57,7 +57,10 @@ function joinList(arr){return arr.length<2?(arr[0]||''):arr.length===2?arr[0]+' 
 function bodyMarkerMatch(shape,a){
   // Which of the client's own answers are genuine classic markers for the shape we computed.
   const M={apple:{weight:['belly'],fit:['bottoms']},pear:{weight:['hips'],fit:['tops']},inverted:{weight:['upper'],fit:['bottoms']},hourglass:{weight:['hips','evenly'],fit:['both']},rectangle:{weight:['evenly'],fit:['both']}}[shape]||{weight:[],fit:[]};
-  return{weight:M.weight.indexOf(a.weight)>-1,fit:M.fit.indexOf(a.fit)>-1};
+  // weight can be several choices (or a single string from older sessions); only the ones that really mark this shape count
+  const picked=[].concat(a.weight||[]);
+  const hits=picked.filter(w=>M.weight.indexOf(w)>-1);
+  return{weight:hits.length>0,weightHits:hits,fit:M.fit.indexOf(a.fit)>-1};
 }
 function buildColorNarrative(a,axes,season){
   const sig=colorSignals(a);const u=axes.undertone;
@@ -82,12 +85,14 @@ function buildColorNarrative(a,axes,season){
 }
 function buildBodyNarrative(a,shapeData){
   const fitText={tops:'tops fit you better than bottoms',bottoms:'bottoms fit you better than tops',both:'both tops and bottoms fit you well',neither:"neither tops nor bottoms fit great off the rack right now"}[a.fit]||'';
-  const weightText={belly:'you carry weight first in your belly/midsection',hips:'you carry weight first in your hips and thighs',upper:'you carry weight first in your upper body and arms',evenly:'you carry weight evenly all over'}[a.weight]||'';
+  const weightWords={belly:'your belly/midsection',hips:'your hips and thighs',upper:'your upper body and arms'};
   const confText={shoulders:'your shoulders and collarbone',waist:'your waist',legs:'your legs',bust:'your bust',overall:'your overall silhouette'}[a.conf]||'your best features';
   const shapeName=(shapeData.shape||'').replace(/^[^A-Za-z]+/,'');
   const key=shapeName.toLowerCase().split(' ')[0];
   const art=(/^[AEIOUaeiou]/.test(shapeName)||/^hour/i.test(shapeName))?'an':'a';
   const m=bodyMarkerMatch(key,a);
+  const wHits=m.weightHits||[];
+  const weightText=wHits.indexOf('evenly')>-1&&wHits.length===1?'you carry weight evenly all over':wHits.length?'you notice weight first in '+joinList(wHits.map(w=>weightWords[w]||w)):'';
   let out;
   if(m.fit&&m.weight&&fitText&&weightText){
     out=`${fitText.charAt(0).toUpperCase()+fitText.slice(1)}, and ${weightText} — both classic markers of ${art} ${shapeName}.`;

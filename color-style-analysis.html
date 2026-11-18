@@ -111,7 +111,7 @@ const QUESTIONS = [
   { section: 'color', n: 7, of: 8, key: 'contrast', type: 'contrast' },
   { section: 'color', n: 8, of: 8, key: 'chroma', text: 'Do bright, saturated colors or soft, muted colors look better on you?', options: [opt('Bright, saturated colors','bright'), opt('Soft, muted colors','muted'), opt('Both look good','both')] },
   { section: 'body', n: 1, of: 10, key: 'fit', text: 'When you shop, what fits better — tops or bottoms?', options: [opt('Tops fit better','tops'), opt('Bottoms fit better','bottoms'), opt('Both fit well','both'), opt('Neither fits great','neither')] },
-  { section: 'body', n: 2, of: 10, key: 'weight', text: 'When you gain weight, where do you notice it first?', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
+  { section: 'body', n: 2, of: 10, key: 'weight', multi: true, text: 'When you gain weight, where do you notice it? Choose all that apply.', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
   { section: 'body', n: 3, of: 10, key: 'styleGrav', text: 'Are there styles you always gravitate toward?', options: [opt('Flowy and loose','flowy'), opt('Fitted and structured','fitted'), opt('Anything that defines the waist','waist'), opt('Oversized and relaxed','oversized')] },
   { section: 'body', n: 4, of: 10, key: 'dressSep', text: 'Dresses or separates — what works better on you?', options: [opt('Dresses work better','dresses'), opt('Separates work better','separates'), opt('Both equally','both')] },
   { section: 'body', n: 5, of: 10, key: 'conf', text: 'Where do you feel most confident in your body?', options: [opt('Shoulders / collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('Overall confident','overall')] },
@@ -322,7 +322,7 @@ function progressHtml() {
 
 function canAdvance() {
   const f = FLOW[step];
-  if (f.type === 'question') return !!A[f.q.key];
+  if (f.type === 'question') { const v = A[f.q.key]; return Array.isArray(v) ? v.length > 0 : !!v; }
   return true;
 }
 
@@ -494,7 +494,7 @@ function renderQuestion(q) {
       </div>`).join('')}</div>`;
   } else {
     body = `<div class="opts"${q.section === 'persona' ? ' style="grid-template-columns:1fr;"' : ''}>${q.options.map(o => `
-      <div class="opt ${A[q.key] === o.value ? 'sel' : ''}" data-key="${q.key}" data-val="${o.value}">${iconHtml(o.icon)}<span>${o.label}</span></div>`).join('')}</div>`;
+      <div class="opt ${(q.multi ? (A[q.key] || []).indexOf(o.value) > -1 : A[q.key] === o.value) ? 'sel' : ''}" data-key="${q.key}" data-val="${o.value}"${q.multi ? ' data-multi="1" role="checkbox" aria-checked="' + ((A[q.key] || []).indexOf(o.value) > -1) + '"' : ''}>${iconHtml(o.icon)}<span>${o.label}</span></div>`).join('')}</div>`;
   }
 
   return `
@@ -516,7 +516,18 @@ function questionTextForType(type) {
 function attachHandlers(f) {
   document.querySelectorAll('[data-key]').forEach(el => {
     el.addEventListener('click', () => {
-      A[el.dataset.key] = el.dataset.val;
+      if (el.dataset.multi) {
+        /* choose-all-that-apply: "evenly" is exclusive, anything else clears it */
+        const cur = Array.isArray(A[el.dataset.key]) ? A[el.dataset.key].slice() : [];
+        const v = el.dataset.val, at = cur.indexOf(v);
+        let next;
+        if (at > -1) { cur.splice(at, 1); next = cur; }
+        else if (v === 'evenly') { next = ['evenly']; }
+        else { next = cur.filter(x => x !== 'evenly'); next.push(v); }
+        A[el.dataset.key] = next;
+      } else {
+        A[el.dataset.key] = el.dataset.val;
+      }
       render();
     });
   });
