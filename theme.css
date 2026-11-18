@@ -535,3 +535,10 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
   .dg-media{position:static; max-width:520px; margin:0 auto;}
   .dg-info{position:static;}
 }
+
+/* Home hero on phones: the photo becomes a thick full-width banner above the intro text */
+@media (max-width:860px){
+  .hero{padding-top:0;}
+  .hero-grid{gap:1.6rem;}
+  .hero .photo-frame{order:-1; aspect-ratio:auto; height:clamp(230px,62vw,360px); width:calc(100% + 32px); margin-inline:-16px; border-radius:0; border-width:0 0 1px 0;}
+}
