@@ -55,7 +55,7 @@
 
     function item(title, body, open){ return '<div class="acc-item' + (open ? ' open' : '') + '"><div class="acc-q" data-acc-toggle>' + title + '<span class="acc-icon">+</span></div><div class="acc-a">' + body + '</div></div>'; }
     var acc = [];
-    if (list(p.includes)) acc.push(item('What\u2019s Inside', '<ul class="dg-list">' + p.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>', true));
+    if (list(p.includes)) acc.push(item('What\u2019s Inside', '<ul class="dg-list">' + p.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>'));
     if (list(p.steps)) acc.push(item('How It Works', '<ol class="dg-ol">' + p.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
     if (list(p.trust)) acc.push(item('Why It\u2019s Different', p.trust.map(function(t){ return '<p><b>' + t[0] + '.</b> ' + t[1] + '</p>'; }).join('')));
     if (list(p.faqs)) acc.push(item('FAQs', p.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
