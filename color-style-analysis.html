@@ -402,6 +402,7 @@ function render() {
         <p class="cover-sub">23 quick questions about your natural coloring, body and style, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
         <input type="text" class="nameinput" id="name-field" placeholder="First name" value="${name}" autocomplete="given-name">
         <input type="email" class="nameinput" id="email-field" placeholder="Email address" value="${email}" autocomplete="email">
+        <p class="field-note" style="font-size:12px;opacity:.7;margin:.2rem 0 .8rem;line-height:1.5;">By starting, you agree to receive your report and occasional style tips by email. Unsubscribe anytime.</p>
         <p class="field-err" id="start-err" style="display:none;">Please add your first name and a valid email so we can send your report.</p>
         <div class="returning-toggle">
           <button type="button" class="returning-opt ${!returningClient ? 'sel' : ''}" id="first-time-btn">First time here</button>
@@ -721,6 +722,7 @@ function attachHandlers(f) {
     name = (nf && nf.value.trim()) || '';
     email = (ef && ef.value.trim()) || '';
     if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { const er = document.getElementById('start-err'); if (er) er.style.display = 'block'; return; }
+    sendLead('started');
     step++; render();
   });
   const nextCoverBtn = document.getElementById('next-cover-btn');
@@ -776,14 +778,15 @@ function onNext() {
   render();
 }
 
-function sendLead() {
+function sendLead(stage) {
   // Fire-and-forget: never awaited, never throws, and skipped entirely when no webhook URL is set.
   try {
     if (!GOOGLE_SHEET_WEBHOOK_URL) return;
-    const p = computePersona(A);
+    let p = { vibe: '', name: '' };
+    try { if (A.ageBracket && A.pq1 && A.pq2 && A.pq3) p = computePersona(A); } catch (e) {}
     fetch(GOOGLE_SHEET_WEBHOOK_URL, {
       method: 'POST', mode: 'no-cors', keepalive: true,
-      body: JSON.stringify({ name, email, ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name, depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '', shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '', createdAt: new Date().toISOString() })
+      body: JSON.stringify({ stage: stage || 'payment', name, email, ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name, depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '', shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '', createdAt: new Date().toISOString() })
     }).catch(function () {});
   } catch (e) {}
 }
@@ -798,7 +801,7 @@ function submitAndPay() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, photoBase64: null, photoMediaType: null }));
     } catch (e2) {}
   }
-  sendLead();
+  sendLead('payment');
   window.location.href = STRIPE_LINK;
 }
 
