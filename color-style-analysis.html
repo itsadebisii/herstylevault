@@ -76,6 +76,41 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
 .spinner{width:34px;height:34px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin 0.9s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @media (max-width:480px){.opts{grid-template-columns:1fr;}.tone-opts{grid-template-columns:repeat(2,1fr);}.tri-opts,.shape-opts{grid-template-columns:repeat(2,1fr);}.notsure-wrap{max-width:100%;}}
+
+.vc{text-align:center;margin-bottom:1.6rem;}
+.vc-group{display:flex;gap:0.5rem;justify-content:center;margin:0 0 0.9rem;}
+.vc-gbtn{font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.45rem 0.85rem;border-radius:2px;cursor:pointer;}
+.vc-gbtn.on{border-color:var(--accent);color:var(--ink);background:var(--surface);font-weight:500;}
+.vc-frame{position:relative;}
+.vc-art{width:100%;height:300px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:4px;cursor:pointer;overflow:hidden;padding:1rem 3.1rem;user-select:none;-webkit-tap-highlight-color:transparent;}
+.vc-art:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.vc-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(250,249,246,0.95);color:var(--ink);font-size:1.05rem;cursor:pointer;}.vc-arrow[data-dir="-1"]{left:8px;}.vc-arrow[data-dir="1"]{right:8px;}
+.vc-arrow:hover{border-color:var(--ink);}
+.vc-count{font-size:0.7rem;letter-spacing:0.14em;color:var(--ink-soft);margin:0.7rem 0 0.4rem;}
+.vc-desc{font-family:var(--font-display);font-size:1.3rem;line-height:1.25;color:var(--ink);margin:0 0 0.9rem;min-height:3.3rem;display:flex;align-items:center;justify-content:center;}
+.vc-pick{font-family:var(--font-body);font-size:0.74rem;letter-spacing:0.12em;text-transform:uppercase;background:var(--bg);color:var(--ink);border:1px solid var(--ink);border-radius:2px;padding:0.8rem 1.8rem;cursor:pointer;min-width:200px;}
+.vc-pick.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+.vc-notsure{display:block;margin:0.7rem auto 0;font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.55rem 1.2rem;border-radius:2px;cursor:pointer;}
+.vc-notsure.on{border-color:var(--accent);color:var(--ink);background:var(--surface);font-weight:500;}
+.vc-sw{display:flex;gap:0.45rem;align-items:flex-end;justify-content:center;}
+.vc-arch{display:block;width:46px;height:56px;border-radius:23px 23px 4px 4px;border:3px solid #CDBBA8;background-clip:padding-box;}
+.vc-arch-xl{width:110px;height:132px;border-radius:55px 55px 6px 6px;}
+.vc-sw-demo .vc-arch{width:62px;height:84px;border-radius:31px 31px 5px 5px;}
+.vc-arch-q{display:flex;align-items:center;justify-content:center;background:transparent!important;border:2px dashed #CDBBA8;font-family:var(--font-display);font-size:2rem;color:var(--ink-soft);}
+.vc-foils{display:flex;align-items:center;justify-content:center;}
+.vc-foil{display:block;width:118px;height:118px;border-radius:50%;border:1px solid var(--line);box-shadow:inset 0 0 0 8px rgba(255,255,255,0.18);}
+.vc-foil.gold{background:linear-gradient(135deg,#f4e3a8 0%,#c9a24a 38%,#8a6a22 52%,#e9d28a 78%,#b5892f 100%);}
+.vc-foil.silver{background:linear-gradient(135deg,#f6f6f6 0%,#b9bcc1 38%,#7d8187 52%,#e3e5e8 78%,#a2a6ab 100%);}
+.vc-foil-q{display:flex;align-items:center;justify-content:center;border:2px dashed #CDBBA8;background:transparent;font-family:var(--font-display);font-size:2.6rem;color:var(--ink-soft);box-shadow:none;}
+.vc-icons{display:flex;gap:0.8rem;align-items:center;justify-content:center;width:100%;height:100%;}
+.vc-ic{flex:1;max-width:190px;height:100%;max-height:250px;display:flex;align-items:center;justify-content:center;}
+.vc-ic svg{width:100%;height:100%;}
+.vc-icons .vc-ic:only-child{max-width:210px;}
+.vc-croq{height:100%;display:flex;align-items:center;justify-content:center;}
+.vc-croq svg{height:100%;width:auto;max-width:100%;}
+.vc-vein{width:190px;height:190px;}
+.vc-vein svg{width:100%;height:100%;}
+@media (max-width:420px){.vc-art{height:270px;padding:0.7rem 2.8rem;}.vc-arrow{width:34px;height:34px;}}
 </style>
 </head>
 <body>
@@ -450,11 +485,126 @@ function iconHtml(ic) {
   return '';
 }
 
+
+/* ================= Visual-card carousels =================
+   Visual questions show one large card at a time: illustration on top, arrows (and tap on the art) to cycle,
+   a "1 / N" counter, the full option text underneath, and a button to pick the card that is showing. */
+const CAR = {};
+const ARCH = c => '<i class="vc-arch" style="background:' + c + '"></i>';
+const QMARK = '<i class="vc-arch vc-arch-q">?</i>';
+function artSw(colors) { return '<div class="vc-sw">' + colors.map(ARCH).join('') + '</div>'; }
+function artIcons(keys) { return '<div class="vc-icons">' + keys.map(k => '<div class="vc-ic">' + (ART_ICONS[k] || '') + '</div>').join('') + '</div>'; }
+function artCroq(m) { return '<div class="vc-croq">' + croquisSVG(m[0], { d: m[1] || 0, arrows: true, sw: 1.1 }) + '</div>'; }
+function artMetal(v) {
+  if (v === 'unsure') return '<div class="vc-foils"><i class="vc-foil vc-foil-q">?</i></div>';
+  if (v === 'both') return '<div class="vc-foils"><i class="vc-foil gold"></i><i class="vc-foil silver" style="margin-left:-28px"></i></div>';
+  return '<div class="vc-foils"><i class="vc-foil ' + v + '"></i></div>';
+}
+const COMP_SW = { warm: ['#e07a3f', '#8a5a35', '#5f7a3a', '#d9a05b'], cool: ['#4f6fb3', '#d98ab0', '#7a5fb0', '#8fb7d9'], neutral: ['#d8c8b0', '#f3f1ec', '#b8b8b8', '#8f8f8f'] };
+const WASH_SW = { warm: ['#e9a24f', '#d9732b', '#c9a24a', '#b5541f'], cool: ['#6b8fd4', '#9c7bd0', '#d98ab0', '#5fb3c9'], pale: ['#e8f1f7', '#eadff2', '#f6e9ee', '#e4f0ea'], none: ['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a'] };
+const CHROMA_SW = { bright: ['#e8283a', '#1e6fe0', '#f2c200', '#12a86b'], muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88'], both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0'] };
+const DEPTH_ITEMS = [
+  { value: 'fair', label: 'Fair / Light', hex: '#f2d3b8' }, { value: 'medium', label: 'Medium / Olive', hex: '#d9a877' },
+  { value: 'tan', label: 'Tan / Caramel', hex: '#a9713f' }, { value: 'deep', label: 'Deep / Rich', hex: '#5c3b23' }];
+const CONTRAST_SETS = {
+  deep: { label: 'Deeper skin tones', items: [
+    { value: 'high', colors: ['#e8e2d4', '#4a2e1c', '#241812'], label: 'High: light hair or eyes against deep skin' },
+    { value: 'medium', colors: ['#5c3d24', '#a9713f', '#3a2418'], label: 'Medium: some difference between tones' },
+    { value: 'low', colors: ['#241812', '#3a2418', '#2a1810'], label: 'Low: deep skin, dark hair and eyes blend' }] },
+  light: { label: 'Lighter skin tones', items: [
+    { value: 'high', colors: ['#241812', '#f2d3b8', '#3a2418'], label: 'High: dark hair against fair skin' },
+    { value: 'medium', colors: ['#6b5a48', '#e0b894', '#5a7a5a'], label: 'Medium: some difference between tones' },
+    { value: 'low', colors: ['#d4b483', '#f2d3b8', '#c9a074'], label: 'Low: fair skin, blonde hair blend softly' }] }
+};
+const VEIN_SETS = {
+  deep: { label: 'Deeper skin tones', bg: '#4a2e1c', strokes: { blue: '#7a8cd4', green: '#6bab6b', both: '#7c9c7c' } },
+  light: { label: 'Lighter skin tones', bg: '#f2d3b8', strokes: { blue: '#3a4a8c', green: '#3a6b3a', both: '#4a5c4a' } }
+};
+const VEIN_LABELS = { blue: 'Blue / Purple', green: 'Green', both: 'Mix of both' };
+const STYLE_ART = { flowy: ['wrap'], fitted: ['blazer'], waist: ['dressBelted'], oversized: ['coat'] };
+const SEP_ART = { dresses: ['dress'], separates: ['topV', 'trousers'], both: ['dress', 'trousers'] };
+const SH_MAP = { shouldersMuchWider: ['inverted', 2], shouldersSlightlyWider: ['inverted', 0], equal: ['rectangle', 0], hipsSlightlyWider: ['pear', 0], hipsMuchWider: ['pear', 2], hipsWiderShouldersFull: ['hourglass', 0] };
+const WD_MAP = { veryDefined: ['hourglass', 2], slightlyDefined: ['hourglass', 0], barelyDefined: ['rectangle', 0], fullMidsection: ['apple', 1] };
+const BH_MAP = { bustMuchLarger: ['inverted', 2], bustSlightlyLarger: ['inverted', 0], roughlyEqual: ['rectangle', 0], hipsSlightlyLarger: ['pear', 0], hipsMuchLarger: ['pear', 2], fullBoth: ['hourglass', -1] };
+const PQ1_ART = { blazer: ['blazer'], casual: ['tee', 'trousers'], feminine: ['dress'], allblack: ['coat'], bold: ['statement'], set: ['matching'], sporty: ['sneaker'] };
+const PQ2_ART = { tailored: ['blazer'], drape: ['wrap'], quality: ['bag'], effortless: ['tee', 'trousers'], drama: ['statement'] };
+const PQ3_ART = { mono: ['topV', 'trousers', 'bag'], set: ['matching'], outerwear: ['coat'], standout: ['statement', 'bag'] };
+function artProportion(v) {
+  const Y = CROQ_Y, crotch = v === 'longTorso' ? 152 : v === 'longLegs' ? 130 : 142;
+  const x = 93, tick = (y) => '<path d="M' + (x - 2) + ' ' + y + 'H' + (x + 2) + '" stroke="#7A1321" stroke-width=".6"/>';
+  const over = '<line x1="6" x2="94" y1="' + crotch + '" y2="' + crotch + '" stroke="#7A1321" stroke-width=".5" stroke-dasharray="1.6 1.4"/>'
+    + '<path d="M' + x + ' ' + Y.sh + 'V' + crotch + 'M' + x + ' ' + crotch + 'V' + Y.toe + '" stroke="#7A1321" stroke-width=".6"/>' + tick(Y.sh) + tick(crotch) + tick(Y.toe)
+    + '<text x="88" y="' + Math.round((Y.sh + crotch) / 2) + '" text-anchor="end" font-size="8" fill="#7A1321" font-family="Plus Jakarta Sans,sans-serif">Torso</text>'
+    + '<text x="88" y="' + Math.round((crotch + Y.toe) / 2) + '" text-anchor="end" font-size="8" fill="#7A1321" font-family="Plus Jakarta Sans,sans-serif">Legs</text>';
+  return '<div class="vc-croq">' + croquisSVG('rectangle', { sw: 1.1 }).replace('</svg>', over + '</svg>') + '</div>';
+}
+const VISUAL = {
+  jewelry: { art: (v) => artMetal(v) },
+  veins: { group: true, notSure: true, items: () => {
+    const g = VEIN_SETS[carGroup()];
+    return ['blue', 'green', 'both'].map(v => ({ value: v, label: VEIN_LABELS[v], art: '<div class="vc-vein">' + veinsSvg(g.bg, g.strokes[v]) + '</div>' }));
+  } },
+  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : artSw(COMP_SW[v]) },
+  wash: { art: (v) => artSw(WASH_SW[v]) },
+  depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div>' })) },
+  contrast: { group: true, items: () => CONTRAST_SETS[carGroup()].items.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw vc-sw-demo">' + o.colors.map(ARCH).join('') + '</div>' })) },
+  chroma: { art: (v) => artSw(CHROMA_SW[v]) },
+  styleGrav: { art: (v) => artIcons(STYLE_ART[v] || []) },
+  dressSep: { art: (v) => artIcons(SEP_ART[v] || []) },
+  shoulderHip: { art: (v) => artCroq(SH_MAP[v] || ['hourglass', 0]) },
+  waistDef: { art: (v) => artCroq(WD_MAP[v] || ['hourglass', 0]) },
+  bustHip: { art: (v) => artCroq(BH_MAP[v] || ['hourglass', 0]) },
+  proportion: { art: (v) => artProportion(v) },
+  pq1: { art: (v) => artIcons(PQ1_ART[v] || []) },
+  pq2: { art: (v) => artIcons(PQ2_ART[v] || []) },
+  pq3: { art: (v) => artIcons(PQ3_ART[v] || []) }
+};
+function carGroup() { return CAR._group || ((A.depth === 'fair' || A.depth === 'medium') ? 'light' : (A.depth ? 'deep' : 'light')); }
+function carItems(q) {
+  const cfg = VISUAL[q.key];
+  if (cfg.items) return cfg.items(q);
+  const opts = q.dynamic ? personaOptions(q.key) : q.options;
+  return opts.map(o => ({ value: o.value, label: o.label, art: cfg.art(o.value, o) }));
+}
+function carouselHtml(q) {
+  const cfg = VISUAL[q.key], items = carItems(q), cur = A[q.key];
+  let i = CAR[q.key];
+  if (i == null || i >= items.length) { i = Math.max(0, items.findIndex(x => x.value === cur)); }
+  CAR[q.key] = i;
+  const it = items[i], sel = cur === it.value;
+  const toggle = cfg.group ? '<div class="vc-group" role="group" aria-label="Skin tone group">' + ['light', 'deep'].map(g => '<button type="button" class="vc-gbtn ' + (carGroup() === g ? 'on' : '') + '" data-group="' + g + '">' + (g === 'deep' ? 'Deeper skin tones' : 'Lighter skin tones') + '</button>').join('') + '</div>' : '';
+  return '<div class="vc" data-q="' + q.key + '">' + toggle
+    + '<div class="vc-frame"><button type="button" class="vc-arrow" data-dir="-1" aria-label="Previous option">←</button>'
+    + '<div class="vc-art" data-cycle="1" role="button" tabindex="0" aria-label="Tap to see the next option">' + it.art + '</div>'
+    + '<button type="button" class="vc-arrow" data-dir="1" aria-label="Next option">→</button></div>'
+    + '<p class="vc-count">' + (i + 1) + ' / ' + items.length + '</p>'
+    + '<p class="vc-desc">' + it.label + '</p>'
+    + '<button type="button" class="vc-pick ' + (sel ? 'on' : '') + '" data-pick="' + it.value + '">' + (sel ? 'Selected ✓' : 'This is me') + '</button>'
+    + (cfg.notSure ? '<button type="button" class="vc-notsure ' + (cur === 'unsure' ? 'on' : '') + '" data-pick="unsure">' + (cur === 'unsure' ? 'Not sure ✓' : "Not sure / can't tell") + '</button>' : '')
+    + '</div>';
+}
+function attachCarousel() {
+  const root = document.querySelector('.vc'); if (!root) return;
+  const key = root.dataset.q, q = QUESTIONS.find(x => x.key === key), n = carItems(q).length;
+  const go = d => { CAR[key] = (CAR[key] + d + n) % n; render(); };
+  root.querySelectorAll('[data-dir]').forEach(b => b.addEventListener('click', () => go(parseInt(b.dataset.dir, 10))));
+  const art = root.querySelector('.vc-art');
+  art.addEventListener('click', () => go(1));
+  art.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); } });
+  let x0 = null;
+  art.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  art.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) { e.preventDefault(); go(dx < 0 ? 1 : -1); } });
+  root.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => { A[key] = b.dataset.pick; render(); }));
+  root.querySelectorAll('[data-group]').forEach(b => b.addEventListener('click', () => { CAR._group = b.dataset.group; render(); }));
+}
+
 function renderQuestion(q) {
   const sectionLabel = q.label || (q.section === 'color' ? 'Color' : q.section === 'persona' ? 'Style Persona' : 'Body & Style');
   let body = '';
 
-  if (q.type === 'depth') {
+  if (VISUAL[q.key]) {
+    body = carouselHtml(q);
+  } else if (q.type === 'depth') {
     const opts = [
       { v: 'fair', label: 'Fair / Light', hex: '#f2d3b8' },
       { v: 'medium', label: 'Medium / Olive', hex: '#d9a877' },
@@ -564,6 +714,7 @@ function attachHandlers(f) {
   if (backBtn) backBtn.addEventListener('click', () => { if (step > 0) { step--; render(); } });
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) nextBtn.addEventListener('click', onNext);
+  attachCarousel();
   const beginBtn = document.getElementById('begin-btn');
   if (beginBtn) beginBtn.addEventListener('click', () => {
     const nf = document.getElementById('name-field'), ef = document.getElementById('email-field');
