@@ -12,7 +12,9 @@ const {
   computeBodyShape,
   computeIntensity,
   computePersona,
-  buildShopLinks
+  buildShopLinks,
+  shopTier,
+  isMatureAge
 } = require('./lib/knowledge');
 
 const ANTHROPIC_MODEL = 'claude-opus-5';
@@ -25,6 +27,7 @@ const BANNED = /absolutely|stunning|\bicon\b|iconic|icon energy|unforgettable|el
 const wordCount = (t) => String(t || '').trim().split(/\s+/).filter(Boolean).length;
 const lcFirst = (t) => (t ? t.charAt(0).toLowerCase() + t.slice(1) : t);
 const cap = (t) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
+const COLOR_WORDS = /\b(black|white|navy|gr[ae]y|pastels?|neon|orange|burgundy|beige|camel|taupe|mauve|fuchsia|pink|red|blue|green|yellow|purple|brown|gold|silver|cream|ivory|rust|olive|teal|coral|peach|lavender|colors?)\b/i;
 const stripEnd = (t) => String(t || '').trim().replace(/[.\s]+$/, '');
 
 const SYSTEM_PROMPT = `You are writing the personal section of a HerStyleVault Style Analysis. HerStyleVault is a personal styling business run by Adebisi in Boston, and this report is written as if Adebisi sat down and studied this one client.
@@ -32,9 +35,9 @@ const SYSTEM_PROMPT = `You are writing the personal section of a HerStyleVault S
 You are given the client's quiz answers and FIXED facts about her color season and body shape. The facts were produced by a tested classification system and are final. You never change them, add to them, or argue with them.
 
 Write ONLY these three things:
-1. "narrative": 110 to 160 words, plain text, no bullets, two short paragraphs at most. Explain why this season and this shape belong to this woman, the way a stylist would: by drawing a conclusion from the whole picture, not by reading her answers back to her. Name at most two small, specific details from her answers, woven in naturally (for example the metal she reaches for, or where she feels most confident), never as a list.
+1. "narrative": 110 to 160 words, plain text, no bullets, two short paragraphs at most. Explain why this color type (her season) belongs to this woman, covering her coloring only. Do not mention her body shape, proportions or fit; a separate page covers that. Explain it the way a stylist would: by drawing a conclusion from the whole picture, not by reading her answers back to her. Name at most two small, specific details from her answers, woven in naturally (for example the metal she reaches for, or where she feels most confident), never as a list.
 2. "silhouettes": exactly 3 items copied EXACTLY, word for word, from the provided silhouette list. Each has a "reason": one sentence, 12 to 28 words, tied to something specific about her (a quiz answer, her height, her proportions, her free-text note).
-3. "avoidText": one sentence, 15 to 45 words, that combines the color-avoid facts and the body-avoid facts into natural, specific advice.
+3. "avoidText": one sentence, 15 to 45 words, naming the silhouettes, cuts and styles for her shape to step back from, based only on the body-avoid facts. Do not mention any colors; a separate card covers colors.
 
 VOICE
 - Warm, grounded, editorial and sure of itself. Plain words, concrete nouns, sentences of varied length. A stylist speaking to one person, not a brand speaking to an audience.
@@ -66,9 +69,8 @@ Return ONLY a JSON object, no other text, in exactly this shape:
 // Everything here is built from the fixed facts, so it cannot contradict the report.
 
 function fallbackNarrative(answers, axes, colorFacts, bodyFacts) {
-  const colorPart = buildColorNarrative(answers, axes, colorFacts);
-  const bodyPart = buildBodyNarrative(answers, bodyFacts);
-  return colorPart + ' ' + bodyPart;
+  // Color analysis only. Body-shape reasoning lives on its own page (bodyNarrative).
+  return buildColorNarrative(answers, axes, colorFacts);
 }
 
 function silhouetteReasons(sil, answers, bodyFacts) {
@@ -115,11 +117,9 @@ function fallbackSilhouettes(answers, bodyFacts) {
 }
 
 function fallbackAvoid(colorFacts, bodyFacts) {
-  const colorBit = stripEnd(colorFacts.avoid);
+  // Silhouettes and cuts only. Colors to avoid have their own card with swatches.
   const shapeBits = (bodyFacts.avd || []).slice(0, 3).map((x) => lcFirst(stripEnd(x)));
-  const colorSentence = 'In color, step back from ' + lcFirst(colorBit) + '.';
-  const shapeSentence = shapeBits.length ? ' In shape, skip ' + joinList(shapeBits) + '.' : '';
-  return colorSentence + shapeSentence;
+  return shapeBits.length ? 'Skip ' + joinList(shapeBits) + '.' : 'Skip anything boxy or shapeless that hides your proportions.';
 }
 
 // ---------- Validation of the AI response ----------
@@ -153,7 +153,7 @@ function cleanNarrative(t) {
 function cleanAvoid(t) {
   if (typeof t !== 'string') return null;
   const w = wordCount(t);
-  if (w < 8 || w > 80 || BANNED.test(t)) return null;
+  if (w < 8 || w > 80 || BANNED.test(t) || COLOR_WORDS.test(t)) return null;
   return t.trim();
 }
 
@@ -293,7 +293,6 @@ ${proportionNote ? `Proportion note: ${proportionNote}` : ''}
 Available silhouette options to choose 3 from (copy the text exactly):
 ${JSON.stringify(bodyFacts.sils)}
 
-Color avoid facts: ${colorFacts.avoid}
 Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     }];
     if (photoBase64 && photoMediaType) {
@@ -316,7 +315,9 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     metal: colorFacts.metal,
     neutrals: colorFacts.neutrals,
     signature: colorFacts.signature,
+    accents: colorFacts.accents,
     colorAvoid: colorFacts.avoid,
+    avoidSwatches: colorFacts.avoidSwatches || [],
     extras,
     bodyShapeKey: answers.shape,
     intensity: answers.intensity,
@@ -329,7 +330,10 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     bodyShapeDesc: bodyFacts.desc,
     bodyGoal: bodyFacts.goal,
     shopKeywords: bodyFacts.shopKeywords,
-    shopLinks: buildShopLinks(answers, (colorFacts.signature || []).slice(0,5), bodyFacts.shopKeywords),
+    shopLinks: buildShopLinks(answers, (colorFacts.signature || []).slice(0,6), bodyFacts.shopKeywords, colorFacts.neutrals, answers.shape),
+    shopTier: shopTier(answers),
+    ageBracket: answers.ageBracket || '',
+    matureAge: isMatureAge(answers),
     archetype,
     personaAnswered: !!(answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3),
     persona: (answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3) ? computePersona(answers) : null,
