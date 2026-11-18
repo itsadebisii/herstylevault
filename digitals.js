@@ -28,26 +28,26 @@ var DIGITALS = [
     price: '$40', priceNote: 'one-time',
     previews: [{src:'images/digitals/report-1.jpg', alt:'Sample report page: signature colors'}, {src:'images/digitals/report-2.jpg', alt:'Sample report page: color analysis'}, {src:'images/digitals/report-3-blur.jpg', alt:'Locked report page: body analysis', locked:true}], /* sneak peek pages (sample client) */
     short: "22 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
-    headline: 'Find your <em>colors</em> and your <em>shape</em> — in about 3 minutes',
-    lead: "The Signature Style Report is a custom-curated digital style blueprint, built from Adebisi's professional styling method — the same knowledge HerStyleVault uses with real clients. No appointment, no waiting.",
+    headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
+    lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
     includes: ['Your color season, identified from 12 seasons', 'Your body shape, identified from 5 shapes', 'Your palette and the colors to avoid', 'Your style persona, so your wardrobe sounds like you', 'Styling rules for your shape, written for your answers'],
     steps: [
-      ['Answer 22 Questions', "About your natural coloring and body — with visual examples for the trickier ones, so nothing's a guess."],
+      ['Answer 22 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
       ['Add a Photo', "Optional, but it sharpens your color and shape read. Skip it if you'd rather not."],
-      ['Get Your Report', 'Built from your answers in under a minute — your color season, body shape, and exactly what to wear.']
+      ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear.']
     ],
     trustTitle: 'Not a generic <em>quiz result</em>',
     trust: [
-      ['Real styling data, not guesses', 'Your color season and body shape are identified using the same tested color and body-shape system HerStyleVault uses with in-person clients — 12 color seasons, 5 body shapes, real palettes and real styling rules.'],
-      ['Written for you, not templated', 'A personalized digital report explaining exactly how your specific answers point to your result — including resolving any answers that seem to contradict each other, the way a real stylist would.']
+      ['Real styling data, not guesses', 'Your color season and body shape are identified using the same tested color and body-shape system HerStyleVault uses with in-person clients: 12 color seasons, 5 body shapes, real palettes and real styling rules.'],
+      ['Written for you, not templated', 'A personalized digital report explaining exactly how your specific answers point to your result, including resolving any answers that seem to contradict each other, the way a real stylist would.']
     ],
     faqs: [
       ['How long does it take?', 'About 3 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
-      ['Do I need to upload a photo?', "No — it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
-      ['Is this the same as booking a session?', 'No — this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
+      ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
+      ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
       ['What does it cost?', '$40, one-time. No subscription, no hidden extras.']
     ],
-    cta: { label: 'Start Your Analysis — $40', href: 'color-style-analysis.html' },
+    cta: { label: 'Start Your Analysis, $40', href: 'color-style-analysis.html' },
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
@@ -71,7 +71,7 @@ var DIGITALS = [
       ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The guide is the do-it-yourself version.'],
       ['Is it a physical product?', 'No. It is a digital guide, delivered instantly.']
     ],
-    cta: { label: 'Get The Wardrobe Detox Guide — $19.99', href: 'STRIPE_LINK_HERE' },
+    cta: { label: 'Get The Wardrobe Detox Guide, $19.99', href: 'STRIPE_LINK_HERE' },
     meta: 'Instant access · One-time payment'
   }
 ];

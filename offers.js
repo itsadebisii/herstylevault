@@ -48,7 +48,7 @@ var OFFERS = [
     slug: 'the-full-reveal', kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
     from: '$725', fromNote: '/ package', meta: '5 sessions + free first-time consultation',
     short: '5 sessions, 10 outfits, in-person shopping trips',
-    headline: 'The full transformation, <em>in person</em>',
+    headline: 'The full overhaul, <em>in person</em>',
     lead: 'A closet audit, three real shopping trips together, and ten complete outfit builds, ending in a try-on reveal of every final look.',
     includes: ['10 complete outfit builds', 'Full closet audit, done in person', 'Three in-person shopping trips', 'Full digital access to The Wardrobe Detox Guide', 'Follow-up check-in call included', 'Your style guide PDF, delivered 1–2 weeks after your final session', 'Before and after photos and short video, part of this package'],
     steps: [
@@ -58,7 +58,7 @@ var OFFERS = [
     ],
     faqs: [
       ['Who pays for the clothes?', 'You do. You pay each retailer directly at checkout. I never charge or hold payment on your behalf.'],
-      ['Why are photos and video required?', 'Before and after photos and short video document your transformation and help build your style guide. Using them for marketing is always optional and separate.'],
+      ['Why are photos and video required?', 'Before and after photos and short video document your progress and help build your style guide. Using them for marketing is always optional and separate.'],
       ['Is it in person?', 'Yes, every session is in person: the closet audit, the shopping trips and The Reveal. Travel is free within 1 hour of Boston or Southern NH, and $25 per in-person session for 1 to 2.5 hours.']
     ],
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
