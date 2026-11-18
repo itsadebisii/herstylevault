@@ -167,7 +167,7 @@ const QUESTIONS = [
   { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold','foil:gold'), opt('Silver','silver','foil:silver'), opt('Both equally','both','foil:both'), opt('Not sure','unsure')] },
   { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('Rarely in sun','neither')] },
   { section: 'color', n: 3, of: 8, key: 'veins', type: 'veins' },
-  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('Not sure','unsure')] },
+  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('All colors — I look good in everything','all'), opt('Not sure','unsure')] },
   { section: 'color', n: 5, of: 8, key: 'wash', text: 'Are there colors that wash you out?', options: [opt('Warm tones wash me out','warm'), opt('Cool tones wash me out','cool'), opt('Very pale / icy colors','pale'), opt('Nothing washes me out','none')] },
   { section: 'color', n: 6, of: 8, key: 'depth', type: 'depth' },
   { section: 'color', n: 7, of: 8, key: 'contrast', type: 'contrast' },
@@ -544,7 +544,7 @@ const VISUAL = {
     const g = VEIN_SETS[carGroup()];
     return ['blue', 'green', 'both'].map(v => ({ value: v, label: VEIN_LABELS[v], art: '<div class="vc-vein">' + veinsSvg(g.bg, g.strokes[v]) + '</div>' }));
   } },
-  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : artSw(COMP_SW[v]) },
+  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a']) : artSw(COMP_SW[v])) },
   wash: { art: (v) => artSw(WASH_SW[v]) },
   depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div>' })) },
   contrast: { group: true, items: () => CONTRAST_SETS[carGroup()].items.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw vc-sw-demo">' + o.colors.map(ARCH).join('') + '</div>' })) },
