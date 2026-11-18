@@ -27,13 +27,13 @@
 (function(){
   var main = document.getElementById('digitalMain');
   function list(a){ return a && a.length ? a : null; }
+  var plain = function(t){ return String(t || '').replace(/<[^>]*>/g, ''); };
   function render(){
     var slug = (location.hash || '').replace('#','');
     var all = visibleDigitals();
     var p = all.filter(function(d){ return d.slug === slug; })[0] || all[0];
     if (!p) { main.innerHTML = '<section class="band wrap"><p class="sub center" style="margin:0 auto;">Nothing here yet. <a href="vault-digitals.html">See Vault Digitals</a>.</p></section>'; return; }
     var cat = digitalCat(p), soon = digitalSoon(p), cta = p.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
-    var plain = function(t){ return String(t || '').replace(/<[^>]*>/g, ''); };
     document.title = p.name + ' | HerStyleVault';
     var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', plain(p.short || p.lead));
     var ogt = document.querySelector('meta[property="og:title"]'); if (ogt) ogt.setAttribute('content', p.name + ' | HerStyleVault');
@@ -43,26 +43,40 @@
     var buy = soon
       ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span><p class="meta">Not available yet. Check back soon.</p>'
       : '<a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a><ul class="dg-assure">' + assure.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
-    var peekHtml = list(p.previews) ? '<div class="peek"><p class="peek-label">Sneak Peek</p><div class="peek-frame"><img id="peekImg" alt=""><div class="peek-lock" id="peekLock" hidden><div class="peek-lock-box"><p>Pay ' + p.price + ' to continue</p><a class="btn btn-primary" href="' + cta.href + '">Unlock ' + p.name + '</a></div></div></div><div class="peek-nav"><button type="button" id="peekPrev" aria-label="Previous page">←</button><span id="peekCount"></span><button type="button" id="peekNext" aria-label="Next page">→</button></div><p class="peek-cap">Sample pages. Your own copy is built for you after you purchase.</p></div>' : '';
-    var h = '<section class="band wrap"><p class="crumb"><a href="vault-digitals.html">Vault Digitals</a> / ' + plain(p.name) + '</p>' +
-      '<div class="dg-hero"><div class="dg-media">' + digitalCover(p) + peekHtml + '</div>' +
+
+    /* flipper slides: cover first, then any sneak-peek pages */
+    var slides = [{ html: digitalCover(p) }].concat((p.previews || []).map(function(v){ return { img: v.src, alt: v.alt || '', locked: !!v.locked }; }));
+    var multi = slides.length > 1;
+    var media = '<div class="dg-media"><div class="dg-stage" id="dgStage">' + slides.map(function(s,i){
+        return '<div class="dg-slide-wrap" data-i="' + i + '"' + (i ? ' hidden' : '') + ' style="height:100%;">' + (s.html || ('<img class="dg-slide" src="' + s.img + '" alt="' + digitalAttr(s.alt) + '"' + (i ? ' loading="lazy"' : '') + '>')) + '</div>';
+      }).join('') +
+      (multi ? '<div class="peek-lock" id="dgLock" hidden><div class="peek-lock-box"><p>Pay ' + p.price + ' to continue</p><a class="btn btn-primary" href="' + cta.href + '">Unlock ' + p.name + '</a></div></div>' : '') + '</div>' +
+      (multi ? '<div class="dg-nav"><button type="button" id="dgPrev" aria-label="Previous page">\u2190</button><span id="dgCount"></span><button type="button" id="dgNext" aria-label="Next page">\u2192</button></div><p class="dg-cap">Flip through a sample. Your own copy is built for you after you purchase.</p>' : '') + '</div>';
+
+    function item(title, body, open){ return '<div class="acc-item' + (open ? ' open' : '') + '"><div class="acc-q" data-acc-toggle>' + title + '<span class="acc-icon">+</span></div><div class="acc-a">' + body + '</div></div>'; }
+    var acc = [];
+    if (list(p.includes)) acc.push(item('What\u2019s Inside', '<ul class="dg-list">' + p.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>', true));
+    if (list(p.steps)) acc.push(item('How It Works', '<ol class="dg-ol">' + p.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
+    if (list(p.trust)) acc.push(item('Why It\u2019s Different', p.trust.map(function(t){ return '<p><b>' + t[0] + '.</b> ' + t[1] + '</p>'; }).join('')));
+    if (list(p.faqs)) acc.push(item('FAQs', p.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
+
+    var h = '<section class="band wrap" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="vault-digitals.html">Vault Digitals</a> / ' + plain(p.name) + '</p>' +
+      '<div class="dg-hero">' + media +
       '<div class="dg-info"><p class="eyebrow">' + cat.eyebrow + '</p><h1 class="page-title">' + (p.headline || p.name) + '</h1>' +
       (p.lead ? '<p class="sub" style="margin-bottom:1rem;">' + p.lead + '</p>' : '') +
-      '<div class="dg-price"><span class="price">' + (p.price || '') + '</span>' + (p.priceNote ? '<span class="meta" style="margin:0;">' + p.priceNote + '</span>' : '') + '</div>' + buy + '</div></div></section>';
-    if (list(p.includes)) h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">What’s Inside</p><h2 class="heading center">Inside <em>' + plain(p.name).replace(/^The /,'') + '</em></h2><ul class="dg-list' + (p.includes.length > 5 ? ' cols' : '') + '">' + p.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul></section>';
-    if (list(p.steps)) h += '<section class="band wrap"><p class="eyebrow center">How It Works</p><h2 class="heading center">' + (['','One','Two','Three','Four'][Math.min(p.steps.length,4)] || '') + ' <em>simple</em> step' + (p.steps.length === 1 ? '' : 's') + '</h2><div class="dg-steps">' +
-      p.steps.map(function(s,i){ return '<div class="dg-step"><div class="dg-step-n">0' + (i+1) + '</div><h3>' + s[0] + '</h3><p>' + s[1] + '</p></div>'; }).join('') + '</div></section>';
-    if (list(p.trust)) h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">Why It’s Different</p><h2 class="heading center">' + (p.trustTitle || 'Not just <em>another download</em>') + '</h2><div class="dg-why">' +
-      p.trust.map(function(t){ return '<div><h3>' + t[0] + '</h3><p>' + t[1] + '</p></div>'; }).join('') + '</div></section>';
-    if (list(p.faqs)) h += '<section class="band wrap"><p class="eyebrow center">FAQs</p><h2 class="heading center">Before you <em>start</em></h2><div class="acc-grid">' +
-      p.faqs.map(function(f){ return '<div class="acc-item"><div class="acc-q" data-acc-toggle>' + f[0] + '<span class="acc-icon">+</span></div><div class="acc-a">' + f[1] + '</div></div>'; }).join('') + '</div></section>';
-    if (others.length) h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">More From Vault Digitals</p><h2 class="heading center">You may also <em>like</em></h2><div class="vd-grid">' + others.map(digitalCard).join('') + '</div><div class="cta-row"><a class="compare-link" href="vault-digitals.html">See All Vault Digitals →</a></div></section>';
+      '<div class="dg-price"><span class="price">' + (p.price || '') + '</span>' + (p.priceNote ? '<span class="meta" style="margin:0;">' + p.priceNote + '</span>' : '') + '</div>' + buy +
+      (acc.length ? '<div class="dg-acc">' + acc.join('') + '</div>' : '') + '</div></div></section>';
+    if (others.length) h += '<section class="band stone dg-more wrap" style="border-radius:4px;"><div class="more-head"><div><p class="eyebrow">More From Vault Digitals</p><h2>You may also <em>like</em></h2></div><a class="compare-link" href="vault-digitals.html">See all \u2192</a></div><div class="vd-mini-grid">' + others.map(digitalMini).join('') + '</div></section>';
     main.innerHTML = h;
-    if (list(p.previews)) (function(){
-      var i = 0, img = document.getElementById('peekImg'), lock = document.getElementById('peekLock'), cnt = document.getElementById('peekCount');
-      function show(n){ i = Math.max(0, Math.min(p.previews.length - 1, n)); var v = p.previews[i]; img.src = v.src; img.alt = v.alt || ''; lock.hidden = !v.locked; cnt.textContent = (i + 1) + ' / ' + p.previews.length; document.getElementById('peekPrev').disabled = i === 0; document.getElementById('peekNext').disabled = i === p.previews.length - 1; }
-      document.getElementById('peekPrev').addEventListener('click', function(){ show(i - 1); });
-      document.getElementById('peekNext').addEventListener('click', function(){ show(i + 1); });
+
+    if (multi) (function(){
+      var i = 0, wraps = main.querySelectorAll('.dg-slide-wrap'), lock = document.getElementById('dgLock'), cnt = document.getElementById('dgCount'), stage = document.getElementById('dgStage');
+      function show(n){ i = Math.max(0, Math.min(slides.length - 1, n)); Array.prototype.forEach.call(wraps, function(w,k){ w.hidden = k !== i; }); lock.hidden = !slides[i].locked; cnt.textContent = (i + 1) + ' / ' + slides.length; document.getElementById('dgPrev').disabled = i === 0; document.getElementById('dgNext').disabled = i === slides.length - 1; }
+      document.getElementById('dgPrev').addEventListener('click', function(){ show(i - 1); });
+      document.getElementById('dgNext').addEventListener('click', function(){ show(i + 1); });
+      var x0 = null;
+      stage.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+      stage.addEventListener('touchend', function(e){ if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
       show(0);
     })();
     if (window.initAccordions) initAccordions('.acc-item');

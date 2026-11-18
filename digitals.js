@@ -16,7 +16,7 @@
      steps[]      How It Works: [title, text] pairs (2 to 4 work best)
      trust[]      Why It's Different: [title, text] pairs;  trustTitle optional heading (may use <em>)
      faqs[]       [question, answer] pairs
-     previews[]   optional Sneak Peek pages: {src, alt, locked}
+     previews[]   optional Sneak Peek pages, portrait ~4:5: {src, alt, locked}. Shown after the cover in the flipper.
      cta          {label, href}      meta  'Instant delivery · One-time payment' (split on ' · ')
    Anything optional can be left out and its section simply won't render. */
 var DIGITALS = [
@@ -26,7 +26,12 @@ var DIGITALS = [
     category: 'reports', status: 'live',
     coverSub: 'Color · Shape · Style',
     price: '$40', priceNote: 'one-time',
-    previews: [{src:'images/digitals/report-1.jpg', alt:'Sample report page: signature colors'}, {src:'images/digitals/report-2.jpg', alt:'Sample report page: color analysis'}, {src:'images/digitals/report-3-blur.jpg', alt:'Locked report page: body analysis', locked:true}], /* sneak peek pages (sample client) */
+    previews: [
+      {src:'images/digitals/report-persona.jpg', alt:'Sample report page: your style persona and 3-piece formula'},
+      {src:'images/digitals/report-palette.jpg', alt:'Sample report page: your color palette with hex codes'},
+      {src:'images/digitals/report-body.jpg', alt:'Sample report page: body shape and styling goal'},
+      {src:'images/digitals/report-locked.jpg', alt:'Locked report page: silhouettes and shopping links', locked:true}
+    ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "22 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
     lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
@@ -47,7 +52,7 @@ var DIGITALS = [
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
       ['What does it cost?', '$40, one-time. No subscription, no hidden extras.']
     ],
-    cta: { label: 'Start Your Analysis, $40', href: 'color-style-analysis.html' },
+    cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
@@ -71,7 +76,7 @@ var DIGITALS = [
       ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The guide is the do-it-yourself version.'],
       ['Is it a physical product?', 'No. It is a digital guide, delivered instantly.']
     ],
-    cta: { label: 'Get The Wardrobe Detox Guide, $19.99', href: 'STRIPE_LINK_HERE' },
+    cta: { label: 'Get The Wardrobe Detox Guide', href: 'STRIPE_LINK_HERE' },
     meta: 'Instant access · One-time payment'
   }
 ];
@@ -108,4 +113,13 @@ function digitalCard(p){
     (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-cta">View Details →</span>') + '</div></div>';
   return soon ? '<div class="vd-card is-soon">' + inner + '</div>'
               : '<a class="vd-card" href="digital.html#' + p.slug + '">' + inner + '</a>';
+}
+
+/* compact card for "More From Vault Digitals": small cover, title, price, hover "Discover" */
+function digitalMini(p){
+  var soon = digitalSoon(p);
+  var inner = '<div class="vd-thumb">' + digitalCover(p) + (soon ? '' : '<span class="vd-hover" aria-hidden="true">Discover</span>') + '</div>' +
+    '<div class="vd-mini-body"><p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
+    '<p class="vd-mini-meta"><span class="price">' + (p.price || '') + '</span>' + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
+  return soon ? '<div class="vd-mini is-soon">' + inner + '</div>' : '<a class="vd-mini" href="digital.html#' + p.slug + '">' + inner + '</a>';
 }
