@@ -57,29 +57,57 @@ var DIGITALS = [
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
-    slug: 'wardrobe-detox-guide',
-    name: 'The Wardrobe Detox Guide',
+    slug: 'wardrobe-detox-checklist',
+    name: 'The Wardrobe Detox Checklist',
     category: 'guides', status: 'coming-soon', /* switch to 'live' once the Stripe link is in cta.href */
-    coverSub: 'Closet · Declutter · Reset',
-    price: '', /* add the price (e.g. '$24') when you set status to 'live' */
-    soonNote: 'Coming soon to buy on its own. Already included with The Vault Edit and The Full Reveal.',
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Guide%20updates' },
+    coverSub: 'Quick · Printable · Reset',
+    price: '', /* add the price when you set status to 'live' */
+    soonNote: 'Coming soon. Included with The Vault Edit and The Full Reveal.',
+    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20updates' },
     previews: [],
-    short: 'A do-it-yourself closet declutter you can reuse every season. Included with The Vault Edit and The Full Reveal.',
-    headline: 'Declutter your closet, <em>efficiently</em>',
-    lead: 'The Wardrobe Detox Guide is HerStyleVault’s tips-and-tricks method for decluttering your closet, written so you can use it again every season.',
-    includes: ['A clear method for decluttering your closet efficiently', 'Tips and tricks you can reuse anytime', 'A digital guide that is yours to keep'],
+    short: 'A one-page checklist to declutter your closet in one sitting. Included with The Vault Edit and The Full Reveal.',
+    headline: 'Declutter your closet in <em>one sitting</em>',
+    lead: 'The Wardrobe Detox Checklist is the quick version of my closet declutter method: a one-page, printable checklist you can follow start to finish.',
+    includes: ['A one-page checklist you can print or use on your phone', 'The steps in order, so you always know what comes next', 'A digital file that is yours to keep and reuse every season'],
     steps: [
       ['Purchase', 'Check out once. No subscription.'],
-      ['Download', 'Your guide is available to download right away.'],
+      ['Download', 'Your checklist is available to download right away.'],
       ['Detox at your pace', 'Work through your closet whenever suits you.']
     ],
     faqs: [
-      ['Is this included with a package?', 'Yes. Full digital access is included with The Vault Edit and The Full Reveal.'],
-      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The guide is the do-it-yourself version.'],
-      ['Is it a physical product?', 'No. It is a digital guide, delivered instantly.']
+      ['Is this included with a package?', 'Yes. It is included with The Vault Edit and The Full Reveal.'],
+      ['What is the difference between the Checklist and the Guidebook?', 'The Checklist is the one-page quick version. The Guidebook is the full method, with the reasoning, tips and tricks behind each step. The Full Reveal includes both.'],
+      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Checklist is the do-it-yourself version.'],
+      ['Is it a physical product?', 'No. It is a digital file, delivered instantly, for your personal use only.']
     ],
-    cta: { label: 'Get The Wardrobe Detox Guide', href: 'STRIPE_LINK_HERE' },
+    cta: { label: 'Get The Wardrobe Detox Checklist', href: 'STRIPE_LINK_HERE' },
+    meta: 'Instant access · One-time payment'
+  },
+  {
+    slug: 'wardrobe-detox-guide',
+    name: 'The Wardrobe Detox Guidebook',
+    category: 'guides', status: 'coming-soon', /* switch to 'live' once the Stripe link is in cta.href */
+    coverSub: 'Closet · Declutter · Reset',
+    price: '', /* add the price when you set status to 'live' */
+    soonNote: 'Coming soon. Included with The Full Reveal, and available to Vault Edit clients at a discount.',
+    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20updates' },
+    previews: [],
+    short: 'The full do-it-yourself method for decluttering your closet, written so you can reuse it every season. Included with The Full Reveal.',
+    headline: 'Declutter your closet, <em>efficiently</em>',
+    lead: 'The Wardrobe Detox Guidebook is HerStyleVault’s full tips-and-tricks method for decluttering your closet, written so you can use it again every season.',
+    includes: ['A clear, step-by-step method for decluttering your closet efficiently', 'Tips and tricks you can reuse anytime', 'A digital guidebook that is yours to keep'],
+    steps: [
+      ['Purchase', 'Check out once. No subscription.'],
+      ['Download', 'Your guidebook is available to download right away.'],
+      ['Detox at your pace', 'Work through your closet whenever suits you.']
+    ],
+    faqs: [
+      ['Is this included with a package?', 'Yes. The Full Reveal includes the Guidebook and the Checklist. The Vault Edit includes the Checklist, plus a discount on the Guidebook.'],
+      ['What is the difference between the Guidebook and the Checklist?', 'The Checklist is the one-page quick version. The Guidebook is the full method, with the reasoning, tips and tricks behind each step.'],
+      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Guidebook is the do-it-yourself version.'],
+      ['Is it a physical product?', 'No. It is a digital guidebook, delivered instantly, for your personal use only.']
+    ],
+    cta: { label: 'Get The Wardrobe Detox Guidebook', href: 'STRIPE_LINK_HERE' },
     meta: 'Instant access · One-time payment'
   }
 ];
