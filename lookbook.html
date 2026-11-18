@@ -26,7 +26,7 @@
 <p class="sub center" style="margin:0 auto 2rem;">Style boards, client transformations, and styling videos, all in one place.</p>
 <div class="look-filters" id="lookFilters"></div>
 <div class="look-grid" id="lookGrid"></div>
-<p class="sub center" style="margin:2.4rem auto 0;font-size:13px;color:var(--ink-soft);">Client photos and videos are only shared with the client's explicit written permission.</p>
+<p class="sub center" style="margin:2.4rem auto 0;font-size:13px;color:var(--ink-soft);">Client photos and videos are only shared with the client's explicit written permission. The style boards above are sample concept capsules, and real client work is added as it is published.</p>
 <div class="cta-row"><a class="btn btn-primary" href="services.html">Book a Service</a> <a class="btn btn-secondary" href="book.html">Free Consultation</a></div>
 </section>
 
@@ -37,11 +37,16 @@
 (function(){
   var types = []; LOOKBOOK.forEach(function(i){ if (types.indexOf(i.type) < 0) types.push(i.type); });
   var filters = document.getElementById('lookFilters'), grid = document.getElementById('lookGrid');
+  function sheetHtml(s){
+    var sw = s.swatches.map(function(h){ return '<div class="sh-sw"><i style="background:' + h + '"></i><b>' + h.toUpperCase() + '</b></div>'; }).join('');
+    var rows = s.rows.map(function(r){ return '<li><span>' + r[0] + '</span>' + r[1] + '</li>'; }).join('');
+    return '<div class="board-sheet-in"><p class="sh-eyebrow">' + s.eyebrow + '</p><div class="sh-swatches">' + sw + '</div><div class="sh-art">' + LOOK_ART[s.art] + '<em class="sh-rule"></em></div><ul class="sh-formula">' + rows + '</ul></div>';
+  }
   function tile(i){
     var media = i.video ? '<video controls preload="metadata" src="' + i.video + '"></video>'
       : i.image ? '<img src="' + i.image + '" alt="' + i.title + '">'
-      : '<span class="look-ph">' + (i.type === 'Videos' ? '<i class="look-play"></i>' : '') + i.label + '</span>';
-    return '<div class="look-tile" data-type="' + i.type + '"><div class="board-frame look-frame">' + media + '</div>' +
+      : i.sheet ? sheetHtml(i.sheet) : '<span class="look-ph">' + (i.type === 'Videos' ? '<i class="look-play"></i>' : '') + i.label + '</span>';
+    return '<div class="look-tile" data-type="' + i.type + '"><div class="board-frame look-frame' + (i.sheet && !i.image && !i.video ? ' board-sheet' : '') + '">' + media + '</div>' +
       '<div class="board-name">' + i.title + '</div><p class="board-caption">' + i.caption + '</p>' +
       '<p class="look-cta">Want looks like this for your exact proportions? <a href="services.html">Explore Services</a><span> · </span><a href="vault-digitals.html">Find your color season first</a></p></div>';
   }
