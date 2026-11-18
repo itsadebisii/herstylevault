@@ -659,7 +659,64 @@ function computePersona(a){
 }
 
 
+
+/* ---------- Shopping links: stores by age bracket and price comfort ----------
+   Every store carries wide size ranges. Each chip in the report opens a live search at one of these.
+   NOTE: search URL formats are set by the retailers and can change. Open /shop-link-test (preview) or click
+   each store once after any change. Stores avoided on purpose: Zara, Lululemon, SSENSE, Net-a-Porter,
+   Farfetch, Everlane, Eloquii (their search links are unreliable). */
+const S = {
+  oldnavy: ['Old Navy', 'https://oldnavy.gap.com/browse/search.do?searchText='],
+  asos: ['ASOS', 'https://www.asos.com/us/search/?q='],
+  target: ['Target', 'https://www.target.com/s?searchTerm='],
+  hm: ['H&M', 'https://www2.hm.com/en_us/search-results.html?q='],
+  abercrombie: ['Abercrombie', 'https://www.abercrombie.com/shop/us/search?searchTerm='],
+  aritzia: ['Aritzia', 'https://www.aritzia.com/us/en/search?q='],
+  madewell: ['Madewell', 'https://www.madewell.com/search?q='],
+  mango: ['Mango', 'https://shop.mango.com/us/en/search?kw='],
+  reformation: ['Reformation', 'https://www.thereformation.com/search?q='],
+  nordstrom: ['Nordstrom', 'https://www.nordstrom.com/sr?keyword='],
+  saks: ['Saks Fifth Avenue', 'https://www.saksfifthavenue.com/search?q='],
+  anthropologie: ['Anthropologie', 'https://www.anthropologie.com/search?q='],
+  quince: ['Quince', 'https://www.quince.com/search?q='],
+  gap: ['Gap', 'https://www.gap.com/browse/search.do?searchText='],
+  uniqlo: ['Uniqlo', 'https://www.uniqlo.com/us/en/search?q='],
+  bananarepublic: ['Banana Republic', 'https://bananarepublic.gap.com/browse/search.do?searchText='],
+  jcrew: ['J.Crew', 'https://www.jcrew.com/r/search?N=0&Nloc=en&Ntrm='],
+  mmlafleur: ['MM.LaFleur', 'https://mmlafleur.com/search?q='],
+  loft: ['LOFT', 'https://www.loft.com/search?q='],
+  anntaylor: ['Ann Taylor', 'https://www.anntaylor.com/search?q='],
+  boden: ['Boden', 'https://www.bodenusa.com/en-us/search?q='],
+  universalstandard: ['Universal Standard', 'https://www.universalstandard.com/search?q='],
+  landsend: ["Lands' End", 'https://www.landsend.com/search?q='],
+  jjill: ['J.Jill', 'https://www.jjill.com/search?q='],
+  talbots: ['Talbots', 'https://www.talbots.com/search?q='],
+  chicos: ["Chico's", 'https://www.chicos.com/store/search/?q='],
+  eileenfisher: ['Eileen Fisher', 'https://www.eileenfisher.com/search?q=']
+};
+const STORE_DIR = {
+  '18-24': { budget: ['oldnavy','asos','target','hm'], mid: ['abercrombie','aritzia','madewell','mango'], invest: ['reformation','nordstrom','saks','anthropologie'] },
+  '25-34': { budget: ['quince','gap','mango','uniqlo'], mid: ['madewell','bananarepublic','abercrombie','jcrew'], invest: ['nordstrom','reformation','mmlafleur','saks'] },
+  '35-44': { budget: ['quince','loft','gap','oldnavy'], mid: ['jcrew','bananarepublic','anntaylor','boden'], invest: ['nordstrom','universalstandard','mmlafleur','saks'] },
+  '45+':   { budget: ['quince','landsend','loft','jjill'], mid: ['talbots','chicos','jcrew','bananarepublic'], invest: ['nordstrom','eileenfisher','universalstandard','saks'] }
+};
+function buildShopLinks(a, signature, keywords){
+  const age = STORE_DIR[a && a.ageBracket] ? a.ageBracket : '25-34';
+  const tier = ['budget','mid','invest'].indexOf(a && a.budget) > -1 ? a.budget : 'mid';
+  const stores = STORE_DIR[age][tier].map(k => S[k]);
+  const sig = (signature && signature.length) ? signature : [{ n: '' }];
+  const kws = String(keywords || '').split(',').map(t => t.trim()).filter(Boolean).slice(0, 6);
+  return kws.map((k, i) => {
+    const q = (sig[i % sig.length].n + ' ' + k).trim();
+    const st = stores[i % stores.length];
+    return { q, store: st[0], url: st[1] + encodeURIComponent(q).replace(/%20/g, '+') };
+  });
+}
+
 module.exports = {
+  buildShopLinks,
+  STORE_DIR,
+  STORES: S,
   computePersona,
   computeBodyShape,
   computeIntensity,

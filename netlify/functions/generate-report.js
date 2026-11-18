@@ -11,7 +11,8 @@ const {
   proportionTipFor,
   computeBodyShape,
   computeIntensity,
-  computePersona
+  computePersona,
+  buildShopLinks
 } = require('./lib/knowledge');
 
 const ANTHROPIC_MODEL = 'claude-opus-5';
@@ -328,6 +329,7 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     bodyShapeDesc: bodyFacts.desc,
     bodyGoal: bodyFacts.goal,
     shopKeywords: bodyFacts.shopKeywords,
+    shopLinks: buildShopLinks(answers, (colorFacts.signature || []).slice(0,5), bodyFacts.shopKeywords),
     archetype,
     personaAnswered: !!(answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3),
     persona: (answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3) ? computePersona(answers) : null,

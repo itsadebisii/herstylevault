@@ -100,6 +100,33 @@ let photoMediaType = null;
 
 function opt(label, value, icon) { return { label, value, icon }; }
 
+// Persona answers read differently by age bracket. The saved value (left) never changes, so scoring is identical for every age.
+const PERSONA_OPTS = {
+  pq1: {
+    blazer: { icon: "art:blazer", labels: {'18-24': "Oversized blazer, baby tee or tank, relaxed denim and loafers", '25-34': "Tailored blazer, a clean tee, great-fitting jeans and a polished flat", '35-44': "Structured blazer, silk cami or knit top, tailored trousers or dark denim and loafers", '45+': "Sharp jacket or blazer, crisp shell top, ankle trousers and sleek flats"} },
+    casual: { icon: "art:tee", labels: {'18-24': "Baggy or straight jeans, a favorite tee, trending sneakers and gold hoops", '25-34': "Great-fitting jeans, an elevated ribbed tee, clean leather sneakers and hoops", '35-44': "Favorite dark-wash denim, a tucked-in knit tee, comfortable low-profile sneakers and everyday gold", '45+': "Well-cut jeans or chinos, a soft breathable tee, polished sneakers and simple jewelry"} },
+    feminine: { icon: "art:dress", labels: {'18-24': "A mini or midi dress with a cardigan and dainty layered necklaces", '25-34': "A wrap or slip midi dress with delicate jewelry and an easy sandal or flat", '35-44': "A flattering midi dress or soft knit top with a skirt and subtle gold accents", '45+': "A fluid midi dress or draped knit top with tailored pants and classic jewelry"} },
+    allblack: { icon: "art:coat", labels: {'18-24': "All-black everything: cropped jacket, black jeans or trousers and sleek boots", '25-34': "Monochrome black: a fitted knit, tailored black pants and ankle boots", '35-44': "Head-to-toe black: a great coat, a sleek column base and black leather boots", '45+': "An all-black signature: well-cut black trousers, a fine-knit top and a sharp black jacket"} },
+    bold: { icon: "art:statement", labels: {'18-24': "A statement top, bold print or standout bag that carries the whole outfit", '25-34': "An eye-catching print, dramatic sleeve or bold color with simple bottoms", '35-44': "Rich color, a textured statement piece or a standout shoe with clean basics", '45+': "A striking print, sculptural blouse or bold accessory that makes the outfit"} },
+    set: { icon: "art:matching", labels: {'18-24': "A matching knit or linen two-piece set with a mini shoulder bag", '25-34': "A coordinated vest-and-trouser or knit set with a structured bag", '35-44': "A tailored matching two-piece set with a polished leather tote or crossbody", '45+': "A crisp matching cardigan-and-trouser or suiting set with a structured bag"} },
+    sporty: { icon: "art:sneaker", labels: {'18-24': "A matching ribbed workout set, zip-up jacket, clean sneakers and a claw clip", '25-34': "A sculpted athleisure set, trench or bomber layer, clean sneakers and sunglasses", '35-44': "An elevated matching lounge or active set, a structured jacket and crisp sneakers", '45+': "A polished knit-active set, lightweight trench or cardigan and supportive clean sneakers"} },
+  },
+  pq2: {
+    tailored: { icon: null, labels: {'18-24': "How crisp and structured it sits on my shoulders and frame", '25-34': "How clean and tailored the cut is through my shoulders, torso and waist", '35-44': "How well-tailored it feels: structure without feeling stiff or tight", '45+': "The precision of the tailoring: clean shoulder seams and a flattering, structured line"} },
+    drape: { icon: null, labels: {'18-24': "How soft, fluid and flattering the fabric moves when I walk", '25-34': "How effortlessly the fabric skims and drapes without clinging", '35-44': "How fluidly the fabric drapes over my body and moves with me", '45+': "The graceful drape: soft fabric that skims smoothly and never feels restrictive"} },
+    quality: { icon: null, labels: {'18-24': "The weight and feel of the fabric, it looks way better than the price tag", '25-34': "The fabric thickness and finish, it feels substantial and looks polished", '35-44': "The fabric quality and construction, I know it will hold its shape after washing", '45+': "The richness and weight of the fabric, it feels refined, substantial and built to last"} },
+    effortless: { icon: null, labels: {'18-24': "That I can throw it on with jeans or cargos and instantly look put-together", '25-34': "That it is an easy, throw-on piece I can wear with denim and still look styled", '35-44': "That it is effortless to style: one piece that makes everyday jeans look intentional", '45+': "That it is easy to reach for: pair it with simple pants or denim and I am out the door"} },
+    drama: { icon: null, labels: {'18-24': "The standout detail: an unexpected cut, bold texture or a piece nobody else has", '25-34': "The statement factor: a sculptural sleeve, rich texture or striking silhouette", '35-44': "The visual impact: a bold cut, rich texture or detail that lifts the whole outfit", '45+': "The distinctive design: an architectural cut, textured weave or memorable statement detail"} },
+  },
+  pq3: {
+    mono: { icon: null, labels: {'18-24': "Keep the whole outfit tonal or one color head-to-toe", '25-34': "Dress in one color family head-to-toe for a clean, cohesive look", '35-44': "Build a monochrome or tonal outfit using different textures in the same shade", '45+': "Layer different textures within one tonal color palette from head to toe"} },
+    set: { icon: null, labels: {'18-24': "Start with a matching two-piece set so the outfit is already half done", '25-34': "Reach for a coordinated matching set so everything feels intentional", '35-44': "Start with a tailored matching set as my base and add simple accessories", '45+': "Choose a polished two-piece matching set so the proportions already work together"} },
+    outerwear: { icon: null, labels: {'18-24': "Build around a great jacket, trench or oversized blazer over basics", '25-34': "Anchor the outfit with a sharp blazer, trench or leather jacket over simple basics", '35-44': "Start with my third piece, a structured blazer, coat or cardigan, over a clean base", '45+': "Let a great jacket, trench or structured cardigan anchor simple, comfortable basics"} },
+    standout: { icon: null, labels: {'18-24': "Pick one statement piece (shoes, bag or top) and keep everything else simple", '25-34': "Build around one hero piece, a great shoe, bag or top, and keep the rest clean", '35-44': "Let one standout piece lead (a bold top, shoe or bag) and keep the rest understated", '45+': "Focus on one signature piece, a statement jacket, shoe or accessory, over clean neutrals"} },
+  },
+};
+function personaOptions(key) { const age = PERSONA_OPTS[key] ? (['18-24','25-34','35-44','45+'].indexOf(A.ageBracket) > -1 ? A.ageBracket : '25-34') : null; return Object.keys(PERSONA_OPTS[key]).map(v => opt(PERSONA_OPTS[key][v].labels[age], v, PERSONA_OPTS[key][v].icon || undefined)); }
+
 // Standard multiple-choice questions, in display order.
 const QUESTIONS = [
   { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold','foil:gold'), opt('Silver','silver','foil:silver'), opt('Both equally','both','foil:both'), opt('Not sure','unsure')] },
@@ -120,10 +147,11 @@ const QUESTIONS = [
   { section: 'body', n: 8, of: 10, key: 'bustHip', text: 'How does your bust compare to your hips?', options: [opt('Bust noticeably larger than hips','bustMuchLarger'), opt('Bust slightly larger than hips','bustSlightlyLarger'), opt('Bust and hips roughly equal','roughlyEqual'), opt('Hips slightly larger than bust','hipsSlightlyLarger'), opt('Hips noticeably larger than bust','hipsMuchLarger'), opt('Full bust and full hips, both prominent','fullBoth')] },
   { section: 'body', n: 9, of: 10, key: 'height', text: "What's your height range?", options: [opt("Petite — under 5'4\"",'petite'), opt("Average — 5'4\" to 5'7\"",'average'), opt("Tall — 5'8\" and up",'tall')] },
   { section: 'body', n: 10, of: 10, key: 'proportion', text: 'Do you have a longer torso or longer legs?', options: [opt('Longer torso','longTorso'), opt('Longer legs','longLegs'), opt('Pretty balanced','balanced')] },
-  { section: 'persona', n: 1, of: 4, key: 'ageBracket', text: 'Which age bracket are you in?', options: [opt('18–24','18-24'), opt('25–34','25-34'), opt('35–44','35-44'), opt('45+','45+')] },
-  { section: 'persona', n: 2, of: 4, key: 'pq1', text: 'When you have 10 minutes to get ready for dinner, what is your default move?', options: [opt('Tailored blazer, straight-leg denim and a pointed flat','blazer','art:blazer'), opt('Great jeans, a fitted tee, sneakers and gold hoops','casual','art:tee'), opt('A flattering midi dress or soft knit with dainty jewelry','feminine','art:dress'), opt('All-black everything: sharp coat, sleek boots, zero fuss','allblack','art:coat'), opt('A bold print, dramatic sleeve or statement heel','bold','art:statement'), opt('A crisp matching set with a structured bag','set','art:matching'), opt('A sleek matching athleisure set, clean sneakers and sunglasses','sporty','art:sneaker')] },
-  { section: 'persona', n: 3, of: 4, key: 'pq2', text: 'When you try something on and immediately know "this is the one," what usually sold you?', options: [opt('How sharp and tailored it sits on my shoulders and waist','tailored'), opt('How soft, fluid and flattering the fabric drapes on my body','drape'), opt('The fabric weight and quality, it just looks and feels expensive','quality'), opt('That it is an effortless piece I can throw on with denim and still look put-together','effortless'), opt('The drama: a bold cut, rich texture or statement detail nobody else has','drama')] },
-  { section: 'persona', n: 4, of: 4, key: 'pq3', text: 'When you are building an outfit from scratch, what is your natural instinct?', options: [opt('Keep the whole look tonal or monochrome, one sleek color head-to-toe','mono'), opt('Start with a matching two-piece set so the outfit already feels intentional','set'), opt('Anchor it with great outerwear: a trench, blazer or structured jacket over basics','outerwear'), opt('Build around one standout piece (a great shoe, bag or top) and keep the rest clean','standout')] },
+  { section: 'persona', n: 1, of: 5, key: 'ageBracket', text: 'Which age bracket are you in?', options: [opt('18–24','18-24'), opt('25–34','25-34'), opt('35–44','35-44'), opt('45+','45+')] },
+  { section: 'persona', n: 2, of: 5, key: 'pq1', text: 'When you have 10 minutes to get ready for dinner, what is your default move?', dynamic: true },
+  { section: 'persona', n: 3, of: 5, key: 'pq2', text: 'When you try something on and immediately know "this is the one," what usually sold you?', dynamic: true },
+  { section: 'persona', n: 4, of: 5, key: 'pq3', text: 'When you are building an outfit from scratch, what is your natural instinct?', dynamic: true },
+  { section: 'persona', n: 5, of: 5, key: 'budget', label: 'Shopping Range', text: "When you're shopping for a great everyday piece (like a top, pair of jeans or dress), what price range feels most comfortable for you?", options: [opt('Everyday and accessible, about $25 to $75 a piece. I love finding great cuts and trending pieces at everyday prices.','budget'), opt('Mid-range, about $75 to $200 a piece. I will invest a bit more for better fabric, tailoring and pieces that last several seasons.','mid'), opt('Investment, $200 and up a piece. I prefer fewer, higher-end pieces with exceptional fabric and construction.','invest')] },
 ];
 
 /* ----- Body shape (same rules as the stylist tools), used for the lead record ----- */
@@ -289,7 +317,7 @@ function veinsSvg(bg, stroke) {
   return `<svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="8" fill="${bg}"/><path d="M14 40 Q22 20 30 32 T48 18" fill="none" stroke="${stroke}" stroke-width="3" stroke-linecap="round" opacity="0.85"/></svg>`;
 }
 
-// Slide list: covers + all 22 questions + free text + photo + payment
+// Slide list: covers + all 23 questions + free text + photo + payment
 const SLIDES = ['name-cover', 'color-cover', ...QUESTIONS.filter(q => q.section === 'color').map((q, i) => i), 'body-cover', ...QUESTIONS.filter(q => q.section === 'body').map((q, i) => i), 'freetext', 'photo'];
 // Build a flat ordered list with proper indices into QUESTIONS
 const FLOW = [];
@@ -336,7 +364,7 @@ function render() {
       <div class="cover">
         <p class="cover-eyebrow">Signature Style Report</p>
         <h1 class="cover-title">Let's find <em>your</em> colors and shape</h1>
-        <p class="cover-sub">22 quick questions about your natural coloring and body, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
+        <p class="cover-sub">23 quick questions about your natural coloring, body and style, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
         <input type="text" class="nameinput" id="name-field" placeholder="First name" value="${name}" autocomplete="given-name">
         <input type="email" class="nameinput" id="email-field" placeholder="Email address" value="${email}" autocomplete="email">
         <p class="field-err" id="start-err" style="display:none;">Please add your first name and a valid email so we can send your report.</p>
@@ -360,7 +388,7 @@ function render() {
         <div class="cover">
           <p class="cover-eyebrow">Part Three of Three</p>
           <h1 class="cover-title">Your <em>Style Persona</em></h1>
-          <p class="cover-sub">4 last questions about how you dress. They shape the name and signature formula on your report.</p>
+          <p class="cover-sub">5 last questions about how you dress and shop. They shape the name and signature formula on your report, and the stores we link you to.</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
         </div>`;
     } else {
@@ -423,7 +451,7 @@ function iconHtml(ic) {
 }
 
 function renderQuestion(q) {
-  const sectionLabel = q.section === 'color' ? 'Color' : q.section === 'persona' ? 'Style Persona' : 'Body & Style';
+  const sectionLabel = q.label || (q.section === 'color' ? 'Color' : q.section === 'persona' ? 'Style Persona' : 'Body & Style');
   let body = '';
 
   if (q.type === 'depth') {
@@ -493,7 +521,8 @@ function renderQuestion(q) {
         <span class="desc">${SHAPE_SVGS[k].desc}</span>
       </div>`).join('')}</div>`;
   } else {
-    body = `<div class="opts"${q.section === 'persona' ? ' style="grid-template-columns:1fr;"' : ''}>${q.options.map(o => `
+    const qOpts = q.dynamic ? personaOptions(q.key) : q.options;
+    body = `<div class="opts"${q.section === 'persona' ? ' style="grid-template-columns:1fr;"' : ''}>${qOpts.map(o => `
       <div class="opt ${(q.multi ? (A[q.key] || []).indexOf(o.value) > -1 : A[q.key] === o.value) ? 'sel' : ''}" data-key="${q.key}" data-val="${o.value}"${q.multi ? ' data-multi="1" role="checkbox" aria-checked="' + ((A[q.key] || []).indexOf(o.value) > -1) + '"' : ''}>${iconHtml(o.icon)}<span>${o.label}</span></div>`).join('')}</div>`;
   }
 
@@ -603,7 +632,7 @@ function sendLead() {
     const p = computePersona(A);
     fetch(GOOGLE_SHEET_WEBHOOK_URL, {
       method: 'POST', mode: 'no-cors', keepalive: true,
-      body: JSON.stringify({ name, email, ageBracket: A.ageBracket || '', primaryVibe: p.vibe, persona: p.name, depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '', shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '', createdAt: new Date().toISOString() })
+      body: JSON.stringify({ name, email, ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name, depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '', shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '', createdAt: new Date().toISOString() })
     }).catch(function () {});
   } catch (e) {}
 }

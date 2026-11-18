@@ -46,7 +46,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-h1 em{color:#7A1321;font-style:italic;}
 .pdf-section-label{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;font-weight:500;margin:1.3rem 0 0.5rem;}
 .pdf-box{background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;padding:1rem 1.3rem;margin-bottom:0.9rem;font-size:0.82rem;line-height:1.7;color:#3F3C38;}
-.pdf-two{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;}.pdf-blk-n{margin-top:20px;padding-top:20px;border-top:1px solid #DCD8D0;}.pdf-pal-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.9rem;}.pdf-pal-tag{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:500;}
+.pdf-chip-store{color:#8A8378;font-size:0.9em;}.pdf-two{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;}.pdf-blk-n{margin-top:20px;padding-top:20px;border-top:1px solid #DCD8D0;}.pdf-pal-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.9rem;}.pdf-pal-tag{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:500;}
 .pdf-list{list-style:none;padding:0;margin:0;}
 .pdf-list li{padding:0.35rem 0;font-size:0.82rem;line-height:1.55;color:#3F3C38;border-bottom:1px solid #DCD8D0;}
 .pdf-list li:last-child{border-bottom:none;}
@@ -86,7 +86,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-rulebox p:last-child{font-family:'Cormorant Garamond',serif;font-size:1.35rem;line-height:1.45;color:#181716;margin:0;}
 .pdf-arch{width:68px;height:76px;border-radius:34px 34px 5px 5px;border:3px solid #CDBBA8;margin:0 auto 0.4rem;background-clip:padding-box;}
 .pdf-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.4rem;}
-.pdf-chip{display:inline-block;padding:0.3rem 0.85rem;border:1px solid #DCD8D0;border-radius:999px;font-size:0.7rem;color:#7A1321;background:#FAF9F6;text-decoration:none;}
+.pdf-chip{display:inline-block;padding:0.25rem 0.75rem;border:1px solid #DCD8D0;border-radius:999px;font-size:0.66rem;line-height:1.35;color:#7A1321;background:#FAF9F6;text-decoration:none;}
 .pdf-credit{background:#FAF9F6;border:1px solid #DCD8D0;padding:1.2rem 1.6rem;max-width:560px;margin:1.4rem 0;text-align:left;line-height:1.7;font-size:0.85rem;color:#3F3C38;}
 .pdf-credit strong{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#7A1321;font-weight:500;display:block;margin-bottom:0.3rem;}
 </style>
@@ -183,10 +183,14 @@ function pdfList(arr){return '<ul class="pdf-list">'+(arr||[]).map(i=>'<li>'+esc
 function pdfFoot(label){return '<div class="pdf-foot"><span>HerStyleVault</span><span>'+esc(label)+'</span></div>';}
 function pdfPage(cls,inner){return '<div class="pdf-page '+(cls||'')+'">'+inner+'</div>';}
 function arches(arr){return '<div class="pdf-swatches">'+arr.map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+esc(String(c.h||'').toUpperCase())+'</div></div>').join('')+'</div>';}
-function nordstromChips(r){
-  const kws=String(r.shopKeywords||'').split(',').map(t=>t.trim()).filter(Boolean).slice(0,6);
-  const sig=r.signature.slice(0,5);
-  return '<div class="pdf-chips">'+kws.map((k,i)=>{const q=sig[i%sig.length].n+' '+k;return '<a class="pdf-chip" data-href="https://www.nordstrom.com/sr?keyword='+encodeURIComponent(q)+'" href="https://www.nordstrom.com/sr?keyword='+encodeURIComponent(q)+'" target="_blank" rel="noopener">'+esc(q)+'</a>';}).join('')+'</div>';
+function shopChips(r){
+  /* live searches at stores that fit her age bracket and price comfort (built on the server); older reports fall back to Nordstrom */
+  let links=r.shopLinks;
+  if(!links||!links.length){
+    const kws=String(r.shopKeywords||'').split(',').map(t=>t.trim()).filter(Boolean).slice(0,6),sig=r.signature.slice(0,5);
+    links=kws.map((k,i)=>{const q=sig[i%sig.length].n+' '+k;return{q,store:'Nordstrom',url:'https://www.nordstrom.com/sr?keyword='+encodeURIComponent(q)};});
+  }
+  return '<div class="pdf-chips">'+links.map(l=>'<a class="pdf-chip" data-href="'+esc(l.url)+'" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.q)+' <span class="pdf-chip-store">at '+esc(l.store)+'</span></a>').join('')+'</div>';
 }
 /* ---- Tight layout: sections are measured and packed onto as few pages as fit, so no page is left half empty ---- */
 const PAGE_CAP=915, BLK_GAP=41; /* content height that fits above the footer; px added between stacked sections */
@@ -205,9 +209,9 @@ function makeBlocks(r){
   L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div>'
     +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p><div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div></div></div>'
     +'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4))});
-  L.push({key:'silh',label:'Silhouettes & Shopping',html:'<h1 class="pdf-h1" style="margin-top:0;">Silhouettes &amp; <em>Shopping</em></h1><p class="pdf-section-label" style="margin-top:0;">Best Silhouettes For Your Shape</p>'+(r.silhouettes||[]).map(s=>'<div class="pdf-box" style="margin-bottom:0.7rem;"><strong>'+esc(s.text)+'</strong><br>'+esc(s.reason)+'</div>').join('')
-    +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live Nordstrom search, so results stay current.</p>'+nordstromChips(r)+'</div></div>'});
-  L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
+  L.push({key:'silh',label:'Silhouettes & Shopping',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Silhouettes &amp; <em>Shopping</em></h1><p class="pdf-section-label" style="margin-top:0;">Best Silhouettes For Your Shape</p>'+(r.silhouettes||[]).map(s=>'<div class="pdf-box" style="margin-bottom:0.7rem;"><strong>'+esc(s.text)+'</strong><br>'+esc(s.reason)+'</div>').join('')
+    +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live search at a store in your price range, so results stay current.</p>'+shopChips(r)+'</div></div>'});
+  L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
     +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
   return L;
 }

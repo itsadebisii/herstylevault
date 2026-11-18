@@ -33,12 +33,12 @@ var DIGITALS = [
       {src:'images/digitals/report-body.jpg', alt:'Sample report page: body shape and styling goal'},
       {src:'images/digitals/report-locked.jpg', alt:'Locked report page: silhouettes, shopping links and fabric guide', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
-    short: "22 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
+    short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
     lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
     includes: ['Your color season, identified from 12 seasons', 'Your body shape, identified from 5 shapes', 'Your palette and the colors to avoid', 'Your style persona, so your wardrobe sounds like you', 'Styling rules for your shape, written for your answers'],
     steps: [
-      ['Answer 22 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
+      ['Answer 23 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
       ['Add a Photo', "Optional, but it sharpens your color and shape read. Skip it if you'd rather not."],
       ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear.']
     ],
