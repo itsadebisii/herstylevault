@@ -25,7 +25,7 @@
 <script src="digitals.js"></script>
 <script>
 (function(){
-  var main = document.getElementById('digitalMain');
+  var main = document.getElementById('digitalMain'), optIdx = 0, keepScroll = false;
   function list(a){ return a && a.length ? a : null; }
   var plain = function(t){ return String(t || '').replace(/<[^>]*>/g, ''); };
   function render(){
@@ -33,13 +33,15 @@
     var all = visibleDigitals();
     var p = all.filter(function(d){ return d.slug === slug; })[0] || all[0];
     if (!p) { main.innerHTML = '<section class="band wrap"><p class="sub center" style="margin:0 auto;">Nothing here yet. <a href="vault-digitals.html">See Vault Digitals</a>.</p></section>'; return; }
-    var cat = digitalCat(p), soon = digitalSoon(p), cta = p.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
+    var opts = list(p.options), oi = opts ? Math.min(optIdx, opts.length - 1) : 0, o = opts ? opts[oi] : {};
+    var view = {}; Object.keys(p).forEach(function(k){ view[k] = p[k]; }); Object.keys(o).forEach(function(k){ if (o[k] !== '' && o[k] != null) view[k] = o[k]; });
+    var cat = digitalCat(p), soon = digitalSoon(p), cta = view.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
     document.title = p.name + ' | HerStyleVault';
     var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', plain(p.short || p.lead));
     var ogt = document.querySelector('meta[property="og:title"]'); if (ogt) ogt.setAttribute('content', p.name + ' | HerStyleVault');
     var ogd = document.querySelector('meta[property="og:description"]'); if (ogd) ogd.setAttribute('content', plain(p.short || p.lead));
     var others = all.filter(function(d){ return d !== p; });
-    var assure = (p.meta || 'Instant delivery · One-time payment').split(' · ');
+    var assure = (view.meta || 'Instant delivery · One-time payment').split(' · ');
     var buy = soon
       ? (p.soonCta ? '<a class="btn btn-primary" href="' + p.soonCta.href + '">' + p.soonCta.label + '</a>' : '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>') + '<p class="meta">Not available to buy yet. Check back soon.</p>'
       : '<a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a><ul class="dg-assure">' + assure.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
@@ -55,7 +57,7 @@
 
     function item(title, body, open){ return '<div class="acc-item' + (open ? ' open' : '') + '"><div class="acc-q" data-acc-toggle>' + title + '<span class="acc-icon">+</span></div><div class="acc-a">' + body + '</div></div>'; }
     var acc = [];
-    if (list(p.includes)) acc.push(item('What\u2019s Inside', '<ul class="dg-list">' + p.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>'));
+    if (list(view.includes)) acc.push(item('What\u2019s Inside', '<ul class="dg-list">' + view.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>'));
     if (list(p.steps)) acc.push(item('How It Works', '<ol class="dg-ol">' + p.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
     if (list(p.trust)) acc.push(item('Why It\u2019s Different', p.trust.map(function(t){ return '<p><b>' + t[0] + '.</b> ' + t[1] + '</p>'; }).join('')));
     if (list(p.faqs)) acc.push(item('FAQs', p.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
@@ -64,7 +66,8 @@
       '<div class="dg-hero">' + media +
       '<div class="dg-info"><p class="eyebrow">' + cat.eyebrow + '</p><h1 class="page-title">' + (p.headline || p.name) + '</h1>' +
       (p.lead ? '<p class="sub" style="margin-bottom:1rem;">' + p.lead + '</p>' : '') +
-      (p.price ? '<div class="dg-price"><span class="price">' + p.price + '</span>' + (p.priceNote ? '<span class="meta" style="margin:0;">' + p.priceNote + '</span>' : '') + '</div>' : '<p class="dg-soon">' + (p.soonNote || 'Coming soon.') + '</p>') + buy + '<p class="dg-license" style="font-size:12px;color:var(--ink-soft);margin:.8rem 0 0;">For personal use only. Please don\u2019t share or resell. See the <a href="policies.html#digital-products">digital product terms</a>.</p>' +
+      (opts ? '<div class="dg-opts" role="group" aria-label="Choose your version">' + opts.map(function(x,k){ return '<button type="button" class="dg-opt' + (k === oi ? ' on' : '') + '" data-oi="' + k + '" aria-pressed="' + (k === oi) + '"><b>' + x.label + '</b>' + (x.badge ? '<span>' + x.badge + '</span>' : '') + (x.price ? '<i>' + x.price + '</i>' : '') + '</button>'; }).join('') + '</div>' : '') +
+      (view.price ? '<div class="dg-price"><span class="price">' + view.price + '</span>' + (view.priceNote ? '<span class="meta" style="margin:0;">' + view.priceNote + '</span>' : '') + '</div>' : '<p class="dg-soon">' + (view.soonNote || 'Coming soon.') + '</p>') + buy + '<p class="dg-license" style="font-size:12px;color:var(--ink-soft);margin:.8rem 0 0;">For personal use only. Please don\u2019t share or resell. See the <a href="policies.html#digital-products">digital product terms</a>.</p>' +
       (acc.length ? '<div class="dg-acc">' + acc.join('') + '</div>' : '') + '</div></div></section>';
     if (others.length) h += '<section class="band stone dg-more wrap" style="border-radius:4px;"><div class="more-head"><div><p class="eyebrow">More From Vault Digitals</p><h2>You may also <em>like</em></h2></div><a class="compare-link" href="vault-digitals.html">See all \u2192</a></div><div class="vd-mini-grid">' + others.map(digitalMini).join('') + '</div></section>';
     main.innerHTML = h;
@@ -80,10 +83,12 @@
       show(0);
     })();
     if (window.initAccordions) initAccordions('.acc-item');
-    window.scrollTo(0,0);
+    Array.prototype.forEach.call(main.querySelectorAll('.dg-opt'), function(b){ b.addEventListener('click', function(){ optIdx = +b.getAttribute('data-oi'); keepScroll = true; render(); }); });
+    if (window.digitalMore) digitalMore(main);
+    if (!keepScroll) window.scrollTo(0,0); keepScroll = false;
   }
   render();
-  window.addEventListener('hashchange', render);
+  window.addEventListener('hashchange', function(){ optIdx = 0; render(); });
 })();
 </script>
 </body>

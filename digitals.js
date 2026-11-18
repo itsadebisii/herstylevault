@@ -57,57 +57,47 @@ var DIGITALS = [
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
-    slug: 'wardrobe-detox-checklist',
-    name: 'The Wardrobe Detox Checklist',
-    category: 'guides', status: 'coming-soon', /* switch to 'live' once the Stripe link is in cta.href */
-    coverSub: 'Quick · Printable · Reset',
-    price: '', /* add the price when you set status to 'live' */
-    soonNote: 'Coming soon. Included with The Vault Edit and The Full Reveal.',
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20updates' },
+    slug: 'wardrobe-detox-guide',
+    name: 'The Wardrobe Detox Guide',
+    category: 'guides', status: 'coming-soon', /* switch to 'live' once each option below has its price and Stripe link */
+    coverSub: 'Closet · Declutter · Reset',
+    price: '', /* leave blank: each option below carries its own price */
+    soonNote: 'Coming soon. Choose the one-page Checklist or the full Guidebook.',
+    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Guide%20updates' },
     previews: [],
-    short: 'A one-page checklist to declutter your closet in one sitting. Included with The Vault Edit and The Full Reveal.',
-    headline: 'Declutter your closet in <em>one sitting</em>',
-    lead: 'The Wardrobe Detox Checklist is the quick version of my closet declutter method: a one-page, printable checklist you can follow start to finish.',
-    includes: ['A one-page checklist you can print or use on your phone', 'The steps in order, so you always know what comes next', 'A digital file that is yours to keep and reuse every season'],
+    short: 'Declutter your closet your way: a one-page Checklist or the full Guidebook.',
+    headline: 'Declutter your closet, <em>your way</em>',
+    lead: 'The Wardrobe Detox Guide is HerStyleVault’s method for clearing your closet efficiently, in two versions: a one-page Checklist when you want the quick reset, or the full Guidebook when you want every tip and trick.',
+    /* options = the tiers. Each can carry: label, badge, price, priceNote, soonNote, includes[], cta {label, href}. Anything left out falls back to the product's own field. */
+    options: [
+      {
+        label: 'Checklist', badge: 'One page',
+        price: '', /* e.g. '$9' */
+        soonNote: 'Coming soon. Included with The Vault Edit and The Full Reveal.',
+        includes: ['A one-page checklist you can print or use on your phone', 'The steps in order, so you always know what comes next', 'A digital file that is yours to keep and reuse every season'],
+        cta: { label: 'Get the Checklist', href: 'STRIPE_LINK_HERE' }
+      },
+      {
+        label: 'Guidebook', badge: 'Full method',
+        price: '', /* e.g. '$29' */
+        soonNote: 'Coming soon. Included with The Full Reveal. Vault Edit clients get a discount.',
+        includes: ['A clear, step-by-step method for decluttering your closet efficiently', 'Tips and tricks you can reuse anytime', 'The one-page Checklist included', 'A digital guidebook that is yours to keep'],
+        cta: { label: 'Get the Guidebook', href: 'STRIPE_LINK_HERE' }
+      }
+    ],
+    includes: ['A clear method for decluttering your closet efficiently', 'Tips and tricks you can reuse anytime'],
     steps: [
-      ['Purchase', 'Check out once. No subscription.'],
-      ['Download', 'Your checklist is available to download right away.'],
+      ['Choose your version', 'The one-page Checklist or the full Guidebook.'],
+      ['Check out once', 'No subscription. Your file is available to download right away.'],
       ['Detox at your pace', 'Work through your closet whenever suits you.']
     ],
     faqs: [
-      ['Is this included with a package?', 'Yes. It is included with The Vault Edit and The Full Reveal.'],
-      ['What is the difference between the Checklist and the Guidebook?', 'The Checklist is the one-page quick version. The Guidebook is the full method, with the reasoning, tips and tricks behind each step. The Full Reveal includes both.'],
-      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Checklist is the do-it-yourself version.'],
+      ['What is the difference between the Checklist and the Guidebook?', 'The Checklist is the one-page quick version. The Guidebook is the full method, with the reasoning, tips and tricks behind each step, and it includes the Checklist.'],
+      ['Is this included with a package?', 'Yes. The Full Reveal includes the Guidebook and the Checklist. The Vault Edit includes the Checklist, plus a discount on the Guidebook.'],
+      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Guide is the do-it-yourself version.'],
       ['Is it a physical product?', 'No. It is a digital file, delivered instantly, for your personal use only.']
     ],
-    cta: { label: 'Get The Wardrobe Detox Checklist', href: 'STRIPE_LINK_HERE' },
-    meta: 'Instant access · One-time payment'
-  },
-  {
-    slug: 'wardrobe-detox-guide',
-    name: 'The Wardrobe Detox Guidebook',
-    category: 'guides', status: 'coming-soon', /* switch to 'live' once the Stripe link is in cta.href */
-    coverSub: 'Closet · Declutter · Reset',
-    price: '', /* add the price when you set status to 'live' */
-    soonNote: 'Coming soon. Included with The Full Reveal, and available to Vault Edit clients at a discount.',
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20updates' },
-    previews: [],
-    short: 'The full do-it-yourself method for decluttering your closet, written so you can reuse it every season. Included with The Full Reveal.',
-    headline: 'Declutter your closet, <em>efficiently</em>',
-    lead: 'The Wardrobe Detox Guidebook is HerStyleVault’s full tips-and-tricks method for decluttering your closet, written so you can use it again every season.',
-    includes: ['A clear, step-by-step method for decluttering your closet efficiently', 'Tips and tricks you can reuse anytime', 'A digital guidebook that is yours to keep'],
-    steps: [
-      ['Purchase', 'Check out once. No subscription.'],
-      ['Download', 'Your guidebook is available to download right away.'],
-      ['Detox at your pace', 'Work through your closet whenever suits you.']
-    ],
-    faqs: [
-      ['Is this included with a package?', 'Yes. The Full Reveal includes the Guidebook and the Checklist. The Vault Edit includes the Checklist, plus a discount on the Guidebook.'],
-      ['What is the difference between the Guidebook and the Checklist?', 'The Checklist is the one-page quick version. The Guidebook is the full method, with the reasoning, tips and tricks behind each step.'],
-      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Guidebook is the do-it-yourself version.'],
-      ['Is it a physical product?', 'No. It is a digital guidebook, delivered instantly, for your personal use only.']
-    ],
-    cta: { label: 'Get The Wardrobe Detox Guidebook', href: 'STRIPE_LINK_HERE' },
+    cta: { label: 'Get The Wardrobe Detox Guide', href: 'STRIPE_LINK_HERE' },
     meta: 'Instant access · One-time payment'
   }
 ];
@@ -153,4 +143,18 @@ function digitalMini(p){
     '<div class="vd-mini-body"><p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
     '<p class="vd-mini-meta">' + (p.price ? '<span class="price">' + p.price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
   return soon ? '<div class="vd-mini is-soon">' + inner + '</div>' : '<a class="vd-mini" href="digital.html#' + p.slug + '">' + inner + '</a>';
+}
+
+/* "See more" appears only when a card description is cut off by the 2-line limit */
+function digitalMore(root){
+  Array.prototype.forEach.call((root || document).querySelectorAll('.vd-desc'), function(p){
+    if (p.getAttribute('data-more')) return;
+    if (p.scrollHeight <= p.clientHeight + 1) return;
+    p.setAttribute('data-more', '1');
+    var b = document.createElement('span'); b.className = 'vd-more'; b.setAttribute('role', 'button'); b.tabIndex = 0; b.textContent = 'See more';
+    function t(e){ e.preventDefault(); e.stopPropagation(); var open = p.classList.toggle('open'); b.textContent = open ? 'See less' : 'See more'; }
+    b.addEventListener('click', t);
+    b.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') t(e); });
+    p.parentNode.insertBefore(b, p.nextSibling);
+  });
 }
