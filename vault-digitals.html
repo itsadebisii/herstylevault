@@ -46,6 +46,7 @@
     var list = cat === 'all' ? items : items.filter(function(p){ return p.category === cat; });
     grid.innerHTML = list.length ? list.map(digitalCard).join('') : '<p class="vd-empty">New digitals are on the way.</p>';
     Array.prototype.forEach.call(bar.children, function(b){ var on = b.getAttribute('data-cat') === cat; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
+    if (window.digitalMore) { digitalMore(grid); }
     try { history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat); } catch(e){}
   }
   if (cats.length > 1) {
@@ -55,6 +56,8 @@
   }
   var h = (location.hash || '').replace('#','');
   show(cats.indexOf(h) > -1 && cats.length > 1 ? h : 'all');
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ digitalMore(grid); });
+  window.addEventListener('load', function(){ digitalMore(grid); });
 })();
 </script>
 </body>
