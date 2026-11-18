@@ -26,32 +26,41 @@
 <script>
 (function(){
   var main = document.getElementById('offerMain');
-  function card(o){
-    return '<a class="pkg-card how-card" href="offer.html#' + o.slug + '"><div class="pkg-tag">' + o.tag.replace(/ \u00b7.*/,'') + '</div><h3 class="card-title" style="margin:0;font-size:22px;">' + o.name + '</h3><p style="font-size:14px;color:var(--ink-soft);margin:0;">' + o.short + '</p><div class="svc-from"><span>' + (o.kind==='package' ? '' : 'From ') + '</span>' + o.from + '</div><span class="how-overlay">Learn More \u2192</span></a>';
+  function plain(t){ return String(t || '').replace(/<[^>]*>/g, ''); }
+  function shortTag(o){ return o.tag.replace(/ ·.*/,''); }
+  /* generated 4:5 cover, same family as the Vault Digitals covers: packages Bordeaux Noir, services Cool Stone */
+  function cover(o){
+    return '<div class="vd-cover tone-' + (o.kind === 'package' ? 'noir' : 'stone') + '" role="img" aria-label="' + plain(o.name) + ' cover"><span class="vc-eyebrow">' + shortTag(o) + '</span>' +
+      '<span class="vc-mid"><strong class="vc-title">' + o.name + '</strong><i class="vc-rule"></i><span class="vc-sub">' + (o.coverSub || o.short) + '</span></span><span class="vc-brand">HerStyleVault</span></div>';
   }
+  function mini(o){
+    return '<a class="vd-mini" href="offer.html#' + o.slug + '"><div class="vd-thumb">' + cover(o) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
+      '<div class="vd-mini-body"><p class="vd-eyebrow">' + shortTag(o) + '</p><h3 class="card-title">' + o.name + '</h3><p class="vd-mini-meta"><span class="price">' + (o.kind === 'package' ? '' : 'From ') + o.from + '</span><span class="vd-go">Discover →</span></p></div></a>';
+  }
+  function item(title, body, open){ return '<div class="acc-item' + (open ? ' open' : '') + '"><div class="acc-q" data-acc-toggle>' + title + '<span class="acc-icon">+</span></div><div class="acc-a">' + body + '</div></div>'; }
   function render(){
     var slug = (location.hash || '').replace('#','');
     var o = OFFERS.filter(function(x){ return x.slug === slug; })[0] || OFFERS[0];
     document.title = o.name + ' | HerStyleVault';
+    var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', plain(o.lead));
     var isSvc = o.kind === 'service';
     var cta = isSvc
-      ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a><p class="meta">Pay upfront \u00b7 No consultation needed \u00b7 <a href="policies.html">Read our policies</a></p>'
+      ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a><p class="meta">Pay upfront · No consultation needed · <a href="policies.html">Read our policies</a></p>'
       : '<a class="btn btn-primary" href="' + o.cta.href + '">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Read our policies</a></p>';
-    var h = '<section class="band wrap"><p class="crumb"><a href="' + (isSvc ? 'services.html' : 'packages.html') + '">' + (isSvc ? '\u00c0 La Carte Services' : 'Private Styling Packages') + '</a> / ' + o.name + '</p>' +
-      '<div class="digital-hero"><div class="digital-cover"><span>' + o.tag + '</span><strong>' + o.name + '</strong><em>' + (window.hsvIcon ? hsvIcon('hanger', 22) : '') + '</em></div><div>' +
-      '<p class="eyebrow">' + o.tag + '</p><h1 class="page-title" style="margin-bottom:1rem;">' + o.headline + '</h1>' +
-      '<p class="sub" style="margin-bottom:1.2rem;">' + o.lead + '</p>' +
-      '<div class="price" style="margin-bottom:0.3rem;">' + (isSvc ? '<span>From </span>' : '') + o.from + ' <span>' + (isSvc ? (o.slug==='the-ensemble' ? 'per person' : '') : o.fromNote) + '</span></div>' +
-      '<p class="meta" style="margin:0 0 1.2rem;">' + o.meta + '</p>' + cta + '</div></div></section>';
-    if (o.tiers) h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">Choose Your Tier</p><h2 class="heading center">Pick what <em>fits</em></h2><div class="tier-row' + (o.tiers.length===2?' two':'') + '">' +
-      o.tiers.map(function(t){ return '<div class="tier"><div class="tier-name">' + t[0] + '</div><div class="tier-price">' + t[1] + '<span>' + t[2] + '</span></div><div class="tier-desc">' + t[3] + '</div></div>'; }).join('') + '</div></section>';
-    h += '<section class="band wrap"><p class="eyebrow center">What You Get</p><h2 class="heading center">What\u2019s <em>included</em></h2><ul class="includes-list">' + o.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul></section>';
-    h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">How It Works</p><h2 class="heading center">Three <em>simple</em> steps</h2><div class="pkg-grid">' +
-      o.steps.map(function(s,i){ return '<div class="pkg-card"><div class="pkg-tag">0' + (i+1) + '</div><h3 class="card-title" style="font-size:20px;">' + s[0] + '</h3><p style="font-size:14px;color:var(--ink-soft);margin:0;">' + s[1] + '</p></div>'; }).join('') + '</div></section>';
-    h += '<section class="band wrap"><h2 class="heading center">Good to <em>know</em></h2><div class="acc-grid">' +
-      o.faqs.map(function(f){ return '<div class="acc-item"><div class="acc-q" data-acc-toggle>' + f[0] + '<span class="acc-icon">+</span></div><div class="acc-a">' + f[1] + '</div></div>'; }).join('') + '</div></section>';
+    var acc = [];
+    if (o.tiers) acc.push(item('Choose Your Tier', o.tiers.map(function(t){ return '<div class="dg-tier"><div class="dg-tier-top"><b>' + t[0] + '</b><span class="dg-tier-price">' + t[1] + '</span></div><div class="dg-tier-meta">' + t[2] + '</div><p>' + t[3] + '</p></div>'; }).join(''), true));
+    acc.push(item('What’s Included', '<ul class="dg-list">' + o.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>', !o.tiers));
+    acc.push(item('How It Works', '<ol class="dg-ol">' + o.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
+    acc.push(item('Good to Know', o.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
     var others = OFFERS.filter(function(x){ return x !== o && x.kind === o.kind; });
-    h += '<section class="band stone wrap" style="border-radius:4px;"><p class="eyebrow center">More Ways to Work Together</p><h2 class="heading center">You may also <em>like</em></h2><div class="how-split" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">' + others.map(card).join('') + '</div><div class="cta-row"><a class="compare-link" href="' + (isSvc ? 'services.html' : 'packages.html') + '">See all ' + (isSvc ? '\u00e0 la carte services' : 'private styling packages') + ' \u2192</a></div></section>';
+    var h = '<section class="band wrap" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="' + (isSvc ? 'services.html' : 'packages.html') + '">' + (isSvc ? 'À La Carte Services' : 'Private Styling Packages') + '</a> / ' + plain(o.name) + '</p>' +
+      '<div class="dg-hero"><div class="dg-media">' + cover(o) + '</div><div class="dg-info">' +
+      '<p class="eyebrow">' + o.tag + '</p><h1 class="page-title">' + o.headline + '</h1>' +
+      '<p class="sub" style="margin-bottom:1rem;">' + o.lead + '</p>' +
+      '<div class="dg-price"><span class="price">' + (isSvc ? '<span>From </span>' : '') + o.from + '</span><span class="meta" style="margin:0;">' + (isSvc ? (o.slug === 'the-ensemble' ? 'per person' : '') : o.fromNote) + '</span></div>' +
+      '<p class="meta" style="margin:0 0 1.2rem;">' + o.meta + '</p>' + cta +
+      '<div class="dg-acc">' + acc.join('') + '</div></div></div></section>';
+    if (others.length) h += '<section class="band stone dg-more wrap" style="border-radius:4px;"><div class="more-head"><div><p class="eyebrow">More Ways to Work Together</p><h2>You may also <em>like</em></h2></div><a class="compare-link" href="' + (isSvc ? 'services.html' : 'packages.html') + '">See all →</a></div><div class="vd-mini-grid">' + others.map(mini).join('') + '</div></section>';
     main.innerHTML = h;
     if (window.initAccordions) initAccordions('.acc-item');
     if (window.applyBookButtons) applyBookButtons();
