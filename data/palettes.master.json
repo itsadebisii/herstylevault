@@ -1,0 +1,962 @@
+{
+ "lightSpring": {
+  "label": "Light Spring",
+  "family": "spring",
+  "neutrals": [
+   {
+    "n": "Ivory",
+    "h": "#f5efe0"
+   },
+   {
+    "n": "Camel",
+    "h": "#d4b896"
+   },
+   {
+    "n": "Light Warm Gray",
+    "h": "#c9c0b3"
+   },
+   {
+    "n": "Soft Peach Beige",
+    "h": "#e8d4bc"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Peach",
+    "h": "#f4a97f"
+   },
+   {
+    "n": "Coral",
+    "h": "#ef8354"
+   },
+   {
+    "n": "Light Aqua",
+    "h": "#8fd3c8"
+   },
+   {
+    "n": "Warm Yellow",
+    "h": "#f2c14e"
+   },
+   {
+    "n": "Apple Green",
+    "h": "#9bc25c"
+   },
+   {
+    "n": "Light Turquoise",
+    "h": "#6fc7c0"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Champagne Gold",
+    "h": "#d9c48a"
+   },
+   {
+    "n": "Soft Pink Nude",
+    "h": "#f1c4bd"
+   },
+   {
+    "n": "Honey Tan",
+    "h": "#c99a6a"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Black",
+    "h": "#141414"
+   },
+   {
+    "n": "Deep Burgundy",
+    "h": "#5e1526"
+   },
+   {
+    "n": "Icy Lilac",
+    "h": "#d9d8f0"
+   },
+   {
+    "n": "Cool Gray",
+    "h": "#8e959c"
+   }
+  ]
+ },
+ "trueSpring": {
+  "label": "True Spring",
+  "family": "spring",
+  "neutrals": [
+   {
+    "n": "Camel",
+    "h": "#c8a882"
+   },
+   {
+    "n": "Warm Ivory",
+    "h": "#f2ead8"
+   },
+   {
+    "n": "Golden Brown",
+    "h": "#8a6240"
+   },
+   {
+    "n": "Warm Khaki",
+    "h": "#b9a978"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Coral",
+    "h": "#f2704b"
+   },
+   {
+    "n": "Golden Yellow",
+    "h": "#f0b429"
+   },
+   {
+    "n": "Kelly Green",
+    "h": "#6fae44"
+   },
+   {
+    "n": "Turquoise",
+    "h": "#29a89a"
+   },
+   {
+    "n": "Warm Red",
+    "h": "#e0472b"
+   },
+   {
+    "n": "Tangerine",
+    "h": "#f2884b"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Warm Gold",
+    "h": "#d4a94c"
+   },
+   {
+    "n": "Cognac",
+    "h": "#a65a2e"
+   },
+   {
+    "n": "Peach Nude",
+    "h": "#e9a787"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Black",
+    "h": "#141414"
+   },
+   {
+    "n": "Icy Lavender",
+    "h": "#dcd9f0"
+   },
+   {
+    "n": "Cool Gray",
+    "h": "#9aa0a6"
+   },
+   {
+    "n": "Dusty Mauve",
+    "h": "#a98995"
+   }
+  ]
+ },
+ "brightSpring": {
+  "label": "Bright Spring",
+  "family": "spring",
+  "neutrals": [
+   {
+    "n": "Bright White",
+    "h": "#fbfbfb"
+   },
+   {
+    "n": "Warm Charcoal",
+    "h": "#3f3a38"
+   },
+   {
+    "n": "Camel",
+    "h": "#c9a882"
+   },
+   {
+    "n": "True Navy",
+    "h": "#223350"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Magenta",
+    "h": "#ec1f6a"
+   },
+   {
+    "n": "Turquoise",
+    "h": "#14b8a6"
+   },
+   {
+    "n": "Bright Coral",
+    "h": "#f2543d"
+   },
+   {
+    "n": "Butter Yellow",
+    "h": "#f2d13f"
+   },
+   {
+    "n": "Kelly Green",
+    "h": "#55b02e"
+   },
+   {
+    "n": "Cobalt Blue",
+    "h": "#4d6fe0"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Antique Gold",
+    "h": "#b8923a"
+   },
+   {
+    "n": "Cherry Red",
+    "h": "#c9283a"
+   },
+   {
+    "n": "Cognac Leather",
+    "h": "#a85f2b"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Dusty Taupe",
+    "h": "#a89c90"
+   },
+   {
+    "n": "Soft Greige",
+    "h": "#d0c8bc"
+   },
+   {
+    "n": "Washed Pink",
+    "h": "#e8d5d8"
+   },
+   {
+    "n": "Faded Sage",
+    "h": "#a9b5a2"
+   }
+  ]
+ },
+ "lightSummer": {
+  "label": "Light Summer",
+  "family": "summer",
+  "neutrals": [
+   {
+    "n": "Soft White",
+    "h": "#f4f2ee"
+   },
+   {
+    "n": "Light Gray",
+    "h": "#b9bdc4"
+   },
+   {
+    "n": "Slate Blue",
+    "h": "#a9b8c4"
+   },
+   {
+    "n": "Taupe",
+    "h": "#b7ada3"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Powder Pink",
+    "h": "#eab8bf"
+   },
+   {
+    "n": "Periwinkle",
+    "h": "#9aa8d8"
+   },
+   {
+    "n": "Soft Lavender",
+    "h": "#b6a3cf"
+   },
+   {
+    "n": "Soft Aqua",
+    "h": "#9fcfd0"
+   },
+   {
+    "n": "Dusty Rose",
+    "h": "#c98fa0"
+   },
+   {
+    "n": "Sky Blue",
+    "h": "#a7cbe0"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Pearl Silver",
+    "h": "#d0d3d8"
+   },
+   {
+    "n": "Brushed Rose Gold",
+    "h": "#a67b74"
+   },
+   {
+    "n": "Berry Sheer",
+    "h": "#b9607d"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Black",
+    "h": "#141414"
+   },
+   {
+    "n": "Orange",
+    "h": "#e8762b"
+   },
+   {
+    "n": "Mustard Yellow",
+    "h": "#c99a2e"
+   },
+   {
+    "n": "Deep Chocolate",
+    "h": "#3a2418"
+   }
+  ]
+ },
+ "trueSummer": {
+  "label": "True Summer",
+  "family": "summer",
+  "neutrals": [
+   {
+    "n": "Cool Gray",
+    "h": "#9aa0a6"
+   },
+   {
+    "n": "Navy",
+    "h": "#33465e"
+   },
+   {
+    "n": "Soft White",
+    "h": "#f0f0ee"
+   },
+   {
+    "n": "Rosewood",
+    "h": "#baa3a0"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Dusty Rose",
+    "h": "#c98a91"
+   },
+   {
+    "n": "Soft Burgundy",
+    "h": "#8f4a56"
+   },
+   {
+    "n": "Lavender",
+    "h": "#9c88c4"
+   },
+   {
+    "n": "Powder Blue",
+    "h": "#9bb8d3"
+   },
+   {
+    "n": "Sage",
+    "h": "#93a68c"
+   },
+   {
+    "n": "Mauve",
+    "h": "#a97c8a"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Polished Silver",
+    "h": "#c3c6cb"
+   },
+   {
+    "n": "Black Plum",
+    "h": "#5e2a4a"
+   },
+   {
+    "n": "Warm Taupe Suede",
+    "h": "#7a6f66"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Orange",
+    "h": "#e8762b"
+   },
+   {
+    "n": "Warm Gold",
+    "h": "#c9a24a"
+   },
+   {
+    "n": "Black",
+    "h": "#141414"
+   },
+   {
+    "n": "Neon Lime",
+    "h": "#b6f03c"
+   }
+  ]
+ },
+ "softSummer": {
+  "label": "Soft Summer",
+  "family": "summer",
+  "neutrals": [
+   {
+    "n": "Taupe",
+    "h": "#a99e93"
+   },
+   {
+    "n": "Soft Gray",
+    "h": "#9b9691"
+   },
+   {
+    "n": "Dusty Navy",
+    "h": "#3e4a5c"
+   },
+   {
+    "n": "Greige",
+    "h": "#b0a89c"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Dusty Teal",
+    "h": "#5b8a86"
+   },
+   {
+    "n": "Mauve",
+    "h": "#9a6b73"
+   },
+   {
+    "n": "Soft Plum",
+    "h": "#77566e"
+   },
+   {
+    "n": "Muted Rose",
+    "h": "#bd8b8f"
+   },
+   {
+    "n": "Sage Green",
+    "h": "#8a9a7e"
+   },
+   {
+    "n": "Slate Blue",
+    "h": "#6e7f96"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Smoked Gray",
+    "h": "#9a9a9a"
+   },
+   {
+    "n": "Deep Raspberry",
+    "h": "#8c2f55"
+   },
+   {
+    "n": "Espresso Taupe",
+    "h": "#5f5650"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Neon Pink",
+    "h": "#ff2d95"
+   },
+   {
+    "n": "Pure Black",
+    "h": "#0a0a0a"
+   },
+   {
+    "n": "Orange",
+    "h": "#e8762b"
+   },
+   {
+    "n": "Electric Blue",
+    "h": "#0f4cff"
+   }
+  ]
+ },
+ "softAutumn": {
+  "label": "Soft Autumn",
+  "family": "autumn",
+  "neutrals": [
+   {
+    "n": "Warm Taupe",
+    "h": "#a68f74"
+   },
+   {
+    "n": "Soft Camel",
+    "h": "#c2a480"
+   },
+   {
+    "n": "Warm Gray",
+    "h": "#948575"
+   },
+   {
+    "n": "Mushroom",
+    "h": "#b4a690"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Sage Green",
+    "h": "#8a9a6b"
+   },
+   {
+    "n": "Dusty Coral",
+    "h": "#c98a6b"
+   },
+   {
+    "n": "Warm Olive",
+    "h": "#7d7a4a"
+   },
+   {
+    "n": "Soft Rust",
+    "h": "#b56a4a"
+   },
+   {
+    "n": "Muted Gold",
+    "h": "#b99a55"
+   },
+   {
+    "n": "Terracotta",
+    "h": "#b96a4e"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Brushed Gold",
+    "h": "#d0b77a"
+   },
+   {
+    "n": "Warm Brick",
+    "h": "#a4473a"
+   },
+   {
+    "n": "Deep Olive Suede",
+    "h": "#5e5a38"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Icy Lilac",
+    "h": "#d4d8f0"
+   },
+   {
+    "n": "Pure Black",
+    "h": "#0a0a0a"
+   },
+   {
+    "n": "Bright Magenta",
+    "h": "#d4087a"
+   },
+   {
+    "n": "Stark White",
+    "h": "#ffffff"
+   }
+  ]
+ },
+ "trueAutumn": {
+  "label": "True Autumn",
+  "family": "autumn",
+  "neutrals": [
+   {
+    "n": "Camel",
+    "h": "#b98a55"
+   },
+   {
+    "n": "Chocolate Brown",
+    "h": "#5c3d24"
+   },
+   {
+    "n": "Warm Olive",
+    "h": "#6e6b3f"
+   },
+   {
+    "n": "Cream",
+    "h": "#ede0c8"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Rust",
+    "h": "#b5541f"
+   },
+   {
+    "n": "Honey Gold",
+    "h": "#c99a2e"
+   },
+   {
+    "n": "Forest Green",
+    "h": "#3f6b3f"
+   },
+   {
+    "n": "Terracotta",
+    "h": "#d1732a"
+   },
+   {
+    "n": "Warm Brown",
+    "h": "#7a4a2a"
+   },
+   {
+    "n": "Teal",
+    "h": "#2f6b63"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Antique Gold",
+    "h": "#c9a05a"
+   },
+   {
+    "n": "Oxblood Lip",
+    "h": "#6b1f1c"
+   },
+   {
+    "n": "Saddle Leather",
+    "h": "#9a6b3a"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Icy Blue",
+    "h": "#d6e6f0"
+   },
+   {
+    "n": "Black",
+    "h": "#141414"
+   },
+   {
+    "n": "Cool Gray",
+    "h": "#9aa0a6"
+   },
+   {
+    "n": "Bubblegum Pink",
+    "h": "#f5a3c7"
+   }
+  ]
+ },
+ "deepAutumn": {
+  "label": "Deep Autumn",
+  "family": "autumn",
+  "neutrals": [
+   {
+    "n": "Chocolate Brown",
+    "h": "#4a3220"
+   },
+   {
+    "n": "Deep Olive",
+    "h": "#4f4f2c"
+   },
+   {
+    "n": "Espresso",
+    "h": "#3a2a1e"
+   },
+   {
+    "n": "Warm Charcoal",
+    "h": "#3c332c"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Deep Rust",
+    "h": "#9c3f1e"
+   },
+   {
+    "n": "Burnt Orange",
+    "h": "#b5541f"
+   },
+   {
+    "n": "Deep Teal",
+    "h": "#1f5c56"
+   },
+   {
+    "n": "Bronze",
+    "h": "#8a5a2e"
+   },
+   {
+    "n": "Deep Gold",
+    "h": "#b5892e"
+   },
+   {
+    "n": "Burgundy",
+    "h": "#6e2430"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Aged Gold",
+    "h": "#c4a35a"
+   },
+   {
+    "n": "Deep Rose Brown",
+    "h": "#8a5a58"
+   },
+   {
+    "n": "Olive Suede",
+    "h": "#6a6a48"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Icy Blue",
+    "h": "#d6e6f2"
+   },
+   {
+    "n": "Silver",
+    "h": "#c0c0c0"
+   },
+   {
+    "n": "Light Gray",
+    "h": "#d3d3d3"
+   },
+   {
+    "n": "Pale Pink",
+    "h": "#f2d6dc"
+   }
+  ]
+ },
+ "brightWinter": {
+  "label": "Bright Winter",
+  "family": "winter",
+  "neutrals": [
+   {
+    "n": "Bright White",
+    "h": "#fafafa"
+   },
+   {
+    "n": "True Black",
+    "h": "#191919"
+   },
+   {
+    "n": "Charcoal",
+    "h": "#322f2e"
+   },
+   {
+    "n": "Icy Gray",
+    "h": "#cfd3d6"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Orchid",
+    "h": "#d4087a"
+   },
+   {
+    "n": "Emerald",
+    "h": "#0e8a5e"
+   },
+   {
+    "n": "True Red",
+    "h": "#d21f2c"
+   },
+   {
+    "n": "Royal Blue",
+    "h": "#1e4fd6"
+   },
+   {
+    "n": "Magenta",
+    "h": "#ec1f6a"
+   },
+   {
+    "n": "Ice Blue",
+    "h": "#7fd1e0"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Platinum",
+    "h": "#d4d7db"
+   },
+   {
+    "n": "Raspberry Lip",
+    "h": "#b5124f"
+   },
+   {
+    "n": "Gunmetal",
+    "h": "#5f6670"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Dusty Camel",
+    "h": "#b79b7a"
+   },
+   {
+    "n": "Burnt Orange",
+    "h": "#c9622a"
+   },
+   {
+    "n": "Muted Khaki",
+    "h": "#a89f7f"
+   },
+   {
+    "n": "Dusty Rose",
+    "h": "#c9a3a0"
+   }
+  ]
+ },
+ "trueWinter": {
+  "label": "True Winter",
+  "family": "winter",
+  "neutrals": [
+   {
+    "n": "True Black",
+    "h": "#171717"
+   },
+   {
+    "n": "Pure White",
+    "h": "#fbfbfb"
+   },
+   {
+    "n": "Charcoal",
+    "h": "#2e2e2e"
+   },
+   {
+    "n": "Navy",
+    "h": "#16233b"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Emerald",
+    "h": "#0d7a52"
+   },
+   {
+    "n": "Sapphire",
+    "h": "#164fa3"
+   },
+   {
+    "n": "True Red",
+    "h": "#c8102e"
+   },
+   {
+    "n": "Royal Purple",
+    "h": "#4b1e78"
+   },
+   {
+    "n": "Icy Pink",
+    "h": "#e6a6c7"
+   },
+   {
+    "n": "Orchid",
+    "h": "#c2126b"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Platinum",
+    "h": "#cfd2d6"
+   },
+   {
+    "n": "Plum Lip",
+    "h": "#7a1f5c"
+   },
+   {
+    "n": "Gunmetal",
+    "h": "#596070"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Camel",
+    "h": "#b98a55"
+   },
+   {
+    "n": "Orange",
+    "h": "#e8762b"
+   },
+   {
+    "n": "Mustard Yellow",
+    "h": "#c99a2e"
+   },
+   {
+    "n": "Dusty Sage",
+    "h": "#a3af9a"
+   }
+  ]
+ },
+ "deepWinter": {
+  "label": "Deep Winter",
+  "family": "winter",
+  "neutrals": [
+   {
+    "n": "True Black",
+    "h": "#141414"
+   },
+   {
+    "n": "Deep Charcoal",
+    "h": "#2a2a2a"
+   },
+   {
+    "n": "Pure White",
+    "h": "#f7f7f7"
+   },
+   {
+    "n": "Deep Navy",
+    "h": "#101c33"
+   }
+  ],
+  "signature": [
+   {
+    "n": "Deep Burgundy",
+    "h": "#5e1526"
+   },
+   {
+    "n": "Forest Green",
+    "h": "#123d2a"
+   },
+   {
+    "n": "Sapphire",
+    "h": "#123a7a"
+   },
+   {
+    "n": "Deep Purple",
+    "h": "#3a1450"
+   },
+   {
+    "n": "True Red",
+    "h": "#b3122a"
+   },
+   {
+    "n": "Deep Orchid",
+    "h": "#8a0f52"
+   }
+  ],
+  "accents": [
+   {
+    "n": "Platinum",
+    "h": "#c9ccd1"
+   },
+   {
+    "n": "Cool Rose Lip",
+    "h": "#c25a86"
+   },
+   {
+    "n": "Gunmetal",
+    "h": "#4a5160"
+   }
+  ],
+  "avoidSwatches": [
+   {
+    "n": "Pastel Lilac",
+    "h": "#d9cce8"
+   },
+   {
+    "n": "Muted Olive",
+    "h": "#8a8a5c"
+   },
+   {
+    "n": "Orange",
+    "h": "#e8762b"
+   },
+   {
+    "n": "Light Beige",
+    "h": "#e0d3bd"
+   }
+  ]
+ }
+}

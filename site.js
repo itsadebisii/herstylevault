@@ -4,7 +4,7 @@ var HSV_ICONS = {
   bag: '<path d="M5.2 9h13.6l1 11.5H4.2L5.2 9Z"/><path d="M8.6 9V7.2a3.4 3.4 0 0 1 6.8 0V9"/>'
 };
 function hsvIcon(name, size){ return HSV_ICON_BASE.replace(/SIZE/g, size || 14) + HSV_ICONS[name] + '</svg>'; }
-var TICKER_ITEMS = ['Color Analysis','Wardrobe Detox','Wardrobe Consulting','Personal Shopping','Now Booking — Limited Introductory Pricing'];
+var TICKER_ITEMS = ['Color Analysis','Wardrobe Detox','Wardrobe Consulting','Personal Shopping','Now Booking: Limited Introductory Pricing'];
 var TICKER_MARKS = ['hanger','bag','hanger','bag','hanger'];
 function tickerSet(hidden){
   return '<div class="ticker-set"' + (hidden ? ' aria-hidden="true"' : '') + '>' + TICKER_ITEMS.map(function(t,i){ return '<span class="ticker-item">' + t + '</span><span class="ticker-sep">' + hsvIcon(TICKER_MARKS[i], 15) + '</span>'; }).join('') + '</div>';
@@ -40,7 +40,7 @@ const FOOTER_HTML = `<div class="wrap">
 <div class="footer-top">
 <div>
 <div class="footer-word">HerStyleVault</div>
-<p class="footer-tagline">Personal styling for the woman ready to show up as her most elevated self.</p>
+<p class="footer-tagline">Personal styling for women who want to feel like themselves in their clothes.</p>
 <div class="footer-icons">${hsvIcon("hanger",18)}${hsvIcon("bag",18)}</div>
 </div>
 <div class="footer-col">

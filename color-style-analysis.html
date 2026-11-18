@@ -5,107 +5,112 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Signature Style Report | HerStyleVault</title>
 <meta name="robots" content="noindex">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --blush: #f2d9d0;
-  --mauve: #c9a09a;
-  --rose: #4e1d27;
-  --deep-rose: #4e1d27;
-  --cream: #fdf6f0;
-  --warm-white: #fff9f6;
-  --text-dark: #1a1010;
-  --text-mid: #4a2e2e;
-  --text-light: #6b4a4a;
-  --gold: #e4d2a5;
-  --line: rgba(46,20,22,0.14);
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.4rem; }
+:root{--bg:#FAF9F6;--surface:#EFECE6;--ink:#181716;--ink-soft:#6B6862;--line:#DCD8D0;--accent:#7A1321;--accent-deep:#4E0B14;--accent-ink:#FAF9F6;
+  --font-display:'Cormorant Garamond',Georgia,'Times New Roman',serif;--font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--surface);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.4rem;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.shell{width:100%;max-width:640px;background:var(--bg);border:1px solid var(--line);border-radius:2px;min-height:560px;display:flex;flex-direction:column;}
+.pad{padding:clamp(1.6rem,5vw,2.6rem);flex:1;display:flex;flex-direction:column;}
+.progress{display:flex;gap:3px;margin-bottom:1.6rem;}
+.progress span{height:2px;flex:1;background:var(--line);}
+.progress span.done{background:var(--accent);}
+.meta{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.8rem;font-weight:500;}
+.qtext{font-family:var(--font-display);font-size:1.7rem;font-weight:500;color:var(--ink);margin-bottom:0.9rem;line-height:1.2;}
+.hint{font-size:0.8rem;color:var(--ink-soft);margin-bottom:1.2rem;}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-top:auto;margin-bottom:1.6rem;}
+.opt{border:1px solid var(--line);background:var(--bg);padding:0.9rem 1rem;font-size:0.85rem;color:var(--ink);text-align:left;cursor:pointer;font-family:var(--font-body);border-radius:6px;display:flex;align-items:center;gap:0.8rem;}
+.opt:hover{border-color:var(--ink-soft);}
+.opt.sel{border:1px solid var(--accent);background:var(--surface);color:var(--ink);font-weight:500;}
+.opt-ic{flex:0 0 46px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;}
+.opt-ic svg{width:100%;height:100%;}
+.foil{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);}
+.foil.gold{background:linear-gradient(135deg,#f4e3a8 0%,#c9a24a 38%,#8a6a22 52%,#e9d28a 78%,#b5892f 100%);}
+.foil.silver{background:linear-gradient(135deg,#f6f6f6 0%,#b9bcc1 38%,#7d8187 52%,#e3e5e8 78%,#a2a6ab 100%);}
+.foil.both{background:linear-gradient(135deg,#f4e3a8 0%,#c9a24a 45%,#b9bcc1 55%,#f6f6f6 100%);}
+.tone-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem;margin-bottom:1.6rem;margin-top:auto;}
+.tone-opt{border:1px solid var(--line);background:var(--bg);padding:0.7rem;text-align:center;cursor:pointer;border-radius:6px;}
+.tone-opt.sel{border-color:var(--accent);background:var(--surface);}
+.tone-swatch{width:100%;aspect-ratio:1;border-radius:50% 50% 3px 3px;margin:0 auto 0.6rem;border:1px solid var(--line);}
+.tone-opt .lbl{font-size:0.76rem;color:var(--ink-soft);}
+.tone-opt.sel .lbl{color:var(--ink);font-weight:500;}
+.group-lbl{font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.5rem;margin-top:0.9rem;font-weight:500;}
+.group-lbl:first-of-type{margin-top:0;}
+.tri-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;}
+.tri-opt{border:1px solid var(--line);background:var(--bg);padding:0.7rem 0.5rem;text-align:center;cursor:pointer;border-radius:6px;}
+.tri-opt.sel{border-color:var(--accent);background:var(--surface);}
+.tri-opt .demo{display:flex;justify-content:center;align-items:stretch;gap:2px;margin-bottom:0.5rem;height:34px;}
+.tri-opt .demo div{width:18px;height:34px;border-radius:1px;}
+.tri-opt .lbl{font-size:0.7rem;color:var(--ink-soft);line-height:1.3;}
+.tri-opt.sel .lbl{color:var(--ink);font-weight:500;}
+.tri-opt svg{width:46px;height:46px;margin-bottom:0.4rem;}
+.notsure-wrap{max-width:33%;margin-top:0.9rem;}
+.shape-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-bottom:1.6rem;margin-top:auto;}
+textarea.freetext{width:100%;min-height:120px;border:1px solid var(--line);background:var(--bg);padding:0.9rem 1rem;font-family:var(--font-body);font-size:0.88rem;color:var(--ink);margin-top:auto;margin-bottom:1.6rem;resize:vertical;border-radius:2px;}
+textarea.freetext:focus,input.nameinput:focus{outline:1px solid var(--accent);}
+input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);padding:0.9rem 1rem;font-family:var(--font-body);font-size:0.92rem;color:var(--ink);margin-bottom:0.8rem;border-radius:2px;}
+.field-err{font-size:0.78rem;color:var(--accent);margin:-0.2rem 0 0.8rem;}
+.upload-box{border:1px dashed var(--ink-soft);background:var(--bg);padding:1.6rem 1rem;text-align:center;font-size:0.8rem;color:var(--ink-soft);margin-top:auto;margin-bottom:1.6rem;cursor:pointer;border-radius:6px;}
+.upload-box strong{display:block;color:var(--accent);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+.upload-box img{max-width:120px;max-height:120px;margin-top:0.8rem;border-radius:2px;}
+.upload-box input[type=file]{display:none;}
+.nav{display:flex;justify-content:space-between;align-items:center;}
+.back-link{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+.back-link:disabled{opacity:0;pointer-events:none;}
+.next-btn,.cover-btn{font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--ink);color:var(--accent-ink);padding:0.85rem 1.9rem;border:none;cursor:pointer;border-radius:6px;font-weight:500;}
+.next-btn:hover,.cover-btn:hover{background:var(--accent-deep);}
+.next-btn:disabled,.cover-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.cover{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:left;}
+.cover-eyebrow{font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.9rem;font-weight:500;}
+.cover-title{font-family:var(--font-display);font-weight:500;font-size:clamp(2rem,6.5vw,2.8rem);line-height:1.05;margin-bottom:0.9rem;color:var(--ink);}
+.cover-title em{font-style:italic;color:var(--accent);}
+.returning-toggle{display:flex;gap:0.5rem;margin:0.9rem 0 0.9rem;}
+.returning-opt{flex:1;font-family:var(--font-body);font-size:0.76rem;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);padding:0.65rem 0.5rem;cursor:pointer;border-radius:6px;}
+.returning-opt.sel{border-color:var(--accent);background:var(--surface);color:var(--ink);font-weight:500;}
+.cover-sub{font-size:0.9rem;line-height:1.75;color:var(--ink-soft);margin-bottom:1.6rem;max-width:46ch;}
+.cover-btn{align-self:flex-start;}
+.error-box{border:1px solid var(--accent);background:var(--surface);color:var(--accent-deep);padding:1rem 1.2rem;font-size:0.84rem;margin-top:auto;border-radius:2px;}
+.loader{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1.2rem;text-align:center;}
+.spinner{width:34px;height:34px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin 0.9s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media (max-width:480px){.opts{grid-template-columns:1fr;}.tone-opts{grid-template-columns:repeat(2,1fr);}.tri-opts,.shape-opts{grid-template-columns:repeat(2,1fr);}.notsure-wrap{max-width:100%;}}
 
-.shell { width: 100%; max-width: 640px; background: var(--warm-white); border: 1px solid var(--line); box-shadow: 0 20px 50px -28px rgba(46,20,22,0.4); min-height: 560px; display: flex; flex-direction: column; }
-.pad { padding: clamp(1.6rem, 5vw, 2.6rem); flex: 1; display: flex; flex-direction: column; }
-
-.progress { display: flex; gap: 0.3rem; margin-bottom: 1.6rem; }
-.progress span { height: 3px; flex: 1; background: var(--blush); }
-.progress span.done { background: var(--rose); }
-
-.meta { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.8rem; }
-.qtext { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--text-dark); margin-bottom: 0.9rem; line-height: 1.25; }
-.hint { font-size: 0.78rem; color: var(--text-light); font-style: italic; margin-bottom: 1.2rem; }
-
-.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: auto; margin-bottom: 1.6rem; }
-.opt { border: 1px solid var(--line); background: var(--cream); padding: 0.9rem 1rem; font-size: 0.82rem; color: var(--text-mid); text-align: left; cursor: pointer; font-family: 'Jost', sans-serif; }
-.opt.sel { border-color: var(--rose); background: var(--blush); color: var(--text-dark); font-weight: 500; }
-
-.tone-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; margin-bottom: 1.6rem; margin-top: auto; }
-.tone-opt { border: 1px solid var(--line); background: var(--cream); padding: 0.7rem; text-align: center; cursor: pointer; }
-.tone-opt.sel { border-color: var(--rose); background: var(--blush); }
-.tone-swatch { width: 100%; aspect-ratio: 1; border-radius: 50%; margin: 0 auto 0.6rem; border: 1px solid rgba(0,0,0,0.08); }
-.tone-opt .lbl { font-size: 0.74rem; color: var(--text-mid); }
-.tone-opt.sel .lbl { color: var(--text-dark); font-weight: 500; }
-
-.group-lbl { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.5rem; margin-top: 0.9rem; }
-.group-lbl:first-of-type { margin-top: 0; }
-.tri-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-.tri-opt { border: 1px solid var(--line); background: var(--cream); padding: 0.7rem 0.5rem; text-align: center; cursor: pointer; }
-.tri-opt.sel { border-color: var(--rose); background: var(--blush); }
-.tri-opt .demo { display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin-bottom: 0.5rem; height: 34px; }
-.tri-opt .demo div { width: 17px; height: 17px; border-radius: 50%; }
-.tri-opt .lbl { font-size: 0.66rem; color: var(--text-mid); line-height: 1.3; }
-.tri-opt.sel .lbl { color: var(--text-dark); font-weight: 500; }
-.tri-opt svg { width: 46px; height: 46px; margin-bottom: 0.4rem; }
-.notsure-wrap { max-width: 33%; margin-top: 0.9rem; }
-
-.shape-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.6rem; margin-top: auto; }
-.shape-opt { border: 1px solid var(--line); background: var(--cream); padding: 0.8rem 0.5rem; text-align: center; cursor: pointer; }
-.shape-opt.sel { border-color: var(--rose); background: var(--blush); }
-.shape-opt svg { width: 40px; height: 62px; margin-bottom: 0.4rem; }
-.shape-opt .lbl { font-size: 0.72rem; color: var(--text-dark); font-weight: 500; display: block; margin-bottom: 0.15rem; }
-.shape-opt .desc { font-size: 0.6rem; color: var(--text-light); line-height: 1.3; display: block; }
-.shape-fig { fill: var(--mauve); stroke: var(--rose); stroke-width: 1.1; stroke-linejoin: round; }
-.shape-head { fill: var(--mauve); stroke: var(--rose); stroke-width: 1.1; }
-
-textarea.freetext { width: 100%; min-height: 120px; border: 1px solid var(--line); background: var(--cream); padding: 0.9rem 1rem; font-family: 'Jost', sans-serif; font-size: 0.85rem; color: var(--text-dark); margin-top: auto; margin-bottom: 1.6rem; resize: vertical; }
-textarea.freetext:focus { outline: 1px solid var(--rose); }
-input.nameinput { width: 100%; border: 1px solid var(--line); background: var(--cream); padding: 0.9rem 1rem; font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--text-dark); margin-bottom: 1.4rem; }
-input.nameinput:focus { outline: 1px solid var(--rose); }
-
-.upload-box { border: 1px dashed var(--mauve); background: var(--cream); padding: 1.6rem 1rem; text-align: center; font-size: 0.78rem; color: var(--text-light); margin-top: auto; margin-bottom: 1.6rem; cursor: pointer; }
-.upload-box strong { display: block; color: var(--rose); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
-.upload-box img { max-width: 120px; max-height: 120px; margin-top: 0.8rem; border-radius: 4px; }
-.upload-box input[type=file] { display: none; }
-
-.nav { display: flex; justify-content: space-between; align-items: center; }
-.back-link { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); cursor: pointer; background: none; border: none; font-family: 'Jost', sans-serif; }
-.back-link:disabled { opacity: 0; pointer-events: none; }
-.next-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); padding: 0.75rem 1.8rem; border: none; cursor: pointer; }
-.next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.skip-link { font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); cursor: pointer; background: none; border: none; font-family: 'Jost', sans-serif; text-decoration: underline; margin-top: 0.6rem; align-self: center; }
-
-/* Cover slides */
-.cover { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: left; }
-.cover-eyebrow { font-size: 0.62rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.9rem; }
-.cover-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(1.7rem, 6vw, 2.3rem); line-height: 1.1; margin-bottom: 0.9rem; color: var(--text-dark); }
-.cover-title em { font-style: italic; color: var(--rose); }
-.returning-toggle { display: flex; gap: 0.5rem; margin: 0.9rem 0 0.3rem; }
-.returning-opt { flex: 1; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.02em; border: 1px solid var(--line); background: var(--cream); color: var(--text-mid); padding: 0.6rem 0.5rem; cursor: pointer; }
-.returning-opt.sel { border-color: var(--rose); background: var(--blush); color: var(--rose); font-weight: 500; }
-.cover-sub { font-size: 0.85rem; line-height: 1.75; color: var(--text-mid); margin-bottom: 1.6rem; max-width: 46ch; }
-.cover-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); padding: 0.85rem 2rem; border: none; cursor: pointer; align-self: flex-start; }
-
-.error-box { border: 1px solid #b23a3a; background: #fbeaea; color: #7a2020; padding: 1rem 1.2rem; font-size: 0.82rem; margin-top: auto; }
-.loader { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 1.2rem; text-align: center; }
-.spinner { width: 34px; height: 34px; border: 2px solid var(--blush); border-top-color: var(--rose); border-radius: 50%; animation: spin 0.9s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-@media (max-width: 480px) {
-  .opts { grid-template-columns: 1fr; }
-  .tone-opts { grid-template-columns: repeat(2, 1fr); }
-  .tri-opts, .shape-opts { grid-template-columns: repeat(2, 1fr); }
-  .notsure-wrap { max-width: 100%; }
-}
+.vc{text-align:center;margin-bottom:1.6rem;}
+.vc-group{display:flex;gap:0.5rem;justify-content:center;margin:0 0 0.9rem;}
+.vc-gbtn{font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.45rem 0.85rem;border-radius:2px;cursor:pointer;}
+.vc-gbtn.on{border-color:var(--accent);color:var(--ink);background:var(--surface);font-weight:500;}
+.vc-frame{position:relative;}
+.vc-art{width:100%;height:300px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:4px;cursor:pointer;overflow:hidden;padding:1rem 3.1rem;user-select:none;-webkit-tap-highlight-color:transparent;}
+.vc-art:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.vc-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(250,249,246,0.95);color:var(--ink);font-size:1.05rem;cursor:pointer;}.vc-arrow[data-dir="-1"]{left:8px;}.vc-arrow[data-dir="1"]{right:8px;}
+.vc-arrow:hover{border-color:var(--ink);}
+.vc-count{font-size:0.7rem;letter-spacing:0.14em;color:var(--ink-soft);margin:0.7rem 0 0.4rem;}
+.vc-desc{font-family:var(--font-display);font-size:1.3rem;line-height:1.25;color:var(--ink);margin:0 0 0.9rem;min-height:3.3rem;display:flex;align-items:center;justify-content:center;}
+.vc-pick{font-family:var(--font-body);font-size:0.74rem;letter-spacing:0.12em;text-transform:uppercase;background:var(--bg);color:var(--ink);border:1px solid var(--ink);border-radius:2px;padding:0.8rem 1.8rem;cursor:pointer;min-width:200px;}
+.vc-pick.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+.vc-notsure{display:block;margin:0.7rem auto 0;font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.55rem 1.2rem;border-radius:2px;cursor:pointer;}
+.vc-notsure.on{border-color:var(--accent);color:var(--ink);background:var(--surface);font-weight:500;}
+.vc-sw{display:flex;gap:0.45rem;align-items:flex-end;justify-content:center;}
+.vc-arch{display:block;width:46px;height:56px;border-radius:23px 23px 4px 4px;border:3px solid #CDBBA8;background-clip:padding-box;}
+.vc-arch-xl{width:110px;height:132px;border-radius:55px 55px 6px 6px;}
+.vc-sw-demo .vc-arch{width:62px;height:84px;border-radius:31px 31px 5px 5px;}
+.vc-arch-q{display:flex;align-items:center;justify-content:center;background:transparent!important;border:2px dashed #CDBBA8;font-family:var(--font-display);font-size:2rem;color:var(--ink-soft);}
+.vc-foils{display:flex;align-items:center;justify-content:center;}
+.vc-foil{display:block;width:118px;height:118px;border-radius:50%;border:1px solid var(--line);box-shadow:inset 0 0 0 8px rgba(255,255,255,0.18);}
+.vc-foil.gold{background:linear-gradient(135deg,#f4e3a8 0%,#c9a24a 38%,#8a6a22 52%,#e9d28a 78%,#b5892f 100%);}
+.vc-foil.silver{background:linear-gradient(135deg,#f6f6f6 0%,#b9bcc1 38%,#7d8187 52%,#e3e5e8 78%,#a2a6ab 100%);}
+.vc-foil-q{display:flex;align-items:center;justify-content:center;border:2px dashed #CDBBA8;background:transparent;font-family:var(--font-display);font-size:2.6rem;color:var(--ink-soft);box-shadow:none;}
+.vc-icons{display:flex;gap:0.8rem;align-items:center;justify-content:center;width:100%;height:100%;}
+.vc-ic{flex:1;max-width:190px;height:100%;max-height:250px;display:flex;align-items:center;justify-content:center;}
+.vc-ic svg{width:100%;height:100%;}
+.vc-icons .vc-ic:only-child{max-width:210px;}
+.vc-croq{height:100%;display:flex;align-items:center;justify-content:center;}
+.vc-croq svg{height:100%;width:auto;max-width:100%;}
+.vc-vein{width:190px;height:190px;}
+.vc-vein svg{width:100%;height:100%;}
+@media (max-width:420px){.vc-art{height:270px;padding:0.7rem 2.8rem;}.vc-arrow{width:34px;height:34px;}}
 </style>
 </head>
 <body>
@@ -117,35 +122,218 @@ input.nameinput:focus { outline: 1px solid var(--rose); }
 <script>
 const STRIPE_LINK = 'https://buy.stripe.com/4gM7sMgEle946DOd577kc00';
 const STORAGE_KEY = 'hsv_analysis_data';
+// Lead capture: paste a Google Apps Script web-app URL here. Left blank, the quiz skips it and checkout is unaffected.
+const GOOGLE_SHEET_WEBHOOK_URL = '';
 
 const A = {}; // answers
 let name = '';
+let email = '';
 let returningClient = false;
 let freeText = '';
 let photoBase64 = null;
 let photoMediaType = null;
 
-function opt(label, value) { return { label, value }; }
+function opt(label, value, icon) { return { label, value, icon }; }
+
+// Persona answers read differently by age bracket. The saved value (left) never changes, so scoring is identical for every age.
+const PERSONA_OPTS = {
+  pq1: {
+    blazer: { icon: "art:blazer", labels: {'18-24': "Oversized blazer, baby tee or tank, relaxed denim and loafers", '25-34': "Tailored blazer, a clean tee, great-fitting jeans and a polished flat", '35-44': "Structured blazer, silk cami or knit top, tailored trousers or dark denim and loafers", '45+': "Sharp jacket or blazer, crisp shell top, ankle trousers and sleek flats"} },
+    casual: { icon: "art:tee", labels: {'18-24': "Baggy or straight jeans, a favorite tee, trending sneakers and gold hoops", '25-34': "Great-fitting jeans, an elevated ribbed tee, clean leather sneakers and hoops", '35-44': "Favorite dark-wash denim, a tucked-in knit tee, comfortable low-profile sneakers and everyday gold", '45+': "Well-cut jeans or chinos, a soft breathable tee, polished sneakers and simple jewelry"} },
+    feminine: { icon: "art:dress", labels: {'18-24': "A mini or midi dress with a cardigan and dainty layered necklaces", '25-34': "A wrap or slip midi dress with delicate jewelry and an easy sandal or flat", '35-44': "A flattering midi dress or soft knit top with a skirt and subtle gold accents", '45+': "A fluid midi dress or draped knit top with tailored pants and classic jewelry"} },
+    allblack: { icon: "art:coat", labels: {'18-24': "All-black everything: cropped jacket, black jeans or trousers and sleek boots", '25-34': "Monochrome black: a fitted knit, tailored black pants and ankle boots", '35-44': "Head-to-toe black: a great coat, a sleek column base and black leather boots", '45+': "An all-black signature: well-cut black trousers, a fine-knit top and a sharp black jacket"} },
+    bold: { icon: "art:statement", labels: {'18-24': "A statement top, bold print or standout bag that carries the whole outfit", '25-34': "An eye-catching print, dramatic sleeve or bold color with simple bottoms", '35-44': "Rich color, a textured statement piece or a standout shoe with clean basics", '45+': "A striking print, sculptural blouse or bold accessory that makes the outfit"} },
+    set: { icon: "art:matching", labels: {'18-24': "A matching knit or linen two-piece set with a mini shoulder bag", '25-34': "A coordinated vest-and-trouser or knit set with a structured bag", '35-44': "A tailored matching two-piece set with a polished leather tote or crossbody", '45+': "A crisp matching cardigan-and-trouser or suiting set with a structured bag"} },
+    sporty: { icon: "art:sneaker", labels: {'18-24': "A matching ribbed workout set, zip-up jacket, clean sneakers and a claw clip", '25-34': "A sculpted athleisure set, trench or bomber layer, clean sneakers and sunglasses", '35-44': "An elevated matching lounge or active set, a structured jacket and crisp sneakers", '45+': "A polished knit-active set, lightweight trench or cardigan and supportive clean sneakers"} },
+  },
+  pq2: {
+    tailored: { icon: null, labels: {'18-24': "How crisp and structured it sits on my shoulders and frame", '25-34': "How clean and tailored the cut is through my shoulders, torso and waist", '35-44': "How well-tailored it feels: structure without feeling stiff or tight", '45+': "The precision of the tailoring: clean shoulder seams and a flattering, structured line"} },
+    drape: { icon: null, labels: {'18-24': "How soft, fluid and flattering the fabric moves when I walk", '25-34': "How effortlessly the fabric skims and drapes without clinging", '35-44': "How fluidly the fabric drapes over my body and moves with me", '45+': "The graceful drape: soft fabric that skims smoothly and never feels restrictive"} },
+    quality: { icon: null, labels: {'18-24': "The weight and feel of the fabric, it looks way better than the price tag", '25-34': "The fabric thickness and finish, it feels substantial and looks polished", '35-44': "The fabric quality and construction, I know it will hold its shape after washing", '45+': "The richness and weight of the fabric, it feels refined, substantial and built to last"} },
+    effortless: { icon: null, labels: {'18-24': "That I can throw it on with jeans or cargos and instantly look put-together", '25-34': "That it is an easy, throw-on piece I can wear with denim and still look styled", '35-44': "That it is effortless to style: one piece that makes everyday jeans look intentional", '45+': "That it is easy to reach for: pair it with simple pants or denim and I am out the door"} },
+    drama: { icon: null, labels: {'18-24': "The standout detail: an unexpected cut, bold texture or a piece nobody else has", '25-34': "The statement factor: a sculptural sleeve, rich texture or striking silhouette", '35-44': "The visual impact: a bold cut, rich texture or detail that lifts the whole outfit", '45+': "The distinctive design: an architectural cut, textured weave or memorable statement detail"} },
+  },
+  pq3: {
+    mono: { icon: null, labels: {'18-24': "Keep the whole outfit tonal or one color head-to-toe", '25-34': "Dress in one color family head-to-toe for a clean, cohesive look", '35-44': "Build a monochrome or tonal outfit using different textures in the same shade", '45+': "Layer different textures within one tonal color palette from head to toe"} },
+    set: { icon: null, labels: {'18-24': "Start with a matching two-piece set so the outfit is already half done", '25-34': "Reach for a coordinated matching set so everything feels intentional", '35-44': "Start with a tailored matching set as my base and add simple accessories", '45+': "Choose a polished two-piece matching set so the proportions already work together"} },
+    outerwear: { icon: null, labels: {'18-24': "Build around a great jacket, trench or oversized blazer over basics", '25-34': "Anchor the outfit with a sharp blazer, trench or leather jacket over simple basics", '35-44': "Start with my third piece, a structured blazer, coat or cardigan, over a clean base", '45+': "Let a great jacket, trench or structured cardigan anchor simple, comfortable basics"} },
+    standout: { icon: null, labels: {'18-24': "Pick one statement piece (shoes, bag or top) and keep everything else simple", '25-34': "Build around one hero piece, a great shoe, bag or top, and keep the rest clean", '35-44': "Let one standout piece lead (a bold top, shoe or bag) and keep the rest understated", '45+': "Focus on one signature piece, a statement jacket, shoe or accessory, over clean neutrals"} },
+  },
+};
+function personaOptions(key) { const age = PERSONA_OPTS[key] ? (['18-24','25-34','35-44','45+'].indexOf(A.ageBracket) > -1 ? A.ageBracket : '25-34') : null; return Object.keys(PERSONA_OPTS[key]).map(v => opt(PERSONA_OPTS[key][v].labels[age], v, PERSONA_OPTS[key][v].icon || undefined)); }
 
 // Standard multiple-choice questions, in display order.
 const QUESTIONS = [
-  { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold'), opt('Silver','silver'), opt('Both equally','both'), opt('Not sure','unsure')] },
+  { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold','foil:gold'), opt('Silver','silver','foil:silver'), opt('Both equally','both','foil:both'), opt('Not sure','unsure')] },
   { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('Rarely in sun','neither')] },
   { section: 'color', n: 3, of: 8, key: 'veins', type: 'veins' },
-  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('Not sure','unsure')] },
+  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('All colors — I look good in everything','all'), opt('Not sure','unsure')] },
   { section: 'color', n: 5, of: 8, key: 'wash', text: 'Are there colors that wash you out?', options: [opt('Warm tones wash me out','warm'), opt('Cool tones wash me out','cool'), opt('Very pale / icy colors','pale'), opt('Nothing washes me out','none')] },
   { section: 'color', n: 6, of: 8, key: 'depth', type: 'depth' },
   { section: 'color', n: 7, of: 8, key: 'contrast', type: 'contrast' },
   { section: 'color', n: 8, of: 8, key: 'chroma', text: 'Do bright, saturated colors or soft, muted colors look better on you?', options: [opt('Bright, saturated colors','bright'), opt('Soft, muted colors','muted'), opt('Both look good','both')] },
-  { section: 'body', n: 1, of: 8, key: 'fit', text: 'When you shop, what fits better — tops or bottoms?', options: [opt('Tops fit better','tops'), opt('Bottoms fit better','bottoms'), opt('Both fit well','both'), opt('Neither fits great','neither')] },
-  { section: 'body', n: 2, of: 8, key: 'weight', text: 'When you gain weight, where do you notice it first?', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
-  { section: 'body', n: 3, of: 8, key: 'styleGrav', text: 'Are there styles you always gravitate toward?', options: [opt('Flowy and loose','flowy'), opt('Fitted and structured','fitted'), opt('Anything that defines the waist','waist'), opt('Oversized and relaxed','oversized')] },
-  { section: 'body', n: 4, of: 8, key: 'dressSep', text: 'Dresses or separates — what works better on you?', options: [opt('Dresses work better','dresses'), opt('Separates work better','separates'), opt('Both equally','both')] },
-  { section: 'body', n: 5, of: 8, key: 'conf', text: 'Where do you feel most confident in your body?', options: [opt('Shoulders / collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('Overall confident','overall')] },
-  { section: 'body', n: 6, of: 8, key: 'shape', type: 'shape' },
-  { section: 'body', n: 7, of: 8, key: 'height', text: "What's your height range?", options: [opt("Petite — under 5'4\"",'petite'), opt("Average — 5'4\" to 5'7\"",'average'), opt("Tall — 5'8\" and up",'tall')] },
-  { section: 'body', n: 8, of: 8, key: 'proportion', text: 'Do you have a longer torso or longer legs?', options: [opt('Longer torso','longTorso'), opt('Longer legs','longLegs'), opt('Pretty balanced','balanced')] }
+  { section: 'body', n: 1, of: 10, key: 'fit', text: 'When you shop, what fits better — tops or bottoms?', options: [opt('Tops fit better','tops'), opt('Bottoms fit better','bottoms'), opt('Both fit well','both'), opt('Neither fits great','neither')] },
+  { section: 'body', n: 2, of: 10, key: 'weight', multi: true, text: 'When you gain weight, where do you notice it? Choose all that apply.', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
+  { section: 'body', n: 3, of: 10, key: 'styleGrav', text: 'Are there styles you always gravitate toward?', options: [opt('Flowy and loose','flowy'), opt('Fitted and structured','fitted'), opt('Anything that defines the waist','waist'), opt('Oversized and relaxed','oversized')] },
+  { section: 'body', n: 4, of: 10, key: 'dressSep', text: 'Dresses or separates — what works better on you?', options: [opt('Dresses work better','dresses'), opt('Separates work better','separates'), opt('Both equally','both')] },
+  { section: 'body', n: 5, of: 10, key: 'conf', text: 'Where do you feel most confident in your body?', options: [opt('Shoulders / collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('Overall confident','overall')] },
+  { section: 'body', n: 6, of: 10, key: 'shoulderHip', text: 'How do your shoulders compare to your hips?', options: [opt('Shoulders noticeably wider than hips','shouldersMuchWider','croq:inverted'), opt('Shoulders slightly wider than hips','shouldersSlightlyWider','croq:inverted'), opt('Shoulders and hips about the same width','equal','croq:rectangle'), opt('Hips slightly wider than shoulders','hipsSlightlyWider','croq:pear'), opt('Hips noticeably wider than shoulders','hipsMuchWider','croq:pear'), opt('Hips wider, but shoulders full too','hipsWiderShouldersFull','croq:hourglass')] },
+  { section: 'body', n: 7, of: 10, key: 'waistDef', text: 'How defined is your waist?', options: [opt('Very defined, much smaller than bust and hips','veryDefined'), opt('Slightly defined','slightlyDefined'), opt('Barely any waist definition','barelyDefined'), opt('Full midsection, waist is the widest part','fullMidsection')] },
+  { section: 'body', n: 8, of: 10, key: 'bustHip', text: 'How does your bust compare to your hips?', options: [opt('Bust noticeably larger than hips','bustMuchLarger'), opt('Bust slightly larger than hips','bustSlightlyLarger'), opt('Bust and hips roughly equal','roughlyEqual'), opt('Hips slightly larger than bust','hipsSlightlyLarger'), opt('Hips noticeably larger than bust','hipsMuchLarger'), opt('Full bust and full hips, both prominent','fullBoth')] },
+  { section: 'body', n: 9, of: 10, key: 'height', text: "What's your height range?", options: [opt("Petite — under 5'4\"",'petite'), opt("Average — 5'4\" to 5'7\"",'average'), opt("Tall — 5'8\" and up",'tall')] },
+  { section: 'body', n: 10, of: 10, key: 'proportion', text: 'Do you have a longer torso or longer legs?', options: [opt('Longer torso','longTorso'), opt('Longer legs','longLegs'), opt('Pretty balanced','balanced')] },
+  { section: 'persona', n: 1, of: 5, key: 'ageBracket', text: 'Which age bracket are you in?', options: [opt('18–24','18-24'), opt('25–34','25-34'), opt('35–44','35-44'), opt('45+','45+')] },
+  { section: 'persona', n: 2, of: 5, key: 'pq1', text: 'When you have 10 minutes to get ready for dinner, what is your default move?', dynamic: true },
+  { section: 'persona', n: 3, of: 5, key: 'pq2', text: 'When you try something on and immediately know "this is the one," what usually sold you?', dynamic: true },
+  { section: 'persona', n: 4, of: 5, key: 'pq3', text: 'When you are building an outfit from scratch, what is your natural instinct?', dynamic: true },
+  { section: 'persona', n: 5, of: 5, key: 'budget', label: 'Shopping Range', text: "When you're shopping for a great everyday piece (like a top, pair of jeans or dress), what price range feels most comfortable for you?", options: [opt('Everyday and accessible, about $25 to $75 a piece. I love finding great cuts and trending pieces at everyday prices.','budget'), opt('Mid-range, about $75 to $200 a piece. I will invest a bit more for better fabric, tailoring and pieces that last several seasons.','mid'), opt('Investment, $200 and up a piece. I prefer fewer, higher-end pieces with exceptional fabric and construction.','invest')] },
 ];
+
+/* ----- Body shape (same rules as the stylist tools), used for the lead record ----- */
+function computeBodyShape(a){
+  const score={apple:0,pear:0,hourglass:0,rectangle:0,inverted:0};
+  // Pear is only possible when the hips really are wider than the shoulders.
+  const hipsWider=['hipsSlightlyWider','hipsMuchWider','hipsWiderShouldersFull'].indexOf(a.shoulderHip)>-1;
+  if(a.shoulderHip==='shouldersMuchWider')score.inverted+=2;
+  if(a.shoulderHip==='shouldersSlightlyWider')score.inverted+=2;
+  if(a.shoulderHip==='hipsMuchWider')score.pear+=2;
+  if(a.shoulderHip==='hipsSlightlyWider')score.pear+=2;
+  if(a.shoulderHip==='hipsWiderShouldersFull')score.pear+=1;
+  if(a.shoulderHip==='equal'){score.hourglass+=2;score.rectangle+=2;}
+  if(a.waistDef==='veryDefined'){score.hourglass+=2;score.inverted+=1;if(hipsWider)score.pear+=1;}
+  if(a.waistDef==='slightlyDefined'){score.inverted+=1;score.rectangle+=1;if(hipsWider)score.pear+=1;}
+  if(a.waistDef==='barelyDefined')score.rectangle+=2;
+  if(a.waistDef==='fullMidsection')score.apple+=3;
+  if(a.bustHip==='bustMuchLarger'){score.apple+=1;score.inverted+=1;}
+  if(a.bustHip==='bustSlightlyLarger'){score.apple+=1;score.inverted+=1;}
+  if(a.bustHip==='hipsMuchLarger')score.pear+=2;
+  if(a.bustHip==='hipsSlightlyLarger')score.pear+=2;
+  if(a.bustHip==='roughlyEqual'){score.hourglass+=2;score.rectangle+=2;}
+  if(a.bustHip==='fullBoth'){score.hourglass+=1;score.apple+=1;}
+  if(!hipsWider)score.pear=-1;
+  let best='hourglass',bestScore=-1;
+  const order=['hourglass','pear','inverted','apple','rectangle'];
+  order.forEach(k=>{if(score[k]>bestScore){bestScore=score[k];best=k;}});
+  return best;
+}
+
+/* ----- Style persona + croquis thumbnails + garment line art ----- */
+/* ===== Style Persona (age-aware) =====
+   Inputs on the answers object: ageBracket ('18-24'|'25-34'|'35-44'|'45+'), pq1, pq2, pq3.
+   Output: { vibe, name, tagline, formula:[a,b,c], rule, fabricNote } */
+const PERSONA_VIBES = ['luxury','tailored','sleek','feminine','casual','bold','classic','sporty'];
+const PERSONA_TABLE = {
+  luxury:   { young:{name:'Rich Auntie in Training',tagline:'Never underdressed, always smells expensive, and already owns a trench coat you swear by.'},
+              mature:{name:'Certified Rich Auntie',tagline:'Never underdressed, always has the best coat in the room, and knows your tailor by first name.'},
+              formula:['Structured Trench or Blazer','Monochrome Knit Base','Pointed Toe & Gold Hardware'],
+              rule:'Permission granted to skip the logo. Quality shows in the cut and the fabric, so one great coat does more than three trendy pieces.' },
+  tailored: { young:{name:'Boardroom Baddie',tagline:"You look like you're running a Fortune 500 meeting even when you're just picking up an iced matcha."},
+              mature:{name:'Corner Office Chic',tagline:'You make a sharp blazer and tailored trousers look completely effortless, and you always mean business.'},
+              formula:['Sharp Tailored Blazer','Straight-Leg Trouser','Pointed Flat or Loafer'],
+              rule:"Permission granted to soften the blazer. Pair it with a silk top or a relaxed trouser, because sharp doesn't have to mean stiff." },
+  sleek:    { young:{name:'The Black Cat',tagline:'Sleek, magnetic, and effortlessly cool: you favor sharp silhouettes, dark neutrals, and pieces that speak without trying too hard.'},
+              mature:{name:'The Black Cat',tagline:'Sleek, magnetic, and effortlessly cool: you favor sharp silhouettes, dark neutrals, and pieces that speak without trying too hard.'},
+              formula:['Sharp-Shouldered Outerwear','Sleek Column Silhouette','Architectural Bag & Dark Lenses'],
+              rule:'Permission granted to add one color. All-dark works because of contrast in texture, so a single rich accent from your palette keeps it from reading flat.' },
+  feminine: { young:{name:'Coquette Couture',tagline:'You love flattering waistlines, soft textures, and dainty gold details that make everyday dressing feel special.'},
+              mature:{name:'Soft Power',tagline:'You gravitate toward fluid fabrics, sculpted silhouettes, and romantic details with a refined, grown-woman finish.'},
+              formula:['Fluid Midi or Soft Knit','Defined Waist','Dainty Gold Jewelry'],
+              rule:'Permission granted to skip the ruffle. Romantic can be a clean line and a soft fabric, and one delicate detail is enough.' },
+  casual:   { young:{name:'Denim Darling',tagline:'You make everyday jeans, a sleek tank, and the right bag look like a full styling session.'},
+              mature:{name:'Modern Muse',tagline:'You master relaxed luxury: great tailoring, soft knits, and clean lines that never look overdone.'},
+              formulaYoung:['Great-Fitting Straight Denim','Elevated Crisp Tank or Tee','Intentional Belt & Leather Tote'],
+              formulaMature:['Relaxed Tailored Trouser','Soft Knit Layer','Clean Leather Loafer'],
+              rule:'Permission granted to dress up the denim. Casual-chic comes from one polished element, so a sharp shoe or a structured bag finishes the look.' },
+  bold:     { young:{name:'Dress Code: Extra',tagline:'You were never meant to blend into the background. You own dramatic sleeves, bold prints, and statement heels with zero apologies.'},
+              mature:{name:'The Showstopper',tagline:'You dress to be remembered, embracing rich color, sculptural silhouettes, and standout pieces with complete confidence.'},
+              formula:['One Statement Piece: Sleeve, Print or Cut','Clean Neutral Base','Statement Heel or Bag'],
+              rule:"Permission granted to ignore 'less is more.' Your coloring and presence carry bold proportions, so when everyone else plays it safe in beige, you're meant to wear the color and the sleeve." },
+  classic:  { young:{name:'Chic & Coordinated',tagline:'You love a crisp matching set, a structured handbag, and polished pieces that take you straight from daytime plans to dinner.'},
+              mature:{name:'Polished Society',tagline:'You love a crisp matching set, structured leather, and classic silhouettes with a modern twist.'},
+              formula:['Crisp Matching Set','Structured Bag','Polished Flat or Heel'],
+              rule:'Permission granted to break up the set. Wear the blazer with jeans and the trousers with a tee, because matching is a starting point, not a rule.' },
+  sporty:   { young:{name:'Pilates Princess',tagline:'You live in matching sets, sleek sunglasses, and clean sneakers, and you always look put-together on the go.'},
+              mature:{name:'Off-Duty Luxe',tagline:'You elevate everyday comfort with sleek matching sets, structured outerwear, and crisp sneakers.'},
+              formula:['Sleek Matching Set','Structured Outerwear','Crisp Sneaker & Sleek Sunglasses'],
+              rule:'Permission granted to wear the sneaker with something structured. Athleisure looks luxe when one piece is tailored.' }
+};
+const PERSONA_FABRIC = { tailored:'Structured wovens', feminine:'Fluid silk and jersey', luxury:'Luxe knits and wool', casual:'Breathable cotton and denim', bold:'Sculptural and textured fabrics' };
+const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', allblack:'sleek', bold:'bold', set:'classic', sporty:'sporty' };
+const PQ2_VIBE = { tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold' };
+function computePersona(a){
+  a = a || {};
+  const score = {}; PERSONA_VIBES.forEach(v => score[v] = 0);
+  const v1 = PQ1_VIBE[a.pq1], v2 = PQ2_VIBE[a.pq2];
+  if (v1) score[v1] += 2;
+  if (v2) score[v2] += 2;
+  // Q3: monochrome -> sleek; matching set -> classic; outerwear -> luxury, or sporty when her default move is the athleisure set;
+  // one standout piece -> bold when either earlier answer was bold, otherwise casual
+  if (a.pq3 === 'mono') score.sleek += 1;
+  else if (a.pq3 === 'set') score.classic += 1;
+  else if (a.pq3 === 'outerwear') score[v1 === 'sporty' ? 'sporty' : 'luxury'] += 1;
+  else if (a.pq3 === 'standout') score[(v1 === 'bold' || v2 === 'bold') ? 'bold' : 'casual'] += 1;
+  let best = null;
+  const order = [v1, v2].concat(PERSONA_VIBES); // ties: default move first, then what sold her, then list order
+  order.forEach(v => { if (v && (best === null || score[v] > score[best])) best = v; });
+  if (!best) best = 'tailored';
+  const t = PERSONA_TABLE[best];
+  const mature = a.ageBracket === '35-44' || a.ageBracket === '45+';
+  const who = mature ? t.mature : t.young;
+  const formula = best === 'casual' ? (mature ? t.formulaMature : t.formulaYoung) : t.formula;
+  return { vibe: best, name: who.name, tagline: who.tagline, formula: formula.slice(), rule: t.rule, fabricNote: PERSONA_FABRIC[best] || '' };
+}
+if (typeof module !== 'undefined') module.exports = { computePersona, PERSONA_TABLE, PERSONA_VIBES };
+
+/* ===== Continuous-line body croquis (parametric, one drawing per computed shape) ===== */
+const CROQ_SHAPES={
+  hourglass:{s:21,b:19.5,w:12.5,h:21.5},
+  pear:{s:18.5,b:16.5,w:12.5,h:24},
+  apple:{s:20.5,b:20.5,w:19.5,h:19},
+  rectangle:{s:20.5,b:18,w:17,h:19.5},
+  inverted:{s:26,b:21.5,w:15,h:16.5}
+};
+const CROQ_Y={neck:36,sh:44.5,pit:62,bust:72,waist:98,hip:129,crotch:142,knee:184,ankle:238,toe:251};
+function croqCR(pts){
+  let d='M'+pts[0][0].toFixed(2)+' '+pts[0][1].toFixed(2);
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
+    const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6],c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
+    d+=' C'+c1[0].toFixed(2)+' '+c1[1].toFixed(2)+' '+c2[0].toFixed(2)+' '+c2[1].toFixed(2)+' '+p2[0].toFixed(2)+' '+p2[1].toFixed(2);
+  }return d;
+}
+function croqRuns(P){
+  const {s,b,w,h}=P;
+  const A=Math.max(s,h*0.98+1);
+  const arm=[[45.6,31],[46.2,38],[50-s*0.62,42.6],[50-s,45],[50-s-1.2,56],[50-(A+1.6),78],[50-(A+2.6),98],[50-(A+3.4),116],[50-(A+4),130],[50-(A+4.3),139],[50-(A+3.4),146]];
+  const knee=10.2,ss=t=>t*t*(3-2*t);
+  const thigh=[139,150,161,172,184,196].map(y=>{const t=Math.min(1,Math.max(0,(y-129)/67));return [50-(knee+(h-knee)*(1-ss(t))),y];});
+  const torso=[[50-b+0.4,61],[50-b,72],[50-(b+w)/2-0.5,86],[50-w,98],[50-(w+h)/2-0.6,114],[50-h,129]].concat(thigh).concat([[50-9.1,208],[50-7.6,220],[50-6.2,230],[50-5.6,238]]);
+  const foot=[[50-5.6,238],[50-7.2,246],[50-13,251.5],[50-4.6,250.5],[50-3.2,238]];
+  const inner=[[50-3.2,238],[50-4,222],[50-4.8,204],[50-4,186],[50-3,166],[50-1.8,150],[50,141]];
+  return [arm,torso,foot,inner];
+}
+function croqMirror(run){return run.map(p=>[100-p[0],p[1]]).reverse();}
+function croqPath(P){
+  const L=croqRuns(P);const R=L.slice().reverse().map(croqMirror);
+  return L.concat(R).map(r=>croqCR(r)).map((d,i)=>i===0?d:d.replace(/^M/,'L')).join(' ');
+}
+// opt: stroke, sw, arrows (proportion guides), k (height scale), d (intensity -1..1)
+function croquisSVG(key,opt){
+  opt=opt||{};const P=Object.assign({},CROQ_SHAPES[key]||CROQ_SHAPES.hourglass);const k=opt.k||1,d=opt.d||0;
+  if(key==='hourglass'||key==='pear')P.w-=1.2*d; if(key==='apple')P.w+=1.2*d; if(key==='inverted')P.s+=1.5*d;
+  const stroke=opt.stroke||'#4B1515',sw=opt.sw||0.9;
+  const guides=opt.arrows?[[CROQ_Y.sh,P.s],[CROQ_Y.waist,P.w],[CROQ_Y.hip,P.h]].map(([y,hw])=>{
+    const x1=50-hw,x2=50+hw;
+    return `<line x1="3" x2="97" y1="${y}" y2="${y}" stroke="#CDBBA8" stroke-width=".4" stroke-dasharray="1.4 1.4"/><path d="M${x1+.8} ${y}H${x2-.8}M${x1+.8} ${y}l2.2-1.3M${x1+.8} ${y}l2.2 1.3M${x2-.8} ${y}l-2.2-1.3M${x2-.8} ${y}l-2.2 1.3" stroke="#8C7A5E" stroke-width=".7" fill="none" stroke-linecap="round"/>`;}).join(''):'';
+  const body=`<g transform="translate(50 256) scale(${k}) translate(-50 -256)"><ellipse cx="50" cy="17.5" rx="8.6" ry="11" fill="none" stroke="${stroke}" stroke-width="${sw}"/><path d="${croqPath(P)}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>${guides}</g>`;
+  return `<svg viewBox="0 -24 100 284" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+}
+function croqOpts(BAx){const k={petite:0.92,tall:1.08}[BAx&&BAx.height]||1;const d={defined:1,soft:0,plain:-1}[BAx&&BAx.intensity];return{k,d:d===undefined?0:d};}
+function croqDataUri(shape,BAx,extra){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(croquisSVG(shape,Object.assign({arrows:true},croqOpts(BAx),extra||{})));}
+// Percent positions (of the image height) for the three proportion labels, matching the drawing's height scale.
+
+
+const ART_ICONS = {"blazer": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M60.0 48.0 C58.7 45.5 54.7 39.2 52.0 33.0 C49.3 26.8 45.3 14.7 44.0 11.0 L44.0 11.0 C42.0 11.5 35.5 12.7 32.0 14.0 C28.5 15.3 24.5 18.2 23.0 19.0 L23.0 19.0 C21.7 21.8 17.0 29.2 15.0 36.0 C13.0 42.8 12.0 49.7 11.0 60.0 C10.0 70.3 9.3 91.7 9.0 98.0 L9.0 98.0 L21.0 100.0 L21.0 100.0 C21.2 95.3 20.8 80.0 22.0 72.0 C23.2 64.0 27.0 55.3 28.0 52.0 L28.0 52.0 C28.5 54.7 29.8 63.0 31.0 68.0 C32.2 73.0 34.8 77.3 35.0 82.0 C35.2 86.7 32.8 91.0 32.0 96.0 C31.2 101.0 30.3 109.3 30.0 112.0 L30.0 112.0 C32.5 112.8 40.0 116.3 45.0 117.0 C50.0 117.7 57.5 116.2 60.0 116.0 L60.0 116.0 C62.5 116.2 70.0 117.7 75.0 117.0 C80.0 116.3 87.5 112.8 90.0 112.0 L90.0 112.0 C89.7 109.3 88.8 101.0 88.0 96.0 C87.2 91.0 84.8 86.7 85.0 82.0 C85.2 77.3 87.8 73.0 89.0 68.0 C90.2 63.0 91.5 54.7 92.0 52.0 L92.0 52.0 C93.0 55.3 96.8 64.0 98.0 72.0 C99.2 80.0 98.8 95.3 99.0 100.0 L99.0 100.0 L111.0 98.0 L111.0 98.0 C110.7 91.7 110.0 70.3 109.0 60.0 C108.0 49.7 107.0 42.8 105.0 36.0 C103.0 29.2 98.3 21.8 97.0 19.0 L97.0 19.0 C95.5 18.2 91.5 15.3 88.0 14.0 C84.5 12.7 78.0 11.5 76.0 11.0 L76.0 11.0 C74.7 14.7 70.7 26.8 68.0 33.0 C65.3 39.2 61.3 45.5 60.0 48.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M44 11 L57 31 L48 37 L54 52 L60 48\" fill=\"#dcd8d2\" fill-opacity=\".35\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M44 11 L57 31 L48 37 L54 52 L60 48\" transform=\"translate(120 0) scale(-1 1)\" fill=\"#dcd8d2\" fill-opacity=\".35\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M44 11 L38 19 L48 37\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M44 11 L38 19 L48 37\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M60 48 L60 116\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.55\"/><circle cx=\"60\" cy=\"74\" r=\"1.7\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1\"/><circle cx=\"60\" cy=\"92\" r=\"1.7\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M28 52 C31 70 33 84 31 96 L31 108\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M28 52 C31 70 33 84 31 96 L31 108\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M33 98 L45 99 L45 106 L33 105 Z\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M33 98 L45 99 L45 106 L33 105 Z\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M9 91 L21 93 M9 86 L21 88\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M9 91 L21 93 M9 86 L21 88\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M42 51 C47 54 52 55 56 54\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/><path d=\"M42 51 C47 54 52 55 56 54\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/></svg>", "tee": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M60.0 25.0 C58.5 24.8 53.5 25.0 51.0 24.0 C48.5 23.0 46.2 21.0 45.0 19.0 C43.8 17.0 44.2 13.2 44.0 12.0 L44.0 12.0 C42.0 12.5 35.5 13.8 32.0 15.0 C28.5 16.2 24.5 18.3 23.0 19.0 L23.0 19.0 C22.0 21.5 18.7 28.3 17.0 34.0 C15.3 39.7 13.7 49.8 13.0 53.0 L13.0 53.0 L26.0 57.0 L26.0 57.0 C26.7 56.5 29.0 52.2 30.0 54.0 C31.0 55.8 31.5 62.7 32.0 68.0 C32.5 73.3 33.0 79.7 33.0 86.0 C33.0 92.3 32.2 102.7 32.0 106.0 L32.0 106.0 C34.3 106.8 41.3 109.7 46.0 110.5 C50.7 111.3 57.7 110.9 60.0 111.0 L60.0 111.0 C62.3 110.9 69.3 111.3 74.0 110.5 C78.7 109.7 85.7 106.8 88.0 106.0 L88.0 106.0 C87.8 102.7 87.0 92.3 87.0 86.0 C87.0 79.7 87.5 73.3 88.0 68.0 C88.5 62.7 89.0 55.8 90.0 54.0 C91.0 52.2 93.3 56.5 94.0 57.0 L94.0 57.0 L107.0 53.0 L107.0 53.0 C106.3 49.8 104.7 39.7 103.0 34.0 C101.3 28.3 98.0 21.5 97.0 19.0 L97.0 19.0 C95.5 18.3 91.5 16.2 88.0 15.0 C84.5 13.8 78.0 12.5 76.0 12.0 L76.0 12.0 C75.8 13.2 76.2 17.0 75.0 19.0 C73.8 21.0 71.5 23.0 69.0 24.0 C66.5 25.0 61.5 24.8 60.0 25.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M60 29 C51 28 46 24 45 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M60 29 C69 28 74 24 75 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".62\"/><path d=\"M44 12 L32 16 L23 20\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M44 12 L32 16 L23 20\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M14 49 L27 53\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M14 49 L27 53\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M32 86 L32 104\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M32 86 L32 104\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M33 105 Q46 109 60 109 Q74 109 87 105\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/></svg>", "dress": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M60.0 42.0 C58.8 39.8 55.2 33.2 53.0 29.0 C50.8 24.8 48.5 20.2 47.0 17.0 C45.5 13.8 44.5 11.2 44.0 10.0 L44.0 10.0 C42.2 10.5 36.0 11.7 33.0 13.0 C30.0 14.3 27.2 17.2 26.0 18.0 L26.0 18.0 C25.0 20.0 21.7 25.7 20.0 30.0 C18.3 34.3 16.7 41.7 16.0 44.0 L16.0 44.0 L27.0 48.0 L27.0 48.0 C27.7 49.0 30.0 51.3 31.0 54.0 C32.0 56.7 32.7 62.3 33.0 64.0 L33.0 64.0 C31.5 70.0 27.7 86.3 24.0 100.0 C20.3 113.7 13.2 138.3 11.0 146.0 L11.0 146.0 C15.2 146.5 27.8 148.3 36.0 149.0 C44.2 149.7 56.0 149.8 60.0 150.0 L60.0 150.0 C64.0 149.8 75.8 149.7 84.0 149.0 C92.2 148.3 104.8 146.5 109.0 146.0 L109.0 146.0 C106.8 138.3 99.7 113.7 96.0 100.0 C92.3 86.3 88.5 70.0 87.0 64.0 L87.0 64.0 C87.3 62.3 88.0 56.7 89.0 54.0 C90.0 51.3 92.3 49.0 93.0 48.0 L93.0 48.0 L104.0 44.0 L104.0 44.0 C103.3 41.7 101.7 34.3 100.0 30.0 C98.3 25.7 95.0 20.0 94.0 18.0 L94.0 18.0 C92.8 17.2 90.0 14.3 87.0 13.0 C84.0 11.7 77.8 10.5 76.0 10.0 L76.0 10.0 C75.5 11.2 74.5 13.8 73.0 17.0 C71.5 20.2 69.2 24.8 67.0 29.0 C64.8 33.2 61.2 39.8 60.0 42.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M60 46 L54 30 L48 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M60 46 L66 30 L72 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M33 64 C44 68 52 69 60 69 C68 69 76 68 87 64\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".8\"/><path d=\"M48 71 C45 100 38 125 30 146\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.32\"/><path d=\"M48 71 C45 100 38 125 30 146\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.32\"/><path d=\"M40 69 C36 100 26 128 18 147\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.24\"/><path d=\"M40 69 C36 100 26 128 18 147\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.24\"/><path d=\"M56 70 C55 100 53 126 50 148\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.26\"/><path d=\"M56 70 C55 100 53 126 50 148\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.26\"/><path d=\"M44 10 L33 14 L26 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M44 10 L33 14 L26 18\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M17 40 L28 44\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M17 40 L28 44\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M14 143 Q36 146 60 147 Q84 146 106 143\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/></svg>", "coat": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><defs><linearGradient id=\"g5\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#efece6\"/><stop offset=\"1\" stop-color=\"#e7e4de\"/></linearGradient></defs><path d=\"M46 13 L74 13 L82 110 L38 110 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M49 14 L60 36 L71 14\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".62\"/><path d=\"M44 10 L23 19 C15 36 11 60 9 98 L21 100 C21.5 72 24 58 28 52 C29 66 31 80 33 108 L53 114 L55 46 L49 32 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M44 10 L23 19 C15 36 11 60 9 98 L21 100 C21.5 72 24 58 28 52 C29 66 31 80 33 108 L53 114 L55 46 L49 32 Z\" transform=\"translate(120 0) scale(-1 1)\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M44 10 L57 29 L49 35 L55 46 L50 50\" fill=\"#dcd8d2\" fill-opacity=\".35\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M44 10 L57 29 L49 35 L55 46 L50 50\" transform=\"translate(120 0) scale(-1 1)\" fill=\"#dcd8d2\" fill-opacity=\".35\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M44 10 L38 18 L49 35\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M44 10 L38 18 L49 35\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M28 52 C29 66 31 78 31 92 L31 106\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M28 52 C29 66 31 78 31 92 L31 106\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M34 82 L46 81 L46 88 L34 89 Z\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M34 82 L46 81 L46 88 L34 89 Z\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M9 91 L21 93 M9 86 L21 88\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M9 91 L21 93 M9 86 L21 88\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M10 76 C14 74 18 73 22 72\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.25\"/><path d=\"M10 76 C14 74 18 73 22 72\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.25\"/><path d=\"M44 10 L32 14 L23 19\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M44 10 L32 14 L23 19\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/></svg>", "statement": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M60.0 25.0 C58.5 24.8 53.5 25.0 51.0 24.0 C48.5 23.0 46.2 21.0 45.0 19.0 C43.8 17.0 44.2 13.2 44.0 12.0 L44.0 12.0 C42.5 12.5 37.5 13.8 35.0 15.0 C32.5 16.2 30.0 18.3 29.0 19.0 L29.0 19.0 C29.5 20.5 31.2 24.5 32.0 28.0 C32.8 31.5 33.8 36.0 34.0 40.0 C34.2 44.0 33.2 50.0 33.0 52.0 L33.0 52.0 L33.0 53.0 L33.0 53.0 C32.9 54.8 32.7 60.2 32.5 64.0 C32.3 67.8 31.9 73.3 32.0 76.0 C32.1 78.7 33.0 79.3 33.0 80.0 C33.0 80.7 32.5 77.3 32.0 80.0 C31.5 82.7 30.3 93.3 30.0 96.0 L30.0 96.0 C28.7 98.0 21.3 104.3 22.0 108.0 C22.7 111.7 27.7 116.2 34.0 118.0 C40.3 119.8 55.7 118.8 60.0 119.0 L60.0 119.0 C64.3 118.8 79.7 119.8 86.0 118.0 C92.3 116.2 97.3 111.7 98.0 108.0 C98.7 104.3 91.3 98.0 90.0 96.0 L90.0 96.0 C89.7 93.3 88.5 82.7 88.0 80.0 C87.5 77.3 87.0 80.7 87.0 80.0 C87.0 79.3 87.9 78.7 88.0 76.0 C88.1 73.3 87.7 67.8 87.5 64.0 C87.3 60.2 87.1 54.8 87.0 53.0 L87.0 53.0 L87.0 52.0 L87.0 52.0 C86.8 50.0 85.8 44.0 86.0 40.0 C86.2 36.0 87.2 31.5 88.0 28.0 C88.8 24.5 90.5 20.5 91.0 19.0 L91.0 19.0 C90.0 18.3 87.5 16.2 85.0 15.0 C82.5 13.8 77.5 12.5 76.0 12.0 L76.0 12.0 C75.8 13.2 76.2 17.0 75.0 19.0 C73.8 21.0 71.5 23.0 69.0 24.0 C66.5 25.0 61.5 24.8 60.0 25.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M60 29 C51 28 46 24 45 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M60 29 C69 28 74 24 75 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".62\"/><path d=\"M44 12 L35 15 L29 19\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M44 12 L35 15 L29 19\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M32 86 L32 104\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M32 86 L32 104\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M32 86 Q46 91 60 91 Q74 91 88 86\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".7\"/><path d=\"M40 90 C38 96 34 104 29 114\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M40 90 C38 96 34 104 29 114\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M50 91 C49 98 46 106 43 118\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.28\"/><path d=\"M50 91 C49 98 46 106 43 118\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.28\"/><path d=\"M30 100 Q24 110 32 117\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.2\"/><path d=\"M30 100 Q24 110 32 117\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.2\"/><path d=\"M26 111 Q38 118 60 117 Q82 118 94 111\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/></svg>", "matching": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M38.0 18.0 C37.5 21.7 35.3 30.0 35.0 40.0 C34.7 50.0 35.2 64.0 36.0 78.0 C36.8 92.0 39.3 116.3 40.0 124.0 L40.0 124.0 C41.7 124.3 46.7 125.7 50.0 126.0 C53.3 126.3 58.3 126.0 60.0 126.0 L60.0 126.0 C61.7 126.0 66.7 126.3 70.0 126.0 C73.3 125.7 78.3 124.3 80.0 124.0 L80.0 124.0 C80.7 116.3 83.2 92.0 84.0 78.0 C84.8 64.0 85.3 50.0 85.0 40.0 C84.7 30.0 82.5 21.7 82.0 18.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M38 10 H82 V18 H38 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><circle cx=\"60\" cy=\"14\" r=\"1.7\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M60 22 L60 118\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.45\"/><path d=\"M38 24 C40 40 40 58 38 76\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M38 24 C40 40 40 58 38 76\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M44 22 C45 40 44 56 43 70\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.25\"/><path d=\"M44 22 C45 40 44 56 43 70\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.25\"/><path d=\"M40 120 L58 121\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M40 120 L58 121\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/></svg>", "sneaker": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><defs><linearGradient id=\"g9\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#efece6\"/><stop offset=\"1\" stop-color=\"#e7e4de\"/></linearGradient></defs><path d=\"M8 104 C8 90 16 82 28 84 C38 86 44 96 56 98 C74 100 98 102 108 112 L108 118 L8 118 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/>\n  <path d=\"M84 100 C96 102 106 108 108 114 L94 118 C92 110 90 104 84 100 Z\" fill=\"#dcd8d2\" fill-opacity=\".3\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".9\"/>\n  <path d=\"M8 104 C10 98 16 94 22 94\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".5\"/>\n  <path d=\"M44 92 l9 -4 M50 96 l9 -4 M58 98 l9 -4 M66 99 l9 -4\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".7\"/>\n  <path d=\"M8 114 H110 V122 C110 127 106 129 102 129 H16 C11 129 8 126 8 122 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/>\n  <path d=\"M14 123 H104\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2 2\" opacity=\".5\"/></svg>", "trousers": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M36.0 17.0 C35.5 20.8 34.2 27.5 33.0 40.0 C31.8 52.5 31.2 75.0 29.0 92.0 C26.8 109.0 21.5 133.7 20.0 142.0 L20.0 142.0 L56.0 142.0 L56.0 142.0 C56.3 134.7 57.3 113.0 58.0 98.0 C58.7 83.0 59.7 59.7 60.0 52.0 L60.0 52.0 C60.3 59.7 61.3 83.0 62.0 98.0 C62.7 113.0 63.7 134.7 64.0 142.0 L64.0 142.0 L100.0 142.0 L100.0 142.0 C98.5 133.7 93.2 109.0 91.0 92.0 C88.8 75.0 88.2 52.5 87.0 40.0 C85.8 27.5 84.5 20.8 84.0 17.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M36 10 H84 V17 H36 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M60 17 L60 46 Q60 52 55 52\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.7\"/><circle cx=\"60\" cy=\"13.5\" r=\"1.7\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M42 10 v7\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".5\"/><path d=\"M50 10 v7\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".5\"/><path d=\"M70 10 v7\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".5\"/><path d=\"M78 10 v7\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".5\"/><path d=\"M37 17 C41 26 46 30 50 30\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.7\"/><path d=\"M37 17 C41 26 46 30 50 30\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.7\"/><path d=\"M46 17 C45 31 44 39 44 43\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.45\"/><path d=\"M46 17 C45 31 44 39 44 43\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.45\"/><path d=\"M41 40 C41 80 39 120 38 140\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M41 40 C41 80 39 120 38 140\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M23 98 C22 118 21 130 20 141\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.25\"/><path d=\"M23 98 C22 118 21 130 20 141\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.25\"/><path d=\"M21.5 136 L54.5 136\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M21.5 136 L54.5 136\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/></svg>", "bag": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M40 52 C40 22 80 22 80 52\" fill=\"none\" stroke=\"#181716\" stroke-width=\"2.55\" opacity=\".9\"/><path d=\"M40 52 C40 22 80 22 80 52\" fill=\"none\" stroke=\"url(#g11)\" stroke-width=\"2.6\"/>\n  <path d=\"M18 54 H102 L108 118 C108 122 105 124 101 124 H19 C15 124 12 122 12 118 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/>\n  <path d=\"M18 54 H102 L104 76 C86 86 34 86 16 76 Z\" fill=\"#dcd8d2\" fill-opacity=\".18\" stroke=\"#181716\" stroke-width=\"1.25\"/>\n  <path d=\"M17 72 C36 82 84 82 103 72\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".5\"/>\n  <path d=\"M14 112 H106\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/>\n  <path d=\"M20 58 H100\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".45\"/>\n  <circle cx=\"60\" cy=\"82\" r=\"4.2\" fill=\"#e0d9ca\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M60 78.5 V85.5\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".6\"/>\n  <circle cx=\"40\" cy=\"52\" r=\"2\" fill=\"#e0d9ca\" stroke=\"#181716\" stroke-width=\"1\"/><circle cx=\"80\" cy=\"52\" r=\"2\" fill=\"#e0d9ca\" stroke=\"#181716\" stroke-width=\"1\"/></svg>", "heel": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M21 111 L34 118 L30.6 147 L26.4 147 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/>\n  <path d=\"M20 112 L22 88 C30 96 44 101 58 103 C78 107 98 124 113 141 C108 145 98 145 88 144 C72 141 58 129 50 123 C44 119 40 119 34 118 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/>\n  <path d=\"M24 92 C33 100 46 105 58 107 C70 110 80 116 90 124\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".6\"/>\n  <path d=\"M24 92 C33 100 46 105 58 107 L52 112 C44 110 32 104 24 98 Z\" fill=\"#dcd8d2\" fill-opacity=\".28\" stroke=\"none\"/>\n  <path d=\"M34 118 C48 122 62 134 88 144 C98 146 108 145 113 141\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".55\"/>\n  <path d=\"M20 108 C22 100 22 94 22 88\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".35\"/>\n  <path d=\"M26.4 142 H30.6\" stroke=\"#181716\" stroke-width=\"1.25\" opacity=\".8\"/></svg>", "flat": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M10 118 C10 106 18 98 30 100 C40 102 48 108 62 108 C84 108 104 114 114 124 C112 129 100 131 84 131 L24 131 C14 131 10 126 10 118 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/>\n  <path d=\"M20 104 C28 106 40 112 54 112 C70 112 82 114 92 119\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".6\"/>\n  <path d=\"M20 104 C28 106 40 112 54 112 L46 117 C36 116 26 112 18 108 Z\" fill=\"#dcd8d2\" fill-opacity=\".26\" stroke=\"none\"/>\n  <path d=\"M12 126 C26 130 54 131 86 131 C100 131 110 129 114 124\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".55\"/></svg>", "belt": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M8 66 H112 V82 H8 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M12 69 H108\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/><path d=\"M12 79 H108\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/>\n  <rect x=\"46\" y=\"60\" width=\"24\" height=\"28\" rx=\"3\" fill=\"none\" stroke=\"#181716\" stroke-width=\"3\"/><path d=\"M58 62 V86\" stroke=\"#181716\" stroke-width=\"2.4\"/><circle cx=\"80\" cy=\"74\" r=\"1.3\" fill=\"#b6a492\" opacity=\".55\"/><circle cx=\"88\" cy=\"74\" r=\"1.3\" fill=\"#b6a492\" opacity=\".55\"/><circle cx=\"96\" cy=\"74\" r=\"1.3\" fill=\"#b6a492\" opacity=\".55\"/><circle cx=\"104\" cy=\"74\" r=\"1.3\" fill=\"#b6a492\" opacity=\".55\"/><path d=\"M76 66 V82\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".5\"/></svg>", "topV": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M60.0 42.0 C58.8 40.0 55.2 33.8 53.0 30.0 C50.8 26.2 48.5 22.0 47.0 19.0 C45.5 16.0 44.5 13.2 44.0 12.0 L44.0 12.0 C42.0 12.5 35.5 13.8 32.0 15.0 C28.5 16.2 24.5 18.3 23.0 19.0 L23.0 19.0 C22.0 21.5 18.7 28.3 17.0 34.0 C15.3 39.7 13.7 49.8 13.0 53.0 L13.0 53.0 L26.0 57.0 L26.0 57.0 C26.7 56.5 29.0 52.2 30.0 54.0 C31.0 55.8 31.5 62.7 32.0 68.0 C32.5 73.3 33.0 79.3 33.0 86.0 C33.0 92.7 32.2 104.3 32.0 108.0 L32.0 108.0 C34.3 108.8 41.3 111.7 46.0 112.5 C50.7 113.3 57.7 112.9 60.0 113.0 L60.0 113.0 C62.3 112.9 69.3 113.3 74.0 112.5 C78.7 111.7 85.7 108.8 88.0 108.0 L88.0 108.0 C87.8 104.3 87.0 92.7 87.0 86.0 C87.0 79.3 87.5 73.3 88.0 68.0 C88.5 62.7 89.0 55.8 90.0 54.0 C91.0 52.2 93.3 56.5 94.0 57.0 L94.0 57.0 L107.0 53.0 L107.0 53.0 C106.3 49.8 104.7 39.7 103.0 34.0 C101.3 28.3 98.0 21.5 97.0 19.0 L97.0 19.0 C95.5 18.3 91.5 16.2 88.0 15.0 C84.5 13.8 78.0 12.5 76.0 12.0 L76.0 12.0 C75.5 13.2 74.5 16.0 73.0 19.0 C71.5 22.0 69.2 26.2 67.0 30.0 C64.8 33.8 61.2 40.0 60.0 42.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M60 46 L54 31 L48 19\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M60 46 L66 31 L72 19\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.62\"/><path d=\"M44 12 L32 16 L23 20\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M44 12 L32 16 L23 20\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M14 49 L27 53\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M14 49 L27 53\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M32 86 L32 106\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M32 86 L32 106\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M33 107 Q46 111 60 111 Q74 111 87 107\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/></svg>", "wrap": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M60.0 52.0 C58.7 49.0 54.3 39.3 52.0 34.0 C49.7 28.7 47.3 23.7 46.0 20.0 C44.7 16.3 44.3 13.3 44.0 12.0 L44.0 12.0 C42.0 12.5 35.5 13.8 32.0 15.0 C28.5 16.2 24.5 18.3 23.0 19.0 L23.0 19.0 C22.0 21.5 18.7 28.3 17.0 34.0 C15.3 39.7 13.7 49.8 13.0 53.0 L13.0 53.0 L26.0 57.0 L26.0 57.0 C26.7 56.5 29.0 52.2 30.0 54.0 C31.0 55.8 31.7 63.0 32.0 68.0 C32.3 73.0 32.0 77.7 32.0 84.0 C32.0 90.3 32.0 102.3 32.0 106.0 L32.0 106.0 C34.3 106.5 41.3 108.3 46.0 109.0 C50.7 109.7 57.7 109.8 60.0 110.0 L60.0 110.0 C62.3 109.8 69.3 109.7 74.0 109.0 C78.7 108.3 85.7 106.5 88.0 106.0 L88.0 106.0 C88.0 102.3 88.0 90.3 88.0 84.0 C88.0 77.7 87.7 73.0 88.0 68.0 C88.3 63.0 89.0 55.8 90.0 54.0 C91.0 52.2 93.3 56.5 94.0 57.0 L94.0 57.0 L107.0 53.0 L107.0 53.0 C106.3 49.8 104.7 39.7 103.0 34.0 C101.3 28.3 98.0 21.5 97.0 19.0 L97.0 19.0 C95.5 18.3 91.5 16.2 88.0 15.0 C84.5 13.8 78.0 12.5 76.0 12.0 L76.0 12.0 C75.7 13.3 75.3 16.3 74.0 20.0 C72.7 23.7 70.3 28.7 68.0 34.0 C65.7 39.3 61.3 49.0 60.0 52.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M45 13 C52 40 66 62 80 86 L90 108 L60 110 L32 106 L32 90 C40 70 44 40 45 13Z\" fill=\"none\" stroke=\"none\"/><path d=\"M45 13 C54 40 68 64 84 88\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.9\"/><path d=\"M49 17 C58 40 70 60 82 82\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M82 87 q10 3 8 15 M82 87 q-1 10 -9 14\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\".7\"/><ellipse cx=\"82\" cy=\"87\" rx=\"3\" ry=\"2.4\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1\"/><path d=\"M44 12 L32 16 L23 20\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M44 12 L32 16 L23 20\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.35\"/><path d=\"M14 49 L27 53\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M14 49 L27 53\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M33 105 Q46 109 60 109\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" stroke-dasharray=\"2.2 1.8\" opacity=\".5\"/><path d=\"M34 72 C42 76 50 78 56 80\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/></svg>", "dressBelted": "<svg viewBox=\"0 0 120 150\" xmlns=\"http://www.w3.org/2000/svg\" stroke-linejoin=\"round\" stroke-linecap=\"round\" width=\"100%\" height=\"100%\"><path d=\"M60.0 54.0 C58.7 50.8 54.3 41.0 52.0 35.0 C49.7 29.0 47.3 22.2 46.0 18.0 C44.7 13.8 44.3 11.3 44.0 10.0 L44.0 10.0 C42.2 10.5 36.0 11.7 33.0 13.0 C30.0 14.3 27.2 17.2 26.0 18.0 L26.0 18.0 C25.0 20.0 21.7 25.7 20.0 30.0 C18.3 34.3 16.7 41.7 16.0 44.0 L16.0 44.0 L27.0 48.0 L27.0 48.0 C27.7 49.3 29.8 53.0 31.0 56.0 C32.2 59.0 33.5 63.0 34.0 66.0 C34.5 69.0 34.0 72.7 34.0 74.0 L34.0 74.0 C32.7 79.7 29.0 96.0 26.0 108.0 C23.0 120.0 17.7 139.7 16.0 146.0 L16.0 146.0 C19.7 146.5 30.7 148.3 38.0 149.0 C45.3 149.7 56.3 149.8 60.0 150.0 L60.0 150.0 C63.7 149.8 74.7 149.7 82.0 149.0 C89.3 148.3 100.3 146.5 104.0 146.0 L104.0 146.0 C102.3 139.7 97.0 120.0 94.0 108.0 C91.0 96.0 87.3 79.7 86.0 74.0 L86.0 74.0 C86.0 72.7 85.5 69.0 86.0 66.0 C86.5 63.0 87.8 59.0 89.0 56.0 C90.2 53.0 92.3 49.3 93.0 48.0 L93.0 48.0 L104.0 44.0 L104.0 44.0 C103.3 41.7 101.7 34.3 100.0 30.0 C98.3 25.7 95.0 20.0 94.0 18.0 L94.0 18.0 C92.8 17.2 90.0 14.3 87.0 13.0 C84.0 11.7 77.8 10.5 76.0 10.0 L76.0 10.0 C75.7 11.3 75.3 13.8 74.0 18.0 C72.7 22.2 70.3 29.0 68.0 35.0 C65.7 41.0 61.3 50.8 60.0 54.0 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M46 12 C54 40 66 60 82 80 L92 146 L60 150 L22 146 L34 74 C40 50 44 30 46 12Z\" fill=\"none\" stroke=\"none\"/><path d=\"M46 12 C56 40 70 62 86 82\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.95\"/><path d=\"M82 80 L92 146\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M44 10 L33 14 L26 18\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M44 10 L33 14 L26 18\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M17 40 L28 44\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M17 40 L28 44\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.5\"/><path d=\"M34 72 H88 V80 H34 Z\" fill=\"#FAF9F6\" stroke=\"#181716\" stroke-width=\"1.25\"/><rect x=\"55\" y=\"70.5\" width=\"9\" height=\"11\" rx=\"1.5\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1.25\"/><path d=\"M44 108 C42 124 38 138 32 148\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.22\"/><path d=\"M44 108 C42 124 38 138 32 148\" transform=\"translate(120 0) scale(-1 1)\" fill=\"none\" stroke=\"#181716\" stroke-width=\"1\" opacity=\"0.22\"/></svg>"};
 
 const SHAPE_SVGS = {
   apple: { d: 'M20 22 C19 25 18 27 16 30 C16 37 19 43 18 48 C17 53 20 58 22 64 C22 72 25 78 24 86 L36 86 C35 78 38 72 38 64 C40 58 43 53 42 48 C41 43 44 37 44 30 C42 27 41 25 40 22 C37 25 26 25 20 22 Z', desc: 'Fuller midsection, slimmer legs' },
@@ -164,7 +352,7 @@ function veinsSvg(bg, stroke) {
   return `<svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="8" fill="${bg}"/><path d="M14 40 Q22 20 30 32 T48 18" fill="none" stroke="${stroke}" stroke-width="3" stroke-linecap="round" opacity="0.85"/></svg>`;
 }
 
-// Slide list: covers + all 16 questions + free text + photo + payment
+// Slide list: covers + all 23 questions + free text + photo + payment
 const SLIDES = ['name-cover', 'color-cover', ...QUESTIONS.filter(q => q.section === 'color').map((q, i) => i), 'body-cover', ...QUESTIONS.filter(q => q.section === 'body').map((q, i) => i), 'freetext', 'photo'];
 // Build a flat ordered list with proper indices into QUESTIONS
 const FLOW = [];
@@ -173,11 +361,13 @@ FLOW.push({ type: 'body-part-cover', part: 'color' });
 QUESTIONS.filter(q => q.section === 'color').forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'body-part-cover', part: 'body' });
 QUESTIONS.filter(q => q.section === 'body').forEach(q => FLOW.push({ type: 'question', q }));
+FLOW.push({ type: 'body-part-cover', part: 'persona' });
+QUESTIONS.filter(q => q.section === 'persona').forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'freetext' });
 FLOW.push({ type: 'photo' });
 
 let step = 0;
-const totalQuestions = 16;
+const totalQuestions = QUESTIONS.length;
 
 function questionsCompletedSoFar() {
   let n = 0;
@@ -195,7 +385,7 @@ function progressHtml() {
 
 function canAdvance() {
   const f = FLOW[step];
-  if (f.type === 'question') return !!A[f.q.key];
+  if (f.type === 'question') { const v = A[f.q.key]; return Array.isArray(v) ? v.length > 0 : !!v; }
   return true;
 }
 
@@ -209,30 +399,40 @@ function render() {
       <div class="cover">
         <p class="cover-eyebrow">Signature Style Report</p>
         <h1 class="cover-title">Let's find <em>your</em> colors and shape</h1>
-        <p class="cover-sub">16 quick questions about your natural coloring and body, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
-        <input type="text" class="nameinput" id="name-field" placeholder="What's your first name?" value="${name}">
+        <p class="cover-sub">23 quick questions about your natural coloring, body and style, then an optional photo. Takes about 3 minutes — your personalized report is generated right after you check out.</p>
+        <input type="text" class="nameinput" id="name-field" placeholder="First name" value="${name}" autocomplete="given-name">
+        <input type="email" class="nameinput" id="email-field" placeholder="Email address" value="${email}" autocomplete="email">
+        <p class="field-err" id="start-err" style="display:none;">Please add your first name and a valid email so we can send your report.</p>
         <div class="returning-toggle">
           <button type="button" class="returning-opt ${!returningClient ? 'sel' : ''}" id="first-time-btn">First time here</button>
           <button type="button" class="returning-opt ${returningClient ? 'sel' : ''}" id="returning-btn">I've booked before</button>
         </div>
-        <button class="cover-btn" id="begin-btn">Begin ✦</button>
+        <button class="cover-btn" id="begin-btn">Begin →</button>
       </div>`;
   } else if (f.type === 'body-part-cover') {
     if (f.part === 'color') {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part One of Two</p>
+          <p class="cover-eyebrow">Part One of Three</p>
           <h1 class="cover-title">Your <em>Color</em> Analysis</h1>
           <p class="cover-sub">8 quick questions about your natural coloring — jewelry, sun, veins, contrast. Pick whatever's closest, there are no wrong answers.</p>
-          <button class="cover-btn" id="next-cover-btn">Begin ✦</button>
+          <button class="cover-btn" id="next-cover-btn">Begin →</button>
+        </div>`;
+    } else if (f.part === 'persona') {
+      html = `
+        <div class="cover">
+          <p class="cover-eyebrow">Part Three of Three</p>
+          <h1 class="cover-title">Your <em>Style Persona</em></h1>
+          <p class="cover-sub">5 last questions about how you dress and shop. They shape the name and signature formula on your report, and the stores we link you to.</p>
+          <button class="cover-btn" id="next-cover-btn">Continue →</button>
         </div>`;
     } else {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part Two of Two</p>
+          <p class="cover-eyebrow">Part Two of Three</p>
           <h1 class="cover-title">Your <em>Body &amp; Style</em></h1>
-          <p class="cover-sub">8 more questions about fit, shape, and what already feels confident on you.</p>
-          <button class="cover-btn" id="next-cover-btn">Continue ✦</button>
+          <p class="cover-sub">10 more questions about fit, proportions, and what already feels confident on you.</p>
+          <button class="cover-btn" id="next-cover-btn">Continue →</button>
         </div>`;
     }
   } else if (f.type === 'question') {
@@ -248,6 +448,7 @@ function render() {
     html = `
       ${progressHtml()}
       <p class="meta">Optional, sharpens your read</p>
+      <p class="meta" style="margin-top:-0.3rem;">Your photo is sent to an AI service only to write your report, and HerStyleVault does not store it.</p>
       <p class="qtext">Add a clear, well-lit photo</p>
       <label class="upload-box" for="photo-field">
         <strong>${photoBase64 ? 'Photo added — tap to change' : 'Upload a photo'}</strong>
@@ -275,11 +476,135 @@ function canAdvanceForCurrent() {
   return canAdvance();
 }
 
+function iconHtml(ic) {
+  if (!ic) return '';
+  const [kind, key] = ic.split(':');
+  if (kind === 'foil') return '<span class="opt-ic"><span class="foil ' + key + '"></span></span>';
+  if (kind === 'croq') return '<span class="opt-ic">' + croquisSVG(key, { sw: 1.6 }) + '</span>';
+  if (kind === 'art') return '<span class="opt-ic">' + (ART_ICONS[key] || '') + '</span>';
+  return '';
+}
+
+
+/* ================= Visual-card carousels =================
+   Visual questions show one large card at a time: illustration on top, arrows (and tap on the art) to cycle,
+   a "1 / N" counter, the full option text underneath, and a button to pick the card that is showing. */
+const CAR = {};
+const ARCH = c => '<i class="vc-arch" style="background:' + c + '"></i>';
+const QMARK = '<i class="vc-arch vc-arch-q">?</i>';
+function artSw(colors) { return '<div class="vc-sw">' + colors.map(ARCH).join('') + '</div>'; }
+function artIcons(keys) { return '<div class="vc-icons">' + keys.map(k => '<div class="vc-ic">' + (ART_ICONS[k] || '') + '</div>').join('') + '</div>'; }
+function artCroq(m) { return '<div class="vc-croq">' + croquisSVG(m[0], { d: m[1] || 0, arrows: true, sw: 1.1 }) + '</div>'; }
+function artMetal(v) {
+  if (v === 'unsure') return '<div class="vc-foils"><i class="vc-foil vc-foil-q">?</i></div>';
+  if (v === 'both') return '<div class="vc-foils"><i class="vc-foil gold"></i><i class="vc-foil silver" style="margin-left:-28px"></i></div>';
+  return '<div class="vc-foils"><i class="vc-foil ' + v + '"></i></div>';
+}
+const COMP_SW = { warm: ['#e07a3f', '#8a5a35', '#5f7a3a', '#d9a05b'], cool: ['#4f6fb3', '#d98ab0', '#7a5fb0', '#8fb7d9'], neutral: ['#d8c8b0', '#f3f1ec', '#b8b8b8', '#8f8f8f'] };
+const WASH_SW = { warm: ['#e9a24f', '#d9732b', '#c9a24a', '#b5541f'], cool: ['#6b8fd4', '#9c7bd0', '#d98ab0', '#5fb3c9'], pale: ['#e8f1f7', '#eadff2', '#f6e9ee', '#e4f0ea'], none: ['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a'] };
+const CHROMA_SW = { bright: ['#e8283a', '#1e6fe0', '#f2c200', '#12a86b'], muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88'], both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0'] };
+const DEPTH_ITEMS = [
+  { value: 'fair', label: 'Fair / Light', hex: '#f2d3b8' }, { value: 'medium', label: 'Medium / Olive', hex: '#d9a877' },
+  { value: 'tan', label: 'Tan / Caramel', hex: '#a9713f' }, { value: 'deep', label: 'Deep / Rich', hex: '#5c3b23' }];
+const CONTRAST_SETS = {
+  deep: { label: 'Deeper skin tones', items: [
+    { value: 'high', colors: ['#e8e2d4', '#4a2e1c', '#241812'], label: 'High: light hair or eyes against deep skin' },
+    { value: 'medium', colors: ['#5c3d24', '#a9713f', '#3a2418'], label: 'Medium: some difference between tones' },
+    { value: 'low', colors: ['#241812', '#3a2418', '#2a1810'], label: 'Low: deep skin, dark hair and eyes blend' }] },
+  light: { label: 'Lighter skin tones', items: [
+    { value: 'high', colors: ['#241812', '#f2d3b8', '#3a2418'], label: 'High: dark hair against fair skin' },
+    { value: 'medium', colors: ['#6b5a48', '#e0b894', '#5a7a5a'], label: 'Medium: some difference between tones' },
+    { value: 'low', colors: ['#d4b483', '#f2d3b8', '#c9a074'], label: 'Low: fair skin, blonde hair blend softly' }] }
+};
+const VEIN_SETS = {
+  deep: { label: 'Deeper skin tones', bg: '#4a2e1c', strokes: { blue: '#7a8cd4', green: '#6bab6b', both: '#7c9c7c' } },
+  light: { label: 'Lighter skin tones', bg: '#f2d3b8', strokes: { blue: '#3a4a8c', green: '#3a6b3a', both: '#4a5c4a' } }
+};
+const VEIN_LABELS = { blue: 'Blue / Purple', green: 'Green', both: 'Mix of both' };
+const STYLE_ART = { flowy: ['wrap'], fitted: ['blazer'], waist: ['dressBelted'], oversized: ['coat'] };
+const SEP_ART = { dresses: ['dress'], separates: ['topV', 'trousers'], both: ['dress', 'trousers'] };
+const SH_MAP = { shouldersMuchWider: ['inverted', 2], shouldersSlightlyWider: ['inverted', 0], equal: ['rectangle', 0], hipsSlightlyWider: ['pear', 0], hipsMuchWider: ['pear', 2], hipsWiderShouldersFull: ['hourglass', 0] };
+const WD_MAP = { veryDefined: ['hourglass', 2], slightlyDefined: ['hourglass', 0], barelyDefined: ['rectangle', 0], fullMidsection: ['apple', 1] };
+const BH_MAP = { bustMuchLarger: ['inverted', 2], bustSlightlyLarger: ['inverted', 0], roughlyEqual: ['rectangle', 0], hipsSlightlyLarger: ['pear', 0], hipsMuchLarger: ['pear', 2], fullBoth: ['hourglass', -1] };
+const PQ1_ART = { blazer: ['blazer'], casual: ['tee', 'trousers'], feminine: ['dress'], allblack: ['coat'], bold: ['statement'], set: ['matching'], sporty: ['sneaker'] };
+const PQ2_ART = { tailored: ['blazer'], drape: ['wrap'], quality: ['bag'], effortless: ['tee', 'trousers'], drama: ['statement'] };
+const PQ3_ART = { mono: ['topV', 'trousers', 'bag'], set: ['matching'], outerwear: ['coat'], standout: ['statement', 'bag'] };
+function artProportion(v) {
+  const Y = CROQ_Y, crotch = v === 'longTorso' ? 152 : v === 'longLegs' ? 130 : 142;
+  const x = 93, tick = (y) => '<path d="M' + (x - 2) + ' ' + y + 'H' + (x + 2) + '" stroke="#7A1321" stroke-width=".6"/>';
+  const over = '<line x1="6" x2="94" y1="' + crotch + '" y2="' + crotch + '" stroke="#7A1321" stroke-width=".5" stroke-dasharray="1.6 1.4"/>'
+    + '<path d="M' + x + ' ' + Y.sh + 'V' + crotch + 'M' + x + ' ' + crotch + 'V' + Y.toe + '" stroke="#7A1321" stroke-width=".6"/>' + tick(Y.sh) + tick(crotch) + tick(Y.toe)
+    + '<text x="88" y="' + Math.round((Y.sh + crotch) / 2) + '" text-anchor="end" font-size="8" fill="#7A1321" font-family="Plus Jakarta Sans,sans-serif">Torso</text>'
+    + '<text x="88" y="' + Math.round((crotch + Y.toe) / 2) + '" text-anchor="end" font-size="8" fill="#7A1321" font-family="Plus Jakarta Sans,sans-serif">Legs</text>';
+  return '<div class="vc-croq">' + croquisSVG('rectangle', { sw: 1.1 }).replace('</svg>', over + '</svg>') + '</div>';
+}
+const VISUAL = {
+  jewelry: { art: (v) => artMetal(v) },
+  veins: { group: true, notSure: true, items: () => {
+    const g = VEIN_SETS[carGroup()];
+    return ['blue', 'green', 'both'].map(v => ({ value: v, label: VEIN_LABELS[v], art: '<div class="vc-vein">' + veinsSvg(g.bg, g.strokes[v]) + '</div>' }));
+  } },
+  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a']) : artSw(COMP_SW[v])) },
+  wash: { art: (v) => artSw(WASH_SW[v]) },
+  depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div>' })) },
+  contrast: { group: true, items: () => CONTRAST_SETS[carGroup()].items.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw vc-sw-demo">' + o.colors.map(ARCH).join('') + '</div>' })) },
+  chroma: { art: (v) => artSw(CHROMA_SW[v]) },
+  styleGrav: { art: (v) => artIcons(STYLE_ART[v] || []) },
+  dressSep: { art: (v) => artIcons(SEP_ART[v] || []) },
+  shoulderHip: { art: (v) => artCroq(SH_MAP[v] || ['hourglass', 0]) },
+  waistDef: { art: (v) => artCroq(WD_MAP[v] || ['hourglass', 0]) },
+  bustHip: { art: (v) => artCroq(BH_MAP[v] || ['hourglass', 0]) },
+  proportion: { art: (v) => artProportion(v) },
+  pq1: { art: (v) => artIcons(PQ1_ART[v] || []) },
+  pq2: { art: (v) => artIcons(PQ2_ART[v] || []) },
+  pq3: { art: (v) => artIcons(PQ3_ART[v] || []) }
+};
+function carGroup() { return CAR._group || ((A.depth === 'fair' || A.depth === 'medium') ? 'light' : (A.depth ? 'deep' : 'light')); }
+function carItems(q) {
+  const cfg = VISUAL[q.key];
+  if (cfg.items) return cfg.items(q);
+  const opts = q.dynamic ? personaOptions(q.key) : q.options;
+  return opts.map(o => ({ value: o.value, label: o.label, art: cfg.art(o.value, o) }));
+}
+function carouselHtml(q) {
+  const cfg = VISUAL[q.key], items = carItems(q), cur = A[q.key];
+  let i = CAR[q.key];
+  if (i == null || i >= items.length) { i = Math.max(0, items.findIndex(x => x.value === cur)); }
+  CAR[q.key] = i;
+  const it = items[i], sel = cur === it.value;
+  const toggle = cfg.group ? '<div class="vc-group" role="group" aria-label="Skin tone group">' + ['light', 'deep'].map(g => '<button type="button" class="vc-gbtn ' + (carGroup() === g ? 'on' : '') + '" data-group="' + g + '">' + (g === 'deep' ? 'Deeper skin tones' : 'Lighter skin tones') + '</button>').join('') + '</div>' : '';
+  return '<div class="vc" data-q="' + q.key + '">' + toggle
+    + '<div class="vc-frame"><button type="button" class="vc-arrow" data-dir="-1" aria-label="Previous option">←</button>'
+    + '<div class="vc-art" data-cycle="1" role="button" tabindex="0" aria-label="Tap to see the next option">' + it.art + '</div>'
+    + '<button type="button" class="vc-arrow" data-dir="1" aria-label="Next option">→</button></div>'
+    + '<p class="vc-count">' + (i + 1) + ' / ' + items.length + '</p>'
+    + '<p class="vc-desc">' + it.label + '</p>'
+    + '<button type="button" class="vc-pick ' + (sel ? 'on' : '') + '" data-pick="' + it.value + '">' + (sel ? 'Selected ✓' : 'This is me') + '</button>'
+    + (cfg.notSure ? '<button type="button" class="vc-notsure ' + (cur === 'unsure' ? 'on' : '') + '" data-pick="unsure">' + (cur === 'unsure' ? 'Not sure ✓' : "Not sure / can't tell") + '</button>' : '')
+    + '</div>';
+}
+function attachCarousel() {
+  const root = document.querySelector('.vc'); if (!root) return;
+  const key = root.dataset.q, q = QUESTIONS.find(x => x.key === key), n = carItems(q).length;
+  const go = d => { CAR[key] = (CAR[key] + d + n) % n; render(); };
+  root.querySelectorAll('[data-dir]').forEach(b => b.addEventListener('click', () => go(parseInt(b.dataset.dir, 10))));
+  const art = root.querySelector('.vc-art');
+  art.addEventListener('click', () => go(1));
+  art.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); } });
+  let x0 = null;
+  art.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  art.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) { e.preventDefault(); go(dx < 0 ? 1 : -1); } });
+  root.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => { A[key] = b.dataset.pick; render(); }));
+  root.querySelectorAll('[data-group]').forEach(b => b.addEventListener('click', () => { CAR._group = b.dataset.group; render(); }));
+}
+
 function renderQuestion(q) {
-  const sectionLabel = q.section === 'color' ? 'Color' : 'Body & Style';
+  const sectionLabel = q.label || (q.section === 'color' ? 'Color' : q.section === 'persona' ? 'Style Persona' : 'Body & Style');
   let body = '';
 
-  if (q.type === 'depth') {
+  if (VISUAL[q.key]) {
+    body = carouselHtml(q);
+  } else if (q.type === 'depth') {
     const opts = [
       { v: 'fair', label: 'Fair / Light', hex: '#f2d3b8' },
       { v: 'medium', label: 'Medium / Olive', hex: '#d9a877' },
@@ -334,7 +659,7 @@ function renderQuestion(q) {
           </div>`).join('')}</div>`).join('') +
       `<div class="notsure-wrap">
         <div class="tri-opt ${A.veins === 'unsure' ? 'sel' : ''}" data-key="veins" data-val="unsure">
-          <svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="8" fill="#8c7a6a"/><text x="30" y="38" text-anchor="middle" font-size="22" fill="#fff9f6" font-family="Jost, sans-serif">?</text></svg>
+          <svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="8" fill="#8c7a6a"/><text x="30" y="38" text-anchor="middle" font-size="22" fill="#fff9f6" font-family="Plus Jakarta Sans, sans-serif">?</text></svg>
           <span class="lbl">Not sure / can't tell</span>
         </div>
       </div>`;
@@ -346,8 +671,9 @@ function renderQuestion(q) {
         <span class="desc">${SHAPE_SVGS[k].desc}</span>
       </div>`).join('')}</div>`;
   } else {
-    body = `<div class="opts">${q.options.map(o => `
-      <div class="opt ${A[q.key] === o.value ? 'sel' : ''}" data-key="${q.key}" data-val="${o.value}">${o.label}</div>`).join('')}</div>`;
+    const qOpts = q.dynamic ? personaOptions(q.key) : q.options;
+    body = `<div class="opts"${q.section === 'persona' ? ' style="grid-template-columns:1fr;"' : ''}>${qOpts.map(o => `
+      <div class="opt ${(q.multi ? (A[q.key] || []).indexOf(o.value) > -1 : A[q.key] === o.value) ? 'sel' : ''}" data-key="${q.key}" data-val="${o.value}"${q.multi ? ' data-multi="1" role="checkbox" aria-checked="' + ((A[q.key] || []).indexOf(o.value) > -1) + '"' : ''}>${iconHtml(o.icon)}<span>${o.label}</span></div>`).join('')}</div>`;
   }
 
   return `
@@ -369,7 +695,18 @@ function questionTextForType(type) {
 function attachHandlers(f) {
   document.querySelectorAll('[data-key]').forEach(el => {
     el.addEventListener('click', () => {
-      A[el.dataset.key] = el.dataset.val;
+      if (el.dataset.multi) {
+        /* choose-all-that-apply: "evenly" is exclusive, anything else clears it */
+        const cur = Array.isArray(A[el.dataset.key]) ? A[el.dataset.key].slice() : [];
+        const v = el.dataset.val, at = cur.indexOf(v);
+        let next;
+        if (at > -1) { cur.splice(at, 1); next = cur; }
+        else if (v === 'evenly') { next = ['evenly']; }
+        else { next = cur.filter(x => x !== 'evenly'); next.push(v); }
+        A[el.dataset.key] = next;
+      } else {
+        A[el.dataset.key] = el.dataset.val;
+      }
       render();
     });
   });
@@ -377,10 +714,13 @@ function attachHandlers(f) {
   if (backBtn) backBtn.addEventListener('click', () => { if (step > 0) { step--; render(); } });
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) nextBtn.addEventListener('click', onNext);
+  attachCarousel();
   const beginBtn = document.getElementById('begin-btn');
   if (beginBtn) beginBtn.addEventListener('click', () => {
-    const nf = document.getElementById('name-field');
+    const nf = document.getElementById('name-field'), ef = document.getElementById('email-field');
     name = (nf && nf.value.trim()) || '';
+    email = (ef && ef.value.trim()) || '';
+    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { const er = document.getElementById('start-err'); if (er) er.style.display = 'block'; return; }
     step++; render();
   });
   const nextCoverBtn = document.getElementById('next-cover-btn');
@@ -388,6 +728,8 @@ function attachHandlers(f) {
 
   const nameField = document.getElementById('name-field');
   if (nameField) nameField.addEventListener('input', (e) => { name = e.target.value; });
+  const emailField = document.getElementById('email-field');
+  if (emailField) emailField.addEventListener('input', (e) => { email = e.target.value; });
   const firstTimeBtn = document.getElementById('first-time-btn');
   if (firstTimeBtn) firstTimeBtn.addEventListener('click', () => { returningClient = false; render(); });
   const returningBtn = document.getElementById('returning-btn');
@@ -434,8 +776,20 @@ function onNext() {
   render();
 }
 
+function sendLead() {
+  // Fire-and-forget: never awaited, never throws, and skipped entirely when no webhook URL is set.
+  try {
+    if (!GOOGLE_SHEET_WEBHOOK_URL) return;
+    const p = computePersona(A);
+    fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+      method: 'POST', mode: 'no-cors', keepalive: true,
+      body: JSON.stringify({ name, email, ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name, depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '', shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '', createdAt: new Date().toISOString() })
+    }).catch(function () {});
+  } catch (e) {}
+}
+
 function submitAndPay() {
-  const data = { name, returningClient, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
+  const data = { name, email, returningClient, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
@@ -444,6 +798,7 @@ function submitAndPay() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, photoBase64: null, photoMediaType: null }));
     } catch (e2) {}
   }
+  sendLead();
   window.location.href = STRIPE_LINK;
 }
 

@@ -23,7 +23,8 @@
 <section class="band wrap">
 <p class="eyebrow center">Vault Digitals</p>
 <h1 class="page-title center">Self-serve styling, <em>anywhere</em></h1>
-<p class="sub center" style="margin:0 auto 2.4rem;">Digital reports and guides you can start today. No appointment, no waiting.</p>
+<p class="sub center" style="margin:0 auto 2.4rem;">Digital style reports and guides you can start today. No appointment, no waiting.</p>
+<div class="look-filters" id="vdFilters" role="group" aria-label="Filter digitals" hidden></div>
 <div class="vd-grid" id="vdGrid"></div>
 </section>
 
@@ -37,6 +38,24 @@
 <footer class="site"><div class="footer-mount"></div></footer>
 <script src="site.js"></script>
 <script src="digitals.js"></script>
-<script>document.getElementById('vdGrid').innerHTML = liveDigitals().map(digitalCard).join('');</script>
+<script>
+(function(){
+  var items = visibleDigitals(), grid = document.getElementById('vdGrid'), bar = document.getElementById('vdFilters');
+  var cats = Object.keys(DIGITAL_CATEGORIES).filter(function(k){ return items.some(function(p){ return p.category === k; }); });
+  function show(cat){
+    var list = cat === 'all' ? items : items.filter(function(p){ return p.category === cat; });
+    grid.innerHTML = list.length ? list.map(digitalCard).join('') : '<p class="vd-empty">New digitals are on the way.</p>';
+    Array.prototype.forEach.call(bar.children, function(b){ var on = b.getAttribute('data-cat') === cat; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
+    try { history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat); } catch(e){}
+  }
+  if (cats.length > 1) {
+    bar.innerHTML = '<button type="button" class="look-filter" data-cat="all">All</button>' + cats.map(function(k){ return '<button type="button" class="look-filter" data-cat="' + k + '">' + DIGITAL_CATEGORIES[k].label + '</button>'; }).join('');
+    bar.hidden = false;
+    bar.addEventListener('click', function(e){ var b = e.target.closest('button[data-cat]'); if (b) show(b.getAttribute('data-cat')); });
+  }
+  var h = (location.hash || '').replace('#','');
+  show(cats.indexOf(h) > -1 && cats.length > 1 ? h : 'all');
+})();
+</script>
 </body>
 </html>

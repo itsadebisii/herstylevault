@@ -57,7 +57,10 @@ function joinList(arr){return arr.length<2?(arr[0]||''):arr.length===2?arr[0]+' 
 function bodyMarkerMatch(shape,a){
   // Which of the client's own answers are genuine classic markers for the shape we computed.
   const M={apple:{weight:['belly'],fit:['bottoms']},pear:{weight:['hips'],fit:['tops']},inverted:{weight:['upper'],fit:['bottoms']},hourglass:{weight:['hips','evenly'],fit:['both']},rectangle:{weight:['evenly'],fit:['both']}}[shape]||{weight:[],fit:[]};
-  return{weight:M.weight.indexOf(a.weight)>-1,fit:M.fit.indexOf(a.fit)>-1};
+  // weight can be several choices (or a single string from older sessions); only the ones that really mark this shape count
+  const picked=[].concat(a.weight||[]);
+  const hits=picked.filter(w=>M.weight.indexOf(w)>-1);
+  return{weight:hits.length>0,weightHits:hits,fit:M.fit.indexOf(a.fit)>-1};
 }
 function buildColorNarrative(a,axes,season){
   const sig=colorSignals(a);const u=axes.undertone;
@@ -77,17 +80,19 @@ function buildColorNarrative(a,axes,season){
     if(against.length)out+=` A couple of signals pointed the other way (${joinList(against.slice(0,2))}). That is common, because vein color and sun reaction are the least reliable parts of a quiz, so more weight goes to the metals and colors you know flatter you.`;
   }
   const extra=[contrastText?`that ${contrastText}`:'',chromaText?`that ${chromaText}`:''].filter(Boolean);
-  out+=extra.length?` Add ${joinList(extra)}, and the full picture points to one specific color type: ${String(season.label).replace(/\s*✦/,'')}. ${season.desc}`:` The full picture points to one specific color type: ${String(season.label).replace(/\s*✦/,'')}. ${season.desc}`;
+  out+=extra.length?` Add ${joinList(extra)}, and the full picture points to one specific color type: ${String(season.label).replace(/\s*✦/,'')}.`:` The full picture points to one specific color type: ${String(season.label).replace(/\s*✦/,'')}.`;
   return out;
 }
 function buildBodyNarrative(a,shapeData){
   const fitText={tops:'tops fit you better than bottoms',bottoms:'bottoms fit you better than tops',both:'both tops and bottoms fit you well',neither:"neither tops nor bottoms fit great off the rack right now"}[a.fit]||'';
-  const weightText={belly:'you carry weight first in your belly/midsection',hips:'you carry weight first in your hips and thighs',upper:'you carry weight first in your upper body and arms',evenly:'you carry weight evenly all over'}[a.weight]||'';
+  const weightWords={belly:'your belly/midsection',hips:'your hips and thighs',upper:'your upper body and arms'};
   const confText={shoulders:'your shoulders and collarbone',waist:'your waist',legs:'your legs',bust:'your bust',overall:'your overall silhouette'}[a.conf]||'your best features';
   const shapeName=(shapeData.shape||'').replace(/^[^A-Za-z]+/,'');
   const key=shapeName.toLowerCase().split(' ')[0];
   const art=(/^[AEIOUaeiou]/.test(shapeName)||/^hour/i.test(shapeName))?'an':'a';
   const m=bodyMarkerMatch(key,a);
+  const wHits=m.weightHits||[];
+  const weightText=wHits.indexOf('evenly')>-1&&wHits.length===1?'you carry weight evenly all over':wHits.length?'you notice weight first in '+joinList(wHits.map(w=>weightWords[w]||w)):'';
   let out;
   if(m.fit&&m.weight&&fitText&&weightText){
     out=`${fitText.charAt(0).toUpperCase()+fitText.slice(1)}, and ${weightText} — both classic markers of ${art} ${shapeName}.`;
@@ -98,7 +103,7 @@ function buildBodyNarrative(a,shapeData){
     out=`Shape comes from your overall proportions, not from which pieces fit off the rack or where weight lands first, since those vary a lot from person to person. Your shoulder-to-hip balance, waist definition and bust-to-hip proportion point to ${art} ${shapeName}, and that is what the recommendations below are built around.`;
   }
   out+=` You feel most confident in ${confText}, so every recommendation below is built to keep highlighting that.`;
-  const tip=proportionTipFor(key,a.height,a.proportion);if(tip){out+=` One more thing that's specific to you: ${tip}`;}
+  const tip=proportionTipFor(key,a.height,a.proportion);if(tip){out+=` One more thing that's specific to you: ${tip.charAt(0).toLowerCase()+tip.slice(1)}`;}
   return out;
 }
 
@@ -135,18 +140,18 @@ function proportionTipFor(shapeKey,height,proportion){
 
 
 const colorData = {
-  lightSpring: { undertone: 'Light Spring', label: 'Light Spring', desc: 'A warm undertone with light, delicate coloring. You glow in warm colors kept light and clear — not deep, not muted.', metal: 'Light Gold / Champagne — brighter gold reads better than antique or deep gold', neutrals: [{n:'Ivory',h:'#f5efe0'},{n:'Camel',h:'#d4b896'},{n:'Light Warm Gray',h:'#c9c0b3'},{n:'Soft Peach Beige',h:'#e8d4bc'}], signature: [{n:'Peach',h:'#f4a97f'},{n:'Coral',h:'#ef8354'},{n:'Light Aqua',h:'#8fd3c8'},{n:'Warm Yellow',h:'#f2c14e'},{n:'Apple Green',h:'#9bc25c'},{n:'Light Turquoise',h:'#6fc7c0'}], accents: [{n:'Champagne Gold',h:'#d9c48a'},{n:'Light Coral',h:'#f2967a'},{n:'Aqua',h:'#7fd4c9'}], accessory: 'Bags — camel, ivory, light tan. Shoes — warm nude, light tan, coral. Jewelry — light/champagne gold always. Belts — light tan leather.', patterns: ['Light warm florals and watercolor prints', 'Small-to-medium scale prints in warm, clear colors', 'Soft tropical or botanical prints', 'Avoid heavy, dark, or busy large-scale prints'], avoid: 'Black, deep burgundy, icy pastels, and gray — all too heavy or cool for this light warm palette.' },
-  trueSpring: { undertone: 'True Spring', label: 'True Spring', desc: 'A classic warm undertone with clear, medium-depth coloring. You thrive in vivid, golden-based warm colors.', metal: 'Gold — bright, warm gold is the most flattering metal', neutrals: [{n:'Camel',h:'#c8a882'},{n:'Warm Ivory',h:'#f2ead8'},{n:'Golden Brown',h:'#8a6240'},{n:'Warm Khaki',h:'#b9a978'}], signature: [{n:'Coral',h:'#f2704b'},{n:'Golden Yellow',h:'#f0b429'},{n:'Grass Green',h:'#6fae44'},{n:'Turquoise',h:'#29a89a'},{n:'Warm Red',h:'#e0472b'},{n:'Tangerine',h:'#f2884b'}], accents: [{n:'Gold',h:'#c9a96e'},{n:'Bright Coral',h:'#f2704b'},{n:'Turquoise',h:'#29a89a'}], accessory: 'Bags — camel, cognac, warm brown. Shoes — warm-toned nude, tan, coral. Jewelry — gold always. Belts — cognac leather.', patterns: ['Bold warm florals and tropical prints', 'Medium-to-large scale prints', 'Tortoiseshell and warm animal prints'], avoid: 'Black, icy pastels, cool gray, mauve, and silver-based tones.' },
-  brightSpring: { undertone: 'Bright Spring', label: 'Bright Spring', desc: 'Vivid, high-clarity coloring that sits between spring warmth and winter brightness. You glow in saturated, clean colors — never muted or dusty.', metal: 'Gold or Bright Silver — either works as long as it is bright, not antiqued', neutrals: [{n:'Bright White',h:'#fbfbfb'},{n:'Warm Charcoal',h:'#3f3a38'},{n:'Camel',h:'#c9a882'},{n:'True Navy',h:'#223350'}], signature: [{n:'Hot Pink',h:'#ec1f6a'},{n:'Turquoise',h:'#14b8a6'},{n:'Bright Coral',h:'#f2543d'},{n:'Lemon Yellow',h:'#f2d13f'},{n:'Grass Green',h:'#55b02e'},{n:'Bright Periwinkle',h:'#4d6fe0'}], accents: [{n:'Gold',h:'#c9a96e'},{n:'Fuchsia',h:'#d4087a'},{n:'Bright Aqua',h:'#1fc6c6'}], accessory: 'Bags — bright white, camel, true navy, statement color. Shoes — white, bright color, warm nude. Jewelry — bright gold or bright silver. Belts — camel or navy.', patterns: ['Bold graphic prints and color-blocking', 'High-contrast patterns', 'Clean geometric prints'], avoid: 'Muted or dusty tones, beige-on-beige, and anything pastel-soft or washed out.' },
-  lightSummer: { undertone: 'Light Summer', label: 'Light Summer', desc: 'A cool undertone with a delicate, airy quality. You are flattered by soft, light cool colors — never deep or vivid ones.', metal: 'Silver or Rose Gold — soft, light metals only', neutrals: [{n:'Soft White',h:'#f4f2ee'},{n:'Light Gray',h:'#b9bdc4'},{n:'Powder Blue-Gray',h:'#a9b8c4'},{n:'Taupe',h:'#b7ada3'}], signature: [{n:'Powder Pink',h:'#eab8bf'},{n:'Periwinkle',h:'#9aa8d8'},{n:'Soft Lavender',h:'#b6a3cf'},{n:'Soft Aqua',h:'#9fcfd0'},{n:'Dusty Rose',h:'#c98fa0'},{n:'Sky Blue',h:'#a7cbe0'}], accents: [{n:'Silver',h:'#c7c9cc'},{n:'Soft Pink',h:'#eab8bf'},{n:'Lavender',h:'#b6a3cf'}], accessory: 'Bags — soft gray, blush, soft white. Shoes — cool nude, soft gray, blush. Jewelry — silver or soft rose gold. Belts — soft taupe or gray.', patterns: ['Soft watercolor florals', 'Delicate small-scale prints', 'Low-contrast tone-on-tone patterns'], avoid: 'Black, orange, mustard, and deep rich tones — all too heavy for this light cool palette.' },
-  trueSummer: { undertone: 'True Summer', label: 'True Summer', desc: 'A classic cool undertone with soft, muted, medium-depth coloring. You are flattered by dusty, blue-based colors rather than warm or high-contrast ones.', metal: 'Silver — the most flattering metal for this palette', neutrals: [{n:'Cool Gray',h:'#9aa0a6'},{n:'Navy',h:'#33465e'},{n:'Soft White',h:'#f0f0ee'},{n:'Taupe Rose',h:'#baa3a0'}], signature: [{n:'Dusty Rose',h:'#c98a91'},{n:'Soft Burgundy',h:'#8f4a56'},{n:'Lavender',h:'#9c88c4'},{n:'Powder Blue',h:'#9bb8d3'},{n:'Sage',h:'#93a68c'},{n:'Mauve',h:'#a97c8a'}], accents: [{n:'Silver',h:'#c0c0c0'},{n:'Rose',h:'#c98a91'},{n:'Soft Plum',h:'#7d5a75'}], accessory: 'Bags — navy, gray, soft rose. Shoes — cool-toned nude, navy, gray. Jewelry — silver always. Belts — navy or gray.', patterns: ['Soft muted florals', 'Tone-on-tone patterns', 'Gentle geometric prints'], avoid: 'Orange, warm gold, black, and bright neon — too warm or too harsh.' },
-  softSummer: { undertone: 'Soft Summer', label: 'Soft Summer', desc: 'A cool-neutral undertone with a soft, muted quality. You glow in dusty, blended colors — best avoiding both very bright and very warm tones.', metal: 'Silver or Pewter — brushed, not shiny', neutrals: [{n:'Taupe',h:'#a99e93'},{n:'Soft Gray',h:'#9b9691'},{n:'Dusty Navy',h:'#3e4a5c'},{n:'Greige',h:'#b0a89c'}], signature: [{n:'Dusty Teal',h:'#5b8a86'},{n:'Mauve',h:'#9a6b73'},{n:'Soft Plum',h:'#77566e'},{n:'Muted Rose',h:'#bd8b8f'},{n:'Sage Green',h:'#8a9a7e'},{n:'Slate Blue',h:'#6e7f96'}], accents: [{n:'Pewter',h:'#9a9a9a'},{n:'Muted Rose',h:'#bd8b8f'},{n:'Dusty Teal',h:'#5b8a86'}], accessory: 'Bags — taupe, dusty navy, greige. Shoes — muted rose, taupe, gray. Jewelry — brushed silver or pewter. Belts — taupe leather.', patterns: ['Muted tone-on-tone prints', 'Soft blended florals'], avoid: 'Bright neon, pure black, orange, and high-contrast color blocking.' },
-  softAutumn: { undertone: 'Soft Autumn', label: 'Soft Autumn', desc: 'A warm-neutral undertone with a soft, muted quality. You are flattered by dusty earthy colors — never bright or icy ones.', metal: 'Soft Gold or Bronze — brushed, matte finishes', neutrals: [{n:'Warm Taupe',h:'#a68f74'},{n:'Soft Camel',h:'#c2a480'},{n:'Warm Gray',h:'#948575'},{n:'Mushroom',h:'#b4a690'}], signature: [{n:'Sage Green',h:'#8a9a6b'},{n:'Dusty Coral',h:'#c98a6b'},{n:'Warm Olive',h:'#7d7a4a'},{n:'Soft Rust',h:'#b56a4a'},{n:'Muted Gold',h:'#b99a55'},{n:'Terracotta',h:'#b96a4e'}], accents: [{n:'Bronze',h:'#a97848'},{n:'Soft Gold',h:'#c2a35c'},{n:'Dusty Coral',h:'#c98a6b'}], accessory: 'Bags — camel, olive, warm taupe. Shoes — warm muted nude, camel, olive. Jewelry — bronze or soft gold. Belts — camel or olive leather.', patterns: ['Muted botanical prints', 'Soft plaid', 'Tone-on-tone earthy prints'], avoid: 'Icy pastels, pure black, bright fuchsia, and stark white.' },
-  trueAutumn: { undertone: 'True Autumn', label: 'True Autumn', desc: 'A classic warm undertone with rich, earthy, medium-to-deep coloring. You thrive in warm, grounded colors with real depth.', metal: 'Gold or Bronze — richer, warmer golds especially', neutrals: [{n:'Camel',h:'#b98a55'},{n:'Chocolate Brown',h:'#5c3d24'},{n:'Warm Olive',h:'#6e6b3f'},{n:'Cream',h:'#ede0c8'}], signature: [{n:'Rust',h:'#b5541f'},{n:'Mustard',h:'#c99a2e'},{n:'Forest Green',h:'#3f6b3f'},{n:'Pumpkin',h:'#d1732a'},{n:'Warm Brown',h:'#7a4a2a'},{n:'Teal',h:'#2f6b63'}], accents: [{n:'Gold',h:'#c9a05a'},{n:'Copper',h:'#b06a35'},{n:'Olive',h:'#6e6b3f'}], accessory: 'Bags — cognac, chocolate brown, olive. Shoes — warm-toned nude, cognac, brown. Jewelry — gold or bronze. Belts — cognac leather.', patterns: ['Rich botanical and animal prints', 'Plaid', 'Medium-to-large scale warm prints'], avoid: 'Icy pastels, black, cool gray, bubblegum pink, and silver.' },
-  deepAutumn: { undertone: 'Deep Autumn', label: 'Deep Autumn', desc: 'A warm undertone with deep, rich coloring. You are flattered by deep, saturated warm colors that match your natural depth — never pale or icy ones.', metal: 'Gold or Copper — deep, rich tones', neutrals: [{n:'Chocolate Brown',h:'#4a3220'},{n:'Deep Olive',h:'#4f4f2c'},{n:'Espresso',h:'#3a2a1e'},{n:'Warm Charcoal',h:'#3c332c'}], signature: [{n:'Deep Rust',h:'#9c3f1e'},{n:'Burnt Orange',h:'#b5541f'},{n:'Deep Teal',h:'#1f5c56'},{n:'Bronze',h:'#8a5a2e'},{n:'Deep Gold',h:'#b5892e'},{n:'Burgundy',h:'#6e2430'}], accents: [{n:'Copper',h:'#b06a35'},{n:'Deep Gold',h:'#b5892e'},{n:'Bronze',h:'#8a5a2e'}], accessory: 'Bags — espresso, dark brown, deep jewel tone. Shoes — cognac, dark brown, bold color. Jewelry — gold or copper. Belts — dark brown leather.', patterns: ['Rich deep botanical prints', 'High-contrast warm patterns', 'Animal print'], avoid: 'Pale pastels, icy tones, silver, and light gray — all too pale for this deep warm palette.' },
-  brightWinter: { undertone: 'Bright Winter', label: 'Bright Winter', desc: 'A cool-neutral undertone with vivid, high-clarity coloring. You come alive in saturated jewel tones and high-contrast combinations.', metal: 'Silver or White Gold — bright, clean metals', neutrals: [{n:'Bright White',h:'#fafafa'},{n:'True Black',h:'#191919'},{n:'Charcoal',h:'#322f2e'},{n:'Icy Gray',h:'#cfd3d6'}], signature: [{n:'Fuchsia',h:'#d4087a'},{n:'Emerald',h:'#0e8a5e'},{n:'True Red',h:'#d21f2c'},{n:'Royal Blue',h:'#1e4fd6'},{n:'Hot Pink',h:'#ec1f6a'},{n:'Ice Blue',h:'#7fd1e0'}], accents: [{n:'Silver',h:'#c7c9cc'},{n:'Fuchsia',h:'#d4087a'},{n:'Emerald',h:'#0e8a5e'}], accessory: 'Bags — black, white, jewel tone. Shoes — black, white, bold color. Jewelry — silver. Belts — black leather.', patterns: ['Bold high-contrast prints', 'Color-blocking', 'Graphic prints'], avoid: 'Muted earth tones, orange, warm camel, and dusty pastels.' },
-  trueWinter: { undertone: 'True Winter', label: 'True Winter', desc: 'A classic cool undertone with deep, clear coloring. You are flattered by icy or jewel-toned colors with strong, cool clarity.', metal: 'Silver or Platinum — the coolest, brightest metals', neutrals: [{n:'True Black',h:'#171717'},{n:'Pure White',h:'#fbfbfb'},{n:'Charcoal',h:'#2e2e2e'},{n:'Navy',h:'#16233b'}], signature: [{n:'Emerald',h:'#0d7a52'},{n:'Sapphire',h:'#164fa3'},{n:'True Red',h:'#c8102e'},{n:'Royal Purple',h:'#4b1e78'},{n:'Icy Pink',h:'#e6a6c7'},{n:'Fuchsia',h:'#c2126b'}], accents: [{n:'Silver',h:'#c0c0c0'},{n:'Sapphire',h:'#164fa3'},{n:'Icy Pink',h:'#e6a6c7'}], accessory: 'Bags — black, navy, jewel tone. Shoes — black, navy, white. Jewelry — silver or platinum. Belts — black leather.', patterns: ['High-contrast graphic prints', 'Black-and-white', 'Bold color-blocking'], avoid: 'Warm earth tones, orange, mustard, camel, and muted/dusty colors.' },
-  deepWinter: { undertone: 'Deep Winter', label: 'Deep Winter', desc: 'A cool undertone with deep, rich coloring. You are flattered by deep saturated colors with cool undertones — never muted or pastel shades.', metal: 'Silver or Platinum — deep jewel tones with cool metals', neutrals: [{n:'True Black',h:'#141414'},{n:'Deep Charcoal',h:'#2a2a2a'},{n:'Pure White',h:'#f7f7f7'},{n:'Deep Navy',h:'#101c33'}], signature: [{n:'Deep Burgundy',h:'#5e1526'},{n:'Forest Green',h:'#123d2a'},{n:'Sapphire',h:'#123a7a'},{n:'Deep Purple',h:'#3a1450'},{n:'True Red',h:'#b3122a'},{n:'Deep Fuchsia',h:'#8a0f52'}], accents: [{n:'Silver',h:'#c0c0c0'},{n:'Deep Burgundy',h:'#5e1526'},{n:'Sapphire',h:'#123a7a'}], accessory: 'Bags — black, deep jewel tone. Shoes — black, deep color. Jewelry — silver or platinum. Belts — black leather.', patterns: ['Bold deep-toned prints', 'High-contrast prints'], avoid: 'Pastels, muted earth tones, orange, and light beige.' }
+  lightSpring: { undertone: 'Light Spring', label: 'Light Spring', desc: 'A warm undertone with light, delicate coloring. You glow in warm colors kept light and clear — not deep, not muted.', metal: 'Light Gold / Champagne — brighter gold reads better than antique or deep gold', neutrals:[{n:'Ivory',h:'#f5efe0'},{n:'Camel',h:'#d4b896'},{n:'Light Warm Gray',h:'#c9c0b3'},{n:'Soft Peach Beige',h:'#e8d4bc'}], signature:[{n:'Peach',h:'#f4a97f'},{n:'Coral',h:'#ef8354'},{n:'Light Aqua',h:'#8fd3c8'},{n:'Warm Yellow',h:'#f2c14e'},{n:'Apple Green',h:'#9bc25c'},{n:'Light Turquoise',h:'#6fc7c0'}], accents:[{n:'Champagne Gold',h:'#d9c48a'},{n:'Soft Pink Nude',h:'#f1c4bd'},{n:'Honey Tan',h:'#c99a6a'}], accessory: 'Bags — camel, ivory, light tan. Shoes — warm nude, light tan, coral. Jewelry — light/champagne gold always. Belts — light tan leather.', patterns: ['Light warm florals and watercolor prints', 'Small-to-medium scale prints in warm, clear colors', 'Soft tropical or botanical prints', 'Avoid heavy, dark, or busy large-scale prints'], avoid: 'Black, deep burgundy, icy pastels, and gray — all too heavy or cool for this light warm palette.',avoidSwatches:[{n:'Black',h:'#141414'},{n:'Deep Burgundy',h:'#5e1526'},{n:'Icy Lilac',h:'#d9d8f0'},{n:'Cool Gray',h:'#8e959c'}] },
+  trueSpring: { undertone: 'True Spring', label: 'True Spring', desc: 'A classic warm undertone with clear, medium-depth coloring. You thrive in vivid, golden-based warm colors.', metal: 'Gold — bright, warm gold is the most flattering metal', neutrals:[{n:'Camel',h:'#c8a882'},{n:'Warm Ivory',h:'#f2ead8'},{n:'Golden Brown',h:'#8a6240'},{n:'Warm Khaki',h:'#b9a978'}], signature:[{n:'Coral',h:'#f2704b'},{n:'Golden Yellow',h:'#f0b429'},{n:'Kelly Green',h:'#6fae44'},{n:'Turquoise',h:'#29a89a'},{n:'Warm Red',h:'#e0472b'},{n:'Tangerine',h:'#f2884b'}], accents:[{n:'Warm Gold',h:'#d4a94c'},{n:'Cognac',h:'#a65a2e'},{n:'Peach Nude',h:'#e9a787'}], accessory: 'Bags — camel, cognac, warm brown. Shoes — warm-toned nude, tan, coral. Jewelry — gold always. Belts — cognac leather.', patterns: ['Bold warm florals and tropical prints', 'Medium-to-large scale prints', 'Tortoiseshell and warm animal prints'], avoid: 'Black, icy pastels, cool gray, mauve, and silver-based tones.',avoidSwatches:[{n:'Black',h:'#141414'},{n:'Icy Lavender',h:'#dcd9f0'},{n:'Cool Gray',h:'#9aa0a6'},{n:'Dusty Mauve',h:'#a98995'}] },
+  brightSpring: { undertone: 'Bright Spring', label: 'Bright Spring', desc: 'Vivid, high-clarity coloring that sits between spring warmth and winter brightness. You glow in saturated, clean colors — never muted or dusty.', metal: 'Gold or Bright Silver — either works as long as it is bright, not antiqued', neutrals:[{n:'Bright White',h:'#fbfbfb'},{n:'Warm Charcoal',h:'#3f3a38'},{n:'Camel',h:'#c9a882'},{n:'True Navy',h:'#223350'}], signature:[{n:'Magenta',h:'#ec1f6a'},{n:'Turquoise',h:'#14b8a6'},{n:'Bright Coral',h:'#f2543d'},{n:'Butter Yellow',h:'#f2d13f'},{n:'Kelly Green',h:'#55b02e'},{n:'Cobalt Blue',h:'#4d6fe0'}], accents:[{n:'Antique Gold',h:'#b8923a'},{n:'Cherry Red',h:'#c9283a'},{n:'Cognac Leather',h:'#a85f2b'}], accessory: 'Bags — bright white, camel, true navy, statement color. Shoes — white, bright color, warm nude. Jewelry — bright gold or bright silver. Belts — camel or navy.', patterns: ['Bold graphic prints and color-blocking', 'High-contrast patterns', 'Clean geometric prints'], avoid: 'Muted or dusty tones, beige-on-beige, and anything pastel-soft or washed out.',avoidSwatches:[{n:'Dusty Taupe',h:'#a89c90'},{n:'Soft Greige',h:'#d0c8bc'},{n:'Washed Pink',h:'#e8d5d8'},{n:'Faded Sage',h:'#a9b5a2'}] },
+  lightSummer: { undertone: 'Light Summer', label: 'Light Summer', desc: 'A cool undertone with a delicate, airy quality. You are flattered by soft, light cool colors — never deep or vivid ones.', metal: 'Silver or Rose Gold — soft, light metals only', neutrals:[{n:'Soft White',h:'#f4f2ee'},{n:'Light Gray',h:'#b9bdc4'},{n:'Slate Blue',h:'#a9b8c4'},{n:'Taupe',h:'#b7ada3'}], signature:[{n:'Powder Pink',h:'#eab8bf'},{n:'Periwinkle',h:'#9aa8d8'},{n:'Soft Lavender',h:'#b6a3cf'},{n:'Soft Aqua',h:'#9fcfd0'},{n:'Dusty Rose',h:'#c98fa0'},{n:'Sky Blue',h:'#a7cbe0'}], accents:[{n:'Pearl Silver',h:'#d0d3d8'},{n:'Brushed Rose Gold',h:'#a67b74'},{n:'Berry Sheer',h:'#b9607d'}], accessory: 'Bags — soft gray, blush, soft white. Shoes — cool nude, soft gray, blush. Jewelry — silver or soft rose gold. Belts — soft taupe or gray.', patterns: ['Soft watercolor florals', 'Delicate small-scale prints', 'Low-contrast tone-on-tone patterns'], avoid: 'Black, orange, mustard, and deep rich tones — all too heavy for this light cool palette.',avoidSwatches:[{n:'Black',h:'#141414'},{n:'Orange',h:'#e8762b'},{n:'Mustard Yellow',h:'#c99a2e'},{n:'Deep Chocolate',h:'#3a2418'}] },
+  trueSummer: { undertone: 'True Summer', label: 'True Summer', desc: 'A classic cool undertone with soft, muted, medium-depth coloring. You are flattered by dusty, blue-based colors rather than warm or high-contrast ones.', metal: 'Silver — the most flattering metal for this palette', neutrals:[{n:'Cool Gray',h:'#9aa0a6'},{n:'Navy',h:'#33465e'},{n:'Soft White',h:'#f0f0ee'},{n:'Rosewood',h:'#baa3a0'}], signature:[{n:'Dusty Rose',h:'#c98a91'},{n:'Soft Burgundy',h:'#8f4a56'},{n:'Lavender',h:'#9c88c4'},{n:'Powder Blue',h:'#9bb8d3'},{n:'Sage',h:'#93a68c'},{n:'Mauve',h:'#a97c8a'}], accents:[{n:'Polished Silver',h:'#c3c6cb'},{n:'Black Plum',h:'#5e2a4a'},{n:'Warm Taupe Suede',h:'#7a6f66'}], accessory: 'Bags — navy, gray, soft rose. Shoes — cool-toned nude, navy, gray. Jewelry — silver always. Belts — navy or gray.', patterns: ['Soft muted florals', 'Tone-on-tone patterns', 'Gentle geometric prints'], avoid: 'Orange, warm gold, black, and bright neon — too warm or too harsh.',avoidSwatches:[{n:'Orange',h:'#e8762b'},{n:'Warm Gold',h:'#c9a24a'},{n:'Black',h:'#141414'},{n:'Neon Lime',h:'#b6f03c'}] },
+  softSummer: { undertone: 'Soft Summer', label: 'Soft Summer', desc: 'A cool-neutral undertone with a soft, muted quality. You glow in dusty, blended colors — best avoiding both very bright and very warm tones.', metal: 'Silver or Pewter — brushed, not shiny', neutrals:[{n:'Taupe',h:'#a99e93'},{n:'Soft Gray',h:'#9b9691'},{n:'Dusty Navy',h:'#3e4a5c'},{n:'Greige',h:'#b0a89c'}], signature:[{n:'Dusty Teal',h:'#5b8a86'},{n:'Mauve',h:'#9a6b73'},{n:'Soft Plum',h:'#77566e'},{n:'Muted Rose',h:'#bd8b8f'},{n:'Sage Green',h:'#8a9a7e'},{n:'Slate Blue',h:'#6e7f96'}], accents:[{n:'Smoked Gray',h:'#9a9a9a'},{n:'Deep Raspberry',h:'#8c2f55'},{n:'Espresso Taupe',h:'#5f5650'}], accessory: 'Bags — taupe, dusty navy, greige. Shoes — muted rose, taupe, gray. Jewelry — brushed silver or smoked gray. Belts — taupe leather.', patterns: ['Muted tone-on-tone prints', 'Soft blended florals'], avoid: 'Bright neon, pure black, orange, and high-contrast color blocking.',avoidSwatches:[{n:'Neon Pink',h:'#ff2d95'},{n:'Pure Black',h:'#0a0a0a'},{n:'Orange',h:'#e8762b'},{n:'Electric Blue',h:'#0f4cff'}] },
+  softAutumn: { undertone: 'Soft Autumn', label: 'Soft Autumn', desc: 'A warm-neutral undertone with a soft, muted quality. You are flattered by dusty earthy colors — never bright or icy ones.', metal: 'Soft Gold or Bronze — brushed, matte finishes', neutrals:[{n:'Warm Taupe',h:'#a68f74'},{n:'Soft Camel',h:'#c2a480'},{n:'Warm Gray',h:'#948575'},{n:'Mushroom',h:'#b4a690'}], signature:[{n:'Sage Green',h:'#8a9a6b'},{n:'Dusty Coral',h:'#c98a6b'},{n:'Warm Olive',h:'#7d7a4a'},{n:'Soft Rust',h:'#b56a4a'},{n:'Muted Gold',h:'#b99a55'},{n:'Terracotta',h:'#b96a4e'}], accents:[{n:'Brushed Gold',h:'#d0b77a'},{n:'Warm Brick',h:'#a4473a'},{n:'Deep Olive Suede',h:'#5e5a38'}], accessory: 'Bags — camel, olive, warm taupe. Shoes — warm muted nude, camel, olive. Jewelry — bronze or soft gold. Belts — camel or olive leather.', patterns: ['Muted botanical prints', 'Soft plaid', 'Tone-on-tone earthy prints'], avoid: 'Icy pastels, pure black, bright fuchsia, and stark white.',avoidSwatches:[{n:'Icy Lilac',h:'#d4d8f0'},{n:'Pure Black',h:'#0a0a0a'},{n:'Bright Magenta',h:'#d4087a'},{n:'Stark White',h:'#ffffff'}] },
+  trueAutumn: { undertone: 'True Autumn', label: 'True Autumn', desc: 'A classic warm undertone with rich, earthy, medium-to-deep coloring. You thrive in warm, grounded colors with real depth.', metal: 'Gold or Bronze — richer, warmer golds especially', neutrals:[{n:'Camel',h:'#b98a55'},{n:'Chocolate Brown',h:'#5c3d24'},{n:'Warm Olive',h:'#6e6b3f'},{n:'Cream',h:'#ede0c8'}], signature:[{n:'Rust',h:'#b5541f'},{n:'Honey Gold',h:'#c99a2e'},{n:'Forest Green',h:'#3f6b3f'},{n:'Terracotta',h:'#d1732a'},{n:'Warm Brown',h:'#7a4a2a'},{n:'Teal',h:'#2f6b63'}], accents:[{n:'Antique Gold',h:'#c9a05a'},{n:'Oxblood Lip',h:'#6b1f1c'},{n:'Saddle Leather',h:'#9a6b3a'}], accessory: 'Bags — cognac, chocolate brown, olive. Shoes — warm-toned nude, cognac, brown. Jewelry — gold or bronze. Belts — cognac leather.', patterns: ['Rich botanical and animal prints', 'Plaid', 'Medium-to-large scale warm prints'], avoid: 'Icy pastels, black, cool gray, bubblegum pink, and silver.',avoidSwatches:[{n:'Icy Blue',h:'#d6e6f0'},{n:'Black',h:'#141414'},{n:'Cool Gray',h:'#9aa0a6'},{n:'Bubblegum Pink',h:'#f5a3c7'}] },
+  deepAutumn: { undertone: 'Deep Autumn', label: 'Deep Autumn', desc: 'A warm undertone with deep, rich coloring. You are flattered by deep, saturated warm colors that match your natural depth — never pale or icy ones.', metal: 'Gold or Copper — deep, rich tones', neutrals:[{n:'Chocolate Brown',h:'#4a3220'},{n:'Deep Olive',h:'#4f4f2c'},{n:'Espresso',h:'#3a2a1e'},{n:'Warm Charcoal',h:'#3c332c'}], signature:[{n:'Deep Rust',h:'#9c3f1e'},{n:'Burnt Orange',h:'#b5541f'},{n:'Deep Teal',h:'#1f5c56'},{n:'Bronze',h:'#8a5a2e'},{n:'Deep Gold',h:'#b5892e'},{n:'Burgundy',h:'#6e2430'}], accents:[{n:'Aged Gold',h:'#c4a35a'},{n:'Deep Rose Brown',h:'#8a5a58'},{n:'Olive Suede',h:'#6a6a48'}], accessory: 'Bags — espresso, dark brown, deep jewel tone. Shoes — cognac, dark brown, bold color. Jewelry — gold or copper. Belts — dark brown leather.', patterns: ['Rich deep botanical prints', 'High-contrast warm patterns', 'Animal print'], avoid: 'Pale pastels, icy tones, silver, and light gray — all too pale for this deep warm palette.',avoidSwatches:[{n:'Icy Blue',h:'#d6e6f2'},{n:'Silver',h:'#c0c0c0'},{n:'Light Gray',h:'#d3d3d3'},{n:'Pale Pink',h:'#f2d6dc'}] },
+  brightWinter: { undertone: 'Bright Winter', label: 'Bright Winter', desc: 'A cool-neutral undertone with vivid, high-clarity coloring. You come alive in saturated jewel tones and high-contrast combinations.', metal: 'Silver or White Gold — bright, clean metals', neutrals:[{n:'Bright White',h:'#fafafa'},{n:'True Black',h:'#191919'},{n:'Charcoal',h:'#322f2e'},{n:'Icy Gray',h:'#cfd3d6'}], signature:[{n:'Orchid',h:'#d4087a'},{n:'Emerald',h:'#0e8a5e'},{n:'True Red',h:'#d21f2c'},{n:'Royal Blue',h:'#1e4fd6'},{n:'Magenta',h:'#ec1f6a'},{n:'Ice Blue',h:'#7fd1e0'}], accents:[{n:'Platinum',h:'#d4d7db'},{n:'Raspberry Lip',h:'#b5124f'},{n:'Gunmetal',h:'#5f6670'}], accessory: 'Bags — black, white, jewel tone. Shoes — black, white, bold color. Jewelry — silver. Belts — black leather.', patterns: ['Bold high-contrast prints', 'Color-blocking', 'Graphic prints'], avoid: 'Muted earth tones, orange, warm camel, and dusty pastels.',avoidSwatches:[{n:'Dusty Camel',h:'#b79b7a'},{n:'Burnt Orange',h:'#c9622a'},{n:'Muted Khaki',h:'#a89f7f'},{n:'Dusty Rose',h:'#c9a3a0'}] },
+  trueWinter: { undertone: 'True Winter', label: 'True Winter', desc: 'A classic cool undertone with deep, clear coloring. You are flattered by icy or jewel-toned colors with strong, cool clarity.', metal: 'Silver or Platinum — the coolest, brightest metals', neutrals:[{n:'True Black',h:'#171717'},{n:'Pure White',h:'#fbfbfb'},{n:'Charcoal',h:'#2e2e2e'},{n:'Navy',h:'#16233b'}], signature:[{n:'Emerald',h:'#0d7a52'},{n:'Sapphire',h:'#164fa3'},{n:'True Red',h:'#c8102e'},{n:'Royal Purple',h:'#4b1e78'},{n:'Icy Pink',h:'#e6a6c7'},{n:'Orchid',h:'#c2126b'}], accents:[{n:'Platinum',h:'#cfd2d6'},{n:'Plum Lip',h:'#7a1f5c'},{n:'Gunmetal',h:'#596070'}], accessory: 'Bags — black, navy, jewel tone. Shoes — black, navy, white. Jewelry — silver or platinum. Belts — black leather.', patterns: ['High-contrast graphic prints', 'Black-and-white', 'Bold color-blocking'], avoid: 'Warm earth tones, orange, mustard, camel, and muted/dusty colors.',avoidSwatches:[{n:'Camel',h:'#b98a55'},{n:'Orange',h:'#e8762b'},{n:'Mustard Yellow',h:'#c99a2e'},{n:'Dusty Sage',h:'#a3af9a'}] },
+  deepWinter: { undertone: 'Deep Winter', label: 'Deep Winter', desc: 'A cool undertone with deep, rich coloring. You are flattered by deep saturated colors with cool undertones — never muted or pastel shades.', metal: 'Silver or Platinum — deep jewel tones with cool metals', neutrals:[{n:'True Black',h:'#141414'},{n:'Deep Charcoal',h:'#2a2a2a'},{n:'Pure White',h:'#f7f7f7'},{n:'Deep Navy',h:'#101c33'}], signature:[{n:'Deep Burgundy',h:'#5e1526'},{n:'Forest Green',h:'#123d2a'},{n:'Sapphire',h:'#123a7a'},{n:'Deep Purple',h:'#3a1450'},{n:'True Red',h:'#b3122a'},{n:'Deep Orchid',h:'#8a0f52'}], accents:[{n:'Platinum',h:'#c9ccd1'},{n:'Cool Rose Lip',h:'#c25a86'},{n:'Gunmetal',h:'#4a5160'}], accessory: 'Bags — black, deep jewel tone. Shoes — black, deep color. Jewelry — silver or platinum. Belts — black leather.', patterns: ['Bold deep-toned prints', 'High-contrast prints'], avoid: 'Pastels, muted earth tones, orange, and light beige.',avoidSwatches:[{n:'Pastel Lilac',h:'#d9cce8'},{n:'Muted Olive',h:'#8a8a5c'},{n:'Orange',h:'#e8762b'},{n:'Light Beige',h:'#e0d3bd'}] }
 };
 
 // Season-specific extended color guidance. One block per season, written to the palette in colorData.
@@ -186,14 +191,14 @@ const seasonExtras = {
   },
   trueSpring: {
     seasonal: [
-      'Spring — your home season. Coral, golden yellow, grass green and turquoise at full strength',
+      'Spring — your home season. Coral, golden yellow, kelly green and turquoise at full strength',
       'Summer — warm red, tangerine and turquoise with warm ivory. Let the color do the work',
-      'Autumn — camel, golden brown and warm khaki as the base, with a coral or grass green piece to keep it fresh',
+      'Autumn — camel, golden brown and warm khaki as the base, with a coral or kelly green piece to keep it fresh',
       'Winter — golden brown, warm ivory and a warm red coat or scarf. Skip black and icy tones'
     ],
     occasion: [
       'Casual everyday — camel or warm ivory with one coral or turquoise piece',
-      'Work — golden brown or warm khaki trousers, warm ivory blouse and a grass green accent',
+      'Work — golden brown or warm khaki trousers, warm ivory blouse and a kelly green accent',
       'Evening out — warm red or tangerine with gold jewelry',
       'Special events — turquoise or golden yellow in a clean silhouette with warm gold accessories'
     ],
@@ -217,19 +222,19 @@ const seasonExtras = {
   },
   brightSpring: {
     seasonal: [
-      'Spring — your home season. Hot pink, bright coral, lemon yellow and grass green, clean and saturated',
-      'Summer — turquoise, bright periwinkle and bright white. High contrast looks right on you',
-      'Autumn — true navy and warm charcoal as the base, with bright coral or grass green as the accent',
-      'Winter — bright white, true navy and a hot pink or turquoise piece. Skip anything dusty or muted'
+      'Spring — your home season. Hot pink, bright coral, butter yellow and kelly green, clean and saturated',
+      'Summer — turquoise, cobalt blue and bright white. High contrast looks right on you',
+      'Autumn — true navy and warm charcoal as the base, with bright coral or kelly green as the accent',
+      'Winter — bright white, true navy and a magenta or turquoise piece. Skip anything dusty or muted'
     ],
     occasion: [
-      'Casual everyday — bright white or true navy with one hot pink or turquoise piece',
+      'Casual everyday — bright white or true navy with one magenta or turquoise piece',
       'Work — warm charcoal or true navy tailoring, a bright white shirt and one bright accent',
-      'Evening out — bright coral, hot pink or turquoise with gold or bright silver jewelry',
+      'Evening out — bright coral, magenta or turquoise with gold or bright silver jewelry',
       'Special events — a single saturated color head to toe, or a high-contrast pair like navy and lemon'
     ],
     makeup: [
-      'Lip colors — bright coral, hot pink, warm red and clear poppy, with a glossy or satin finish',
+      'Lip colors — bright coral, magenta, warm red and clear poppy, with a glossy or satin finish',
       'Eye colors — bright navy or turquoise liner, warm brown with a gold shimmer, clear green',
       'Blush — bright coral, warm pink and clear peach, applied with a light hand',
       'Brows and mascara — dark brown to black, since you can handle strong definition',
@@ -250,12 +255,12 @@ const seasonExtras = {
     seasonal: [
       'Spring — powder pink, soft aqua and sky blue in light fabrics',
       'Summer — your home season. Periwinkle, soft lavender, dusty rose and soft white together',
-      'Autumn — taupe and powder blue-gray as the base, with dusty rose near the face. Leave the rust and mustard behind',
+      'Autumn — taupe and slate blue as the base, with dusty rose near the face. Leave the rust and honey gold behind',
       'Winter — light gray, soft white and a lavender or sky blue scarf. Skip black'
     ],
     occasion: [
       'Casual everyday — soft white or light gray with one powder pink or sky blue piece',
-      'Work — powder blue-gray or taupe tailoring with a soft white blouse and a lavender accent',
+      'Work — slate blue or taupe tailoring with a soft white blouse and a lavender accent',
       'Evening out — periwinkle or dusty rose in a soft fabric with silver or rose gold jewelry',
       'Special events — soft lavender, powder pink or sky blue in a simple silhouette with delicate silver'
     ],
@@ -281,7 +286,7 @@ const seasonExtras = {
     seasonal: [
       'Spring — powder blue, soft lavender and dusty rose in light, easy fabrics',
       'Summer — your home season. Dusty rose, powder blue, sage and mauve at ease together',
-      'Autumn — cool gray, navy and taupe rose as the base, with soft burgundy as the deeper accent. Skip warm oranges',
+      'Autumn — cool gray, navy and rosewood as the base, with soft burgundy as the deeper accent. Skip warm oranges',
       'Winter — navy, cool gray and soft white, with a soft plum or lavender scarf. Softer than black'
     ],
     occasion: [
@@ -318,7 +323,7 @@ const seasonExtras = {
     occasion: [
       'Casual everyday — taupe or greige with one muted rose or sage piece',
       'Work — dusty navy or soft gray tailoring, a soft white blouse and a slate blue accent',
-      'Evening out — soft plum, mauve or dusty teal with silver or pewter jewelry',
+      'Evening out — soft plum, mauve or dusty teal with silver or smoked gray jewelry',
       'Special events — a tonal outfit in slate blue, muted rose or soft plum with brushed metal'
     ],
     makeup: [
@@ -357,7 +362,7 @@ const seasonExtras = {
       'Eye colors — soft bronze, olive, warm taupe and muted gold',
       'Blush — soft peach, warm rose and dusty coral with a satin finish',
       'Brows and mascara — soft warm brown, softly defined',
-      'Skip — bright fuchsia, icy pink and stark black liner'
+      'Skip — bright orchid, icy pink and stark black liner'
     ],
     hair: [
       'Base — soft warm brown, light chestnut or a golden-brown blend',
@@ -373,14 +378,14 @@ const seasonExtras = {
   trueAutumn: {
     seasonal: [
       'Spring — warm cream, camel and a coral or teal piece. Keep the base earthy',
-      'Summer — warm olive, mustard and pumpkin in light, breathable fabrics',
-      'Autumn — your home season. Rust, mustard, forest green, pumpkin and warm brown all work together',
+      'Summer — warm olive, honey gold and terracotta in light, breathable fabrics',
+      'Autumn — your home season. Rust, honey gold, forest green, terracotta and warm brown all work together',
       'Winter — chocolate brown, warm olive and cream, with a rust or forest green coat. Skip black'
     ],
     occasion: [
-      'Casual everyday — camel or cream with one rust, mustard or teal piece',
-      'Work — chocolate brown or warm olive tailoring, a cream blouse and a mustard accent',
-      'Evening out — rust, forest green or pumpkin with gold or bronze jewelry',
+      'Casual everyday — camel or cream with one rust, honey gold or teal piece',
+      'Work — chocolate brown or warm olive tailoring, a cream blouse and a honey gold accent',
+      'Evening out — rust, forest green or terracotta with gold or bronze jewelry',
       'Special events — forest green or teal with warm gold, or an all-rust outfit with copper accents'
     ],
     makeup: [
@@ -434,19 +439,19 @@ const seasonExtras = {
   },
   brightWinter: {
     seasonal: [
-      'Spring — hot pink, ice blue and bright white, kept clean and crisp',
-      'Summer — royal blue, fuchsia and bright white. Strong contrast, never washed out',
+      'Spring — magenta, ice blue and bright white, kept clean and crisp',
+      'Summer — royal blue, orchid and bright white. Strong contrast, never washed out',
       'Autumn — charcoal and true black as the base, with emerald or true red as the accent. Skip earthy browns',
       'Winter — your home season. True black, bright white, emerald, true red and royal blue'
     ],
     occasion: [
-      'Casual everyday — bright white or true black with one fuchsia or royal blue piece',
+      'Casual everyday — bright white or true black with one orchid or royal blue piece',
       'Work — charcoal or true black tailoring, a bright white shirt and a true red accent',
-      'Evening out — emerald, fuchsia or true red with silver or white gold jewelry',
-      'Special events — royal blue, hot pink or emerald in a sharp silhouette, with high contrast between pieces'
+      'Evening out — emerald, orchid or true red with silver or white gold jewelry',
+      'Special events — royal blue, magenta or emerald in a sharp silhouette, with high contrast between pieces'
     ],
     makeup: [
-      'Lip colors — true red, hot pink, fuchsia and a clear berry, with a satin or glossy finish',
+      'Lip colors — true red, magenta, orchid and a clear berry, with a satin or glossy finish',
       'Eye colors — charcoal, navy, icy silver, emerald and a crisp black liner',
       'Blush — clear pink, cool coral and a bright rose, applied lightly',
       'Brows and mascara — dark brown to black, with a defined line',
@@ -466,7 +471,7 @@ const seasonExtras = {
   trueWinter: {
     seasonal: [
       'Spring — icy pink, ice blue and pure white, clean and cold',
-      'Summer — royal purple, fuchsia and pure white. High contrast, never muted',
+      'Summer — royal purple, orchid and pure white. High contrast, never muted',
       'Autumn — charcoal and navy as the base, with emerald or sapphire as the accent. Skip warm browns',
       'Winter — your home season. True black, pure white, sapphire, emerald and true red'
     ],
@@ -477,7 +482,7 @@ const seasonExtras = {
       'Special events — true red, sapphire or emerald in a sharp, clean silhouette with silver accents'
     ],
     makeup: [
-      'Lip colors — true red, blue-red, cool berry, fuchsia and a cool pink',
+      'Lip colors — true red, blue-red, cool berry, orchid and a cool pink',
       'Eye colors — charcoal, silver, navy, plum and a crisp black liner',
       'Blush — cool pink, rose and a clear berry',
       'Brows and mascara — dark brown to black with clean definition',
@@ -497,12 +502,12 @@ const seasonExtras = {
   deepWinter: {
     seasonal: [
       'Spring — pure white with deep emerald or sapphire. Keep it crisp and keep it deep',
-      'Summer — pure white, deep fuchsia and sapphire. Choose bold over pastel',
+      'Summer — pure white, deep orchid and sapphire. Choose bold over pastel',
       'Autumn — deep navy and deep charcoal as the base, with forest green or deep burgundy as the accent',
       'Winter — your home season. True black, pure white, deep burgundy, forest green and sapphire'
     ],
     occasion: [
-      'Casual everyday — pure white or deep navy with one sapphire or deep fuchsia piece',
+      'Casual everyday — pure white or deep navy with one sapphire or deep orchid piece',
       'Work — true black or deep charcoal tailoring, a pure white shirt and a deep burgundy accent',
       'Evening out — deep purple, sapphire or true red with silver or platinum jewelry',
       'Special events — forest green, deep burgundy or deep purple in a rich fabric with silver accents'
@@ -536,7 +541,219 @@ const bodyData = {
   inverted: { shape: 'Inverted Triangle Shape', desc: 'Broader shoulders and fuller bust with narrower hips.', goal: 'Balance the strong upper body by drawing attention downward and adding volume to hips and legs.', sils: ['Wide leg trousers with a simple top', 'A-line and flared skirts', 'Fit and flare dresses', 'Maxi skirts with volume'], tops: ['V-necks and scoop necks', 'Simple halter necks', 'Dark solid colors on top', 'Simple fitted tees with statement bottoms'], bots: ['Bold prints and bright colors on bottom', 'Wide leg and flared trousers', 'Full and A-line skirts'], acc: ['Long pendant necklaces', 'Hip bags and belt bags', 'Ankle boots and statement shoes'], avd: ['Boat necks and very wide necklines', 'Shoulder pads and puff sleeves', 'Strapless styles that emphasize shoulders'], fabGood: 'Flowy fabrics on the bottom — chiffon, georgette, flared denim. Simple structured fabrics on top.', fabAvoid: 'Stiff structured fabrics on top that add shoulder width.', shopKeywords: 'wide leg pants, flared trousers, A-line skirt, tiered skirt, bold print skirt, V-neck top' }
 };
 
+/* Body shape and intensity from the three proportion answers (same rules as the stylist tools). */
+function computeBodyShape(a){
+  const score={apple:0,pear:0,hourglass:0,rectangle:0,inverted:0};
+  // Pear is only possible when the hips really are wider than the shoulders.
+  const hipsWider=['hipsSlightlyWider','hipsMuchWider','hipsWiderShouldersFull'].indexOf(a.shoulderHip)>-1;
+  if(a.shoulderHip==='shouldersMuchWider')score.inverted+=2;
+  if(a.shoulderHip==='shouldersSlightlyWider')score.inverted+=2;
+  if(a.shoulderHip==='hipsMuchWider')score.pear+=2;
+  if(a.shoulderHip==='hipsSlightlyWider')score.pear+=2;
+  if(a.shoulderHip==='hipsWiderShouldersFull')score.pear+=1;
+  if(a.shoulderHip==='equal'){score.hourglass+=2;score.rectangle+=2;}
+  if(a.waistDef==='veryDefined'){score.hourglass+=2;score.inverted+=1;if(hipsWider)score.pear+=1;}
+  if(a.waistDef==='slightlyDefined'){score.inverted+=1;score.rectangle+=1;if(hipsWider)score.pear+=1;}
+  if(a.waistDef==='barelyDefined')score.rectangle+=2;
+  if(a.waistDef==='fullMidsection')score.apple+=3;
+  if(a.bustHip==='bustMuchLarger'){score.apple+=1;score.inverted+=1;}
+  if(a.bustHip==='bustSlightlyLarger'){score.apple+=1;score.inverted+=1;}
+  if(a.bustHip==='hipsMuchLarger')score.pear+=2;
+  if(a.bustHip==='hipsSlightlyLarger')score.pear+=2;
+  if(a.bustHip==='roughlyEqual'){score.hourglass+=2;score.rectangle+=2;}
+  if(a.bustHip==='fullBoth'){score.hourglass+=1;score.apple+=1;}
+  if(!hipsWider)score.pear=-1;
+  let best='hourglass',bestScore=-1;
+  const order=['hourglass','pear','inverted','apple','rectangle'];
+  order.forEach(k=>{if(score[k]>bestScore){bestScore=score[k];best=k;}});
+  return best;
+}
+
+function computeIntensity(shape,a){
+  if(shape==='pear'||shape==='hourglass'){
+    if(a.waistDef==='veryDefined')return 'defined';
+    if(a.waistDef==='slightlyDefined')return 'soft';
+    return 'plain';
+  }
+  if(shape==='inverted'){
+    if(a.shoulderHip==='shouldersMuchWider')return 'defined';
+    if(a.shoulderHip==='shouldersSlightlyWider')return 'soft';
+    return 'plain';
+  }
+  if(shape==='apple'){
+    if(a.waistDef==='fullMidsection')return 'defined';
+    if(a.waistDef==='barelyDefined')return 'plain';
+    return 'soft';
+  }
+  if(shape==='rectangle'){
+    const closeCount=(a.shoulderHip==='equal'?1:0)+(a.bustHip==='roughlyEqual'?1:0);
+    return closeCount===2?'defined':'soft';
+  }
+  return 'plain';
+}
+
+/* ----- Age-aware Style Persona (shared wording with the quiz and the stylist tools) ----- */
+/* ===== Style Persona (age-aware) =====
+   Inputs on the answers object: ageBracket ('18-24'|'25-34'|'35-44'|'45+'), pq1, pq2, pq3.
+   Output: { vibe, name, tagline, formula:[a,b,c], rule, fabricNote } */
+const PERSONA_VIBES = ['luxury','tailored','sleek','feminine','casual','bold','classic','sporty'];
+const PERSONA_TABLE = {
+  luxury:   { young:{name:'Rich Auntie in Training',tagline:'Never underdressed, always smells expensive, and already owns a trench coat you swear by.'},
+              mature:{name:'Certified Rich Auntie',tagline:'Never underdressed, always has the best coat in the room, and knows your tailor by first name.'},
+              formula:['Structured Trench or Blazer','Monochrome Knit Base','Pointed Toe & Gold Hardware'],
+              rule:'Permission granted to skip the logo. Quality shows in the cut and the fabric, so one great coat does more than three trendy pieces.' },
+  tailored: { young:{name:'Boardroom Baddie',tagline:"You look like you're running a Fortune 500 meeting even when you're just picking up an iced matcha."},
+              mature:{name:'Corner Office Chic',tagline:'You make a sharp blazer and tailored trousers look completely effortless, and you always mean business.'},
+              formula:['Sharp Tailored Blazer','Straight-Leg Trouser','Pointed Flat or Loafer'],
+              rule:"Permission granted to soften the blazer. Pair it with a silk top or a relaxed trouser, because sharp doesn't have to mean stiff." },
+  sleek:    { young:{name:'The Black Cat',tagline:'Sleek, magnetic, and effortlessly cool: you favor sharp silhouettes, dark neutrals, and pieces that speak without trying too hard.'},
+              mature:{name:'The Black Cat',tagline:'Sleek, magnetic, and effortlessly cool: you favor sharp silhouettes, dark neutrals, and pieces that speak without trying too hard.'},
+              formula:['Sharp-Shouldered Outerwear','Sleek Column Silhouette','Architectural Bag & Dark Lenses'],
+              rule:'Permission granted to add one color. All-dark works because of contrast in texture, so a single rich accent from your palette keeps it from reading flat.' },
+  feminine: { young:{name:'Coquette Couture',tagline:'You love flattering waistlines, soft textures, and dainty gold details that make everyday dressing feel special.'},
+              mature:{name:'Soft Power',tagline:'You gravitate toward fluid fabrics, sculpted silhouettes, and romantic details with a refined, grown-woman finish.'},
+              formula:['Fluid Midi or Soft Knit','Defined Waist','Dainty Gold Jewelry'],
+              rule:'Permission granted to skip the ruffle. Romantic can be a clean line and a soft fabric, and one delicate detail is enough.' },
+  casual:   { young:{name:'Denim Darling',tagline:'You make everyday jeans, a sleek tank, and the right bag look like a full styling session.'},
+              mature:{name:'Modern Muse',tagline:'You master relaxed luxury: great tailoring, soft knits, and clean lines that never look overdone.'},
+              formulaYoung:['Great-Fitting Straight Denim','Elevated Crisp Tank or Tee','Intentional Belt & Leather Tote'],
+              formulaMature:['Relaxed Tailored Trouser','Soft Knit Layer','Clean Leather Loafer'],
+              rule:'Permission granted to dress up the denim. Casual-chic comes from one polished element, so a sharp shoe or a structured bag finishes the look.' },
+  bold:     { young:{name:'Dress Code: Extra',tagline:'You were never meant to blend into the background. You own dramatic sleeves, bold prints, and statement heels with zero apologies.'},
+              mature:{name:'The Showstopper',tagline:'You dress to be remembered, embracing rich color, sculptural silhouettes, and standout pieces with complete confidence.'},
+              formula:['One Statement Piece: Sleeve, Print or Cut','Clean Neutral Base','Statement Heel or Bag'],
+              rule:"Permission granted to ignore 'less is more.' Your coloring and presence carry bold proportions, so when everyone else plays it safe in beige, you're meant to wear the color and the sleeve." },
+  classic:  { young:{name:'Chic & Coordinated',tagline:'You love a crisp matching set, a structured handbag, and polished pieces that take you straight from daytime plans to dinner.'},
+              mature:{name:'Polished Society',tagline:'You love a crisp matching set, structured leather, and classic silhouettes with a modern twist.'},
+              formula:['Crisp Matching Set','Structured Bag','Polished Flat or Heel'],
+              rule:'Permission granted to break up the set. Wear the blazer with jeans and the trousers with a tee, because matching is a starting point, not a rule.' },
+  sporty:   { young:{name:'Pilates Princess',tagline:'You live in matching sets, sleek sunglasses, and clean sneakers, and you always look put-together on the go.'},
+              mature:{name:'Off-Duty Luxe',tagline:'You elevate everyday comfort with sleek matching sets, structured outerwear, and crisp sneakers.'},
+              formula:['Sleek Matching Set','Structured Outerwear','Crisp Sneaker & Sleek Sunglasses'],
+              rule:'Permission granted to wear the sneaker with something structured. Athleisure looks luxe when one piece is tailored.' }
+};
+const PERSONA_FABRIC = { tailored:'Structured wovens', feminine:'Fluid silk and jersey', luxury:'Luxe knits and wool', casual:'Breathable cotton and denim', bold:'Sculptural and textured fabrics' };
+const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', allblack:'sleek', bold:'bold', set:'classic', sporty:'sporty' };
+const PQ2_VIBE = { tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold' };
+function computePersona(a){
+  a = a || {};
+  const score = {}; PERSONA_VIBES.forEach(v => score[v] = 0);
+  const v1 = PQ1_VIBE[a.pq1], v2 = PQ2_VIBE[a.pq2];
+  if (v1) score[v1] += 2;
+  if (v2) score[v2] += 2;
+  // Q3: monochrome -> sleek; matching set -> classic; outerwear -> luxury, or sporty when her default move is the athleisure set;
+  // one standout piece -> bold when either earlier answer was bold, otherwise casual
+  if (a.pq3 === 'mono') score.sleek += 1;
+  else if (a.pq3 === 'set') score.classic += 1;
+  else if (a.pq3 === 'outerwear') score[v1 === 'sporty' ? 'sporty' : 'luxury'] += 1;
+  else if (a.pq3 === 'standout') score[(v1 === 'bold' || v2 === 'bold') ? 'bold' : 'casual'] += 1;
+  let best = null;
+  const order = [v1, v2].concat(PERSONA_VIBES); // ties: default move first, then what sold her, then list order
+  order.forEach(v => { if (v && (best === null || score[v] > score[best])) best = v; });
+  if (!best) best = 'tailored';
+  const t = PERSONA_TABLE[best];
+  const mature = a.ageBracket === '35-44' || a.ageBracket === '45+';
+  const who = mature ? t.mature : t.young;
+  const formula = best === 'casual' ? (mature ? t.formulaMature : t.formulaYoung) : t.formula;
+  return { vibe: best, name: who.name, tagline: who.tagline, formula: formula.slice(), rule: t.rule, fabricNote: PERSONA_FABRIC[best] || '' };
+}
+
+
+
+/* ---------- Shopping links: stores by age bracket and price comfort ----------
+   Every store carries wide size ranges. Each chip in the report opens a live search at one of these.
+   NOTE: search URL formats are set by the retailers and can change. Open /shop-link-test (preview) or click
+   each store once after any change. Stores avoided on purpose: Zara, Lululemon, SSENSE, Net-a-Porter,
+   Farfetch, Everlane, Eloquii (their search links are unreliable). */
+const S = {
+  oldnavy: ['Old Navy', 'https://oldnavy.gap.com/browse/search.do?searchText='],
+  asos: ['ASOS', 'https://www.asos.com/us/search/?q='],
+  target: ['Target', 'https://www.target.com/s?searchTerm='],
+  hm: ['H&M', 'https://www2.hm.com/en_us/search-results.html?q='],
+  abercrombie: ['Abercrombie', 'https://www.abercrombie.com/shop/us/search?searchTerm='],
+  aritzia: ['Aritzia', 'https://www.aritzia.com/us/en/search?q='],
+  madewell: ['Madewell', 'https://www.madewell.com/search?q='],
+  mango: ['Mango', 'https://shop.mango.com/us/en/search?kw='],
+  reformation: ['Reformation', 'https://www.thereformation.com/search?q='],
+  nordstrom: ['Nordstrom', 'https://www.nordstrom.com/sr?keyword='],
+  saks: ['Saks Fifth Avenue', 'https://www.saksfifthavenue.com/search?q='],
+  anthropologie: ['Anthropologie', 'https://www.anthropologie.com/search?q='],
+  quince: ['Quince', 'https://www.quince.com/search?q='],
+  gap: ['Gap', 'https://www.gap.com/browse/search.do?searchText='],
+  uniqlo: ['Uniqlo', 'https://www.uniqlo.com/us/en/search?q='],
+  bananarepublic: ['Banana Republic', 'https://bananarepublic.gap.com/browse/search.do?searchText='],
+  jcrew: ['J.Crew', 'https://www.jcrew.com/r/search?N=0&Nloc=en&Ntrm='],
+  mmlafleur: ['MM.LaFleur', 'https://mmlafleur.com/search?q='],
+  loft: ['LOFT', 'https://www.loft.com/search?q='],
+  anntaylor: ['Ann Taylor', 'https://www.anntaylor.com/search?q='],
+  boden: ['Boden', 'https://www.bodenusa.com/en-us/search?q='],
+  universalstandard: ['Universal Standard', 'https://www.universalstandard.com/search?q='],
+  landsend: ["Lands' End", 'https://www.landsend.com/search?q='],
+  jjill: ['J.Jill', 'https://www.jjill.com/search?q='],
+  talbots: ['Talbots', 'https://www.talbots.com/search?q='],
+  chicos: ["Chico's", 'https://www.chicos.com/store/search/?q='],
+  eileenfisher: ['Eileen Fisher', 'https://www.eileenfisher.com/search?q=']
+};
+const STORE_DIR = {
+  '18-24': { budget: ['oldnavy','asos','target','hm'], mid: ['abercrombie','aritzia','madewell','mango'], invest: ['reformation','nordstrom','saks','anthropologie'] },
+  '25-34': { budget: ['quince','gap','mango','uniqlo'], mid: ['madewell','bananarepublic','abercrombie','jcrew'], invest: ['nordstrom','reformation','mmlafleur','saks'] },
+  '35-44': { budget: ['quince','loft','gap','oldnavy'], mid: ['jcrew','bananarepublic','anntaylor','boden'], invest: ['nordstrom','universalstandard','mmlafleur','saks'] },
+  '45+':   { budget: ['quince','landsend','loft','jjill'], mid: ['talbots','chicos','jcrew','bananarepublic'], invest: ['nordstrom','eileenfisher','universalstandard','saks'] }
+};
+/* ---------- Age-tailored color + cut pairings for the shopping links ----------
+   18-34: trend-forward cuts and shades (the shape's own shopKeywords, e.g. corset top, apple green).
+   35+:   classic, elevated cuts, and trendier color names are swapped for classic ones (apple green -> sage). */
+const SHOP_CUTS_CLASSIC = {
+  apple: 'wrap dress, belted shirt dress, A-line dress, silk blouse, V-neck knit top, wide leg trousers, tailored blazer',
+  pear: 'A-line dress, tailored blazer, silk blouse, wide leg trousers, structured shoulder top, wrap top',
+  hourglass: 'wrap dress, tailored blazer, silk blouse, high waisted trousers, pencil skirt, belted dress, fit and flare dress',
+  rectangle: 'peplum top, wrap dress, belted dress, tailored blazer, silk blouse, A-line skirt, fit and flare dress',
+  inverted: 'wide leg trousers, A-line skirt, V-neck top, flared trousers, tiered midi skirt, soft draped blouse'
+};
+const CLASSIC_COLOR_ALIAS = { 'Apple Green': 'Sage', 'Butter Yellow': 'Champagne', 'Kelly Green': 'Emerald', 'Magenta': 'Raspberry', 'Orchid': 'Plum', 'Cobalt Blue': 'Sapphire', 'Light Turquoise': 'Soft Teal', 'Light Aqua': 'Soft Aqua', 'Warm Yellow': 'Honey' };
+const SHOP_TIERS = {
+  budget: { key: 'budget', label: 'Everyday ($25–$75)' },
+  mid: { key: 'mid', label: 'Mid-range ($75–$200)' },
+  invest: { key: 'invest', label: 'Investment ($200+)' }
+};
+function shopTier(a){ return SHOP_TIERS[a && a.budget] || SHOP_TIERS.mid; }
+function isMatureAge(a){ return !!a && (a.ageBracket === '35-44' || a.ageBracket === '45+'); }
+function buildShopLinks(a, signature, keywords, neutrals, shapeKey){
+  const age = STORE_DIR[a && a.ageBracket] ? a.ageBracket : '25-34';
+  const tier = shopTier(a).key;
+  const stores = STORE_DIR[age][tier].map(k => S[k]);
+  const mature = isMatureAge(a);
+  const cutSrc = mature && SHOP_CUTS_CLASSIC[shapeKey] ? SHOP_CUTS_CLASSIC[shapeKey] : keywords;
+  const kws = String(cutSrc || '').split(',').map(t => t.trim()).filter(Boolean).slice(0, 6);
+  const sig = (signature && signature.length) ? signature.slice() : [{ n: '' }];
+  let colors;
+  if (mature) {
+    // classic color names, with a couple of neutrals mixed in (camel silk blouse, ivory tailored blazer)
+    const neu = (neutrals || []).slice(0, 3);
+    colors = [];
+    for (let i = 0; i < kws.length; i++) {
+      const c = (i % 2 === 1 && neu.length) ? neu[Math.floor(i / 2) % neu.length] : sig[Math.floor((i + 1) / 2) % sig.length];
+      colors.push(CLASSIC_COLOR_ALIAS[c.n] || c.n);
+    }
+  } else {
+    colors = kws.map((k, i) => sig[i % sig.length].n);
+  }
+  return kws.map((k, i) => {
+    const q = (colors[i] + ' ' + k).trim();
+    const st = stores[i % stores.length];
+    return { q, store: st[0], url: st[1] + encodeURIComponent(q).replace(/%20/g, '+') };
+  });
+}
+
 module.exports = {
+  buildShopLinks,
+  shopTier,
+  isMatureAge,
+  STORE_DIR,
+  STORES: S,
+  computePersona,
+  computeBodyShape,
+  computeIntensity,
   computeColorAxes,
   getSeason,
   SEASON_FAMILY,

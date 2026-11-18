@@ -5,179 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Signature Style Report | HerStyleVault</title>
 <meta name="robots" content="noindex">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-:root {
-  --blush: #f2d9d0;
-  --mauve: #c9a09a;
-  --rose: #4e1d27;
-  --deep-rose: #4e1d27;
-  --cream: #fdf6f0;
-  --warm-white: #fff9f6;
-  --text-dark: #1a1010;
-  --text-mid: #4a2e2e;
-  --text-light: #6b4a4a;
-  --gold: #e4d2a5;
-  --line: rgba(46,20,22,0.14);
-  --ok: #5c7a5e;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: var(--rose);
-  color: var(--text-dark);
-  font-family: 'Jost', sans-serif;
-  padding: clamp(0.8rem, 3vw, 2.2rem) clamp(0.6rem, 3vw, 1.4rem) 3rem;
-}
-.wrap { max-width: 720px; margin: 0 auto; }
-
-.frame { background: var(--warm-white); box-shadow: 0 30px 60px -30px rgba(0,0,0,0.5); overflow: hidden; }
-.frame-inner { padding: clamp(1.8rem, 5vw, 2.6rem); }
-
-/* Brand hero — always wine + gold, never overridden by a client's own colors */
-.brand-hero { background: radial-gradient(120% 140% at 15% -10%, #6b2938 0%, var(--rose) 55%, #3a1420 100%); padding: clamp(2.2rem, 6vw, 3.2rem) clamp(1.8rem, 5vw, 2.6rem) clamp(2.4rem, 6vw, 3.2rem); position: relative; overflow: hidden; }
-.brand-hero::before { content: '✦'; position: absolute; top: 1.4rem; right: 2rem; color: var(--gold); opacity: 0.35; font-size: 1.4rem; }
-.brand-hero::after { content: '✦'; position: absolute; bottom: 2.2rem; left: 1.6rem; color: var(--gold); opacity: 0.25; font-size: 1rem; }
-.brand-mark { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.8rem; }
-.brand-mark svg { width: 26px; height: 26px; flex-shrink: 0; }
-.brand-mark span { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.1rem; color: var(--gold); letter-spacing: 0.02em; }
-
-.rep-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #d7e8d8; background: rgba(255,255,255,0.1); padding: 0.3rem 0.7rem; margin-bottom: 1.4rem; }
-.rep-badge::before { content: '✓'; font-weight: 700; }
-.rep-eyebrow { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
-.rep-eyebrow::before, .rep-eyebrow::after { content: '✦'; margin: 0 0.6em; opacity: 0.6; }
-.rep-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(2.1rem, 7vw, 3rem); line-height: 1.1; color: var(--warm-white); margin-bottom: 0.5rem; }
-.rep-title em { font-style: italic; color: var(--gold); }
-.rep-sub { font-size: 0.82rem; color: rgba(255,249,246,0.65); }
-
-/* Client's own colors — featured content, framed by the brand, not driving it */
-.palette-module { background: var(--cream); border-bottom: 1px solid var(--line); padding: 1.4rem clamp(1.8rem, 5vw, 2.6rem); }
-.palette-module .rep-eyebrow { color: var(--rose); margin-bottom: 0.7rem; }
-.palette-module .rep-eyebrow::before, .palette-module .rep-eyebrow::after { color: var(--gold); }
-.palette-band { display: flex; height: 34px; width: 100%; border-radius: 4px; overflow: hidden; box-shadow: 0 8px 18px -12px rgba(46,20,22,0.4); }
-.palette-band span { flex: 1; }
-
-.rep-narrative { position: relative; font-family: 'Fraunces', serif; font-size: 1rem; line-height: 1.9; color: var(--text-mid); background: var(--cream); border-left: 3px solid var(--rose); padding: 1.6rem 1.6rem 1.6rem 2.2rem; margin-bottom: 2.2rem; }
-.rep-narrative::before { content: '\201C'; position: absolute; top: -0.3rem; left: 0.5rem; font-family: 'Fraunces', serif; font-size: 3.2rem; color: var(--gold); line-height: 1; }
-.rep-narrative .tag { display: block; font-family: 'Jost', sans-serif; font-style: normal; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.7rem; }
-.rep-narrative .lede { font-size: 1.15rem; font-weight: 500; display: block; margin-bottom: 0.6rem; }
-.rep-narrative .rest { display: block; color: var(--text-mid); }
-
-.rep-section { margin-bottom: 2.2rem; }
-.rep-section-label { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.5rem; }
-.rep-section-title { font-family: 'Fraunces', serif; font-size: 1.2rem; color: var(--text-dark); margin-bottom: 0.8rem; }
-.rep-section-body { font-size: 0.82rem; color: var(--text-mid); line-height: 1.8; }
-
-.id-card { background: var(--blush); border: 1px solid rgba(78,29,39,0.15); border-top: 3px solid var(--rose); padding: 1.3rem 1.4rem; position: relative; }
-.id-card .rep-section-label { color: var(--rose); }
-.id-card .swatch-mini { position: absolute; top: 1.2rem; right: 1.2rem; width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(46,20,22,0.2); }
-
-.swatch-row { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 0.9rem; }
-.swatch { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 78px; }
-.swatch .chip { width: 100%; height: 64px; border-radius: 6px; border: 1px solid var(--line); box-shadow: 0 6px 14px -8px rgba(46,20,22,0.4); }
-.swatch .name { font-size: 0.66rem; color: var(--text-mid); text-align: center; line-height: 1.3; }
-
-/* Toolbar (download/print) */
-.rep-toolbar { display: flex; justify-content: flex-end; padding: 0.7rem clamp(1.8rem, 5vw, 2.6rem); background: var(--cream); border-bottom: 1px solid var(--line); }
-.toolbar-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose); background: none; border: 1px solid var(--rose); padding: 0.5rem 1rem; cursor: pointer; }
-.toolbar-btn:hover { background: var(--rose); color: var(--warm-white); }
-
-/* Paginated topic slides */
-.pager-slide { display: none; }
-.pager-slide.active { display: block; }
-.pager-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
-.pager-btn { font-family: 'Jost', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); border: none; padding: 0.7rem 1.3rem; cursor: pointer; }
-.pager-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-.pager-btn.pager-prev { background: none; color: var(--rose); border: 1px solid var(--rose); }
-.pager-count { font-family: 'Jost', sans-serif; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-light); }
-
-/* Flip card — photo front, client's own colors on the back */
-.look-flip { perspective: 1200px; width: 100%; max-width: 300px; aspect-ratio: 3/4; margin: 0.9rem auto 1rem; cursor: pointer; }
-.look-flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.55s ease; transform-style: preserve-3d; }
-.look-flip:hover .look-flip-inner, .look-flip.flipped .look-flip-inner { transform: rotateY(180deg); }
-.look-flip-front, .look-flip-back { position: absolute; inset: 0; backface-visibility: hidden; box-shadow: 0 20px 40px -20px rgba(46,20,22,0.5); }
-.look-flip-front img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.look-flip-front .flip-hint { position: absolute; bottom: 0.6rem; right: 0.6rem; background: rgba(26,16,16,0.55); color: var(--warm-white); font-family: 'Jost', sans-serif; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.6rem; }
-.look-flip-back { transform: rotateY(180deg); background: var(--warm-white); display: flex; flex-direction: column; }
-.look-flip-back .flip-chip { flex: 1; }
-.look-flip-back .flip-label { padding: 1rem; text-align: center; }
-.look-flip-back .flip-name { display: block; font-family: 'Fraunces', serif; font-size: 1rem; color: var(--text-dark); margin-bottom: 0.2rem; }
-.look-flip-back .flip-hex { display: block; font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--text-light); }
-.flip-caption { text-align: center; font-size: 0.66rem; color: var(--mauve); margin-top: -0.5rem; margin-bottom: 0.9rem; }
-
-@media print {
-  .rep-toolbar, .pager-nav { display: none !important; }
-  .pager-slide { display: block !important; page-break-inside: avoid; margin-bottom: 1.6rem; }
-  .look-flip-inner { transform: none !important; }
-  .look-flip { perspective: none; }
-  .look-flip-back { display: none; }
-}
-
-.rep-avoid { background: var(--text-dark); color: var(--warm-white); border: none; padding: 1.2rem 1.3rem; font-size: 0.82rem; line-height: 1.8; }
-.rep-avoid strong { color: var(--gold); font-weight: 500; }
-
-.shop-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; }
-.shop-chip { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.03em; color: var(--rose); background: var(--blush); border: 1px solid rgba(78,29,39,0.15); padding: 0.5rem 0.9rem; text-decoration: none; border-radius: 999px; transition: background 0.15s, color 0.15s; }
-.shop-chip:hover { background: var(--rose); color: var(--warm-white); }
-.shop-chip::after { content: '↗'; font-size: 0.65rem; }
-.shop-note { font-size: 0.72rem; color: var(--text-light); margin-top: 0.7rem; line-height: 1.6; }
-
-.edu-grid { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 0.9rem; }
-.edu-card { background: var(--cream); border-left: 2px solid var(--gold); padding: 1rem 1.1rem; }
-.edu-card h4 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 0.95rem; color: var(--text-dark); margin-bottom: 0.4rem; }
-.edu-card p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.7; }
-
-
-/* Closing brand CTA — matches the site's final-cta band elsewhere */
-.rep-cta { background: var(--rose); text-align: center; padding: clamp(2rem, 6vw, 2.8rem) clamp(1.8rem, 5vw, 2.6rem); }
-.rep-cta p.rep-eyebrow { color: var(--gold); }
-.rep-cta h3 { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(1.4rem, 4vw, 1.8rem); color: var(--warm-white); margin-bottom: 0.8rem; }
-.rep-cta h3 em { font-style: italic; color: var(--gold); }
-.rep-cta p.copy { font-size: 0.85rem; color: rgba(255,249,246,0.75); max-width: 42ch; margin: 0 auto 1.6rem; line-height: 1.75; }
-.rep-cta a.btn-gold { display: inline-block; font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; background: var(--gold); color: var(--rose); padding: 0.9rem 2.2rem; text-decoration: none; font-weight: 500; }
-
-.loader { min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; text-align: center; }
-.spinner { width: 36px; height: 36px; border: 2px solid var(--blush); border-top-color: var(--rose); border-radius: 50%; animation: spin 0.9s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loader p { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--text-mid); }
-.loader .sub { font-family: 'Jost', sans-serif; font-size: 0.8rem; color: var(--text-light); max-width: 40ch; }
-
-.err-box { min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 2rem; background: var(--warm-white); }
-.err-box h2 { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--text-dark); }
-.err-box p { font-size: 0.85rem; color: var(--text-mid); max-width: 44ch; line-height: 1.8; }
-.err-box a { color: var(--rose); font-weight: 500; }
-.retry-btn { font-family: 'Jost', sans-serif; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; background: var(--rose); color: var(--warm-white); padding: 0.75rem 1.8rem; border: none; cursor: pointer; margin-top: 0.6rem; }
-
+:root{--bg:#FAF9F6;--surface:#EFECE6;--ink:#181716;--ink-soft:#6B6862;--line:#DCD8D0;--accent:#7A1321;--accent-deep:#4E0B14;--accent-ink:#FAF9F6;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--surface);color:var(--ink);font-family:var(--font-body);padding:1.2rem 0.8rem 3rem;}
+.wrap{max-width:900px;margin:0 auto;}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;color:var(--ink);}
+.topbar .brand{font-family:var(--font-display);font-weight:500;font-size:1.5rem;letter-spacing:0.03em;}
+.dl-btn{background:var(--ink);color:var(--accent-ink);border:none;padding:0.8rem 1.3rem;font:inherit;font-weight:500;letter-spacing:0.05em;cursor:pointer;border-radius:6px;}
+.dl-btn:hover{background:var(--accent-deep);}
+.dl-btn[disabled]{opacity:0.6;cursor:wait;}
+.hint{color:var(--ink-soft);font-size:0.85rem;margin-bottom:1rem;line-height:1.6;}
+.loader{text-align:center;padding:4rem 1rem;color:var(--ink);}
+.loader .sub{font-size:0.8rem;color:var(--ink-soft);margin-top:0.5rem;}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;margin:0 auto 1rem;animation:spin 0.9s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.err-box{background:var(--bg);padding:2rem;max-width:560px;margin:2rem auto;line-height:1.7;}
+.err-box h2{font-family:var(--font-display);margin-bottom:0.6rem;}
+.retry-btn{border-radius:6px;margin-top:1rem;padding:0.7rem 1.2rem;border:1px solid var(--accent);background:transparent;cursor:pointer;font:inherit;}
+.prev-slot{position:relative;margin:0 auto 1.2rem;overflow:hidden;background:var(--bg);border:1px solid var(--line);}
+.prev-slot .pdf-page{transform-origin:top left;}
+.cta{background:var(--bg);border:1px solid var(--line);text-align:center;padding:2rem 1.4rem;margin-top:1.4rem;color:var(--ink);}
+.cta h3{font-family:var(--font-display);font-weight:500;font-weight:400;font-size:1.5rem;margin-bottom:0.5rem;}
+.cta p{font-size:0.9rem;line-height:1.7;margin-bottom:1rem;color:var(--ink-soft);}
+.cta a{border-radius:6px;display:inline-block;background:var(--ink);color:var(--accent-ink);padding:0.85rem 1.5rem;text-decoration:none;letter-spacing:0.05em;font-size:0.85rem;}
+/* ===== PDF page engine (same pages as the stylist tools: 816 x 1056 px) ===== */
+#pdf-root{position:fixed;top:0;left:-99999px;width:816px;}
+.pdf-page{width:816px;height:1056px;background:#FAF9F6;padding:60px 64px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;color:#181716;position:relative;overflow:hidden;}
+.pdf-cover{background:#EFECE6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.pdf-closing{background:#EFECE6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.pdf-logo{font-family:'Cormorant Garamond',serif;font-size:2.9rem;font-weight:500;color:#181716;letter-spacing:0.03em;margin-bottom:0.4rem;}
+.pdf-pkg-pill{display:inline-block;padding:0.55rem 1.5rem;background:#181716;color:#FAF9F6;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;margin:1.3rem 0;border-radius:2px;}
+.pdf-client-name{font-family:'Cormorant Garamond',serif;font-size:2.7rem;font-style:italic;font-weight:500;color:#7A1321;margin-top:1.4rem;}
+.pdf-date{font-size:0.8rem;color:#6B6862;margin-top:0.7rem;letter-spacing:0.04em;}
+.pdf-foot{position:absolute;bottom:40px;left:64px;right:64px;display:flex;justify-content:space-between;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:#6B6862;border-top:1px solid #DCD8D0;padding-top:10px;}
+.pdf-h1{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:#181716;margin-bottom:0.5rem;font-weight:500;line-height:1.1;}
+.pdf-h1 em{color:#7A1321;font-style:italic;}
+.pdf-section-label{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;font-weight:500;margin:1.3rem 0 0.5rem;}
+.pdf-box{background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;padding:1rem 1.3rem;margin-bottom:0.9rem;font-size:0.82rem;line-height:1.7;color:#3F3C38;}
+.pdf-chip-store{color:#8A8378;font-size:0.9em;}.pdf-three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:0.3rem;}.pdf-three .pdf-box{margin-bottom:0;padding:0.8rem 0.95rem;font-size:0.78rem;line-height:1.6;}.pdf-metal{margin:1rem 0 0;font-size:0.82rem;color:#3F3C38;border-top:1px solid #DCD8D0;padding-top:0.8rem;}.pdf-metal span{display:inline-block;font-size:0.64rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:500;margin-right:0.8rem;}.pdf-neu .pdf-arch{width:56px;height:62px;border-radius:28px 28px 4px 4px;}.pdf-neu{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}.pdf-neu .pdf-sw{width:auto;margin:0;}
+.pdf-sig{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px;}.pdf-sigc{display:flex;align-items:center;gap:10px;}.pdf-arch-s{width:44px!important;height:50px!important;flex-shrink:0;margin:0!important;}
+.pdf-metalrow{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:1rem;border-top:1px solid #DCD8D0;padding-top:0.8rem;align-items:start;}.pdf-metalc p{margin:0;font-size:0.8rem;color:#3F3C38;line-height:1.5;}
+.pdf-mini-label{font-size:0.62rem!important;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321!important;font-weight:500;margin:0 0 0.35rem!important;}
+.pdf-acc-row{display:flex;gap:12px;}.pdf-accc{text-align:center;width:72px;}.pdf-accc i{display:block;width:36px;height:36px;border-radius:50%;margin:0 auto 4px;border:1px solid #CDBBA8;}.pdf-accc span{display:block;font-size:0.62rem;line-height:1.25;color:#3F3C38;}.pdf-accc em{display:block;font-style:normal;font-size:0.56rem;color:#8A8378;}
+.pdf-avsw{display:flex;gap:8px;margin-top:0.7rem;padding-top:0.6rem;border-top:1px solid #DCD8D0;}.pdf-avsw div{text-align:center;flex:1;}.pdf-avsw i{display:block;width:28px;height:28px;border-radius:50%;margin:0 auto 3px;border:1px solid #CDBBA8;}.pdf-avsw span{display:block;font-size:0.58rem;line-height:1.2;color:#3F3C38;}.pdf-avsw em{display:block;font-style:normal;font-size:0.52rem;color:#8A8378;}
+.pdf-tip{margin-top:0.9rem;padding:0.7rem 1rem;border-left:3px solid #7A1321;background:#EFECE6;font-size:0.78rem;line-height:1.6;color:#3F3C38;}
+.pdf-curated{font-size:0.62rem;letter-spacing:0.16em;color:#7A1321;font-weight:500;margin:-0.1rem 0 0.8rem;}
+.pdf-two{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;}.pdf-blk-n{margin-top:20px;padding-top:20px;border-top:1px solid #DCD8D0;}.pdf-pal-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.9rem;}.pdf-pal-tag{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:500;}
+.pdf-list{list-style:none;padding:0;margin:0;}
+.pdf-list li{padding:0.35rem 0;font-size:0.82rem;line-height:1.55;color:#3F3C38;border-bottom:1px solid #DCD8D0;}
+.pdf-list li:last-child{border-bottom:none;}
+.pdf-list li::before{content:'\2013  ';color:#7A1321;}
+.pdf-swatches{display:flex;flex-wrap:wrap;gap:1.1rem;margin-bottom:1rem;}
+.pdf-sw{display:flex;flex-direction:column;align-items:center;width:88px;}
+.pdf-sw-box{width:68px;height:68px;object-fit:contain;margin-bottom:0.4rem;}
+.pdf-pins{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.5rem 0 0.2rem;}
+.pdf-pin{display:inline-block;padding:0.28rem 0.8rem;border:1px solid #DCD8D0;border-radius:999px;font-size:0.7rem;letter-spacing:0.03em;color:#7A1321;background:#FAF9F6;}
+.pdf-sw-label{font-size:0.68rem;text-align:center;color:#3F3C38;line-height:1.3;font-weight:500;}
+.pdf-colorband{background:#4E0B14;border-radius:2px;padding:1.4rem 1.6rem;margin-bottom:1.3rem;}
+.pdf-colorband .pdf-section-label{color:#DCD8D0;margin-top:0;}
+.pdf-colorband h1{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#FAF9F6;font-weight:500;margin:0;}
+.pdf-colorband h1 em{color:#EFECE6;font-style:italic;}
+.pdf-shaperow{display:flex;align-items:center;gap:0.9rem;}
+.pdf-bodyrow{display:flex;gap:28px;align-items:flex-start;margin-bottom:0.4rem;}.pdf-croq{position:relative;width:200px;flex-shrink:0;}.pdf-croq img{width:200px;display:block;}.pdf-croq-lbl{position:absolute;right:0;transform:translateY(-120%);font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;color:#6B6862;}.pdf-bodycol{flex:1;min-width:0;}
+.pdf-shaperow img{width:64px;height:64px;object-fit:contain;border-radius:2px;background:#fff;border:1px solid #DCD8D0;flex-shrink:0;}
+.pdf-log-meta{font-size:0.82rem;color:#6B6862;margin:0 0 0.4rem;line-height:1.6;}
+.pdf-log-row{display:flex;gap:1.2rem;padding:0.55rem 0;border-bottom:1px solid #DCD8D0;}
+.pdf-log-q{flex:1.6;font-size:0.8rem;line-height:1.5;color:#181716;}
+.pdf-log-n{display:inline-block;width:1.6rem;color:#7A1321;font-weight:600;}
+.pdf-log-kind{display:block;margin-left:1.6rem;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:#6B6862;}
+.pdf-log-a{flex:1;font-size:0.82rem;font-weight:600;color:#181716;line-height:1.5;}
+.pdf-log-a em{font-weight:400;color:#6B6862;}
+.pdf-linkrow{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:0.55rem 0.9rem;margin-bottom:0.45rem;background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;font-size:0.82rem;color:#181716;}
+.pdf-linkrow .host{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#6B6862;white-space:nowrap;}
+.pdf-sw-hex{font-size:0.56rem;color:#6B6862;letter-spacing:0.04em;}
+.pdf-outfit-photo{max-width:100%;max-height:100%;object-fit:contain;}
+.pdf-outfit-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.5rem;text-align:center;margin-top:1rem;color:#181716;}
+.pdf-persona-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:3.3rem;line-height:1.02;color:#181716;margin:0.4rem 0 0.7rem;}
+.pdf-persona-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;line-height:1.32;color:#7A1321;margin:0 0 0.9rem;max-width:600px;}
+.pdf-formula{display:flex;align-items:stretch;gap:0.6rem;}
+.pdf-plus{align-self:center;font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#7A1321;}
+.pdf-fbox{flex:1;background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;padding:0.8rem 0.9rem;font-family:'Cormorant Garamond',serif;font-size:1.2rem;line-height:1.22;color:#181716;font-weight:500;}
+.pdf-fnum{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.58rem;letter-spacing:0.18em;color:#6B6862;margin-bottom:0.5rem;font-weight:500;}
+.pdf-rulebox{margin-top:1rem;background:#EFECE6;border-left:3px solid #7A1321;padding:0.85rem 1.3rem;}
+.pdf-rulebox p:last-child{font-family:'Cormorant Garamond',serif;font-size:1.25rem;line-height:1.4;color:#181716;margin:0;}
+.pdf-arch{width:68px;height:76px;border-radius:34px 34px 5px 5px;border:3px solid #CDBBA8;margin:0 auto 0.4rem;background-clip:padding-box;}
+.pdf-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.4rem;}
+.pdf-chip{display:inline-block;padding:0.25rem 0.75rem;border:1px solid #DCD8D0;border-radius:999px;font-size:0.66rem;line-height:1.35;color:#7A1321;background:#FAF9F6;text-decoration:none;}
+.pdf-credit{background:#FAF9F6;border:1px solid #DCD8D0;padding:1.2rem 1.6rem;max-width:560px;margin:1.4rem 0;text-align:left;line-height:1.7;font-size:0.85rem;color:#3F3C38;}
+.pdf-credit strong{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#7A1321;font-weight:500;display:block;margin-bottom:0.3rem;}
 </style>
 </head>
 <body>
-
-<div class="wrap">
-  <div class="frame" id="frame">
-    <div class="brand-hero">
-      <div class="brand-mark"><svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="50" fill="none" stroke="#e4d2a5" stroke-width="1.6"/><line x1="75" y1="19" x2="75" y2="27" stroke="#e4d2a5" stroke-width="1.7"/><line x1="75" y1="123" x2="75" y2="131" stroke="#e4d2a5" stroke-width="1.7"/><line x1="19" y1="75" x2="27" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><line x1="123" y1="75" x2="131" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><circle cx="75" cy="36" r="4.4" fill="#e4d2a5"/><line x1="75" y1="40.4" x2="75" y2="50" stroke="#e4d2a5" stroke-width="2.3" stroke-linecap="round"/><path d="M75 50 L44 76 Q38 80 44 83 L106 83 Q112 80 106 76 Z" fill="none" stroke="#e4d2a5" stroke-width="2.3" stroke-linejoin="round"/></svg><span>HerStyleVault</span></div>
-      <div class="rep-badge">Payment confirmed</div>
-      <p class="rep-eyebrow">Signature Style Report</p>
-      <h2 class="rep-title">Your report is<br><em>being written</em></h2>
-      <p class="rep-sub">This takes about 20-30 seconds — hang tight.</p>
-    </div>
-    <div class="frame-inner" id="app">
-      <div class="loader">
-        <div class="spinner"></div>
-        <p>Generating your report...</p>
-        <p class="sub">We're building your personalized color and style analysis now.</p>
-      </div>
-    </div>
-  </div>
+<div class="wrap" id="wrap">
+  <div class="topbar"><span class="brand">HerStyleVault</span><button class="dl-btn" id="dl-btn" disabled>Download PDF</button></div>
+  <div id="app"><div class="loader"><div class="spinner"></div><p>Generating your report...</p><p class="sub">This takes about 20 to 30 seconds. We're building your personalized color and style analysis now.</p></div></div>
 </div>
-
+<div id="pdf-root"></div>
 <script>
 const STORAGE_KEY = 'hsv_analysis_data';
-
-function getSessionId() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('session_id');
-}
-
+function getSessionId(){return new URLSearchParams(window.location.search).get('session_id');}
 function showError(title, message, allowRetry) {
   const app = document.getElementById('app');
   app.innerHTML = `
@@ -191,214 +121,182 @@ function showError(title, message, allowRetry) {
   if (retryBtn) retryBtn.addEventListener('click', init);
 }
 
-function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
-// Split the AI narrative into a bold lede (first sentence) + the rest, for readability
-function splitLede(text) {
-  const match = text.match(/^(.+?[.!?])\s+(.+)$/s);
-  if (!match) return { lede: text, rest: '' };
-  return { lede: match[1], rest: match[2] };
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+const pdfEsc=esc;
+/* ===== Continuous-line body croquis (parametric, one drawing per computed shape) ===== */
+const CROQ_SHAPES={
+  hourglass:{s:21,b:19.5,w:12.5,h:21.5},
+  pear:{s:18.5,b:16.5,w:12.5,h:24},
+  apple:{s:20.5,b:20.5,w:19.5,h:19},
+  rectangle:{s:20.5,b:18,w:17,h:19.5},
+  inverted:{s:26,b:21.5,w:15,h:16.5}
+};
+const CROQ_Y={neck:36,sh:44.5,pit:62,bust:72,waist:98,hip:129,crotch:142,knee:184,ankle:238,toe:251};
+function croqCR(pts){
+  let d='M'+pts[0][0].toFixed(2)+' '+pts[0][1].toFixed(2);
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
+    const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6],c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
+    d+=' C'+c1[0].toFixed(2)+' '+c1[1].toFixed(2)+' '+c2[0].toFixed(2)+' '+c2[1].toFixed(2)+' '+p2[0].toFixed(2)+' '+p2[1].toFixed(2);
+  }return d;
+}
+function croqRuns(P){
+  const {s,b,w,h}=P;
+  const A=Math.max(s,h*0.98+1);
+  const arm=[[45.6,31],[46.2,38],[50-s*0.62,42.6],[50-s,45],[50-s-1.2,56],[50-(A+1.6),78],[50-(A+2.6),98],[50-(A+3.4),116],[50-(A+4),130],[50-(A+4.3),139],[50-(A+3.4),146]];
+  const knee=10.2,ss=t=>t*t*(3-2*t);
+  const thigh=[139,150,161,172,184,196].map(y=>{const t=Math.min(1,Math.max(0,(y-129)/67));return [50-(knee+(h-knee)*(1-ss(t))),y];});
+  const torso=[[50-b+0.4,61],[50-b,72],[50-(b+w)/2-0.5,86],[50-w,98],[50-(w+h)/2-0.6,114],[50-h,129]].concat(thigh).concat([[50-9.1,208],[50-7.6,220],[50-6.2,230],[50-5.6,238]]);
+  const foot=[[50-5.6,238],[50-7.2,246],[50-13,251.5],[50-4.6,250.5],[50-3.2,238]];
+  const inner=[[50-3.2,238],[50-4,222],[50-4.8,204],[50-4,186],[50-3,166],[50-1.8,150],[50,141]];
+  return [arm,torso,foot,inner];
+}
+function croqMirror(run){return run.map(p=>[100-p[0],p[1]]).reverse();}
+function croqPath(P){
+  const L=croqRuns(P);const R=L.slice().reverse().map(croqMirror);
+  return L.concat(R).map(r=>croqCR(r)).map((d,i)=>i===0?d:d.replace(/^M/,'L')).join(' ');
+}
+// opt: stroke, sw, arrows (proportion guides), k (height scale), d (intensity -1..1)
+function croquisSVG(key,opt){
+  opt=opt||{};const P=Object.assign({},CROQ_SHAPES[key]||CROQ_SHAPES.hourglass);const k=opt.k||1,d=opt.d||0;
+  if(key==='hourglass'||key==='pear')P.w-=1.2*d; if(key==='apple')P.w+=1.2*d; if(key==='inverted')P.s+=1.5*d;
+  const stroke=opt.stroke||'#4B1515',sw=opt.sw||0.9;
+  const guides=opt.arrows?[[CROQ_Y.sh,P.s],[CROQ_Y.waist,P.w],[CROQ_Y.hip,P.h]].map(([y,hw])=>{
+    const x1=50-hw,x2=50+hw;
+    return `<line x1="3" x2="97" y1="${y}" y2="${y}" stroke="#CDBBA8" stroke-width=".4" stroke-dasharray="1.4 1.4"/><path d="M${x1+.8} ${y}H${x2-.8}M${x1+.8} ${y}l2.2-1.3M${x1+.8} ${y}l2.2 1.3M${x2-.8} ${y}l-2.2-1.3M${x2-.8} ${y}l-2.2 1.3" stroke="#8C7A5E" stroke-width=".7" fill="none" stroke-linecap="round"/>`;}).join(''):'';
+  const body=`<g transform="translate(50 256) scale(${k}) translate(-50 -256)"><ellipse cx="50" cy="17.5" rx="8.6" ry="11" fill="none" stroke="${stroke}" stroke-width="${sw}"/><path d="${croqPath(P)}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>${guides}</g>`;
+  return `<svg viewBox="0 -24 100 284" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+}
+function croqOpts(BAx){const k={petite:0.92,tall:1.08}[BAx&&BAx.height]||1;const d={defined:1,soft:0,plain:-1}[BAx&&BAx.intensity];return{k,d:d===undefined?0:d};}
+function croqDataUri(shape,BAx,extra){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(croquisSVG(shape,Object.assign({arrows:true},croqOpts(BAx),extra||{})));}
+// Percent positions (of the image height) for the three proportion labels, matching the drawing's height scale.
+
+
+function croqLabelPos(BAx){const k=croqOpts(BAx).k;const f=y=>((256+(y-256)*k)+24)/284*100;return{sh:f(CROQ_Y.sh),waist:f(CROQ_Y.waist),hip:f(CROQ_Y.hip)};}
+// PNG for the PowerPoint (transparent background, light line for the dark frame)
+function croqPng(shape,BAx,w,h,stroke,extra){
+  return new Promise((res,rej)=>{const svg=croquisSVG(shape,Object.assign({stroke:stroke||'#F4EFEA',sw:1.1},croqOpts(BAx),extra||{}));
+    const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');const r=Math.min(w/img.width,h/img.height);const iw=img.width*r,ih=img.height*r;x.drawImage(img,(w-iw)/2,(h-ih)/2,iw,ih);res(c.toDataURL('image/png'));};img.onerror=rej;
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace('<svg ','<svg width="1000" height="2840" '));});
 }
 
-const LOGO_SVG = `<svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="50" fill="none" stroke="#e4d2a5" stroke-width="1.6"/><line x1="75" y1="19" x2="75" y2="27" stroke="#e4d2a5" stroke-width="1.7"/><line x1="75" y1="123" x2="75" y2="131" stroke="#e4d2a5" stroke-width="1.7"/><line x1="19" y1="75" x2="27" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><line x1="123" y1="75" x2="131" y2="75" stroke="#e4d2a5" stroke-width="1.7"/><circle cx="75" cy="36" r="4.4" fill="#e4d2a5"/><line x1="75" y1="40.4" x2="75" y2="50" stroke="#e4d2a5" stroke-width="2.3" stroke-linecap="round"/><path d="M75 50 L44 76 Q38 80 44 83 L106 83 Q112 80 106 76 Z" fill="none" stroke="#e4d2a5" stroke-width="2.3" stroke-linejoin="round"/></svg>`;
 
-// Curated reference photos, matched to silhouette recommendation text by keyword.
-// These show the SILHOUETTE only — the color chip always uses the viewing client's
-// own real signature/neutral colors, never the colors the photo happens to be shot in.
-const SILHOUETTE_LOOKS = [
-  { match: /corset/i, img: 'images/report/corset-style.jpg' },
-  { match: /belt/i, img: 'images/report/belted-styles.jpg' },
-  { match: /fit and flare/i, img: 'images/report/fit-and-flare.jpg' }
-];
-
-function findLook(silhouetteText) {
-  return SILHOUETTE_LOOKS.find(l => l.match.test(silhouetteText));
-}
-
-const EDUCATION_CARDS = [
-  { h4: 'Why Your Color Season Matters', p: 'The right colors don’t just look nice — they reflect more light onto your face, which is why the same red can look washed out on one person and electric on another. Once you know your season, shopping gets faster: you stop buying things that photograph dull and start buying things that photograph like you.' },
-  { h4: 'Dressing Your Shape, Not Against It', p: 'Every body shape has silhouettes that do the work for you — creating a waist, balancing proportions, elongating a line — without needing shapewear or a total overhaul. The goal was never to change your shape. It was to stop fighting it with the wrong cut.' },
-  { h4: 'Building Around Your Signature Colors', p: 'You don’t need a closet full of new clothes to see a difference — you need 5-6 signature colors and neutrals that all work together, so every piece you already own (or add next) mixes and matches instead of sitting unworn.' }
-];
-
-function shopChips(keywords) {
-  if (!keywords) return '';
-  const terms = keywords.split(',').map(t => t.trim()).filter(Boolean);
-  return terms.map(t => `<a class="shop-chip" href="https://www.nordstrom.com/sr?keyword=${encodeURIComponent(t)}" target="_blank" rel="noopener">${esc(t)}</a>`).join('');
-}
-
-function silhouetteSlide(s, i, r) {
-  const look = findLook(s.text);
-  const mainColor = r.signature[i % r.signature.length];
-  const secondColor = r.neutrals[i % r.neutrals.length];
-  const photoBlock = look && look.img
-    ? `<div class="look-flip" tabindex="0" role="button" aria-label="Tap to see this in your own colors">
-        <div class="look-flip-inner">
-          <div class="look-flip-front"><img src="${esc(look.img)}" alt="${esc(s.text)} example"><span class="flip-hint">Tap for your colors ✦</span></div>
-          <div class="look-flip-back">
-            <div class="flip-chip" style="background:${mainColor.h};"></div>
-            <div class="flip-chip" style="background:${secondColor.h}; flex:0 0 22%;"></div>
-            <div class="flip-label"><span class="flip-name">${esc(mainColor.n)}</span><span class="flip-hex">${esc(mainColor.h.toUpperCase())}</span></div>
-          </div>
-        </div>
-      </div>
-      <p class="flip-caption">Pictured as reference — hover or tap to see it in your own colors</p>`
-    : '';
-  return `
-    <p class="rep-section-label">Best Silhouettes For Your Shape</p>
-    <h3 class="rep-section-title">${esc(s.text)}</h3>
-    ${photoBlock}
-    <p class="rep-section-body">${esc(s.reason)}</p>
-  `;
-}
-
-let pagerSlideCount = 0;
-let pagerIndex = 0;
-
-function showPagerSlide(i) {
-  const slides = document.querySelectorAll('.pager-slide');
-  slides.forEach((el, idx) => el.classList.toggle('active', idx === i));
-  pagerIndex = i;
-  const countEl = document.getElementById('pager-count');
-  if (countEl) countEl.textContent = `${i + 1} / ${pagerSlideCount}`;
-  const prevBtn = document.getElementById('pager-prev');
-  const nextBtn = document.getElementById('pager-next');
-  if (prevBtn) prevBtn.disabled = i === 0;
-  if (nextBtn) {
-    const isLast = i === pagerSlideCount - 1;
-    nextBtn.textContent = isLast ? 'Done ✦' : 'Next →';
-    nextBtn.disabled = isLast;
+const CROQ_CACHE={};
+function croqKey(shape,b){return shape+'|'+(b.height||'')+'|'+(b.intensity||'');}
+async function prepCroq(r){const b={height:r.height,intensity:r.intensity};CROQ_CACHE[croqKey(r.bodyShapeKey,b)]=await croqPng(r.bodyShapeKey,b,600,1704,'#4B1515',{arrows:true,sw:1.0});return b;}
+const SHAPE_WORD={hourglass:'Hourglass',pear:'Pear',apple:'Apple',rectangle:'Rectangle',inverted:'Inverted Triangle'};
+function shapeTitle(r){const w=SHAPE_WORD[r.bodyShapeKey]||'';return r.intensity==='defined'?'Defined '+w:r.intensity==='soft'?'Soft '+w:w;}
+function pdfList(arr){return '<ul class="pdf-list">'+(arr||[]).map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul>';}
+function pdfFoot(label){return '<div class="pdf-foot"><span>HerStyleVault</span><span>'+esc(label)+'</span></div>';}
+function pdfPage(cls,inner){return '<div class="pdf-page '+(cls||'')+'">'+inner+'</div>';}
+function arches(arr){return '<div class="pdf-swatches">'+arr.map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+esc(String(c.h||'').toUpperCase())+'</div></div>').join('')+'</div>';}
+function shopChips(r){
+  /* live searches at stores that fit her age bracket and price comfort (built on the server); older reports fall back to Nordstrom */
+  let links=r.shopLinks;
+  if(!links||!links.length){
+    const kws=String(r.shopKeywords||'').split(',').map(t=>t.trim()).filter(Boolean).slice(0,6),sig=r.signature.slice(0,5);
+    links=kws.map((k,i)=>{const q=sig[i%sig.length].n+' '+k;return{q,store:'Nordstrom',url:'https://www.nordstrom.com/sr?keyword='+encodeURIComponent(q)};});
   }
-  const slidesWrap = document.querySelector('.pager-slides');
-  if (slidesWrap) slidesWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  return '<div class="pdf-chips">'+links.map(l=>'<a class="pdf-chip" data-href="'+esc(l.url)+'" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.q)+' <span class="pdf-chip-store">at '+esc(l.store)+'</span></a>').join('')+'</div>';
 }
-
-function renderReport(r) {
-  const frame = document.getElementById('frame');
-  const bandColors = [...(r.signature || []), ...(r.neutrals || [])];
-  const { lede, rest } = splitLede(r.narrative);
-
-  // Each topic is its own slide — client clicks Next to move through the report one idea at a time.
-  const slides = [];
-
-  slides.push(`
-    <span class="tag">Why This Is You</span>
-    <div class="rep-narrative">
-      <span class="lede">${esc(lede)}</span>
-      ${rest ? `<span class="rest">${esc(rest)}</span>` : ''}
-    </div>
-  `);
-
-  slides.push(`
-    <div class="rep-section id-card">
-      <div class="swatch-mini" style="background:${esc((r.signature && r.signature[0] && r.signature[0].h) || '#4e1d27')};"></div>
-      <p class="rep-section-label">Color Type Identified</p>
-      <h3 class="rep-section-title">${esc(r.seasonLabel)} ✦</h3>
-      <p class="rep-section-body">${esc(r.seasonDesc)} Metal tone: ${esc(r.metal)}.</p>
-    </div>
-  `);
-
-  slides.push(`
-    <div class="rep-section id-card">
-      <p class="rep-section-label">Body Shape Identified</p>
-      <h3 class="rep-section-title">${esc(r.bodyShapeLabel)} ✦</h3>
-      <p class="rep-section-body">${esc(r.bodyShapeDesc)} Goal: ${esc(r.bodyGoal)}</p>
-    </div>
-  `);
-
-  slides.push(`
-    <p class="rep-section-label">What Makes You Glow</p>
-    <h3 class="rep-section-title">Signature Colors</h3>
-    <div class="swatch-row">
-      ${r.signature.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
-    </div>
-  `);
-
-  slides.push(`
-    <p class="rep-section-label">Your Wardrobe Base</p>
-    <h3 class="rep-section-title">Power Neutrals</h3>
-    <div class="swatch-row">
-      ${r.neutrals.map(n => `<div class="swatch"><div class="chip" style="background:${n.h};"></div><span class="name">${esc(n.n)}</span></div>`).join('')}
-    </div>
-  `);
-
-  (r.silhouettes || []).forEach((s, i) => slides.push(silhouetteSlide(s, i, r)));
-
-  slides.push(`
-    <p class="rep-section-label">Step Back From</p>
-    <div class="rep-avoid">${esc(r.avoidText)}</div>
-  `);
-
-  slides.push(`
-    <p class="rep-section-label">Start Building</p>
-    <h3 class="rep-section-title">Shop These Recommendations</h3>
-    <p class="rep-section-body">Search terms pulled straight from your body shape's best silhouettes — open any of these to start browsing.</p>
-    <div class="shop-chips">${shopChips(r.shopKeywords)}</div>
-    <p class="shop-note">These open a live search on Nordstrom so results stay current — not a specific curated product.</p>
-  `);
-
-  slides.push(`
-    <p class="rep-section-label">Worth Knowing</p>
-    <h3 class="rep-section-title">Style Notes</h3>
-    <div class="edu-grid">
-      ${EDUCATION_CARDS.map(c => `<div class="edu-card"><h4>${esc(c.h4)}</h4><p>${esc(c.p)}</p></div>`).join('')}
-    </div>
-  `);
-
-  pagerSlideCount = slides.length;
-
-  const bookHref = r.isReturning ? 'book.html' : 'https://tally.so/r/yPeEjp';
-  const bookLabel = r.isReturning ? 'Book Your Session ✦' : 'Fill Out Your Intake Form ✦';
-
-  frame.innerHTML = `
-    <div class="brand-hero">
-      <div class="brand-mark">${LOGO_SVG}<span>HerStyleVault</span></div>
-      <div class="rep-badge">Payment confirmed</div>
-      <p class="rep-eyebrow">Signature Style Report</p>
-      <h2 class="rep-title">You're a <em>${esc(r.seasonLabel)}</em>, ${esc(r.clientName)}</h2>
-      <p class="rep-sub">${esc(r.bodyShapeLabel)} · Generated from your answers${r.hadPhoto ? ' + photo' : ''}</p>
-    </div>
-
-    <div class="palette-module">
-      <p class="rep-eyebrow">Your Signature Palette</p>
-      <div class="palette-band">${bandColors.map(c => `<span style="background:${c.h};" title="${esc(c.n)}"></span>`).join('')}</div>
-    </div>
-
-    <div class="rep-toolbar">
-      <button class="toolbar-btn" id="download-btn">⤓ Download Report</button>
-    </div>
-
-    <div class="frame-inner">
-      <div class="pager-slides">
-        ${slides.map((html, i) => `<div class="pager-slide${i === 0 ? ' active' : ''}" data-slide="${i}">${html}</div>`).join('')}
-      </div>
-      <div class="pager-nav">
-        <button class="pager-btn pager-prev" id="pager-prev" disabled>← Back</button>
-        <span class="pager-count" id="pager-count">1 / ${pagerSlideCount}</span>
-        <button class="pager-btn pager-next" id="pager-next">Next →</button>
-      </div>
-    </div>
-
-    <div class="rep-cta">
-      <p class="rep-eyebrow">Ready For More?</p>
-      <h3>This is the starting point — <em>let's go deeper</em></h3>
-      <p class="copy">A free consultation turns this into an actual wardrobe: real outfits, real pieces, built around you.</p>
-      <a class="btn-gold" href="${esc(bookHref)}">${esc(bookLabel)}</a>
-    </div>
-  `;
-
-  pagerIndex = 0;
-  showPagerSlide(0);
-
-  document.getElementById('pager-prev').addEventListener('click', () => { if (pagerIndex > 0) showPagerSlide(pagerIndex - 1); });
-  document.getElementById('pager-next').addEventListener('click', () => { if (pagerIndex < pagerSlideCount - 1) showPagerSlide(pagerIndex + 1); });
-  document.getElementById('download-btn').addEventListener('click', () => window.print());
-  frame.querySelectorAll('.look-flip').forEach(el => {
-    el.addEventListener('click', () => el.classList.toggle('flipped'));
-    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.classList.toggle('flipped'); } });
+/* ---- Tight layout: sections are measured and packed onto as few pages as fit, so no page is left half empty ---- */
+const PAGE_CAP=915, BLK_GAP=41; /* content height that fits above the footer; px added between stacked sections */
+function makeBlocks(r){
+  const sig=r.signature.slice(0,5),neu=r.neutrals.slice(0,3);
+  const season=String(r.seasonLabel||'');
+  const b={height:r.height,intensity:r.intensity};
+  const img=CROQ_CACHE[croqKey(r.bodyShapeKey,b)]||'';const CL=croqLabelPos(b);
+  const L=[];
+  const curated=('Curated for '+((r.personaAnswered&&r.persona)?r.persona.name+' \u00b7 ':'')+((r.shopTier&&r.shopTier.label)||'Mid-range ($75\u2013$200)')).toUpperCase();
+  if(r.personaAnswered&&r.persona){const ps=r.persona;L.push({key:'persona',label:'Style Persona',html:'<p class="pdf-section-label" style="margin-top:0;">Your Style Persona</p><div class="pdf-persona-name">'+esc(ps.name)+'</div><p class="pdf-persona-tag">'+esc(ps.tagline)+'</p><p class="pdf-section-label">Your 3-Piece Signature Formula</p><div class="pdf-formula">'+ps.formula.map((f,i)=>(i?'<span class="pdf-plus">+</span>':'')+'<div class="pdf-fbox"><span class="pdf-fnum">0'+(i+1)+'</span>'+esc(f)+'</div>').join('')+'</div><div class="pdf-rulebox"><p class="pdf-section-label" style="margin-top:0;">The Styling Rule You Can Break</p><p>'+esc(ps.rule)+'</p></div>'});}
+  const hexOf=c=>esc(String(c.h||'').toUpperCase());
+  const neuRow='<div class="pdf-neu">'+r.neutrals.slice(0,4).map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+hexOf(c)+'</div></div>').join('')+'</div>';
+  const sigGrid='<div class="pdf-sig">'+r.signature.slice(0,6).map(c=>'<div class="pdf-sigc"><div class="pdf-arch pdf-arch-s" style="background:'+esc(c.h)+'"></div><div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+hexOf(c)+'</div></div></div>').join('')+'</div>';
+  const accStrip=(r.accents&&r.accents.length)?'<div class="pdf-acc"><p class="pdf-mini-label">Accent tones</p><div class="pdf-acc-row">'+r.accents.slice(0,3).map(c=>'<div class="pdf-accc"><i style="background:'+esc(c.h)+'"></i><span>'+esc(c.n)+'</span><em>'+hexOf(c)+'</em></div>').join('')+'</div></div>':'';
+  L.push({key:'palette',label:'Color Palette',html:'<div class="pdf-pal-head"><h1 class="pdf-h1" style="margin:0;">Your <em>Palette</em></h1><span class="pdf-pal-tag">'+esc(season)+'</span></div><p class="pdf-section-label" style="margin-top:0;">Power Neutrals</p>'+neuRow+'<p class="pdf-section-label">Signature Colors</p>'+sigGrid+'<div class="pdf-metalrow"><div class="pdf-metalc"><p class="pdf-mini-label">Metal tone</p><p>'+esc(r.metal)+'</p></div>'+accStrip+'</div>'});
+  L.push({key:'colortype',label:'Color Analysis',html:'<div class="pdf-colorband"><p class="pdf-section-label">Color Type</p><h1>You\'re a <em>'+esc(season)+'</em></h1></div>'
+    +'<div class="pdf-box">'+esc(r.seasonDesc)+'</div>'
+    +'<p class="pdf-section-label">Why This Is You</p><div class="pdf-box">'+esc(r.narrative)+'</div>'});
+  const avSw=(r.avoidSwatches&&r.avoidSwatches.length)?'<div class="pdf-avsw">'+r.avoidSwatches.slice(0,4).map(c=>'<div><i style="background:'+esc(c.h)+'"></i><span>'+esc(c.n)+'</span><em>'+hexOf(c)+'</em></div>').join('')+'</div>':'';
+  const matureTip=(r.ageBracket==='45+')?'<div class="pdf-tip"><strong>Near your face:</strong> choose softer, light-reflecting shades, like champagne, pearl or a soft version of your signature colors. They bounce light back onto your skin and keep your face bright.</div>':'';
+  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'+matureTip});
+  L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div>'
+    +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p><div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div></div></div>'
+    +'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4))});
+  L.push({key:'silh',label:'Silhouettes & Shopping',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Silhouettes &amp; <em>Shopping</em></h1><p class="pdf-curated">'+esc(curated)+'</p><p class="pdf-section-label" style="margin-top:0;">Best Silhouettes For Your Shape</p>'+'<div class="pdf-three">'+(r.silhouettes||[]).map(s=>'<div class="pdf-box"><strong>'+esc(s.text)+'</strong><br>'+esc(s.reason)+'</div>').join('')+'</div>'
+    +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live search at a store in your price range, so results stay current.</p>'+shopChips(r)+'</div></div>'});
+  L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
+    +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
+  return L;
+}
+let LAYOUT=null;
+async function layoutPages(r){
+  const blocks=makeBlocks(r);
+  const host=document.createElement('div');host.className='pdf-page';host.style.cssText='position:absolute;left:-10000px;top:0;height:auto;overflow:visible;';
+  host.innerHTML=blocks.map(b=>'<div class="pdf-blk">'+b.html+'</div>').join('');document.body.appendChild(host);
+  try{
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await Promise.all([...host.querySelectorAll('img')].map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve()));
+    const kids=[...host.children];blocks.forEach((b,i)=>{b.h=kids[i].offsetHeight;});
+  }finally{host.remove();}
+  /* in-order packing: keep the reading order, start a new page only when the next section no longer fits */
+  const pages=[];let cur=[],used=0;
+  blocks.forEach(b=>{const need=cur.length?b.h+BLK_GAP:b.h;if(cur.length&&used+need>PAGE_CAP){pages.push(cur);cur=[b];used=b.h;}else{cur.push(b);used+=need;}});
+  if(cur.length)pages.push(cur);
+  window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ');
+  LAYOUT=pages.map(pg=>pg.map(b=>b.key));
+}
+function buildPages(r){
+  const label='Signature Style Report';
+  const today=new Date();const date=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const until=new Date(today.getTime()+45*86400000).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const blocks=makeBlocks(r),byKey={};blocks.forEach(b=>{byKey[b.key]=b;});
+  const pages=[];
+  pages.push(pdfPage('pdf-cover','<div class="pdf-logo">HerStyleVault</div><div class="pdf-pkg-pill">Signature Style Report</div><div class="pdf-client-name">'+esc(r.clientName)+'</div><div class="pdf-date">Prepared '+esc(date)+'</div>'));
+  (LAYOUT||blocks.map(b=>[b.key])).forEach(keys=>{
+    const bs=keys.map(k=>byKey[k]);
+    pages.push(pdfPage('',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
   });
+  pages.push(pdfPage('pdf-closing','<div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
+    +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 45 days (by '+esc(until)+'). One use, on your first package. Mention your report on your free consultation and it comes off your deposit invoice. It cannot be combined with other offers.</div>'
+    +'<p style="font-size:0.9rem;color:#3F3C38;">Book your free consultation at<br><strong data-href="https://herstylevault.com/book.html">herstylevault.com/book.html</strong></p><p style="font-size:0.9rem;color:#3F3C38;margin-top:1rem;">With love, <strong>Adebisi</strong><br>HerStyleVault</p>'));
+  return pages;
 }
-
+let REPORT=null;
+function fitPreviews(){
+  const w=Math.min(document.getElementById('wrap').clientWidth,816);const s=w/816;
+  document.querySelectorAll('.prev-slot').forEach(el=>{el.style.width=(816*s)+'px';el.style.height=(1056*s)+'px';el.firstElementChild.style.transform='scale('+s+')';});
+}
+async function renderReport(r){
+  REPORT=r;await prepCroq(r);await layoutPages(r);
+  const pages=buildPages(r);
+  document.getElementById('app').innerHTML='<p class="hint">Your report is ready. Scroll through it here, or download the PDF to keep.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
+    +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 45 days.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Fill Out Your Intake Form')+'</a></div>';
+  fitPreviews();window.addEventListener('resize',fitPreviews);
+  const btn=document.getElementById('dl-btn');btn.disabled=false;btn.onclick=()=>downloadPdf(btn);
+}
+async function downloadPdf(btn){
+  const label=btn.textContent;btn.disabled=true;btn.textContent='Building PDF…';
+  const root=document.getElementById('pdf-root');
+  try{
+    root.innerHTML=buildPages(REPORT).join('');
+    await new Promise(r=>setTimeout(r,80));
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    const els=root.querySelectorAll('.pdf-page');const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({unit:'px',format:[816,1056],compress:true});
+    for(let i=0;i<els.length;i++){
+      const canvas=await html2canvas(els[i],{scale:2,backgroundColor:'#ffffff',useCORS:true});
+      if(i>0)pdf.addPage([816,1056],'portrait');
+      pdf.addImage(canvas.toDataURL('image/jpeg',0.92),'JPEG',0,0,816,1056);
+      const pr=els[i].getBoundingClientRect();
+      els[i].querySelectorAll('[data-href]').forEach(el=>{const q=el.getBoundingClientRect();pdf.link(q.left-pr.left,q.top-pr.top,q.width,q.height,{url:el.getAttribute('data-href')});});
+    }
+    const safe=String(REPORT.clientName||'Client').replace(/[\\/:*?"<>|]/g,'').trim()||'Client';
+    pdf.save(safe+' - Signature Style Report.pdf');
+  }catch(e){console.error(e);alert('Something went wrong building the PDF. Please try again.');}
+  finally{root.innerHTML='';btn.disabled=false;btn.textContent=label;}
+}
 async function init() {
   const app = document.getElementById('app');
   app.innerHTML = `
@@ -459,6 +357,5 @@ async function init() {
 
 init();
 </script>
-
 </body>
 </html>
