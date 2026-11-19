@@ -81,14 +81,14 @@
   }
   var g = document.getElementById('pkgGrid');
   g.innerHTML = OFFERS.filter(function(o){ return o.kind === 'package'; }).map(card).join('');
-  var btns = document.querySelectorAll('.svc-v'), w = window.innerWidth, start = w <= 620 ? '1' : (w <= 980 ? '2' : '3');
+  var btns = document.querySelectorAll('.svc-v'), w = window.innerWidth, start = w <= 767 ? '1' : (w <= 980 ? '2' : '3');
   function setView(v, save){
     g.setAttribute('data-view', v);
     Array.prototype.forEach.call(btns, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-v') === v ? 'true' : 'false'); });
     if (save) { try { localStorage.setItem('hsvPkgView', v); } catch(e){} }
   }
   Array.prototype.forEach.call(btns, function(b){ b.addEventListener('click', function(){ setView(b.getAttribute('data-v'), true); }); });
-  try { var sv = localStorage.getItem('hsvPkgView'); if (sv === '1' || (sv === '2' && w > 620) || (sv === '3' && w > 980)) start = sv; } catch(e){}
+  try { var sv = localStorage.getItem('hsvPkgView'); if (sv === '1' || (sv === '2' && w > 767) || (sv === '3' && w > 980)) start = sv; } catch(e){}
   setView(start, false);
 })();
 </script>

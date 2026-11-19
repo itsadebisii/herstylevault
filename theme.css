@@ -809,9 +809,10 @@ h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;
   .pkg-grid>.pkg-card{flex:0 0 84%; scroll-snap-align:center; min-width:0;}
   .pkg-actions{flex-direction:column;}
   .pkg-actions .btn{width:100%;}
-  .pkg-dots{display:flex; justify-content:center; gap:10px; margin:14px 0 4px;}
-  .pkg-dots button{width:10px; height:10px; padding:0; border-radius:50%; border:1px solid var(--accent); background:transparent; cursor:pointer;}
-  .pkg-dots button[aria-current="true"]{background:var(--accent);}
+  .pkg-dots{display:flex; justify-content:center; gap:4px; margin:8px 0 2px;}
+  .pkg-dots button{position:relative; width:32px; height:32px; padding:0; border:0; background:transparent; cursor:pointer; -webkit-tap-highlight-color:transparent;}
+  .pkg-dots button::after{content:''; position:absolute; left:50%; top:50%; width:10px; height:10px; margin:-5px 0 0 -5px; border-radius:50%; border:1px solid var(--accent); background:transparent;}
+  .pkg-dots button[aria-current="true"]::after{background:var(--accent);}
 }
 /* Sound familiar: three starting points, links always visible */
 .quote-grid.three{grid-template-columns:repeat(3,1fr);}
@@ -822,3 +823,8 @@ h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;
 .pkg-best.vd-best{margin:0;}
 .pkg-card.tone-wine .btn-primary{background:#FAF9F6; color:#4E0B14; border-color:#FAF9F6;}
 .pkg-card.tone-wine .btn-secondary{background:transparent; color:#FAF9F6; border-color:rgba(250,249,246,.65);}
+
+/* phones: cards already stack in one column, so the cards-per-row switch is hidden */
+@media (max-width:767px){ .svc-view{display:none;} }
+
+.cmp thead th:first-child{position:sticky; left:0; background:var(--bg); z-index:2;}
