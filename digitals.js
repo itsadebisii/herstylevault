@@ -76,7 +76,7 @@ var DIGITALS = [
   },
   {
     slug: 'wardrobe-detox-series',
-    seoName: 'Wardrobe Detox Guide & Checklist', seoTitle: 'Wardrobe Detox Guide & Checklist | HerStyleVault', seoDesc: 'Declutter your closet with the Wardrobe Detox Guide, an 11-page PDF for $28.99, or the one-page Checklist. A calm, zone-by-zone method you can start today.',
+    seoName: 'Wardrobe Detox Guide & Checklist', seoTitle: 'Wardrobe Detox Guide & Checklist | HerStyleVault', seoDesc: 'Declutter your closet with the 11-page Wardrobe Detox Guide for $28.99. A calm, zone-by-zone method you can start today. One-page Checklist coming soon.',
     name: 'The Wardrobe Detox Series',
     eyebrow: 'Wardrobe Detox Series',
     cardCover: 'images/digitals/detox-series-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
