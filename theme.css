@@ -733,3 +733,26 @@ a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
 
 /* keyword line inside the page H1 (styled like the small label it replaced) */
 h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;font-size:11px;line-height:1.4;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);margin:0 0 0.9rem;}
+
+/* ---------- tones: each package and service has its own background ---------- */
+.tone-cream{--tb:#EFECE6; --tl:#DCD8D0;}
+.tone-blush{--tb:#F2E0DC; --tl:#E3C8C3;}
+.tone-sand{--tb:#EDE3D3; --tl:#DDCFB9;}
+.tone-mist{--tb:#E4E8EA; --tl:#CFD6D9;}
+.tone-sage{--tb:#E1E6DA; --tl:#CBD3C0;}
+.tone-stone{--tb:#E8E4DD; --tl:#D5CFC5;}
+.tone-cream,.tone-blush,.tone-sand,.tone-mist,.tone-sage,.tone-stone{background:var(--tb); --line:var(--tl);}
+.tone-wine{background:#4E0B14; --bg:#4E0B14; --surface:#5F1621; --ink:#FAF9F6; --ink-soft:rgba(250,249,246,0.78); --line:rgba(250,249,246,0.26); --accent:#F2BCC4; --accent-ink:#4E0B14; color:#FAF9F6;}
+.pkg-card.tone-cream,.pkg-card.tone-blush,.pkg-card.tone-wine{border-color:var(--line);}
+.pkg-card.tone-wine .pkg-opt{background:rgba(250,249,246,0.06);}
+.pkg-card.tone-wine .btn-secondary{border-color:rgba(250,249,246,0.6); color:#FAF9F6;}
+.offer-hero{border-radius:4px; padding-top:clamp(1.4rem,3vw,2.4rem); padding-left:clamp(1.2rem,3vw,2.6rem); padding-right:clamp(1.2rem,3vw,2.6rem);}
+.offer-hero.tone-wine .dg-opt{background:rgba(250,249,246,0.06); border-color:var(--line); color:#FAF9F6;}
+.offer-hero.tone-wine .dg-opt.on{background:#FAF9F6; color:#4E0B14; border-color:#FAF9F6;}
+.offer-hero.tone-wine .dg-opt.on span{color:rgba(78,11,20,0.75);}
+.offer-hero.tone-wine a{color:inherit;}
+.offer-hero.tone-wine .btn-primary{background:#FAF9F6; color:#4E0B14;}
+.vd-card.tone-cream,.vd-card.tone-blush,.vd-card.tone-sand,.vd-card.tone-mist,.vd-card.tone-sage,.vd-card.tone-stone,.vd-card.tone-wine{padding:1.1rem 1.1rem 1.4rem; border-radius:4px;}
+.vd-card.tone-wine .vd-desc,.vd-card.tone-wine .meta{color:var(--ink-soft);}
+.vd-card.tone-wine .btn-primary{background:#FAF9F6; color:#4E0B14;}
+.vd-card.tone-wine .vd-peek{color:#FAF9F6;}

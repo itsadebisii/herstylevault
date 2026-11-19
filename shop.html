@@ -70,7 +70,7 @@
   function esc(t){ return String(t == null ? '' : t); }
   function card(o){
     var meta = o.kind === 'package' ? '' : o.meta;
-    return '<a class="sh-card" href="offer.html#' + o.slug + '">' +
+    return '<a class="sh-card" href="' + offerUrl(o) + '">' +
       '<p class="sh-tag">' + esc(o.tag).replace(/ ·.*$/, '') + '</p>' +
       '<h3 class="card-title">' + o.name + '</h3>' +
       '<p class="sh-short">' + esc(o.short) + '</p>' +

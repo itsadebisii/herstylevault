@@ -170,3 +170,67 @@ document.addEventListener('click', function(e){
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 function hsvScrollTop(){ var h = location.hash.replace('#',''); if (!h || !document.getElementById(h)) window.scrollTo(0, 0); }
 window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScrollTop, 120); });
+
+/* ===== "Not sure where to start?" helper: a short pick-one guide that recommends a package, service or digital ===== */
+(function(){
+  var skip = /(analysis-results|color-style-analysis|guide-download)/.test(location.pathname);
+  if (skip || window.__hsvHelper) return; window.__hsvHelper = true;
+  var R = {
+    unlock:   {n:'The Unlock', p:'$225', u:'package-unlock.html', t:'3 sessions and 5 complete outfits. A great place to start: you learn your colors and shape and leave with a plan.'},
+    vault:    {n:'The Vault Edit', p:'$400', u:'package-vault-edit.html', t:'4 sessions and 7 outfits, plus the Wardrobe Detox Guide. Our most popular package.'},
+    reveal:   {n:'The Full Reveal', p:'$725', u:'package-full-reveal.html', t:'5 in-person sessions: a closet audit, three shopping trips and 10 outfits, ending with a try-on reveal.'},
+    occasion: {n:'Occasion Edit', p:'From $55', u:'service-occasion-edit.html', t:'Outfits for one event or trip, built around your style and emailed to you as a finished PDF.'},
+    ensemble: {n:'The Ensemble', p:'From $95 per person', u:'service-ensemble.html', t:'Everyone in your group gets their own outfits, pulled around one shared vibe.'},
+    mini:     {n:'The Mini Collection', p:'From $240', u:'service-mini-collection.html', t:'A small set of new pieces that all mix and match, sourced for you with shopping links.'},
+    detox:    {n:'The Wardrobe Detox', p:'From $225', u:'service-wardrobe-detox.html', t:'I come to you and we declutter and reorganize your closet in one visit (near Boston and Southern NH).'},
+    guide:    {n:'The Wardrobe Detox Guide', p:'$28.99', u:'digital-wardrobe-detox-series.html', t:'An 11-page PDF with the step-by-step method to reset your closet on your own, today.'},
+    report:   {n:'Signature Style Report', p:'$40', u:'digital-signature-style-report.html', t:'Your color season, body shape and style persona in one custom report, ready in minutes.'},
+    consult:  {n:'A free consultation', p:'Free', u:'book.html', t:'A free 30-minute call for first-time clients. We talk it through and I recommend what fits.'}
+  };
+  var Q = {
+    start: {q:'What do you need help with?', o:[
+      ['Outfits for an event or trip', {r:'occasion'}], ['Outfits for a group trip or event', {r:'ensemble'}],
+      ['A full style overhaul', {next:'budget'}], ['A few new pieces that all work together', {r:'mini'}],
+      ['Declutter and organize my closet', {next:'closet'}], ['Find my colors and body shape', {r:'report'}],
+      ['I am not sure', {r:'consult'}]]},
+    budget: {q:'What feels right for your budget?', o:[
+      ['About $225', {r:'unlock'}], ['About $400', {r:'vault'}], ['$725, the full in-person experience', {r:'reveal'}]]},
+    closet: {q:'How would you like to do it?', o:[
+      ['In person, with you helping', {r:'detox'}], ['On my own, with a guide', {r:'guide'}]]}
+  };
+  var css = '#hsvHelperBtn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:900;border:0;border-radius:999px;background:#7A1321;color:#FAF9F6;font:500 14px/1 var(--font-body,sans-serif);padding:14px 20px;cursor:pointer;box-shadow:0 10px 26px -10px rgba(24,23,22,.55);}'
+    + '#hsvHelperBtn:hover{background:#4E0B14;}#hsvHelperBtn:focus-visible,#hsvHelper button:focus-visible,#hsvHelper a:focus-visible{outline:2px solid #181716;outline-offset:2px;}'
+    + '#hsvHelper{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(72px,calc(env(safe-area-inset-bottom,0px) + 72px));z-index:901;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 110px);overflow:auto;background:#FAF9F6;color:#181716;border:1px solid #DCD8D0;border-radius:8px;box-shadow:0 24px 60px -20px rgba(24,23,22,.45);padding:20px 20px 18px;font-family:var(--font-body,sans-serif);}'
+    + '#hsvHelper[hidden]{display:none;}#hsvHelper h2{font:500 22px/1.2 var(--font-display,serif);margin:0 28px 4px 0;}#hsvHelper .hh-sub{font-size:13px;color:#6B6862;margin:0 0 14px;}'
+    + '#hsvHelper .hh-x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:24px;line-height:1;cursor:pointer;color:#6B6862;}'
+    + '#hsvHelper .hh-o{display:block;width:100%;text-align:left;margin:0 0 8px;padding:12px 14px;border:1px solid #DCD8D0;border-radius:6px;background:#fff;font:400 14px/1.35 var(--font-body,sans-serif);color:#181716;cursor:pointer;}'
+    + '#hsvHelper .hh-o:hover{border-color:#7A1321;background:#F7F0EE;}#hsvHelper .hh-res{background:#EFECE6;border-radius:6px;padding:14px;margin:0 0 12px;}'
+    + '#hsvHelper .hh-res b{font:500 22px/1.2 var(--font-display,serif);display:block;}#hsvHelper .hh-res i{font-style:normal;color:#7A1321;font-weight:600;font-size:14px;}#hsvHelper .hh-res p{font-size:14px;line-height:1.5;margin:6px 0 0;}'
+    + '#hsvHelper .hh-go{display:inline-block;background:#7A1321;color:#FAF9F6;text-decoration:none;border-radius:4px;padding:11px 16px;font-size:14px;font-weight:500;margin:0 8px 8px 0;}#hsvHelper .hh-link{font-size:13px;color:#6B6862;background:none;border:0;text-decoration:underline;cursor:pointer;padding:4px 0;font-family:inherit;}';
+  var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+  var btn = document.createElement('button'); btn.id = 'hsvHelperBtn'; btn.type = 'button'; btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false'); btn.textContent = 'Not sure where to start?';
+  var box = document.createElement('div'); box.id = 'hsvHelper'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Help me choose');
+  document.body.appendChild(box); document.body.appendChild(btn);
+  function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function show(key){
+    var s = Q[key];
+    box.innerHTML = '<button type="button" class="hh-x" aria-label="Close">×</button><h2>' + esc(s.q) + '</h2><p class="hh-sub">Pick one. No wrong answers.</p>' + s.o.map(function(o, i){ return '<button type="button" class="hh-o" data-i="' + i + '">' + esc(o[0]) + '</button>'; }).join('');
+    Array.prototype.forEach.call(box.querySelectorAll('.hh-o'), function(b){ b.addEventListener('click', function(){ var a = s.o[+b.getAttribute('data-i')][1]; if (a.next) show(a.next); else result(a.r); }); });
+    wire();
+  }
+  function result(k){
+    var r = R[k], pk = /^(unlock|vault|reveal)$/.test(k);
+    box.innerHTML = '<button type="button" class="hh-x" aria-label="Close">×</button><h2>I would start here</h2><p class="hh-sub">A good fit for what you told me.</p>'
+      + '<div class="hh-res"><b>' + esc(r.n) + '</b><i>' + esc(r.p) + '</i><p>' + esc(r.t) + '</p></div>'
+      + '<a class="hh-go" href="' + r.u + '">' + (k === 'consult' ? 'Book a free call' : 'See details') + '</a>'
+      + (pk ? '<a class="hh-go" style="background:#fff;color:#7A1321;border:1px solid #7A1321;" href="book.html">Book a free call first</a>' : '')
+      + '<br><button type="button" class="hh-link" data-restart>Start over</button>';
+    box.querySelector('[data-restart]').addEventListener('click', function(){ show('start'); });
+    wire();
+  }
+  function wire(){ box.querySelector('.hh-x').addEventListener('click', close); }
+  function open(){ show('start'); box.hidden = false; btn.setAttribute('aria-expanded', 'true'); btn.textContent = 'Close'; }
+  function close(){ box.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.textContent = 'Not sure where to start?'; }
+  btn.addEventListener('click', function(){ if (box.hidden) open(); else close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) { close(); btn.focus(); } });
+})();
