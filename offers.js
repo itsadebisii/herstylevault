@@ -67,7 +67,7 @@ var OFFERS = [
   {
     slug: 'occasion-edit', art: ['dressBelted'], kind: 'service', name: 'Occasion Edit', tag: 'À La Carte Service', formKey: 'occasion',
     from: '$55', fromNote: 'starting at', meta: 'Delivered by email as a PDF',
-    short: 'One event, every detail handled',
+    short: 'Outfits for the moments that matter',
     headline: 'One event, <em>every detail</em> handled',
     lead: "Tell me what it's for and walk in knowing exactly what to wear.",
     tiers: [

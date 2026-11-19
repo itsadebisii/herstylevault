@@ -47,9 +47,9 @@
   function card(o){
     var url = 'offer.html#' + o.slug;
     return '<div class="vd-card"><a class="vd-media" href="' + url + '" aria-label="Details: ' + plain(o.name) + '">' + cover(o) + '</a><div class="vd-body">' +
-      '<p class="vd-eyebrow">' + o.tag + '</p><h3 class="card-title">' + o.name + '</h3><p class="vd-desc">' + o.short + '</p>' +
+      '<div class="vd-toprow"><p class="vd-eyebrow">' + o.tag + '</p><a class="vd-peek" href="' + url + '">Details <i aria-hidden="true">\u2192</i></a></div><h3 class="card-title">' + o.name + '</h3><p class="vd-desc">' + o.short + '</p>' +
       '<p class="vd-prices"><span class="price">From ' + o.from + (o.fromNote.indexOf('per person') > -1 ? ' <small>per person</small>' : '') + '</span></p>' +
-      '<div class="vd-actions"><a class="btn btn-primary vd-buy book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a><a class="vd-details" href="' + url + '">Details</a></div></div></div>';
+      '<div class="vd-actions"><a class="btn btn-primary vd-buy book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a></div></div></div>';
   }
   var g = document.getElementById('svcGrid');
   g.innerHTML = OFFERS.filter(function(o){ return o.kind === 'service'; }).map(card).join('');
