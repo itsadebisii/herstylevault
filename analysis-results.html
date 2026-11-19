@@ -34,25 +34,29 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .cta a{border-radius:6px;display:inline-block;background:var(--ink);color:var(--accent-ink);padding:0.85rem 1.5rem;text-decoration:none;letter-spacing:0.05em;font-size:0.85rem;}
 /* ===== PDF page engine (same pages as the stylist tools: 816 x 1056 px) ===== */
 #pdf-root{position:fixed;top:0;left:-99999px;width:816px;}
-.pdf-page{width:816px;height:1056px;background:#FAF9F6;padding:60px 64px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;color:#181716;position:relative;overflow:hidden;}
+.pdf-page{width:816px;height:1056px;background:#F7F5F0;padding:60px 64px;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;color:#181716;position:relative;overflow:hidden;}
 .pdf-cover{background:#EFECE6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.pdf-cover2{padding:0;background:#F7F5F0;}
+.pdf-cover-bg{position:absolute;left:0;top:0;width:816px;height:1056px;display:block;}
+.pdf-cover-name{position:absolute;left:48px;right:48px;top:128px;height:80px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;color:#191919;line-height:1.1;white-space:nowrap;overflow:hidden;}
 .pdf-closing{background:#EFECE6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
 .pdf-logo{font-family:'Cormorant Garamond',serif;font-size:2.9rem;font-weight:500;color:#181716;letter-spacing:0.03em;margin-bottom:0.4rem;}
 .pdf-pkg-pill{display:inline-block;padding:0.55rem 1.5rem;background:#181716;color:#FAF9F6;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;margin:1.3rem 0;border-radius:2px;}
 .pdf-client-name{font-family:'Cormorant Garamond',serif;font-size:2.7rem;font-style:italic;font-weight:500;color:#7A1321;margin-top:1.4rem;}
 .pdf-date{font-size:0.8rem;color:#6B6862;margin-top:0.7rem;letter-spacing:0.04em;}
-.pdf-foot{position:absolute;bottom:40px;left:64px;right:64px;display:flex;justify-content:space-between;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:#6B6862;border-top:1px solid #DCD8D0;padding-top:10px;}
-.pdf-h1{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:#181716;margin-bottom:0.5rem;font-weight:500;line-height:1.1;}
-.pdf-h1 em{color:#7A1321;font-style:italic;}
-.pdf-section-label{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;font-weight:500;margin:1.3rem 0 0.5rem;}
-.pdf-box{background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;padding:1rem 1.3rem;margin-bottom:0.9rem;font-size:0.82rem;line-height:1.7;color:#3F3C38;}
+.pdf-head{position:absolute;top:20px;left:64px;right:64px;text-align:center;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:#6B6862;padding-bottom:9px;border-bottom:1px solid #7A1321;}
+.pdf-foot{position:absolute;bottom:40px;left:64px;right:64px;display:flex;justify-content:center;font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:#6B6862;border-top:1px solid #7A1321;padding-top:10px;}
+.pdf-h1{font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:#181716;margin-bottom:0.5rem;font-weight:500;line-height:1.08;}
+.pdf-h1 em{color:#7A1321;font-style:normal;font-weight:600;}
+.pdf-section-label{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:#7A1321;font-weight:500;margin:1.3rem 0 0.5rem;}
+.pdf-box{background:#ECE8E2;border:none;border-radius:12px;padding:1rem 1.3rem;margin-bottom:0.9rem;font-size:0.82rem;line-height:1.7;color:#3F3C38;}
 .pdf-chip-store{color:#8A8378;font-size:0.9em;}.pdf-three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:0.3rem;}.pdf-three .pdf-box{margin-bottom:0;padding:0.8rem 0.95rem;font-size:0.78rem;line-height:1.6;}.pdf-metal{margin:1rem 0 0;font-size:0.82rem;color:#3F3C38;border-top:1px solid #DCD8D0;padding-top:0.8rem;}.pdf-metal span{display:inline-block;font-size:0.64rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:500;margin-right:0.8rem;}.pdf-neu .pdf-arch{width:56px;height:62px;border-radius:28px 28px 4px 4px;}.pdf-neu{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}.pdf-neu .pdf-sw{width:auto;margin:0;}
 .pdf-sig{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px;}.pdf-sigc{display:flex;align-items:center;gap:10px;}.pdf-arch-s{width:44px!important;height:50px!important;flex-shrink:0;margin:0!important;}
 .pdf-metalrow{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:1rem;border-top:1px solid #DCD8D0;padding-top:0.8rem;align-items:start;}.pdf-metalc p{margin:0;font-size:0.8rem;color:#3F3C38;line-height:1.5;}
 .pdf-mini-label{font-size:0.62rem!important;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321!important;font-weight:500;margin:0 0 0.35rem!important;}
 .pdf-acc-row{display:flex;gap:12px;}.pdf-accc{text-align:center;width:72px;}.pdf-accc i{display:block;width:36px;height:36px;border-radius:50%;margin:0 auto 4px;border:1px solid #CDBBA8;}.pdf-accc span{display:block;font-size:0.62rem;line-height:1.25;color:#3F3C38;}.pdf-accc em{display:block;font-style:normal;font-size:0.56rem;color:#8A8378;}
 .pdf-avsw{display:flex;gap:8px;margin-top:0.7rem;padding-top:0.6rem;border-top:1px solid #DCD8D0;}.pdf-avsw div{text-align:center;flex:1;}.pdf-avsw i{display:block;width:28px;height:28px;border-radius:50%;margin:0 auto 3px;border:1px solid #CDBBA8;}.pdf-avsw span{display:block;font-size:0.58rem;line-height:1.2;color:#3F3C38;}.pdf-avsw em{display:block;font-style:normal;font-size:0.52rem;color:#8A8378;}
-.pdf-tip{margin-top:0.9rem;padding:0.7rem 1rem;border-left:3px solid #7A1321;background:#EFECE6;font-size:0.78rem;line-height:1.6;color:#3F3C38;}
+.pdf-tip{margin-top:0.9rem;padding:0.7rem 1rem;border-left:3px solid #7A1321;background:#ECE8E2;border-radius:0 12px 12px 0;font-size:0.78rem;line-height:1.6;color:#3F3C38;}
 .pdf-curated{font-size:0.62rem;letter-spacing:0.16em;color:#7A1321;font-weight:500;margin:-0.1rem 0 0.8rem;}
 .pdf-two{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;}.pdf-blk-n{margin-top:20px;padding-top:20px;border-top:1px solid #DCD8D0;}.pdf-pal-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.9rem;}.pdf-pal-tag{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:500;}
 .pdf-list{list-style:none;padding:0;margin:0;}
@@ -79,7 +83,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-log-kind{display:block;margin-left:1.6rem;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:#6B6862;}
 .pdf-log-a{flex:1;font-size:0.82rem;font-weight:600;color:#181716;line-height:1.5;}
 .pdf-log-a em{font-weight:400;color:#6B6862;}
-.pdf-linkrow{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:0.55rem 0.9rem;margin-bottom:0.45rem;background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;font-size:0.82rem;color:#181716;}
+.pdf-linkrow{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:0.55rem 0.9rem;margin-bottom:0.45rem;background:#ECE8E2;border:none;border-radius:10px;font-size:0.82rem;color:#181716;}
 .pdf-linkrow .host{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#6B6862;white-space:nowrap;}
 .pdf-sw-hex{font-size:0.56rem;color:#6B6862;letter-spacing:0.04em;}
 .pdf-outfit-photo{max-width:100%;max-height:100%;object-fit:contain;}
@@ -88,9 +92,9 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-persona-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;line-height:1.32;color:#7A1321;margin:0 0 0.9rem;max-width:600px;}
 .pdf-formula{display:flex;align-items:stretch;gap:0.6rem;}
 .pdf-plus{align-self:center;font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#7A1321;}
-.pdf-fbox{flex:1;background:#EFECE6;border:1px solid #DCD8D0;border-radius:2px;padding:0.8rem 0.9rem;font-family:'Cormorant Garamond',serif;font-size:1.2rem;line-height:1.22;color:#181716;font-weight:500;}
+.pdf-fbox{flex:1;background:#ECE8E2;border:none;border-radius:12px;padding:0.8rem 0.9rem;font-family:'Cormorant Garamond',serif;font-size:1.2rem;line-height:1.22;color:#181716;font-weight:500;}
 .pdf-fnum{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.58rem;letter-spacing:0.18em;color:#6B6862;margin-bottom:0.5rem;font-weight:500;}
-.pdf-rulebox{margin-top:1rem;background:#EFECE6;border-left:3px solid #7A1321;padding:0.85rem 1.3rem;}
+.pdf-rulebox{margin-top:1rem;background:#ECE8E2;border-radius:0 12px 12px 0;border-left:3px solid #7A1321;padding:0.85rem 1.3rem;}
 .pdf-rulebox p:last-child{font-family:'Cormorant Garamond',serif;font-size:1.25rem;line-height:1.4;color:#181716;margin:0;}
 .pdf-arch{width:68px;height:76px;border-radius:34px 34px 5px 5px;border:3px solid #CDBBA8;margin:0 auto 0.4rem;background-clip:padding-box;}
 .pdf-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.4rem;}
@@ -188,7 +192,8 @@ async function prepCroq(r){const b={height:r.height,intensity:r.intensity};CROQ_
 const SHAPE_WORD={hourglass:'Hourglass',pear:'Pear',apple:'Apple',rectangle:'Rectangle',inverted:'Inverted Triangle'};
 function shapeTitle(r){const w=SHAPE_WORD[r.bodyShapeKey]||'';return r.intensity==='defined'?'Defined '+w:r.intensity==='soft'?'Soft '+w:w;}
 function pdfList(arr){return '<ul class="pdf-list">'+(arr||[]).map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul>';}
-function pdfFoot(label){return '<div class="pdf-foot"><span>HerStyleVault</span><span>'+esc(label)+'</span></div>';}
+function pdfFoot(label){return '<div class="pdf-head">Signature Style Report \u00b7 HerStyleVault</div><div class="pdf-foot"><span>For personal use only \u00b7 \u00a9 2026 HerStyleVault</span></div>';}
+function coverNameSize(n){n=String(n||'');const l=n.length;return l<=9?54:l<=13?46:l<=18?38:l<=26?30:24;}
 function pdfPage(cls,inner){return '<div class="pdf-page '+(cls||'')+'">'+inner+'</div>';}
 function arches(arr){return '<div class="pdf-swatches">'+arr.map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+esc(String(c.h||'').toUpperCase())+'</div></div>').join('')+'</div>';}
 function shopChips(r){
@@ -253,7 +258,7 @@ function buildPages(r){
   const until=new Date(today.getTime()+45*86400000).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const blocks=makeBlocks(r),byKey={};blocks.forEach(b=>{byKey[b.key]=b;});
   const pages=[];
-  pages.push(pdfPage('pdf-cover','<div class="pdf-logo">HerStyleVault</div><div class="pdf-pkg-pill">Signature Style Report</div><div class="pdf-client-name">'+esc(r.clientName)+'</div><div class="pdf-date">Prepared '+esc(date)+'</div>'));
+  pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="images/report-cover-bg.jpg" alt=""><div class="pdf-cover-name" style="font-size:'+coverNameSize(r.clientName)+'px">'+esc(r.clientName)+'</div>'));
   (LAYOUT||blocks.map(b=>[b.key])).forEach(keys=>{
     const bs=keys.map(k=>byKey[k]);
     pages.push(pdfPage('',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
