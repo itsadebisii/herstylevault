@@ -374,6 +374,7 @@ async function buildPdf(){
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
     const els=root.querySelectorAll('.pdf-page');const {jsPDF}=window.jspdf;
     const pdf=new jsPDF({unit:'px',format:[816,1056],compress:true});
+    pdf.setProperties({title:'Signature Style Report',subject:'Your personalized color and body style report',author:'HerStyleVault',creator:'HerStyleVault'});
     for(let i=0;i<els.length;i++){
       const canvas=await html2canvas(els[i],{scale:2,backgroundColor:'#ffffff',useCORS:true});
       if(i>0)pdf.addPage([816,1056],'portrait');
