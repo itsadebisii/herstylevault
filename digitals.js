@@ -13,6 +13,8 @@
      coverSub     optional small line printed on the generated cover
      price, priceNote, short (keep to ~2 lines), headline (may use <em>), lead
      soonNote, soonCta  optional, for status 'coming-soon': a line shown instead of the price, and a {label, href} button (e.g. mailto)
+     options[]    optional tiers on one product page (e.g. Checklist / Guidebook). Each can override: label, badge, price, priceNote, soonNote, includes, cta,
+                  and its own cover: coverName, coverSub, coverTone, coverImage. The cover changes when the visitor picks an option.
      includes[]   What's Inside bullets
      steps[]      How It Works: [title, text] pairs (2 to 4 work best)
      trust[]      Why It's Different: [title, text] pairs;  trustTitle optional heading (may use <em>)
@@ -72,6 +74,7 @@ var DIGITALS = [
     options: [
       {
         label: 'Checklist', badge: 'One page',
+        coverName: 'The Wardrobe Detox Checklist', coverSub: 'Quick · Printable · Reset', coverTone: 'stone', /* coverImage: 'images/digitals/detox-checklist-cover.jpg' */
         price: '', /* e.g. '$9' */
         soonNote: 'Coming soon. Included with The Vault Edit and The Full Reveal.',
         includes: ['A one-page checklist you can print or use on your phone', 'The steps in order, so you always know what comes next', 'A digital file that is yours to keep and reuse every season'],
@@ -79,6 +82,7 @@ var DIGITALS = [
       },
       {
         label: 'Guidebook', badge: 'Full method',
+        coverName: 'The Wardrobe Detox Guidebook', coverSub: 'Closet · Declutter · Reset', coverTone: 'noir', /* coverImage: 'images/digitals/detox-guidebook-cover.jpg' */
         price: '', /* e.g. '$29' */
         soonNote: 'Coming soon. Included with The Full Reveal. Vault Edit clients get a discount.',
         includes: ['A clear, step-by-step method for decluttering your closet efficiently', 'Tips and tricks you can reuse anytime', 'The one-page Checklist included', 'A digital guidebook that is yours to keep'],
@@ -116,11 +120,11 @@ function digitalAttr(t){ return String(t == null ? '' : t).replace(/<[^>]*>/g,''
 
 /* 4:5 cover: the product's own coverImage, or a generated editorial mockup (hairline frame, Cormorant type) */
 function digitalCover(p){
-  if (p.coverImage) return '<div class="vd-cover has-img"><img src="' + digitalAttr(p.coverImage) + '" alt="' + digitalAttr(p.name) + ' cover" loading="lazy"></div>';
+  if (p.coverImage) return '<div class="vd-cover has-img"><img src="' + digitalAttr(p.coverImage) + '" alt="' + digitalAttr(p.coverName || p.name) + ' cover" loading="lazy"></div>';
   var tone = p.coverTone || (p.category === 'guides' ? 'noir' : 'stone');
-  return '<div class="vd-cover tone-' + (tone === 'noir' ? 'noir' : 'stone') + '" role="img" aria-label="' + digitalAttr(p.name) + ' cover">' +
+  return '<div class="vd-cover tone-' + (tone === 'noir' ? 'noir' : 'stone') + '" role="img" aria-label="' + digitalAttr(p.coverName || p.name) + ' cover">' +
     '<span class="vc-eyebrow">' + digitalCat(p).eyebrow + '</span>' +
-    '<span class="vc-mid"><strong class="vc-title">' + p.name + '</strong><i class="vc-rule"></i>' + (p.coverSub ? '<span class="vc-sub">' + p.coverSub + '</span>' : '') + '</span>' +
+    '<span class="vc-mid"><strong class="vc-title">' + (p.coverName || p.name) + '</strong><i class="vc-rule"></i>' + (p.coverSub ? '<span class="vc-sub">' + p.coverSub + '</span>' : '') + '</span>' +
     '<span class="vc-brand">HerStyleVault</span></div>';
 }
 

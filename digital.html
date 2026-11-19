@@ -47,7 +47,7 @@
       : '<a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a><ul class="dg-assure">' + assure.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
 
     /* flipper slides: cover first, then any sneak-peek pages */
-    var slides = [{ html: digitalCover(p) }].concat((p.previews || []).map(function(v){ return { img: v.src, alt: v.alt || '', locked: !!v.locked }; }));
+    var slides = [{ html: digitalCover(view) }].concat((p.previews || []).map(function(v){ return { img: v.src, alt: v.alt || '', locked: !!v.locked }; }));
     var multi = slides.length > 1;
     var media = '<div class="dg-media"><div class="dg-stage" id="dgStage">' + slides.map(function(s,i){
         return '<div class="dg-slide-wrap" data-i="' + i + '"' + (i ? ' hidden' : '') + ' style="height:100%;">' + (s.html || ('<img class="dg-slide" src="' + s.img + '" alt="' + digitalAttr(s.alt) + '"' + (i ? ' loading="lazy"' : '') + '>')) + '</div>';
