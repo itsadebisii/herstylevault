@@ -275,6 +275,31 @@ var DIGITALS = [
         ],
         cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
         meta: 'Printed and shipped to you'
+      },
+      {
+        key: 'bundle', label: 'Digital + Paper', name: 'Coloring Book: Digital + Paper Copy', badge: 'Best value', price: '$34.99', priceNote: 'free US shipping',
+        status: 'coming-soon', soonNote: 'Coming soon',
+        headline: 'Start coloring today, <em>and get the book in the mail</em>',
+        lead: 'Get the digital PDF to start coloring right away, plus the softcover paper copy shipped to your door. You save $10 compared with buying both.',
+        includes: [
+          'The digital PDF, ready to use as soon as you check out',
+          'The softcover paper copy, printed and shipped to you',
+          'The same 48 pages in both: seven cocktail chapters with an origin story for every drink',
+          'Cocktail scenes, plus heels, handbags, jewelry and accessories to color'
+        ],
+        steps: [
+          ['Order the bundle', 'Pick Digital + Paper and check out.'],
+          ['Start coloring right away', 'Your PDF is ready to download as soon as you check out, so you can start while your book is on its way.'],
+          ['Your paper copy arrives', 'Your book is printed and mailed to you. Delivery details will be shared when ordering opens.']
+        ],
+        faqs: [
+          ['When can I order the bundle?', 'Soon. Email me and I will let you know the moment it is ready.'],
+          ['Do I get the PDF right away?', 'Yes. The digital PDF is ready as soon as you check out. The paper copy ships separately.'],
+          ['How much do I save?', 'The bundle is $34.99. Buying the digital PDF ($14.99) and the paper copy ($29.99) separately is $44.98, so you save about $10.'],
+          ['Is it only for personal use?', 'Yes. It is for personal use only, not for resale, reproduction or distribution.']
+        ],
+        cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
+        meta: 'PDF instantly, book shipped to you'
       }
     ],
     cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
