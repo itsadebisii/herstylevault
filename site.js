@@ -16,8 +16,6 @@ const NAV_HTML = `${TICKER_HTML}
 <a class="wordmark" href="index.html">HerStyleVault</a>
 <ul class="nav-links" id="navLinks">
 <li class="has-dropdown"><a class="dd-label" href="packages.html">Services</a><div class="dropdown">
-<a href="what-to-expect-services.html">What to Expect: Services</a>
-<a href="what-to-expect.html">What to Expect: Packages</a>
 <a href="services.html">À La Carte Services</a>
 <a href="packages.html">Private Styling Packages</a>
 </div></li>

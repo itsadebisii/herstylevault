@@ -65,8 +65,9 @@ exports.handler = async (event) => {
       isBase64Encoded: true,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="' + FILENAME + '"',
-        'Cache-Control': 'private, no-store',
+        'Content-Disposition': 'attachment; filename="' + FILENAME + '"; filename*=UTF-8\'\'' + FILENAME,
+        // not "no-store": Safari (especially on iPhone) can show the PDF but fail to save it when no-store is set
+        'Cache-Control': 'private, max-age=0, must-revalidate',
         'X-Robots-Tag': 'noindex'
       },
       body: pdf.toString('base64')
