@@ -71,6 +71,8 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
 .cover-title em{font-style:italic;color:var(--accent);}
 .returning-toggle{display:flex;gap:0.5rem;margin:0.9rem 0 0.9rem;}
 .returning-opt{flex:1;font-family:var(--font-body);font-size:0.76rem;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);padding:0.65rem 0.5rem;cursor:pointer;border-radius:6px;}
+.plan-q{font-family:var(--font-body);font-size:0.84rem;color:var(--ink);margin:1rem 0 0.4rem;font-weight:500;line-height:1.45;}
+.plan-note{font-size:12px;opacity:.75;margin:0.5rem 0 0.9rem;line-height:1.55;}
 .returning-opt.sel{border-color:var(--accent);background:var(--surface);color:var(--ink);font-weight:500;}
 .cover-sub{font-size:0.9rem;line-height:1.75;color:var(--ink-soft);margin-bottom:1.6rem;max-width:46ch;}
 .cover-btn{align-self:flex-start;}
@@ -132,6 +134,7 @@ const A = {}; // answers
 let name = '';
 let email = '';
 let returningClient = false;
+let planToBook = ''; // 'yes' | 'no' | '' (not chosen yet)
 let freeText = '';
 let photoBase64 = null;
 let photoMediaType = null;
@@ -406,7 +409,13 @@ function render() {
         <input type="text" class="nameinput" id="name-field" placeholder="First name" value="${name}" autocomplete="given-name">
         <input type="email" class="nameinput" id="email-field" placeholder="Email address" value="${email}" autocomplete="email">
         <p class="field-note" style="font-size:12px;opacity:.7;margin:.2rem 0 .8rem;line-height:1.5;">By starting, you agree to receive your report and occasional style tips by email. Unsubscribe anytime.</p>
-        <p class="field-err" id="start-err" style="display:none;">Please add your first name and a valid email so we can send your report.</p>
+        <p class="plan-q">Do you think you might book a styling session with us in the future?</p>
+        <div class="returning-toggle" style="margin-top:0">
+          <button type="button" class="returning-opt ${planToBook === 'yes' ? 'sel' : ''}" id="plan-yes-btn">Yes, I might</button>
+          <button type="button" class="returning-opt ${planToBook === 'no' ? 'sel' : ''}" id="plan-no-btn">No, just the report</button>
+        </div>
+        <p class="plan-note">${planToBook === 'yes' ? 'Great. We will keep your answers and results on file. When you book, we will ask if you want to use this report as your starting point or run a new analysis. If you feel your answers would be different now, a new analysis is a good choice.' : planToBook === 'no' ? 'No problem. We will keep only your name and email. Your answers and results are not saved with us. If you book later, we will do your analysis in your session.' : 'Your answer decides what we keep. Yes: we keep your answers and results so you do not have to start over. No: we keep only your name and email.'}</p>
+        <p class="field-err" id="start-err" style="display:none;">Please add your first name, a valid email, and choose Yes or No above so we can send your report.</p>
         <div class="returning-toggle">
           <button type="button" class="returning-opt ${!returningClient ? 'sel' : ''}" id="first-time-btn">First time here</button>
           <button type="button" class="returning-opt ${returningClient ? 'sel' : ''}" id="returning-btn">I've booked before</button>
@@ -724,7 +733,7 @@ function attachHandlers(f) {
     const nf = document.getElementById('name-field'), ef = document.getElementById('email-field');
     name = (nf && nf.value.trim()) || '';
     email = (ef && ef.value.trim()) || '';
-    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { const er = document.getElementById('start-err'); if (er) er.style.display = 'block'; return; }
+    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || !planToBook) { const er = document.getElementById('start-err'); if (er) er.style.display = 'block'; return; }
     sendLead('started');
     step++; render();
   });
@@ -737,6 +746,10 @@ function attachHandlers(f) {
   if (emailField) emailField.addEventListener('input', (e) => { email = e.target.value; });
   const firstTimeBtn = document.getElementById('first-time-btn');
   if (firstTimeBtn) firstTimeBtn.addEventListener('click', () => { returningClient = false; render(); });
+  const planYes = document.getElementById('plan-yes-btn');
+  if (planYes) planYes.addEventListener('click', () => { planToBook = 'yes'; render(); });
+  const planNo = document.getElementById('plan-no-btn');
+  if (planNo) planNo.addEventListener('click', () => { planToBook = 'no'; render(); });
   const returningBtn = document.getElementById('returning-btn');
   if (returningBtn) returningBtn.addEventListener('click', () => { returningClient = true; render(); });
 
@@ -781,6 +794,20 @@ function onNext() {
   render();
 }
 
+// What we keep depends on the "might you book?" answer.
+// No  -> name and email only (plus the choice itself). Answers and results are not sent to the sheet.
+// Yes -> also the answers and results, so we can offer to reuse them at the consultation or first session. The photo is never sent.
+function leadPayload(stage, p) {
+  const base = { stage: stage || 'payment', name, email, planToBook: planToBook || '', keepResults: planToBook === 'yes' ? 'yes' : 'no', createdAt: new Date().toISOString() };
+  if (planToBook !== 'yes') return base;
+  return Object.assign(base, {
+    ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name,
+    depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '',
+    shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '',
+    answers: JSON.stringify(A), notes: freeText || ''
+  });
+}
+
 function sendLead(stage) {
   // Fire-and-forget: never awaited, never throws, and skipped entirely when no webhook URL is set.
   try {
@@ -789,13 +816,13 @@ function sendLead(stage) {
     try { if (A.ageBracket && A.pq1 && A.pq2 && A.pq3) p = computePersona(A); } catch (e) {}
     fetch(GOOGLE_SHEET_WEBHOOK_URL, {
       method: 'POST', mode: 'no-cors', keepalive: true,
-      body: JSON.stringify({ stage: stage || 'payment', name, email, ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name, depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '', shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '', createdAt: new Date().toISOString() })
+      body: JSON.stringify(leadPayload(stage, p))
     }).catch(function () {});
   } catch (e) {}
 }
 
 function submitAndPay() {
-  const data = { name, email, returningClient, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
+  const data = { name, email, returningClient, planToBook, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
