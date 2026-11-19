@@ -9,7 +9,7 @@ CARD = {'index.html': 'home', 'about.html': 'about', 'book.html': 'book', 'packa
         'faq.html': 'faq', 'how-it-works.html': 'how-it-works', 'what-to-expect.html': 'what-to-expect',
         'what-to-expect-services.html': 'what-to-expect-services', 'policies.html': 'policies',
         'digital-signature-style-report.html': 'digital-signature-style-report',
-        'digital-wardrobe-detox-series.html': 'digital-wardrobe-detox-series',
+        'digital-wardrobe-detox-bundle.html': 'digital-wardrobe-detox-bundle',
         'digital-coloring-book.html': 'digital-coloring-book',
         'package-unlock.html': 'package-unlock', 'package-vault-edit.html': 'package-vault-edit', 'package-full-reveal.html': 'package-full-reveal',
         'service-occasion-edit.html': 'service-occasion-edit', 'service-ensemble.html': 'service-ensemble',

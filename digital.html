@@ -39,10 +39,12 @@
     var opts = list(p.options), oi = opts ? Math.min(optIdx, opts.length - 1) : 0, o = opts ? opts[oi] : {};
     var view = digitalView(p, oi);
     var cat = digitalCat(p), soon = digitalSoon(view), cta = view.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
+    if (!window.HSV_SLUG) { /* the built product pages already carry their own title and description */
     document.title = p.name + ' | HerStyleVault';
-    var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', plain(p.short || p.lead));
-    var ogt = document.querySelector('meta[property="og:title"]'); if (ogt) ogt.setAttribute('content', p.name + ' | HerStyleVault');
-    var ogd = document.querySelector('meta[property="og:description"]'); if (ogd) ogd.setAttribute('content', plain(p.short || p.lead));
+      var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', plain(p.short || p.lead));
+      var ogt = document.querySelector('meta[property="og:title"]'); if (ogt) ogt.setAttribute('content', p.name + ' | HerStyleVault');
+      var ogd = document.querySelector('meta[property="og:description"]'); if (ogd) ogd.setAttribute('content', plain(p.short || p.lead));
+    }
     var others = all.filter(function(d){ return d !== p; });
     var assure = (view.meta || 'Instant delivery · One-time payment').split(' · ');
     var buy = soon

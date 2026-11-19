@@ -51,7 +51,7 @@ var OFFERS = [
     short: '5 sessions, 10 outfits, in-person shopping trips',
     headline: 'The full overhaul, <em>in person</em>',
     lead: 'A closet audit, three real shopping trips together, and ten complete outfit builds, ending in a try-on reveal of every final look.',
-    includes: ['10 complete outfit builds', 'Full closet audit, done in person', 'Three in-person shopping trips', 'The full Wardrobe Detox Series (the 11-page Guide and the Checklist)', 'Follow-up check-in call included', 'Your style guide PDF, delivered 1–2 weeks after your final session', 'Before and after photos and short video, part of this package'],
+    includes: ['10 complete outfit builds', 'Full closet audit, done in person', 'Three in-person shopping trips', 'The full Wardrobe Detox Bundle (the 11-page Guide and the Checklist)', 'Follow-up check-in call included', 'Your style guide PDF, delivered 1–2 weeks after your final session', 'Before and after photos and short video, part of this package'],
     steps: [
       ['Free consultation (first-time clients)', 'Fill out the intake form and book your free 30-minute call on Google Meet or Zoom. No commitment.'],
       ['Five sessions', 'Session 1 (up to 2 hours): the breakdown, closet audit and planning. Sessions 2 to 4 (up to 2–3 hours each): in-person shopping trips. Session 5 (up to 1 hour): The Reveal, trying on every final look together.'],
@@ -149,7 +149,7 @@ var OFFERS = [
     ],
     faqs: [
       ['Where is it available?', 'In person, free of travel fees within 1 hour of Boston or Southern NH. A $25 travel fee applies for 1 to 2.5 hours. Farther than that, email me first.'],
-      ['Is this the same as The Wardrobe Detox Series?', 'No. The service is in person with me. The Series (the Guide and the Checklist) is the do-it-yourself version. The Full Reveal includes the whole Series, and The Vault Edit includes the Checklist.'],
+      ['Is this the same as The Wardrobe Detox Bundle?', 'No. The service is in person with me. The Bundle (the Guide and the Checklist) is the do-it-yourself version. The Full Reveal includes the whole Bundle, and The Vault Edit includes the Checklist.'],
       ['How far ahead should I book?', 'At least 1 week ahead.']
     ]
   }

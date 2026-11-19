@@ -178,12 +178,12 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
   var R = {
     unlock:   {n:'The Unlock', p:'$225', u:'package-unlock.html', t:'3 sessions and 5 complete outfits. A great place to start: you learn your colors and shape and leave with a plan.'},
     vault:    {n:'The Vault Edit', p:'$400', u:'package-vault-edit.html', t:'4 sessions and 7 outfits, plus the Wardrobe Detox Checklist. Our most popular package.'},
-    reveal:   {n:'The Full Reveal', p:'$725', u:'package-full-reveal.html', t:'5 in-person sessions: a closet audit, three shopping trips and 10 outfits, plus the full Wardrobe Detox Series and a try-on reveal.'},
+    reveal:   {n:'The Full Reveal', p:'$725', u:'package-full-reveal.html', t:'5 in-person sessions: a closet audit, three shopping trips and 10 outfits, plus the full Wardrobe Detox Bundle and a try-on reveal.'},
     occasion: {n:'Occasion Edit', p:'From $55', u:'service-occasion-edit.html', t:'Outfits for one event or trip, built around your style and emailed to you as a finished PDF.'},
     ensemble: {n:'The Ensemble', p:'From $95 per person', u:'service-ensemble.html', t:'Everyone in your group gets their own outfits, pulled around one shared vibe.'},
     mini:     {n:'The Mini Collection', p:'From $240', u:'service-mini-collection.html', t:'A small set of new pieces that all mix and match, sourced for you with shopping links.'},
     detox:    {n:'The Wardrobe Detox', p:'From $225', u:'service-wardrobe-detox.html', t:'I come to you and we declutter and reorganize your closet in one visit (near Boston and Southern NH).'},
-    guide:    {n:'The Wardrobe Detox Guide', p:'$28.99', u:'digital-wardrobe-detox-series.html', t:'An 11-page PDF with the step-by-step method to reset your closet on your own, today.'},
+    guide:    {n:'The Wardrobe Detox Guide', p:'$28.99', u:'digital-wardrobe-detox-bundle.html', t:'An 11-page PDF with the step-by-step method to reset your closet on your own, today.'},
     report:   {n:'Signature Style Report', p:'$40', u:'digital-signature-style-report.html', t:'Your color season, body shape and style persona in one custom report, ready in minutes.'},
     consult:  {n:'A free consultation', p:'Free', u:'book.html', t:'A free 30-minute call for first-time clients. We talk it through and I recommend what fits.'}
   };
