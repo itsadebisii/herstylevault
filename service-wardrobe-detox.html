@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="theme.css?v=1117431e">
 <link rel="preload" as="image" href="images/offers/the-wardrobe-detox.jpg" fetchpriority="high">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"The Wardrobe Detox","serviceType":"Personal styling service","description":"A full declutter and reorganize of your closet, done in person in one sitting.","url":"https://herstylevault.com/service-wardrobe-detox.html","image":"https://herstylevault.com/images/share/service-wardrobe-detox.jpg","provider":{"@id":"https://herstylevault.com/#business"},"areaServed":[{"@type":"AdministrativeArea","name":"Greater Boston, MA"},{"@type":"AdministrativeArea","name":"Northern Massachusetts"},{"@type":"AdministrativeArea","name":"Southern New Hampshire"},{"@type":"Country","name":"United States","description":"Virtual"}],"offers":{"@type":"AggregateOffer","priceCurrency":"USD","lowPrice":"225.00","highPrice":"450.00","offerCount":2,"offers":[{"@type":"Offer","name":"The Wardrobe Detox (Half Day)","price":"225","priceCurrency":"USD","url":"https://herstylevault.com/service-wardrobe-detox.html","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"The Wardrobe Detox (Full Day)","price":"450","priceCurrency":"USD","url":"https://herstylevault.com/service-wardrobe-detox.html","availability":"https://schema.org/InStock"}]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://herstylevault.com/"},{"@type":"ListItem","position":2,"name":"À La Carte Services","item":"https://herstylevault.com/services.html"},{"@type":"ListItem","position":3,"name":"The Wardrobe Detox","item":"https://herstylevault.com/service-wardrobe-detox.html"}]}</script>
@@ -35,10 +35,10 @@
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
 <main id="offerMain"><section class="band wrap offer-hero tone-stone" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="services.html">&Agrave; La Carte Services</a> / The Wardrobe Detox</p><h1 class="page-title"><span class="h1-kw">The Wardrobe Detox: À La Carte Service · In Person</span>Let's see what you're <em>working with</em></h1><p class="sub">A full declutter and reorganize of your closet, done in person in one sitting.</p><p class="price">From $225 <small>starting at</small></p><h2>What’s included</h2><ul><li>A full declutter and reorganize of your closet</li><li>Done in person, in one sitting</li><li>Booked directly: no consultation or package needed</li></ul><h2>How it works</h2><ol><li><b>Choose your day.</b> Half day or full day.</li><li><b>Fill out the form and pay.</b> Tell me about your closet and pick three dates at least 1 week out. Full payment is due before the visit.</li><li><b>We detox your closet.</b> I come to you and we work through it together.</li></ol><h2>Good to know</h2><p><b>Where is it available?</b><br>In person, free of travel fees within 1 hour of Boston or Southern NH. A $25 travel fee applies for 1 to 2.5 hours. Farther than that, email me first.</p><p><b>Is this the same as The Wardrobe Detox Guide?</b><br>No. The service is in person with me. The Guide is the do-it-yourself version, and it is included with The Vault Edit and The Full Reveal.</p><p><b>How far ahead should I book?</b><br>At least 1 week ahead.</p></section><section class="band stone dg-more wrap"><h2>You may also like</h2><ul><li><a href="service-occasion-edit.html">Occasion Edit</a></li><li><a href="service-ensemble.html">The Ensemble</a></li><li><a href="service-mini-collection.html">The Mini Collection</a></li></ul><p><a href="services.html">See all</a></p></section></main>
 <footer class="site"><div class="footer-mount"></div></footer>
-<script src="site.js"></script>
+<script src="site.js?v=92b87df3"></script>
 <script>window.HSV_SLUG = "the-wardrobe-detox";</script>
-<script src="offers.js"></script>
-<script src="offers-art.js"></script>
+<script src="offers.js?v=66a0fd5c"></script>
+<script src="offers-art.js?v=79fd4b76"></script>
 <script>
 (function(){
   var main = document.getElementById('offerMain'), tierIdx = 0, keepScroll = false;
@@ -80,6 +80,7 @@
       : '<div class="dg-price"><span class="price">' + o.from + '</span><span class="meta" style="margin:0;">' + o.fromNote + '</span></div>';
     var acc = [];
     acc.push(item(isSvc ? 'What\u2019s Included' : 'What\u2019s Included', '<ul class="dg-list">' + o.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>', true));
+    if (o.sessions) acc.push(item('Session by Session', '<ol class="dg-sessions">' + o.sessions.map(function(x){ return '<li><b>' + x[0] + '</b><span>' + x[1] + '</span></li>'; }).join('') + '</ol>', true));
     acc.push(item('How It Works', '<ol class="dg-ol">' + o.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
     acc.push(item('Good to Know', o.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
     var others = OFFERS.filter(function(x){ return x !== o && x.kind === o.kind; });

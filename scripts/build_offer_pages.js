@@ -53,6 +53,7 @@ ctx.__O.forEach((o) => {
     '<p class="sub">' + o.lead + '</p>' + (o.best ? '<p><em>' + o.best + '</em></p>' : '') +
     '<p class="price">' + (isSvc ? 'From ' : '') + o.from + ' <small>' + (o.fromNote || '') + '</small></p>' +
     '<h2>What’s included</h2><ul>' + li(o.includes) + '</ul>' +
+    (o.sessions ? '<h2>Session by session</h2><ol>' + o.sessions.map((x) => '<li><b>' + x[0] + '</b> ' + x[1] + '</li>').join('') + '</ol>' : '') +
     '<h2>How it works</h2><ol>' + (o.steps || []).map((s) => '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>').join('') + '</ol>' +
     '<h2>Good to know</h2>' + (o.faqs || []).map((f) => '<p><b>' + f[0] + '</b><br>' + f[1] + '</p>').join('') +
     '</section><section class="band stone dg-more wrap"><h2>You may also like</h2><ul>' +
