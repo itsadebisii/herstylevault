@@ -19,6 +19,7 @@ const NAV_HTML = `${TICKER_HTML}
 <a href="services.html">À La Carte Services</a>
 <a href="packages.html">Private Styling Packages</a>
 </div></li>
+<li><a href="lookbook.html">Lookbook</a></li>
 <li><a href="vault-digitals.html">Vault Digitals</a></li>
 <li><a href="locations.html">Locations</a></li>
 <li><a href="about.html">About</a></li>
@@ -48,6 +49,7 @@ const FOOTER_HTML = `<div class="wrap">
 <li><a href="packages.html">Private Styling Packages</a></li>
 <li><a href="services.html">À La Carte Services</a></li>
 <li><a href="vault-digitals.html">Vault Digitals</a></li>
+<li><a href="lookbook.html">Lookbook</a></li>
 </ul>
 </div>
 <div class="footer-col">

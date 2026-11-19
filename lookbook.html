@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Lookbook | HerStyleVault</title>
 <meta name="description" content="Style boards, before and afters and styling videos from HerStyleVault, a personal stylist in Boston, MA and Southern NH.">
-<meta name="robots" content="noindex, nofollow">
 <meta name="author" content="HerStyleVault">
 <meta property="og:title" content="The Lookbook | HerStyleVault">
 <meta property="og:description" content="Style boards, before and afters and styling videos from HerStyleVault, a personal stylist in Boston, MA and Southern NH.">
@@ -22,13 +21,13 @@
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
 
 <section class="band wrap">
-<p class="eyebrow center">Portfolio</p>
+<p class="eyebrow center">Style Boards</p>
 <h1 class="page-title center">The <em>Lookbook</em></h1>
-<p class="sub center" style="margin:0 auto 2rem;">Style boards, before and afters, and styling videos, all in one place.</p>
-<div class="look-filters" id="lookFilters"></div>
-<div class="look-grid" id="lookGrid"></div>
-<p class="sub center" style="margin:2.4rem auto 0;font-size:13px;color:var(--ink-soft);">Client photos and videos are only shared with the client's explicit written permission. The style boards above are sample concept capsules, and real client work is added as it is published.</p>
-<div class="cta-row"><a class="btn btn-primary" href="services.html">Book a Service</a> <a class="btn btn-secondary" href="book.html">Free Consultation</a></div>
+<p class="sub center" style="margin:0 auto 2.2rem;">Sample HerStyleVault Edit boards: one occasion, one complete look, built around color and shape. Tap a board to see it bigger.</p>
+<div class="look-grid look-two" id="lookGrid"></div>
+<p class="sub center" style="margin:2.4rem auto 0;font-size:13px;color:var(--ink-soft);">These are sample style boards. Client photos and videos are only shared with the client's written permission.</p>
+<p class="sub center" style="margin:1.6rem auto 0;">Want a look like this for your next event?</p>
+<div class="cta-row"><a class="btn btn-primary" href="offer.html#occasion-edit">Book an Occasion Edit</a> <a class="btn btn-secondary" href="book.html">Free Consultation</a></div>
 </section>
 
 <footer class="site"><div class="footer-mount"></div></footer>
@@ -36,30 +35,22 @@
 <script src="lookbook.js"></script>
 <script>
 (function(){
-  var types = []; LOOKBOOK.forEach(function(i){ if (types.indexOf(i.type) < 0) types.push(i.type); });
-  var filters = document.getElementById('lookFilters'), grid = document.getElementById('lookGrid');
-  function sheetHtml(s){
-    var sw = s.swatches.map(function(h){ return '<div class="sh-sw"><i style="background:' + h + '"></i><b>' + h.toUpperCase() + '</b></div>'; }).join('');
-    var rows = s.rows.map(function(r){ return '<li><span>' + r[0] + '</span>' + r[1] + '</li>'; }).join('');
-    return '<div class="board-sheet-in"><p class="sh-eyebrow">' + s.eyebrow + '</p><div class="sh-swatches">' + sw + '</div><div class="sh-art">' + LOOK_ART[s.art] + '<em class="sh-rule"></em></div><ul class="sh-formula">' + rows + '</ul></div>';
-  }
-  function tile(i){
-    var media = i.video ? '<video controls preload="metadata" src="' + i.video + '"></video>'
-      : i.image ? '<img src="' + i.image + '" alt="' + i.title + '">'
-      : i.sheet ? sheetHtml(i.sheet) : '<span class="look-ph">' + (i.type === 'Videos' ? '<i class="look-play"></i>' : '') + i.label + '</span>';
-    return '<div class="look-tile" data-type="' + i.type + '"><div class="board-frame look-frame' + (i.sheet && !i.image && !i.video ? ' board-sheet' : '') + '">' + media + '</div>' +
-      '<div class="board-name">' + i.title + '</div><p class="board-caption">' + i.caption + '</p>' +
-      '<p class="look-cta">Want looks like this for your exact proportions? <a href="services.html">Explore Services</a><span> · </span><a href="vault-digitals.html">Find your color season first</a></p></div>';
-  }
-  grid.innerHTML = LOOKBOOK.map(tile).join('');
-  if (types.length > 1) {
-    filters.innerHTML = ['All'].concat(types).map(function(t,n){ return '<button type="button" class="look-filter' + (n===0?' active':'') + '" data-t="' + t + '">' + t + '</button>'; }).join('');
-    filters.addEventListener('click', function(e){
-      var b = e.target.closest('.look-filter'); if(!b) return;
-      filters.querySelectorAll('.look-filter').forEach(function(x){ x.classList.toggle('active', x === b); });
-      grid.querySelectorAll('.look-tile').forEach(function(t){ t.hidden = !(b.dataset.t === 'All' || t.dataset.type === b.dataset.t); });
-    });
-  }
+  var grid = document.getElementById('lookGrid');
+  grid.innerHTML = LOOKBOOK.map(function(i, n){
+    return '<div class="look-tile"><button type="button" class="board-frame look-frame look-open" data-n="' + n + '" aria-label="View bigger: ' + i.title + '"><img src="' + i.image + '" alt="' + i.alt + '" loading="lazy"></button>' +
+      '<div class="board-name">' + i.title + '</div><p class="board-caption">' + i.caption + '</p></div>';
+  }).join('');
+  function close(){ var m = document.getElementById('lookBox'); if (m) { m.parentNode.removeChild(m); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); } }
+  function esc(e){ if (e.key === 'Escape') close(); }
+  grid.addEventListener('click', function(e){
+    var b = e.target.closest('.look-open'); if (!b) return;
+    var i = LOOKBOOK[+b.getAttribute('data-n')];
+    var m = document.createElement('div'); m.id = 'lookBox'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
+    m.innerHTML = '<div class="lb-in"><button type="button" class="lb-x" aria-label="Close">\u00d7</button><img src="' + i.image + '" alt="' + i.alt + '"><p>' + i.title + '</p></div>';
+    m.addEventListener('click', function(ev){ if (ev.target === m || ev.target.classList.contains('lb-x')) close(); });
+    document.addEventListener('keydown', esc);
+    document.body.appendChild(m); document.body.style.overflow = 'hidden';
+  });
 })();
 </script>
 </body>
