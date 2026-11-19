@@ -8,6 +8,7 @@
      category     'reports' | 'guides'  (drives filter tabs, eyebrow, cover tone)
      status       'live' (default) | 'coming-soon' (card shows a badge, no link, no buy button)
                   | 'hidden' (kept in this file but not shown anywhere)
+     cardCover    optional cover image used on the shop cards only (the details page keeps each option's own cover)
      eyebrow      optional small label above the title instead of the category (e.g. 'Wardrobe Detox Series')
      coverImage   optional 4:5 image path. Without it, a styled editorial cover is generated.
      coverTone    optional 'stone' (Cool Stone) | 'noir' (Bordeaux Noir). Default: reports=stone, guides=noir
@@ -75,6 +76,7 @@ var DIGITALS = [
     slug: 'wardrobe-detox-series',
     name: 'The Wardrobe Detox Series',
     eyebrow: 'Wardrobe Detox Series',
+    cardCover: 'images/digitals/detox-series-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
     category: 'guides', status: 'live',
     buyLabel: 'Reset My Closet', /* the card button; it opens a small "which one?" chooser built from options below */
     soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Series%20updates' },
@@ -220,7 +222,7 @@ function digitalCover(p){
    A product with options shows one button that opens a "which one?" chooser. */
 function digitalCard(p){
   var url = digitalUrl(p), opts = p.options, v0 = digitalView(p, 0);
-  var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(opts ? v0 : p) + '</a>';
+  var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(p.cardCover ? { coverImage: p.cardCover, name: p.name, category: p.category } : (opts ? v0 : p)) + '</a>';
   var prices = '', buy;
   if (opts) {
     buy = '<button type="button" class="btn btn-primary vd-buy" data-vd-choose aria-expanded="false">' + (p.buyLabel || 'Buy Now') + '</button>' +
@@ -250,7 +252,7 @@ document.addEventListener('click', function(e){
 /* compact card for "More From Vault Digitals": small cover, title, price, hover "Discover" */
 function digitalMini(p){
   var soon = p.options ? digitalSoon(digitalView(p, 0)) && digitalSoon(digitalView(p, 1)) : digitalSoon(p);
-  var inner = '<div class="vd-thumb">' + digitalCover(p.options ? digitalView(p, 0) : p) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
+  var inner = '<div class="vd-thumb">' + digitalCover(p.cardCover ? { coverImage: p.cardCover, name: p.name, category: p.category } : (p.options ? digitalView(p, 0) : p)) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
     '<div class="vd-mini-body"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p><h3 class="card-title">' + p.name + '</h3>' +
     '<p class="vd-mini-meta">' + (digitalView(p, 0).price ? '<span class="price">' + digitalView(p, 0).price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
   return '<a class="vd-mini' + (soon ? ' is-soon' : '') + '" href="' + digitalUrl(p) + '">' + inner + '</a>';

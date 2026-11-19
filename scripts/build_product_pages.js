@@ -17,7 +17,7 @@ ctx.__D.filter((d) => d.live !== false && d.status !== 'hidden').forEach((p) => 
   const title = plain(p.name) + ' | HerStyleVault';
   const desc = plain(p.short || p.lead);
   const v0 = ctx.__view(p, 0);
-  const img = SITE + '/' + (v0.coverImage || 'images/Hero_Closet.jpg');
+  const img = SITE + '/' + (p.cardCover || v0.coverImage || 'images/Hero_Closet.jpg');
   const priceNum = String(v0.price || '').replace(/[^0-9.]/g, '');
   const soon = ctx.__soon(v0);
   const ld = { '@context': 'https://schema.org', '@type': 'Product', name: plain(p.name), description: plain(p.lead || p.short), image: img, brand: { '@type': 'Brand', name: 'HerStyleVault' }, url };
