@@ -45,7 +45,7 @@
     var others = all.filter(function(d){ return d !== p; });
     var assure = (view.meta || 'Instant delivery · One-time payment').split(' · ');
     var buy = soon
-      ? ((view.soonCta || p.soonCta) ? '<a class="btn btn-primary" href="' + (view.soonCta || p.soonCta).href + '">' + (view.soonCta || p.soonCta).label + '</a>' : '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>') + '<p class="meta">Not available to buy yet. Check back soon.</p>'
+      ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span><p class="meta">Not available to buy yet.' + ((view.soonCta || p.soonCta) ? ' <a href="' + (view.soonCta || p.soonCta).href + '">' + (view.soonCta || p.soonCta).label + '</a>' : ' Check back soon.') + '</p>'
       : '<a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a><ul class="dg-assure">' + assure.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
 
     /* flipper slides: cover first, then any sneak-peek pages */
