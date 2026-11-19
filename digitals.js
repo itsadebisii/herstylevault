@@ -34,8 +34,8 @@ var DIGITALS = [
     coverImage: 'images/digitals/report-cover.jpg',
     previews: [
       {src:'images/digitals/report-page-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
-      {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your color type and accessory guide', locked:true},
       {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
+      {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your color type and accessory guide', locked:true},
       {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: silhouettes, shopping links and fabrics', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
@@ -96,6 +96,7 @@ var DIGITALS = [
           {src:'images/digitals/detox-guide-p5.jpg', alt:'Sample guide page: the Closet Reset visual guide to grouping by category and color flow'},
           {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
           {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'},
+          {src:'images/digitals/detox-guide-b8.jpg', alt:'Blurred guide page: the Selling Workflow and platform cheat sheet', locked:true},
           {src:'images/digitals/detox-guide-b2.jpg', alt:'Blurred guide page: How It Works', locked:true}
         ], /* sneak peek pages; slide 1 is always the cover */
         price: '$28.99', priceNote: 'one-time',
