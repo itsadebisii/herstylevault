@@ -139,6 +139,13 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-arch{width:68px;height:76px;border-radius:34px 34px 5px 5px;border:3px solid #CDBBA8;margin:0 auto 0.4rem;background-clip:padding-box;}
 .pdf-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.4rem;}
 .pdf-chip{display:inline-block;padding:0.25rem 0.75rem;border:1px solid #DCD8D0;border-radius:999px;font-size:0.66rem;line-height:1.35;color:#7A1321;background:#FAF9F6;text-decoration:none;}
+.pdf-tight .pdf-box{padding:0.7rem 1.1rem;margin-bottom:0.6rem;}
+.pdf-tight .pdf-section-label{margin:0.95rem 0 0.4rem;}
+.pdf-tight .pdf-colorband{padding:1rem 1.4rem;margin-bottom:1rem;}
+.pdf-tight .pdf-bub{padding-top:0.4rem;padding-bottom:0.4rem;}
+.pdf-tight .pdf-h1{font-size:2.2rem;}
+.pdf-tight .pdf-blk-n{margin-top:14px;padding-top:14px;}
+.pdf-tight .pdf-gl-t{margin-top:0.6rem;}
 .pdf-credit{background:#FAF9F6;border:1px solid #DCD8D0;padding:1.2rem 1.6rem;max-width:560px;margin:1.4rem 0;text-align:left;line-height:1.7;font-size:0.85rem;color:#3F3C38;}
 .pdf-credit strong{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#7A1321;font-weight:500;display:block;margin-bottom:0.3rem;}
 </style>
@@ -308,14 +315,26 @@ function makeBlocks(r){
     +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
   return L;
 }
+/* Make sure the web fonts are really loaded before anything is measured or photographed.
+   Some phones report "ready" before the fonts have even started loading, which made the page planner measure with the wrong text size. */
+async function loadFonts(){
+  try{
+    if(!document.fonts||!document.fonts.load)return;
+    const faces=['400 16px "Plus Jakarta Sans"','500 16px "Plus Jakarta Sans"','600 16px "Plus Jakarta Sans"','400 16px "Cormorant Garamond"','500 16px "Cormorant Garamond"','600 16px "Cormorant Garamond"','italic 400 16px "Cormorant Garamond"','italic 500 16px "Cormorant Garamond"'];
+    await Promise.race([Promise.all(faces.map(f=>document.fonts.load(f,'AaBb \u00b7 123'))),new Promise(r=>setTimeout(r,6000))]);
+    if(document.fonts.ready)await document.fonts.ready;
+    await new Promise(r=>setTimeout(r,60));
+  }catch(e){}
+}
 let LAYOUT=null;
 async function layoutPages(r){
+  await loadFonts();
   /* The two extras (palette strip on page 3, silhouette lineup on page 4) are only kept when they fit; otherwise the page keeps its normal look. */
-  r.__x={glance:true,lineup:true,ribbon:true};
+  r.__x={glance:true,lineup:true,ribbon:true};r.__tight=false;
   let blocks,pages;
-  for(let pass=0;pass<3;pass++){
+  for(let pass=0;pass<4;pass++){
     blocks=makeBlocks(r);
-    const host=document.createElement('div');host.className='pdf-page';host.style.cssText='position:absolute;left:-10000px;top:0;height:auto;overflow:visible;';
+    const host=document.createElement('div');host.className='pdf-page'+(r.__tight?' pdf-tight':'');host.style.cssText='position:absolute;left:-10000px;top:0;height:auto;overflow:visible;';
     host.innerHTML=blocks.map(b=>'<div class="pdf-blk">'+b.html+'</div>').join('');document.body.appendChild(host);
     try{
       if(document.fonts&&document.fonts.ready)await document.fonts.ready;
@@ -327,15 +346,19 @@ async function layoutPages(r){
     blocks.forEach(b=>{const need=cur.length?b.h+BLK_GAP:b.h;if(cur.length&&used+need>PAGE_CAP){pages.push(cur);cur=[b];used=b.h;}else{cur.push(b);used+=need;}});
     if(cur.length)pages.push(cur);
     const H=k=>(blocks.find(b=>b.key===k)||{h:0}).h;
-    const split=pages.every(pg=>!(pg.some(b=>b.key==='colortype')&&!pg.some(b=>b.key==='guidance')));
-    let changed=false;
-    if(r.__x.glance&&(!split||H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP)){r.__x.glance=false;changed=true;}
-    if(r.__x.lineup&&H('body')>PAGE_CAP){r.__x.lineup=false;changed=true;}
     const pgOf=k=>pages.findIndex(pg=>pg.some(b=>b.key===k));
-    if(r.__x.ribbon&&blocks.some(b=>b.key==='persona')&&pgOf('persona')!==pgOf('palette')){r.__x.ribbon=false;changed=true;}
+    let changed=false;
+    /* First try tighter spacing so the extras still fit; only then give an extra up */
+    const wantTight=(r.__x.glance&&H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP)||(r.__x.ribbon&&blocks.some(b=>b.key==='persona')&&pgOf('persona')!==pgOf('palette'));
+    if(!r.__tight&&wantTight){r.__tight=true;changed=true;}
+    else{
+      if(r.__x.glance&&H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP&&pgOf('colortype')===pgOf('guidance')){r.__x.glance=false;changed=true;}
+      if(r.__x.lineup&&H('body')>PAGE_CAP){r.__x.lineup=false;changed=true;}
+      if(r.__x.ribbon&&blocks.some(b=>b.key==='persona')&&pgOf('persona')!==pgOf('palette')){r.__x.ribbon=false;changed=true;}
+    }
     if(!changed)break;
   }
-  window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ')+' | extras:'+JSON.stringify(r.__x);
+  window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ')+' | extras:'+JSON.stringify(r.__x)+' tight:'+r.__tight;
   LAYOUT=pages.map(pg=>pg.map(b=>b.key));
 }
 function buildPages(r){
@@ -347,7 +370,7 @@ function buildPages(r){
   pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="images/report-cover-sig.jpg" alt="">'));
   (LAYOUT||blocks.map(b=>[b.key])).forEach(keys=>{
     const bs=keys.map(k=>byKey[k]);
-    pages.push(pdfPage('',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
+    pages.push(pdfPage(r.__tight?'pdf-tight':'',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
   });
   pages.push(pdfPage('pdf-closing','<div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
     +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 45 days (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>'
@@ -375,7 +398,7 @@ async function buildPdf(){
   try{
     root.innerHTML=buildPages(REPORT).join('');
     await new Promise(r=>setTimeout(r,80));
-    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await loadFonts();
     const els=root.querySelectorAll('.pdf-page');const {jsPDF}=window.jspdf;
     const pdf=new jsPDF({unit:'px',format:[816,1056],compress:true});
     pdf.setProperties({title:'Signature Style Report',subject:'Your personalized color and body style report',author:'HerStyleVault',creator:'HerStyleVault'});
