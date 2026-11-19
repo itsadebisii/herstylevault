@@ -38,7 +38,17 @@ var DIGITALS = [
     short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
     lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
-    includes: ['Your color season, identified from 12 seasons', 'Your body shape, identified from 5 shapes', 'Your palette and the colors to avoid', 'Your style persona, so your wardrobe sounds like you', 'Styling rules for your shape, written for your answers'],
+    includes: [
+      'Your color season, picked from 12 seasons, and why it is yours',
+      'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors',
+      'The colors to avoid, shown as swatches',
+      'Your body shape, picked from 5 shapes, with your styling goal',
+      'The silhouettes, bottoms and necklines that flatter you, plus what to step back from',
+      'Your style persona, with a 3-piece signature formula and a rule you are allowed to break',
+      'The best fabrics for you, and an accessory styling guide',
+      'Live store links for your colors and cuts, matched to your price range',
+      'A $40 credit toward any 1:1 package when you book within 45 days'
+    ],
     steps: [
       ['Answer 23 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
       ['Add a Photo', "Optional, but it sharpens your color and shape read. Skip it if you'd rather not."],
@@ -53,7 +63,7 @@ var DIGITALS = [
       ['How long does it take?', 'About 3 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
-      ['What does it cost?', '$40, one-time. No subscription, no hidden extras.']
+      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 45 days, the $40 comes off it.']
     ],
     buyLabel: 'Start Style Analysis',
     cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },
@@ -83,12 +93,13 @@ var DIGITALS = [
         ], /* sneak peek pages; slide 1 is always the cover */
         price: '$28.99', priceNote: 'one-time',
         includes: [
-          'A zone-by-zone method for your closet, drawers, shoes and bags',
+          'A zone-by-zone method for your closet, drawers, shoes and purses',
           'The Keep, Sell, Donate system, with a bag labeling guide and a three-question quick check',
           'HerStyleVault’s Golden Rule for letting go, so you stop second-guessing',
           'The Closet Reset Checklist and a visual guide to grouping by category and color',
           'The Flat-Roll Method for drawers you can see into at a glance',
-          'Hanger and storage picks I actually recommend',
+          'Simple fixes for floor clutter: shoe, bag and doorway drop-zone systems',
+          'Hanger and storage picks I actually recommend, with links',
           'A selling workflow and platform cheat sheet for what you’re ready to let go',
           'A printable Wardrobe Gap Builder, so you only shop for what completes your outfits',
           'Simple weekly and yearly habits to keep it clutter-free'
