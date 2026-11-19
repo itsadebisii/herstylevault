@@ -756,3 +756,27 @@ h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;
 .vd-card.tone-wine .vd-desc,.vd-card.tone-wine .meta{color:var(--ink-soft);}
 .vd-card.tone-wine .btn-primary{background:#FAF9F6; color:#4E0B14;}
 .vd-card.tone-wine .vd-peek{color:#FAF9F6;}
+
+/* ---------- phone layout: shorter, easier to scroll ---------- */
+@media (max-width:620px){
+  .svc-grid[data-view="1"]{max-width:none;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"]{display:grid; grid-template-columns:104px minmax(0,1fr); column-gap:14px; align-items:start; padding:12px;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"] .vd-media{grid-column:1; grid-row:1;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"] .vd-body{grid-column:2; grid-row:1; min-width:0; gap:.35rem;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"] .vd-toprow{flex-direction:column; align-items:flex-start; gap:.35rem;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"] .vd-eyebrow{font-size:9.5px; letter-spacing:.1em;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"] .card-title{font-size:22px; line-height:1.15;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"] .vd-desc{font-size:13px;}
+  .svc-grid[data-view="1"]>.vd-card[class*="tone-"] .vd-buy{font-size:12.5px; padding:.7rem .6rem; width:100%; text-align:center;}
+  .cmp{min-width:0; font-size:12.5px;}
+  .cmp th,.cmp td{padding:.55rem .3rem;}
+  .cmp thead th{font-size:.98rem;}
+  .cmp tbody th{width:34%;}
+  .offer-hero .dg-media{max-width:210px; margin:0 auto .4rem;}
+  .offer-hero .dg-hero{gap:1rem;}
+  .offer-hero .dg-info{position:static;}
+}
+@media (max-width:620px){
+  #packages .pkg-card>ul{display:none;}
+  #packages .pkg-card .price{margin-top:-.2rem;}
+}

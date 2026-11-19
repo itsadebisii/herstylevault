@@ -49,7 +49,7 @@ ctx.__O.forEach((o) => {
   const others = ctx.__O.filter((x) => x !== o && x.kind === o.kind);
   const stat = '<section class="band wrap offer-hero tone-' + (o.tone || 'cream') + '" style="padding-bottom:clamp(2rem,4vw,3rem);">' +
     '<p class="crumb"><a href="' + listUrl + '">' + listName.replace('À', '&Agrave;') + '</a> / ' + nameH + '</p>' +
-    '<h1 class="page-title"><span class="h1-kw">' + nameH + ': ' + (isSvc ? 'Personal Styling Service' : 'Personal Styling Package') + '</span>' + o.headline + '</h1>' +
+    '<h1 class="page-title"><span class="h1-kw">' + nameH + ': ' + plain(o.tag).replace(/&/g, '&amp;') + '</span>' + o.headline + '</h1>' +
     '<p class="sub">' + o.lead + '</p>' +
     '<p class="price">' + (isSvc ? 'From ' : '') + o.from + ' <small>' + (o.fromNote || '') + '</small></p>' +
     '<h2>What’s included</h2><ul>' + li(o.includes) + '</ul>' +
