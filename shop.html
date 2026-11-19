@@ -68,7 +68,7 @@
       '<h3 class="card-title">' + o.name + '</h3>' +
       '<p class="sh-short">' + esc(o.short) + '</p>' +
       (meta ? '<p class="sh-meta">' + esc(meta) + '</p>' : '') +
-      '<div class="sh-foot"><span class="sh-from"><small>' + (o.kind === 'package' ? 'per package' : esc(o.fromNote)) + '</small><span class="price">' + esc(o.from) + '</span></span><span class="sh-go">View details →</span></div></a>';
+      '<div class="sh-foot"><span class="sh-from"><small>' + (o.kind === 'package' ? 'per package' : esc(o.fromNote)) + '</small><span class="price">' + esc(o.from) + '</span></span><span class="sh-go">Details <i aria-hidden="true">\u2192</i></span></div></a>';
   }
   function fill(id, kind){ document.getElementById(id).innerHTML = OFFERS.filter(function(o){ return o.kind === kind; }).map(card).join(''); }
   fill('shPackages', 'package'); fill('shServices', 'service');

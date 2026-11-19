@@ -16,7 +16,6 @@ const NAV_HTML = `${TICKER_HTML}
 <a class="wordmark" href="index.html">HerStyleVault</a>
 <ul class="nav-links" id="navLinks">
 <li class="has-dropdown"><a class="dd-label" href="packages.html">Services</a><div class="dropdown">
-<a href="what-to-expect.html">What to Expect</a>
 <a href="services.html">À La Carte Services</a>
 <a href="packages.html">Private Styling Packages</a>
 </div></li>
@@ -138,6 +137,35 @@ function applyBookButtons(){
     else { b.textContent = 'Request ' + b.dataset.service; }
   });
 }
+
+
+/* Service "Book" buttons open the Tally form as a pop-up on the same page, like the package forms on the Book page.
+   (Capture phase, so it also works for buttons that were drawn after the page loaded.)
+   If Tally's own pop-up script isn't available (blocked, slow, or an ad blocker), we open the same form inside our own pop-up instead of leaving the page. */
+function hsvFormModal(id, hidden){
+  var old = document.getElementById('hsvFormModal'); if (old) old.remove();
+  var q = ['hideTitle=1', 'transparentBackground=1', 'alignLeft=1'];
+  Object.keys(hidden || {}).forEach(function(k){ if (hidden[k]) q.push(encodeURIComponent(k) + '=' + encodeURIComponent(hidden[k])); });
+  var m = document.createElement('div'); m.id = 'hsvFormModal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
+  m.innerHTML = '<div class="fm-panel"><button type="button" class="fm-x" aria-label="Close">\u00d7</button>' +
+    '<iframe title="Booking form" src="https://tally.so/embed/' + id + '?' + q.join('&') + '"></iframe>' +
+    '<p class="fm-alt">Trouble loading? <a href="https://tally.so/r/' + id + '" target="_blank" rel="noopener">Open the form in a new tab</a></p></div>';
+  function close(){ m.remove(); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); }
+  function esc(e){ if (e.key === 'Escape') close(); }
+  m.addEventListener('click', function(e){ if (e.target === m || e.target.classList.contains('fm-x')) close(); });
+  document.addEventListener('keydown', esc);
+  document.body.appendChild(m); document.body.style.overflow = 'hidden';
+}
+document.addEventListener('click', function(e){
+  var b = e.target.closest && e.target.closest('.book-btn[data-tally-open]');
+  if (!b) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  var id = b.getAttribute('data-tally-open');
+  var hidden = { service: b.getAttribute('data-service') || '' };
+  if (b.getAttribute('data-tier')) hidden.tier = b.getAttribute('data-tier');
+  if (window.Tally && Tally.openPopup) Tally.openPopup(id, { layout: 'modal', width: parseInt(b.getAttribute('data-tally-width') || '700', 10), hiddenFields: hidden });
+  else hsvFormModal(id, hidden);
+}, true);
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 function hsvScrollTop(){ var h = location.hash.replace('#',''); if (!h || !document.getElementById(h)) window.scrollTo(0, 0); }

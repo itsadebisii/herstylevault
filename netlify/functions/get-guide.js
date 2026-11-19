@@ -20,7 +20,10 @@ async function verifyPurchase(sessionId) {
   });
   if (!r.ok) return { ok: false, code: 404, error: 'not_found' };
   const s = await r.json();
-  if (s.payment_status !== 'paid') return { ok: false, code: 402, error: 'not_paid' };
+  // 'no_payment_required' is what Stripe reports when a 100%-off code covers the whole order (your test purchases, or a copy you give away).
+  // It only counts once checkout is complete.
+  const settled = s.payment_status === 'paid' || (s.payment_status === 'no_payment_required' && s.status === 'complete');
+  if (!settled) return { ok: false, code: 402, error: 'not_paid' };
   const items = (s.line_items && s.line_items.data) || [];
   // The $40 Signature Style Report also uses Stripe, so make sure this purchase is really the guide.
   const isGuide = items.some((li) => li.price && li.price.unit_amount === GUIDE_PRICE_CENTS && li.price.currency === 'usd');
@@ -64,9 +67,10 @@ exports.handler = async (event) => {
       statusCode: 200,
       isBase64Encoded: true,
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="' + FILENAME + '"',
-        'Cache-Control': 'private, no-store',
+        'Content-Type': 'application/octet-stream', // forces a real download in Safari instead of opening a web page
+        'Content-Disposition': 'attachment; filename="' + FILENAME + '"; filename*=UTF-8\'\'' + FILENAME,
+        // not "no-store": Safari (especially on iPhone) can show the PDF but fail to save it when no-store is set
+        'Cache-Control': 'private, max-age=0, must-revalidate',
         'X-Robots-Tag': 'noindex'
       },
       body: pdf.toString('base64')

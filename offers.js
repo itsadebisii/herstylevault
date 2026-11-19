@@ -1,8 +1,9 @@
 /* ===== Package and service detail pages =====
    Each offer below gets its own page at offer.html#slug. Edit the words here and the page updates. */
+/* art = the line drawings on the cover picture (see offers-art.js). Add or change them freely. */
 var OFFERS = [
   {
-    slug: 'the-unlock', kind: 'package', name: 'The Unlock', tag: 'Private Styling Package',
+    slug: 'the-unlock', coverImage: 'images/offers/the-unlock.jpg', art: ['blazer'], kind: 'package', name: 'The Unlock', tag: 'Private Styling Package',
     from: '$225', fromNote: '/ package', meta: '3 sessions + free first-time consultation',
     short: '3 sessions, 5 complete outfit builds',
     headline: 'Find your style identity, <em>unlocked</em>',
@@ -24,7 +25,7 @@ var OFFERS = [
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
-    slug: 'the-vault-edit', kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
+    slug: 'the-vault-edit', coverImage: 'images/offers/the-vault-edit.jpg', art: ['blazer','trousers'], kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
     from: '$400', fromNote: '/ package', meta: '4 sessions + free first-time consultation',
     short: '4 sessions, 7 complete outfit builds',
     headline: 'Build a wardrobe with <em>purpose</em>',
@@ -45,7 +46,7 @@ var OFFERS = [
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
-    slug: 'the-full-reveal', kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
+    slug: 'the-full-reveal', coverImage: 'images/offers/the-full-reveal.jpg', art: ['dressBelted','heel','bag'], kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
     from: '$725', fromNote: '/ package', meta: '5 sessions + free first-time consultation',
     short: '5 sessions, 10 outfits, in-person shopping trips',
     headline: 'The full overhaul, <em>in person</em>',
@@ -64,9 +65,9 @@ var OFFERS = [
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
-    slug: 'occasion-edit', kind: 'service', name: 'Occasion Edit', tag: 'À La Carte Service', formKey: 'occasion',
+    slug: 'occasion-edit', coverImage: 'images/offers/occasion-edit.jpg', art: ['dressBelted'], kind: 'service', name: 'Occasion Edit', tag: 'À La Carte Service', formKey: 'occasion',
     from: '$55', fromNote: 'starting at', meta: 'Delivered by email as a PDF',
-    short: 'One event, every detail handled',
+    short: 'Outfits for the moments that matter',
     headline: 'One event, <em>every detail</em> handled',
     lead: "Tell me what it's for and walk in knowing exactly what to wear.",
     tiers: [
@@ -87,7 +88,7 @@ var OFFERS = [
     ]
   },
   {
-    slug: 'the-ensemble', kind: 'service', name: 'The Ensemble', tag: 'À La Carte Service', formKey: 'ensemble',
+    slug: 'the-ensemble', coverImage: 'images/offers/the-ensemble.jpg', art: ['wrap','coat'], kind: 'service', name: 'The Ensemble', tag: 'À La Carte Service', formKey: 'ensemble',
     from: '$95', fromNote: 'per person, starting at', meta: 'Delivered by email as a PDF',
     short: 'Getting dressed together, without the group-chat chaos',
     headline: 'Getting dressed together, <em>without the chaos</em>',
@@ -109,7 +110,7 @@ var OFFERS = [
     ]
   },
   {
-    slug: 'the-mini-collection', kind: 'service', name: 'The Mini Collection', tag: 'À La Carte Service', formKey: 'mini',
+    slug: 'the-mini-collection', coverImage: 'images/offers/the-mini-collection.jpg', art: ['topV','trousers','bag'], kind: 'service', name: 'The Mini Collection', tag: 'À La Carte Service', formKey: 'mini',
     from: '$240', fromNote: 'starting at', meta: 'Delivered by email as a PDF',
     short: 'A handful of pieces that do the work of a full closet',
     headline: 'A handful of pieces, <em>a full closet</em>',
@@ -131,7 +132,7 @@ var OFFERS = [
     ]
   },
   {
-    slug: 'the-wardrobe-detox', kind: 'service', name: 'The Wardrobe Detox', tag: 'À La Carte Service · In Person', formKey: 'detox',
+    slug: 'the-wardrobe-detox', coverImage: 'images/offers/the-wardrobe-detox.jpg', art: ['dress','coat','trousers'], kind: 'service', name: 'The Wardrobe Detox', tag: 'À La Carte Service · In Person', formKey: 'detox',
     from: '$225', fromNote: 'starting at', meta: 'In person · book 1 week ahead',
     short: 'A full declutter and reorganize, done in one sitting',
     headline: "Let's see what you're <em>working with</em>",

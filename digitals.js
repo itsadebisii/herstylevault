@@ -233,9 +233,9 @@ function digitalCard(p){
     buy = soon ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>'
                : '<a class="btn btn-primary vd-buy" href="' + (p.cta && p.cta.href) + '">' + (p.buyLabel || (p.cta && p.cta.label) || 'Buy Now') + '</a>';
   }
-  return '<div class="vd-card">' + cover + '<div class="vd-body"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p>' +
+  return '<div class="vd-card">' + cover + '<div class="vd-body"><div class="vd-toprow"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p><a class="vd-peek" href="' + url + '">Details <i aria-hidden="true">\u2192</i></a></div>' +
     '<h3 class="card-title">' + p.name + '</h3><p class="vd-desc">' + (p.short || '') + '</p>' + prices +
-    '<div class="vd-actions">' + buy + '<a class="vd-details" href="' + url + '">Details</a></div></div></div>';
+    '<div class="vd-actions">' + buy + '</div></div></div>';
 }
 document.addEventListener('click', function(e){
   var b = e.target.closest && e.target.closest('[data-vd-choose]'); if (!b) return;

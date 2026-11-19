@@ -107,6 +107,46 @@ function buildBodyNarrative(a,shapeData){
   return out;
 }
 
+
+/* ---- short "Why this is you" bubbles + coloring profile (used by the Signature Style Report PDF) ---- */
+function cap1(t){return t?t.charAt(0).toUpperCase()+t.slice(1):t;}
+function buildColorBullets(a,axes,season){
+  const sig=colorSignals(a),u=axes.undertone,items=[];let note='';
+  if(u==='neutral'){
+    items.push('Your answers pull both ways, which is how a true in-between undertone shows up');
+  }else{
+    const support=sig.filter(s=>s.dir===u).slice(0,2).map(s=>cap1(s.text));
+    const against=sig.filter(s=>s.dir!=='neutral'&&s.dir!==u);
+    if(support.length)support.forEach(t=>items.push(t));else items.push('Weighing all your answers together, your skin reads '+u);
+    if(against.length)note='A couple of quiz answers leaned the other way. That is normal, so the metals and colors you know flatter you count most.';
+  }
+  const contrast={high:'Your hair, skin and eyes have clear contrast',low:'Your hair, skin and eyes blend softly together',medium:'Your coloring has a balanced, medium contrast'}[a.contrast];
+  const chroma={bright:'You come alive in bright, saturated colors',muted:'You look best in soft, muted colors',both:'Bright and muted colors both work on you'}[a.chroma];
+  if(contrast)items.push(contrast);if(chroma)items.push(chroma);
+  return{items:items.slice(0,4),note};
+}
+function buildBodyBullets(a,shapeData){
+  const fitText={tops:'Tops fit you better than bottoms',bottoms:'Bottoms fit you better than tops',both:'Both tops and bottoms fit you well'}[a.fit]||'';
+  const weightWords={belly:'your midsection',hips:'your hips and thighs',upper:'your upper body and arms'};
+  const confText={shoulders:'your shoulders and collarbone',waist:'your waist',legs:'your legs',bust:'your bust',overall:'your overall silhouette'}[a.conf]||'your best features';
+  const shapeName=(shapeData.shape||'').replace(/^[^A-Za-z]+/,'');
+  const key=shapeName.toLowerCase().split(' ')[0];
+  const art=(/^[AEIOUaeiou]/.test(shapeName)||/^hour/i.test(shapeName))?'an':'a';
+  const m=bodyMarkerMatch(key,a),wHits=m.weightHits||[],items=[];
+  if(m.fit&&fitText)items.push(fitText);
+  if(m.weight&&wHits.length)items.push(wHits.indexOf('evenly')>-1&&wHits.length===1?'You carry weight evenly all over':'You notice weight first in '+joinList(wHits.map(w=>weightWords[w]||w)));
+  items.push('Your shoulder-to-hip balance and waist definition point to '+art+' '+shapeName);
+  items.push('You feel most confident in '+confText+', so every pick keeps it in view');
+  const tip=proportionTipFor(key,a.height,a.proportion);
+  return{items:items.slice(0,4),note:tip?"Specific to you: "+tip.charAt(0).toLowerCase()+tip.slice(1):''};
+}
+/* where each season sits on four scales, 0 to 1 (general 12-season guide): [cool-warm, light-deep, soft-clear contrast, muted-bright] */
+const SEASON_PROFILE={lightSpring:[.75,.2,.3,.6],trueSpring:[.9,.45,.55,.8],brightSpring:[.7,.5,.8,.95],lightSummer:[.25,.2,.3,.35],trueSummer:[.1,.45,.45,.4],softSummer:[.3,.45,.3,.15],softAutumn:[.7,.5,.3,.15],trueAutumn:[.9,.65,.5,.35],deepAutumn:[.8,.9,.65,.45],brightWinter:[.3,.6,.85,.95],trueWinter:[.1,.75,.8,.75],deepWinter:[.2,.92,.75,.65]};
+function seasonProfile(key){
+  const p=SEASON_PROFILE[key];if(!p)return null;
+  return[{label:'Undertone',a:'Cool',b:'Warm',pos:p[0]},{label:'Depth',a:'Light',b:'Deep',pos:p[1]},{label:'Contrast',a:'Soft',b:'Strong',pos:p[2]},{label:'Intensity',a:'Muted',b:'Bright',pos:p[3]}];
+}
+
 const SEASON_FAMILY = { lightSpring: 'spring', trueSpring: 'spring', brightSpring: 'spring', lightSummer: 'summer', trueSummer: 'summer', softSummer: 'summer', softAutumn: 'autumn', trueAutumn: 'autumn', deepAutumn: 'autumn', brightWinter: 'winter', trueWinter: 'winter', deepWinter: 'winter' };
 
 const archetypesBySeasonFamily = {
@@ -765,6 +805,9 @@ module.exports = {
   joinList,
   bodyMarkerMatch,
   buildColorNarrative,
+  buildColorBullets,
+  buildBodyBullets,
+  seasonProfile,
   buildBodyNarrative,
   proportionTipFor,
   bodyData
