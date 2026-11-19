@@ -7,6 +7,9 @@ const {
   bodyData,
   joinList,
   buildColorNarrative,
+  buildColorBullets,
+  buildBodyBullets,
+  seasonProfile,
   buildBodyNarrative,
   proportionTipFor,
   computeBodyShape,
@@ -30,7 +33,7 @@ const cap = (t) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
 const COLOR_WORDS = /\b(black|white|navy|gr[ae]y|pastels?|neon|orange|burgundy|beige|camel|taupe|mauve|fuchsia|pink|red|blue|green|yellow|purple|brown|gold|silver|cream|ivory|rust|olive|teal|coral|peach|lavender|colors?)\b/i;
 const stripEnd = (t) => String(t || '').trim().replace(/[.\s]+$/, '');
 
-const SYSTEM_PROMPT = `You are writing the personal section of a HerStyleVault Style Analysis. HerStyleVault is a personal styling business run by Adebisi in Boston, and this report is written as if Adebisi sat down and studied this one client.
+const SYSTEM_PROMPT = `You are writing the personal section of a HerStyleVault Style Analysis. HerStyleVault is a personal styling business run by its founder in Boston, and this report is written as if the founder sat down and studied this one client.
 
 You are given the client's quiz answers and FIXED facts about her color season and body shape. The facts were produced by a tested classification system and are final. You never change them, add to them, or argue with them.
 
@@ -40,6 +43,7 @@ Write ONLY these three things:
 3. "avoidText": one sentence, 15 to 45 words, naming the silhouettes, cuts and styles for her shape to step back from, based only on the body-avoid facts. Do not mention any colors; a separate card covers colors.
 
 VOICE
+- Never name the stylist or any person. If you need to refer to who is speaking, say nothing or use "HerStyleVault".
 - Warm, grounded, editorial and sure of itself. Plain words, concrete nouns, sentences of varied length. A stylist speaking to one person, not a brand speaking to an audience.
 - Second person ("you"). No hype, no flattery, no exclamation marks.
 - Use at most one em dash in the whole narrative. Prefer commas and full stops.
@@ -322,6 +326,9 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     bodyShapeKey: answers.shape,
     intensity: answers.intensity,
     bodyNarrative: buildBodyNarrative(answers, bodyFacts),
+    whyColor: buildColorBullets(answers, axes, colorFacts),
+    whyBody: buildBodyBullets(answers, bodyFacts),
+    colorProfile: seasonProfile(seasonKey),
     height: answers.height || 'average',
     proportion: answers.proportion || 'balanced',
     accessory: colorFacts.accessory,
