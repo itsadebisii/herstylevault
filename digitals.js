@@ -93,16 +93,9 @@ var DIGITALS = [
         lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, drawers, shoes and purses one zone at a time, with checklists to tick off as you go.',
         coverImage: 'images/digitals/detox-guide-cover.jpg',
         previews: [
-          {src:'images/digitals/detox-guide-p5.jpg', alt:'Sample guide page: the Closet Reset visual guide to grouping by category and color flow'},
-          {src:'images/digitals/detox-guide-b2.jpg', alt:'Blurred guide page: How It Works', locked:true},
-          {src:'images/digitals/detox-guide-b3.jpg', alt:'Blurred guide page: the Golden Rule and labeling guide'},
           {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
-          {src:'images/digitals/detox-guide-b6.jpg', alt:'Blurred guide page: the Flat-Roll Method'},
-          {src:'images/digitals/detox-guide-b7.jpg', alt:'Blurred guide page: shoes and purses'},
-          {src:'images/digitals/detox-guide-b8.jpg', alt:'Blurred guide page: the selling workflow'},
           {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'},
-          {src:'images/digitals/detox-guide-b10.jpg', alt:'Blurred guide page: habits to keep it clutter-free'},
-          {src:'images/digitals/detox-guide-b11.jpg', alt:'Blurred guide page: what to do next', locked:true}
+          {src:'images/digitals/detox-guide-b2.jpg', alt:'Blurred guide page: How It Works', locked:true}
         ], /* sneak peek pages; slide 1 is always the cover */
         price: '$28.99', priceNote: 'one-time',
         steps: [
