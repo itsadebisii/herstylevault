@@ -675,3 +675,11 @@ a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
 @media (max-width:620px){
   .svc-grid[data-view="2"] .vd-prices small{display:block; font-size:11px;}
 }
+
+/* top toolbar: card-size toggle on one side, a cute "What to Expect" pill on the other */
+.svc-bar{display:flex; align-items:center; justify-content:space-between; gap:1rem; margin:0 0 1.8rem; flex-wrap:wrap;}
+.svc-bar .svc-view{margin:0;}
+.we-pill{padding-left:.5rem; background:rgba(122,19,33,.05);}
+.we-pill b{font-weight:400; color:var(--accent); font-size:13px; margin-right:-.1rem;}
+.we-pill:hover b,.we-pill:focus-visible b{color:#fff;}
+@media (max-width:620px){ .svc-bar{flex-direction:column-reverse; gap:.9rem; justify-content:center;} }
