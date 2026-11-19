@@ -2,7 +2,7 @@
 instead of showing an old cached look. Run after every change to theme.css, site.js, offers.js or digitals.js (build_all.sh does this)."""
 import re, glob, hashlib, os
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-files = ['theme.css', 'site.js', 'offers.js', 'offers-art.js', 'digitals.js']
+files = ['theme.css', 'site.js', 'offers.js', 'offers-art.js', 'digitals.js', 'arrows.js']
 ver = {f: hashlib.md5(open(f, 'rb').read()).hexdigest()[:8] for f in files if os.path.exists(f)}
 n = 0
 for page in glob.glob('*.html'):
