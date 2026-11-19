@@ -139,6 +139,18 @@ function applyBookButtons(){
   });
 }
 
+
+/* Service "Book" buttons open the Tally form as a pop-up on the same page, like the package forms on the Book page.
+   (Capture phase, so it also works for buttons that were drawn after the page loaded.) */
+document.addEventListener('click', function(e){
+  var b = e.target.closest && e.target.closest('.book-btn[data-tally-open]');
+  if (!b || !window.Tally || !Tally.openPopup) return; /* no pop-up script yet: the link opens the form page instead */
+  e.preventDefault(); e.stopImmediatePropagation();
+  var hidden = { service: b.getAttribute('data-service') || '' };
+  if (b.getAttribute('data-tier')) hidden.tier = b.getAttribute('data-tier');
+  Tally.openPopup(b.getAttribute('data-tally-open'), { layout: 'modal', width: parseInt(b.getAttribute('data-tally-width') || '700', 10), hiddenFields: hidden });
+}, true);
+
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 function hsvScrollTop(){ var h = location.hash.replace('#',''); if (!h || !document.getElementById(h)) window.scrollTo(0, 0); }
 window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScrollTop, 120); });

@@ -615,3 +615,18 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
 a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
 .vd-opt.is-soon{opacity:.65;}
 .vd-opt.is-soon i{color:var(--ink-soft);}
+
+/* Editorial cover for service and package pages (matches the Wardrobe Detox Series cover) */
+.vd-cover.tone-ed{background:#F7F5F0; color:#181716; border:1px solid var(--line); padding:0; align-items:center; justify-content:flex-start; text-align:center;}
+.vd-cover.tone-ed::after{display:none;}
+.ed-top{margin-top:7%; padding:0 6%; font-size:clamp(7.5px,2.3cqw,11px); letter-spacing:.26em; text-transform:uppercase; color:#6B6862; line-height:1.5;}
+.ed-rule{display:block; width:84%; height:1px; background:#7A1321; margin:4.5% 0 0;}
+.ed-title{display:block; margin-top:7%; padding:0 5%; font-family:var(--font-display); font-weight:600; font-size:clamp(1.5rem,11.5cqw,3.3rem); line-height:.98; letter-spacing:-.01em; color:#181716;}
+.ed-title em{display:block; font-style:normal; color:#6D2023;}
+.ed-sub{display:block; margin-top:4%; max-width:82%; font-size:clamp(10px,3.5cqw,15px); line-height:1.35; color:#181716;}
+.ed-bar{display:block; width:30%; height:2px; background:#181716; margin-top:5%;}
+.ed-arch{position:absolute; left:0; right:0; bottom:14%; height:40%; background:#EAE5DF; border-radius:50% 50% 0 0 / 100% 100% 0 0; display:flex; align-items:flex-end; justify-content:center; overflow:hidden;}
+.ed-art{display:flex; align-items:flex-end; justify-content:center; gap:3%; height:78%; width:70%; padding-bottom:5%;}
+.ed-art svg{height:100%; width:auto; max-width:40%; flex:0 1 auto; overflow:visible;}
+.ed-rule-b{position:absolute; left:8%; bottom:10.5%; width:84%; margin:0;}
+.ed-foot{position:absolute; left:0; right:0; bottom:4%; font-size:clamp(8px,2.6cqw,12px); letter-spacing:.3em; text-transform:uppercase; color:#545454;}
