@@ -32,7 +32,7 @@
   var main = document.getElementById('offerMain'), tierIdx = 0, keepScroll = false;
   function plain(t){ return String(t || '').replace(/<[^>]*>/g, ''); }
   function shortTag(o){ return o.tag.replace(/ ·.*/,''); }
-  /* editorial cover, same family as the Detox Series cover: two-tone title, hairlines, an arch with line drawings */
+  /* editorial cover, same family as the Detox Bundle cover: two-tone title, hairlines, an arch with line drawings */
   function cover(o, first){
     if (o.coverImage) return '<div class="vd-cover has-img"><img src="' + o.coverImage + '" alt="' + plain(o.name) + ' cover" ' + (first ? 'fetchpriority="high"' : 'loading="lazy"') + '></div>';
     var words = plain(o.name).split(' '), last = words.pop(), first = words.join(' ');

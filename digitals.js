@@ -9,7 +9,7 @@
      status       'live' (default) | 'coming-soon' (card shows a badge, no link, no buy button)
                   | 'hidden' (kept in this file but not shown anywhere)
      cardCover    optional cover image used on the shop cards only (the details page keeps each option's own cover)
-     eyebrow      optional small label above the title instead of the category (e.g. 'Wardrobe Detox Series')
+     eyebrow      optional small label above the title instead of the category (e.g. 'Wardrobe Detox Bundle')
      coverImage   optional 4:5 image path. Without it, a styled editorial cover is generated.
      coverTone    optional 'stone' (Cool Stone) | 'noir' (Bordeaux Noir). Default: reports=stone, guides=noir
      coverSub     optional small line printed on the generated cover
@@ -75,17 +75,17 @@ var DIGITALS = [
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
-    slug: 'wardrobe-detox-series',
-    seoName: 'Wardrobe Detox Guide & Checklist', seoTitle: 'Wardrobe Detox Guide & Checklist | HerStyleVault', seoDesc: 'Declutter your closet with the 11-page Wardrobe Detox Guide for $28.99. A calm, zone-by-zone method you can start today. One-page Checklist coming soon.',
-    name: 'The Wardrobe Detox Series',
-    eyebrow: 'Wardrobe Detox Series',
-    cardCover: 'images/digitals/detox-series-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
+    slug: 'wardrobe-detox-bundle',
+    seoName: 'The Wardrobe Detox Bundle', seoTitle: 'Wardrobe Detox Bundle: Guide & Checklist | HerStyleVault', seoDesc: 'Declutter your closet with the 11-page Wardrobe Detox Guide for $28.99. A calm, zone-by-zone method you can start today. One-page Checklist coming soon.',
+    name: 'The Wardrobe Detox Bundle',
+    eyebrow: 'Wardrobe Detox Bundle',
+    cardCover: 'images/digitals/detox-bundle-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
     category: 'guides', status: 'live',
     buyLabel: 'Reset My Closet', /* the card button; it opens a small "which one?" chooser built from options below */
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Series%20updates' },
+    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Bundle%20updates' },
     short: 'Declutter your closet your way: the 11-page Guide for the full reset, or the one-page Checklist for a quick one.',
     headline: 'Reset your closet, <em>one zone at a time</em>',
-    lead: 'The Wardrobe Detox Series is the calm, step-by-step method I use to clear a closet without the overwhelm. Choose the 11-page Guide for the full zone-by-zone reset, or the one-page Checklist when you want the quick version.',
+    lead: 'The Wardrobe Detox Bundle is the calm, step-by-step method I use to clear a closet without the overwhelm. Choose the 11-page Guide for the full zone-by-zone reset, or the one-page Checklist when you want the quick version.',
     /* options = the tiers. Each one carries its own name, cover, sneak-peek pages, price and Stripe link.
        Status 'coming-soon' (or a link that is still STRIPE_LINK_HERE) keeps that option from being bought. */
     options: [
@@ -114,7 +114,7 @@ var DIGITALS = [
           ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
           ['What format is it?', 'A PDF. Use it on your phone or tablet, or print it and tick the checklists off by hand.'],
           ['Do I need to buy anything?', 'No. The hanger and storage picks are optional suggestions.'],
-          ['Is this included with a package?', 'The Full Reveal includes the whole Wardrobe Detox Series, the Guide and the Checklist. The Vault Edit includes the Checklist.'],
+          ['Is this included with a package?', 'The Full Reveal includes the whole Wardrobe Detox Bundle, the Guide and the Checklist. The Vault Edit includes the Checklist.'],
           ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Guide is the do-it-yourself version.'],
           ['What is the difference between the Guide and the Checklist?', 'The Guide teaches the whole method, with the reasoning, storage picks and a selling plan. The Checklist is a single page you tick off while you work.'],
           ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
@@ -176,8 +176,8 @@ var DIGITALS = [
       ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
       ['What format is it?', 'A PDF. Use it on your phone or tablet, or print it and tick the checklists off by hand.'],
       ['Do I need to buy anything?', 'No. The hanger and storage picks are optional suggestions.'],
-      ['Is this included with a package?', 'The Full Reveal includes the whole Wardrobe Detox Series, the Guide and the Checklist. The Vault Edit includes the Checklist.'],
-      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Series is the do-it-yourself version.'],
+      ['Is this included with a package?', 'The Full Reveal includes the whole Wardrobe Detox Bundle, the Guide and the Checklist. The Vault Edit includes the Checklist.'],
+      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Bundle is the do-it-yourself version.'],
       ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
     ],
     meta: 'Instant PDF download · One-time payment'
