@@ -179,7 +179,6 @@ function digitalCard(p){
   var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(opts ? v0 : p) + '</a>';
   var prices = '', buy;
   if (opts) {
-    prices = '<p class="vd-prices">' + opts.map(function(o, i){ var v = digitalView(p, i); return '<span><b>' + o.label + '</b> ' + (digitalSoon(v) ? 'soon' : (v.price || '')) + '</span>'; }).join('<i>·</i>') + '</p>';
     buy = '<button type="button" class="btn btn-primary vd-buy" data-vd-choose aria-expanded="false">' + (p.buyLabel || 'Buy Now') + '</button>' +
       '<div class="vd-choose" hidden><p class="vd-choose-lab">Which one?</p>' + opts.map(function(o, i){
         var v = digitalView(p, i), nm = digitalAttr(v.name || o.label);
