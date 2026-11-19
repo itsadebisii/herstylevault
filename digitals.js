@@ -338,8 +338,8 @@ var liveDigitals = visibleDigitals; /* older name, kept so nothing breaks */
 function digitalAttr(t){ return String(t == null ? '' : t).replace(/<[^>]*>/g,'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
 
 /* 4:5 cover: the product's own coverImage, or a generated editorial mockup (hairline frame, Cormorant type) */
-function digitalCover(p){
-  if (p.coverImage) return '<div class="vd-cover has-img"><img src="' + digitalAttr(p.coverImage) + '" alt="' + digitalAttr(p.coverName || p.name) + ' cover" loading="lazy"></div>';
+function digitalCover(p, first){
+  if (p.coverImage) return '<div class="vd-cover has-img"><img src="' + digitalAttr(p.coverImage) + '" alt="' + digitalAttr(p.coverName || p.name) + ' cover" ' + (first ? 'fetchpriority="high"' : 'loading="lazy"') + '></div>';
   var tone = p.coverTone || (p.category === 'guides' ? 'noir' : 'stone');
   return '<div class="vd-cover tone-' + (tone === 'noir' ? 'noir' : 'stone') + '" role="img" aria-label="' + digitalAttr(p.coverName || p.name) + ' cover">' +
     '<span class="vc-eyebrow">' + digitalCat(p).eyebrow + '</span>' +

@@ -68,7 +68,7 @@ ctx.__O.forEach((o) => {
     .replace(/<meta property="og:image" content="[^"]*">/, '<meta property="og:image" content="' + img + '">')
     .replace(/<meta property="og:url" content="[^"]*">/, '<meta property="og:url" content="' + url + '">')
     .replace(/<link rel="canonical" href="[^"]*">/, '<link rel="canonical" href="' + url + '">')
-    .replace('</head>', ldTags + '\n</head>')
+    .replace('</head>', (o.coverImage ? '<link rel="preload" as="image" href="' + o.coverImage + '" fetchpriority="high">\n' : '') + ldTags + '\n</head>')
     .replace('<main id="offerMain"></main>', '<main id="offerMain">' + stat + '</main>')
     .replace('<script src="offers.js"></script>', '<script>window.HSV_SLUG = ' + JSON.stringify(o.slug) + ';</script>\n<script src="offers.js"></script>');
   fs.writeFileSync(path.join(root, file), h);

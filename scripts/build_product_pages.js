@@ -68,7 +68,7 @@ items.forEach((p) => {
     .replace(/<meta property="og:image" content="[^"]*">/, '<meta property="og:image" content="' + img + '">')
     .replace(/<meta property="og:url" content="[^"]*">/, '<meta property="og:url" content="' + url + '">')
     .replace(/<link rel="canonical" href="[^"]*">/, '<link rel="canonical" href="' + url + '">')
-    .replace('</head>', '<script type="application/ld+json">' + JSON.stringify(ld) + '</script>\n<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>\n</head>')
+    .replace('</head>', (v0.coverImage ? '<link rel="preload" as="image" href="' + v0.coverImage + '" fetchpriority="high">\n' : '') + '<script type="application/ld+json">' + JSON.stringify(ld) + '</script>\n<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>\n</head>')
     .replace('<main id="digitalMain"></main>', '<main id="digitalMain">' + stat + '</main>')
     .replace('<script src="digitals.js"></script>', '<script>window.HSV_SLUG = ' + JSON.stringify(p.slug) + ';</script>\n<script src="digitals.js"></script>');
   fs.writeFileSync(path.join(root, file), h);

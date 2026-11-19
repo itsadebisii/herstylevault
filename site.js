@@ -43,7 +43,7 @@ const FOOTER_HTML = `<div class="wrap">
 <div class="footer-icons">${hsvIcon("hanger",18)}${hsvIcon("bag",18)}</div>
 </div>
 <div class="footer-col">
-<h5>Styling &amp; Digitals</h5>
+<p class="fh">Styling &amp; Digitals</p>
 <ul>
 <li><a href="shop.html">Shop All</a></li>
 <li><a href="packages.html">Private Styling Packages</a></li>
@@ -53,7 +53,7 @@ const FOOTER_HTML = `<div class="wrap">
 </ul>
 </div>
 <div class="footer-col">
-<h5>Studio &amp; Policies</h5>
+<p class="fh">Studio &amp; Policies</p>
 <ul>
 <li><a href="about.html">About</a></li>
 <li><a href="locations.html">Locations</a></li>
