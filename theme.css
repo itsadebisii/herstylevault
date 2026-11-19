@@ -98,13 +98,12 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 @keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
 /* ---------- 2x2 quote grid ---------- */
-.quote-grid{display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:4px; overflow:hidden;}
-@media (max-width:700px){.quote-grid{grid-template-columns:1fr;}}
-.quote-cell{padding:2rem 2.2rem; border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
-.quote-cell:nth-child(2n){border-right:none;}
-@media (max-width:700px){.quote-cell{border-right:none;}}
-.quote-cell:nth-last-child(-n+2){border-bottom:none;}
-.quote-cell p{font-size:16px; font-style:italic; color:var(--ink); margin:0; line-height:1.65;}
+.quote-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden;}
+@media (max-width:999px){.quote-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:699px){.quote-grid{grid-template-columns:1fr;}}
+.quote-cell{display:flex; flex-direction:column; justify-content:space-between; background:var(--bg); padding:2rem 1.8rem;}
+@media (min-width:700px) and (max-width:999px){.quote-cell{padding:2rem 2.2rem;}}
+.quote-cell p{font-size:16px; font-style:italic; color:var(--ink); margin:0; line-height:1.65; flex:1 1 auto;}
 .cta-row{text-align:center; margin-top:2.4rem;}
 
 /* ---------- package cards ---------- */
@@ -388,9 +387,10 @@ footer.site{border-top:1px solid var(--line); padding-block:3rem 1.6rem;}
 .vd-empty{text-align:center; color:var(--ink-soft); margin:2rem 0;}
 .vd-card{display:flex; flex-direction:column; gap:1.1rem; text-decoration:none; color:inherit; background:none; border:0; padding:0;}
 .vd-media{position:relative;}
-a.vd-card .vd-cover{transition:transform .25s ease, box-shadow .25s ease;}
-a.vd-card:hover .vd-cover, a.vd-card:focus-visible .vd-cover{transform:translateY(-4px); box-shadow:0 14px 30px -18px rgba(24,23,22,0.45);}
-a.vd-card:focus-visible{outline:2px solid var(--accent); outline-offset:6px; border-radius:4px;}
+.vd-card .vd-media{display:block; color:inherit; text-decoration:none;}
+.vd-card .vd-cover{transition:transform .25s ease, box-shadow .25s ease;}
+.vd-card .vd-media:hover .vd-cover, .vd-card .vd-media:focus-visible .vd-cover{transform:translateY(-4px); box-shadow:0 14px 30px -18px rgba(24,23,22,0.45);}
+.vd-card .vd-media:focus-visible{outline:2px solid var(--accent); outline-offset:6px; border-radius:4px;}
 .vd-card.is-soon .vd-cover{opacity:0.92;}
 .vd-body{display:flex; flex-direction:column; gap:0.5rem; flex:1;}
 .vd-eyebrow{font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin:0;}
@@ -560,3 +560,58 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
 .dg-opt span{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
 .dg-opt i{font-style:normal; font-size:13px; color:var(--accent);}
 .dg-opt.on{border-color:var(--accent); background:var(--surface); box-shadow:inset 0 0 0 1px var(--accent);}
+
+/* Shop All page */
+.sh-jump{display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; margin:0 auto;}
+.sh-jump a{border:1px solid var(--line); border-radius:999px; padding:.55rem 1.1rem; font-size:13.5px; text-decoration:none; color:var(--ink); background:var(--bg);}
+.sh-jump a:hover,.sh-jump a:focus-visible{border-color:var(--accent); color:var(--accent);}
+.sh-sec{scroll-margin-top:90px;}
+.sh-head{display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:.6rem;}
+.sh-all{font-size:13.5px; font-weight:500; color:var(--accent); text-decoration:underline; text-underline-offset:3px; white-space:nowrap;}
+.sh-intro{margin:.4rem 0 1.6rem; max-width:60ch;}
+.sh-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem;}
+.sh-card{display:flex; flex-direction:column; gap:.4rem; padding:1.4rem 1.4rem 1.2rem; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:inherit; text-decoration:none; transition:border-color .2s, transform .2s;}
+.sh-card:hover,.sh-card:focus-visible{border-color:var(--accent); transform:translateY(-2px);}
+.sh-tag{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0;}
+.sh-short{font-size:14px; line-height:1.6; color:var(--ink-soft); margin:0;}
+.sh-meta{font-size:12.5px; color:var(--ink-soft); margin:0;}
+.sh-foot{display:flex; align-items:flex-end; justify-content:space-between; gap:.6rem; margin-top:auto; padding-top:.8rem;}
+.sh-foot .price{font-size:26px;}
+.sh-foot .price small{font-family:var(--font-body,inherit); font-size:12px; font-weight:400; color:var(--ink-soft);}
+.sh-go{font-size:13px; color:var(--accent); font-weight:500; white-space:nowrap;}
+.sh-note{font-size:13.5px; color:var(--ink-soft); margin:1.4rem 0 0;}
+@media (max-width:560px){.sh-head{align-items:flex-start;} .sh-grid{grid-template-columns:1fr;}}
+.sh-from{display:flex; flex-direction:column; line-height:1.1;}
+.sh-from small{font-size:12px; color:var(--ink-soft); margin-bottom:.15rem;}
+.sh-go{padding-bottom:.3rem;}
+
+/* Sound familiar: clean default (quote + arrow cue); on hover, focus or tap a shaded overlay with the "Start with" link covers the card */
+.quote-cell{position:relative; cursor:pointer;}
+.cell-foot{margin:0; min-height:0;}
+.quote-cell .cell-link{position:absolute; inset:0; margin:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.2rem; background:#F1EDE6; color:var(--accent); text-decoration:none; font-family:var(--font-display); font-style:italic; font-size:19px; font-weight:400; letter-spacing:.02em; opacity:0; pointer-events:none; transition:opacity .22s ease;}
+.quote-cell .cell-link:focus-visible{outline:2px solid var(--accent); outline-offset:-6px;}
+.quote-cell.open .cell-link, .quote-cell:focus-within .cell-link{opacity:1; pointer-events:auto;}
+@media (hover:hover){
+  .quote-cell:hover .cell-link{opacity:1; pointer-events:auto;}
+}
+@media (prefers-reduced-motion:reduce){.quote-cell .cell-link{transition:none;}}
+
+/* Vault Digitals card: prices, buy button, chooser, small Details link */
+.vd-prices{margin:.1rem 0 0; font-size:14px; color:var(--ink); display:flex; flex-wrap:wrap; gap:.15rem .5rem; align-items:baseline;}
+.vd-prices b{font-weight:500;}
+.vd-prices i{font-style:normal; color:var(--ink-soft);}
+.vd-prices .price{font-size:26px;}
+.vd-prices small{font-size:12px; color:var(--ink-soft);}
+.vd-actions{margin-top:auto; padding-top:.9rem; display:flex; flex-direction:column; align-items:stretch; gap:.6rem;}
+.vd-actions .btn{width:100%; text-align:center;}
+.vd-details{align-self:center; font-size:12.5px; color:var(--ink-soft); text-decoration:underline; text-underline-offset:3px;}
+.vd-details:hover,.vd-details:focus-visible{color:var(--accent);}
+.vd-choose{display:flex; flex-direction:column; gap:.5rem; padding:.9rem; border:1px solid var(--line); border-radius:4px; background:var(--surface);}
+.vd-choose[hidden]{display:none;}
+.vd-choose-lab{margin:0; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:500;}
+.vd-opt{display:flex; justify-content:space-between; align-items:baseline; gap:.8rem; padding:.7rem .85rem; border:1px solid var(--line); border-radius:3px; background:var(--bg); color:var(--ink); text-decoration:none; font-size:14px;}
+.vd-opt b{font-family:var(--font-display); font-weight:500; font-size:1.1rem;}
+.vd-opt i{font-style:normal; font-size:13px; color:var(--accent);}
+a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
+.vd-opt.is-soon{opacity:.65;}
+.vd-opt.is-soon i{color:var(--ink-soft);}
