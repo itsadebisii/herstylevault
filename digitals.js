@@ -225,25 +225,52 @@ var DIGITALS = [
         meta: 'Instant delivery \u00b7 One-time payment'
       },
       {
-        key: 'physical', label: 'Physical', name: 'Coloring Book: Printed Copy', badge: 'Printed book', price: '$29.99', priceNote: 'free US shipping',
+        key: 'paper', label: 'Paper Copy', name: 'Coloring Book: Paper Copy', badge: 'Softcover', price: '$29.99', priceNote: 'free US shipping',
         status: 'coming-soon', soonNote: 'Coming soon',
         headline: 'Pour a drink, grab your markers, <em>and hold it in your hands</em>',
-        lead: 'The same 48-page cocktail and fashion coloring book, printed and shipped to your door. A cozy treat for yourself, or a gift for a friend who loves a slow evening.',
+        lead: 'The same 48-page cocktail and fashion coloring book as a softcover paper copy, printed and shipped to your door. A cozy treat for yourself, or a gift for a friend who loves a slow evening.',
         includes: [
-          'The full 48-page coloring book, printed',
+          'The full 48-page coloring book, printed as a softcover paper copy',
           'Seven chapters, one classic cocktail each, with an origin story for every drink',
           'Cocktail scenes, plus heels, handbags, jewelry and accessories to color',
           'Shipped to your door'
         ],
         steps: [
-          ['Order your copy', 'Pick the physical version and check out.'],
+          ['Order your copy', 'Pick the paper copy and check out.'],
           ['We print and ship it', 'Your book is printed and mailed to you. Delivery details will be shared when ordering opens.'],
           ['Pour a drink and color', 'Take it slow, one chapter at a time. Share your pages and tag @herstylevault.official.']
         ],
         faqs: [
-          ['When can I order the physical book?', 'Soon. Email me and I will let you know the moment it is ready.'],
+          ['When can I order the paper copy?', 'Soon. Email me and I will let you know the moment it is ready.'],
+          ['What is the difference between the paper copy and the hard copy?', 'The paper copy is a softcover book. The hard copy is a hardcover with a sturdier, longer-lasting cover. The pages inside are the same.'],
           ['Where will it ship?', 'Shipping details, including where it ships and how long it takes, will be shared when ordering opens.'],
           ['Is it a good gift?', 'Yes. It is a fun, cozy gift for anyone who likes cocktails, fashion or a slow night in.'],
+          ['Is it only for personal use?', 'Yes. It is for personal use only, not for resale, reproduction or distribution.']
+        ],
+        cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
+        meta: 'Printed and shipped to you'
+      },
+      {
+        key: 'hard', label: 'Hard Copy', name: 'Coloring Book: Hard Copy', badge: 'Hardcover', price: '$44.99', priceNote: 'free US shipping',
+        status: 'coming-soon', soonNote: 'Coming soon',
+        headline: 'Pour a drink, grab your markers, <em>and keep it forever</em>',
+        lead: 'The same 48-page cocktail and fashion coloring book as a sturdy hardcover, printed and shipped to your door. A keepsake to color, display and give as a gift.',
+        includes: [
+          'The full 48-page coloring book, printed as a hardcover',
+          'A sturdier, longer-lasting cover than the paper copy',
+          'Seven chapters, one classic cocktail each, with an origin story for every drink',
+          'Cocktail scenes, plus heels, handbags, jewelry and accessories to color',
+          'Shipped to your door'
+        ],
+        steps: [
+          ['Order your copy', 'Pick the hard copy and check out.'],
+          ['We print and ship it', 'Your book is printed and mailed to you. Delivery details will be shared when ordering opens.'],
+          ['Pour a drink and color', 'Take it slow, one chapter at a time. Share your pages and tag @herstylevault.official.']
+        ],
+        faqs: [
+          ['When can I order the hard copy?', 'Soon. Email me and I will let you know the moment it is ready.'],
+          ['What is the difference between the paper copy and the hard copy?', 'The paper copy is a softcover book. The hard copy is a hardcover with a sturdier, longer-lasting cover. The pages inside are the same.'],
+          ['Where will it ship?', 'Shipping details, including where it ships and how long it takes, will be shared when ordering opens.'],
           ['Is it only for personal use?', 'Yes. It is for personal use only, not for resale, reproduction or distribution.']
         ],
         cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
