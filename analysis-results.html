@@ -41,6 +41,8 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-cover2{padding:0;background:#F7F5F0;}
 .pdf-cover-bg{position:absolute;left:0;top:0;width:816px;height:1056px;display:block;}
 .pdf-cover-name{position:absolute;left:48px;right:48px;top:128px;height:80px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;color:#191919;line-height:1.1;white-space:nowrap;overflow:hidden;}
+.pdf-cover-for{position:absolute;left:0;right:0;top:130px;text-align:center;font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#6B6862;}
+.pdf-cover-name2{top:143px;height:40px;}
 .pdf-closing{background:#EFECE6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
 .pdf-logo{font-family:'Cormorant Garamond',serif;font-size:2.9rem;font-weight:500;color:#181716;letter-spacing:0.03em;margin-bottom:0.4rem;}
 .pdf-pkg-pill{display:inline-block;padding:0.55rem 1.5rem;background:#181716;color:#FAF9F6;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;margin:1.3rem 0;border-radius:2px;}
@@ -340,7 +342,7 @@ function buildPages(r){
   const until=new Date(today.getTime()+45*86400000).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const blocks=makeBlocks(r),byKey={};blocks.forEach(b=>{byKey[b.key]=b;});
   const pages=[];
-  pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="images/report-cover-bg.jpg" alt=""><div class="pdf-cover-name" style="font-size:'+coverNameSize(r.clientName)+'px">'+esc(r.clientName)+'</div>'));
+  pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="images/report-cover-sig.jpg" alt=""><div class="pdf-cover-for">Prepared for</div><div class="pdf-cover-name pdf-cover-name2" style="font-size:'+Math.min(coverNameSize(r.clientName),32)+'px">'+esc(r.clientName)+'</div>'));
   (LAYOUT||blocks.map(b=>[b.key])).forEach(keys=>{
     const bs=keys.map(k=>byKey[k]);
     pages.push(pdfPage('',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
