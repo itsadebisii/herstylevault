@@ -61,13 +61,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
-  <url>
-    <loc>https://herstylevault.com/lookbook.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
   <url>
     <loc>https://herstylevault.com/shop.html</loc>
     <changefreq>monthly</changefreq>

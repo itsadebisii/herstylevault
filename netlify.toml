@@ -14,3 +14,15 @@
   from = "/vault-exclusives.html"
   to = "/packages.html"
   status = 301
+
+# Lookbook is hidden until the new one is ready (temporary redirect, easy to remove)
+[[redirects]]
+  from = "/lookbook.html"
+  to = "/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/lookbook"
+  to = "/"
+  status = 302
+  force = true

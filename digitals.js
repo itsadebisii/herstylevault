@@ -39,7 +39,7 @@ var DIGITALS = [
       {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: silhouettes, shopping links and fabrics', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
-    headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
+    headline: 'Find your <em>colors</em> and your <em>shape</em> in about 5 minutes',
     lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
     includes: [
       'Your color season, picked from 12 seasons, and why it is yours',
@@ -63,7 +63,7 @@ var DIGITALS = [
       ['Written for you, not templated', 'A personalized digital report explaining exactly how your specific answers point to your result, including resolving any answers that seem to contradict each other, the way a real stylist would.']
     ],
     faqs: [
-      ['How long does it take?', 'About 3 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
+      ['How long does it take?', 'About 5 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
       ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 45 days, the $40 comes off your final payment.']
