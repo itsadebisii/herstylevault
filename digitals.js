@@ -114,7 +114,7 @@ var DIGITALS = [
           ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
           ['What format is it?', 'A PDF. Use it on your phone or tablet, or print it and tick the checklists off by hand.'],
           ['Do I need to buy anything?', 'No. The hanger and storage picks are optional suggestions.'],
-          ['Is this included with a package?', 'Yes. The Vault Edit and The Full Reveal both include The Wardrobe Detox Guide.'],
+          ['Is this included with a package?', 'The Full Reveal includes the whole Wardrobe Detox Series, the Guide and the Checklist. The Vault Edit includes the Checklist.'],
           ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Guide is the do-it-yourself version.'],
           ['What is the difference between the Guide and the Checklist?', 'The Guide teaches the whole method, with the reasoning, storage picks and a selling plan. The Checklist is a single page you tick off while you work.'],
           ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
@@ -157,7 +157,7 @@ var DIGITALS = [
           ['How long does it take?', 'It is built for one sitting. Plan on about 45 minutes per zone, or a full afternoon to do all three.'],
           ['Can I use it more than once?', 'Yes. Print as many copies as you like for yourself and reset your closet again every season.'],
           ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
-          ['Is this included with a package?', 'No. The Vault Edit and The Full Reveal include the Guide. The Checklist is sold on its own.'],
+          ['Is this included with a package?', 'Yes. The Vault Edit and The Full Reveal both include the Checklist, and The Full Reveal includes the Guide too. You can also buy the Checklist on its own.'],
           ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Checklist is the do-it-yourself version.'],
           ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
         ],
@@ -176,7 +176,7 @@ var DIGITALS = [
       ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
       ['What format is it?', 'A PDF. Use it on your phone or tablet, or print it and tick the checklists off by hand.'],
       ['Do I need to buy anything?', 'No. The hanger and storage picks are optional suggestions.'],
-      ['Is this included with a package?', 'Yes. The Vault Edit and The Full Reveal both include The Wardrobe Detox Guide.'],
+      ['Is this included with a package?', 'The Full Reveal includes the whole Wardrobe Detox Series, the Guide and the Checklist. The Vault Edit includes the Checklist.'],
       ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Series is the do-it-yourself version.'],
       ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
     ],
