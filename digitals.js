@@ -216,6 +216,40 @@ var DIGITALS = [
       ['Is it for personal use?', 'Yes. It is for personal use only, not for resale, reproduction or distribution.'],
       ['Will there be more editions?', 'This is Edition 001. Ask me to keep you posted on what comes next.']
     ],
+    buyLabel: 'Choose Your Copy',
+    options: [
+      {
+        key: 'digital', label: 'Digital', name: 'Coloring Book: Digital PDF', badge: 'PDF \u00b7 48 pages', price: '$14.99', priceNote: 'one-time',
+        status: 'coming-soon', soonNote: 'Coming soon',
+        cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
+        meta: 'Instant delivery \u00b7 One-time payment'
+      },
+      {
+        key: 'physical', label: 'Physical', name: 'Coloring Book: Printed Copy', badge: 'Printed book', price: '$29.99', priceNote: 'free US shipping',
+        status: 'coming-soon', soonNote: 'Coming soon',
+        headline: 'Pour a drink, grab your markers, <em>and hold it in your hands</em>',
+        lead: 'The same 48-page cocktail and fashion coloring book, printed and shipped to your door. A cozy treat for yourself, or a gift for a friend who loves a slow evening.',
+        includes: [
+          'The full 48-page coloring book, printed',
+          'Seven chapters, one classic cocktail each, with an origin story for every drink',
+          'Cocktail scenes, plus heels, handbags, jewelry and accessories to color',
+          'Shipped to your door'
+        ],
+        steps: [
+          ['Order your copy', 'Pick the physical version and check out.'],
+          ['We print and ship it', 'Your book is printed and mailed to you. Delivery details will be shared when ordering opens.'],
+          ['Pour a drink and color', 'Take it slow, one chapter at a time. Share your pages and tag @herstylevault.official.']
+        ],
+        faqs: [
+          ['When can I order the physical book?', 'Soon. Email me and I will let you know the moment it is ready.'],
+          ['Where will it ship?', 'Shipping details, including where it ships and how long it takes, will be shared when ordering opens.'],
+          ['Is it a good gift?', 'Yes. It is a fun, cozy gift for anyone who likes cocktails, fashion or a slow night in.'],
+          ['Is it only for personal use?', 'Yes. It is for personal use only, not for resale, reproduction or distribution.']
+        ],
+        cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
+        meta: 'Printed and shipped to you'
+      }
+    ],
     cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
     meta: 'Instant delivery · One-time payment'
   }
@@ -265,7 +299,7 @@ function digitalCard(p){
       '<div class="vd-choose" hidden><p class="vd-choose-lab">Which one?</p>' + opts.map(function(o, i){
         var v = digitalView(p, i), nm = digitalAttr(v.name || o.label);
         return digitalSoon(v)
-          ? '<span class="vd-opt is-soon"><b>' + nm + '</b><i>Coming soon</i></span>'
+          ? '<span class="vd-opt is-soon"><b>' + nm + '</b><i>' + (v.price ? v.price + ' \u00b7 ' : '') + 'Coming soon</i></span>'
           : '<a class="vd-opt" href="' + v.cta.href + '"><b>' + nm + '</b><i>' + (v.price || '') + ' \u2192</i></a>';
       }).join('') + '</div>';
   } else {
