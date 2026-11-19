@@ -226,6 +226,7 @@ var DIGITALS = [
       },
       {
         key: 'paper', label: 'Paper Copy', name: 'Coloring Book: Paper Copy', badge: 'Softcover', price: '$29.99', priceNote: 'free US shipping',
+        coverImage: 'images/digitals/coloring-book-paperback.jpg', coverName: 'Paper copy mockup',
         status: 'coming-soon', soonNote: 'Coming soon',
         headline: 'Pour a drink, grab your markers, <em>and hold it in your hands</em>',
         lead: 'The same 48-page cocktail and fashion coloring book as a softcover paper copy, printed and shipped to your door. A cozy treat for yourself, or a gift for a friend who loves a slow evening.',
@@ -252,6 +253,7 @@ var DIGITALS = [
       },
       {
         key: 'hard', label: 'Hard Copy', name: 'Coloring Book: Hard Copy', badge: 'Hardcover', price: '$44.99', priceNote: 'free US shipping',
+        coverImage: 'images/digitals/coloring-book-hardback.jpg', coverName: 'Hard copy mockup',
         status: 'coming-soon', soonNote: 'Coming soon',
         headline: 'Pour a drink, grab your markers, <em>and keep it forever</em>',
         lead: 'The same 48-page cocktail and fashion coloring book as a sturdy hardcover, printed and shipped to your door. A keepsake to color, display and give as a gift.',
@@ -278,6 +280,7 @@ var DIGITALS = [
       },
       {
         key: 'bundle', label: 'Digital + Paper', name: 'Coloring Book: Digital + Paper Copy', badge: 'Best value', price: '$34.99', priceNote: 'free US shipping',
+        coverImage: 'images/digitals/coloring-book-paperback.jpg', coverName: 'Paper copy mockup',
         status: 'coming-soon', soonNote: 'Coming soon',
         headline: 'Start coloring today, <em>and get the book in the mail</em>',
         lead: 'Get the digital PDF to start coloring right away, plus the softcover paper copy shipped to your door. You save $10 compared with buying both.',
