@@ -586,10 +586,9 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
 
 /* Sound familiar: clean default (quote + arrow cue); on hover, focus or tap a shaded overlay with the "Start with" link covers the card */
 .quote-cell{position:relative; cursor:pointer;}
-.cell-foot{margin-top:.9rem; min-height:1.8rem;}
-.cell-cue{display:block; color:var(--accent); font-size:18px; line-height:1.4; transition:opacity .2s ease, transform .2s ease;}
-.quote-cell .cell-link{position:absolute; inset:0; margin:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.2rem; background:rgba(78,11,20,0.97); color:var(--accent-ink); text-decoration:none; font-family:var(--font-display); font-style:italic; font-size:19px; font-weight:400; letter-spacing:.02em; opacity:0; pointer-events:none; transition:opacity .22s ease;}
-.quote-cell .cell-link:focus-visible{outline:2px solid var(--accent-ink); outline-offset:-6px;}
+.cell-foot{margin:0; min-height:0;}
+.quote-cell .cell-link{position:absolute; inset:0; margin:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.2rem; background:rgba(243,239,232,0.97); color:var(--accent); text-decoration:none; font-family:var(--font-display); font-style:italic; font-size:19px; font-weight:400; letter-spacing:.02em; opacity:0; pointer-events:none; transition:opacity .22s ease;}
+.quote-cell .cell-link:focus-visible{outline:2px solid var(--accent); outline-offset:-6px;}
 .quote-cell.open .cell-link, .quote-cell:focus-within .cell-link{opacity:1; pointer-events:auto;}
 @media (hover:hover){
   .quote-cell:hover .cell-link{opacity:1; pointer-events:auto;}
