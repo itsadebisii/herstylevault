@@ -103,7 +103,6 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 @media (max-width:699px){.quote-grid{grid-template-columns:1fr;}}
 .quote-cell{display:flex; flex-direction:column; justify-content:space-between; background:var(--bg); padding:2rem 1.8rem;}
 @media (min-width:700px) and (max-width:999px){.quote-cell{padding:2rem 2.2rem;}}
-.quote-cell .cell-link{align-self:flex-start;}
 .quote-cell p{font-size:16px; font-style:italic; color:var(--ink); margin:0; line-height:1.65; flex:1 1 auto;}
 .cta-row{text-align:center; margin-top:2.4rem;}
 
@@ -584,3 +583,16 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
 .sh-from{display:flex; flex-direction:column; line-height:1.1;}
 .sh-from small{font-size:12px; color:var(--ink-soft); margin-bottom:.15rem;}
 .sh-go{padding-bottom:.3rem;}
+
+/* Sound familiar: clean default (quote + arrow cue); the "Start with" link appears on hover, focus or tap */
+.quote-cell{cursor:pointer;}
+.cell-foot{position:relative; min-height:1.8rem; margin-top:.9rem;}
+.cell-cue{position:absolute; left:0; top:0; color:var(--accent); font-size:18px; line-height:1.4; transition:opacity .2s ease, transform .2s ease;}
+.quote-cell .cell-link{position:absolute; left:0; top:0; margin:0; white-space:nowrap; opacity:0; transform:translateY(6px); pointer-events:none; transition:opacity .22s ease, transform .22s ease;}
+.quote-cell.open .cell-link, .quote-cell:focus-within .cell-link{opacity:1; transform:none; pointer-events:auto;}
+.quote-cell.open .cell-cue, .quote-cell:focus-within .cell-cue{opacity:0; transform:translateX(8px);}
+@media (hover:hover){
+  .quote-cell:hover .cell-link{opacity:1; transform:none; pointer-events:auto;}
+  .quote-cell:hover .cell-cue{opacity:0; transform:translateX(8px);}
+}
+@media (prefers-reduced-motion:reduce){.cell-cue,.quote-cell .cell-link{transition:none;}}
