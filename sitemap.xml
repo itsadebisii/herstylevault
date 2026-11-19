@@ -66,6 +66,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://herstylevault.com/lookbook.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
   <url>
     <loc>https://herstylevault.com/digital-signature-style-report.html</loc>
@@ -78,8 +83,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://herstylevault.com/lookbook.html</loc>
+    <loc>https://herstylevault.com/digital-coloring-book.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>
