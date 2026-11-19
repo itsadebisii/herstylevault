@@ -98,13 +98,13 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 @keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
 /* ---------- 2x2 quote grid ---------- */
-.quote-grid{display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:4px; overflow:hidden;}
-@media (max-width:700px){.quote-grid{grid-template-columns:1fr;}}
-.quote-cell{padding:2rem 2.2rem; border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
-.quote-cell:nth-child(2n){border-right:none;}
-@media (max-width:700px){.quote-cell{border-right:none;}}
-.quote-cell:nth-last-child(-n+2){border-bottom:none;}
-.quote-cell p{font-size:16px; font-style:italic; color:var(--ink); margin:0; line-height:1.65;}
+.quote-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden;}
+@media (max-width:999px){.quote-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:699px){.quote-grid{grid-template-columns:1fr;}}
+.quote-cell{display:flex; flex-direction:column; justify-content:space-between; background:var(--bg); padding:2rem 1.8rem;}
+@media (min-width:700px) and (max-width:999px){.quote-cell{padding:2rem 2.2rem;}}
+.quote-cell .cell-link{align-self:flex-start;}
+.quote-cell p{font-size:16px; font-style:italic; color:var(--ink); margin:0; line-height:1.65; flex:1 1 auto;}
 .cta-row{text-align:center; margin-top:2.4rem;}
 
 /* ---------- package cards ---------- */
