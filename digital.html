@@ -53,7 +53,7 @@
         return '<div class="dg-slide-wrap" data-i="' + i + '"' + (i ? ' hidden' : '') + ' style="height:100%;">' + (s.html || ('<img class="dg-slide" src="' + s.img + '" alt="' + digitalAttr(s.alt) + '"' + (i ? ' loading="lazy"' : '') + '>')) + '</div>';
       }).join('') +
       (multi ? '<div class="peek-lock" id="dgLock" hidden><div class="peek-lock-box">' + (soon ? '<p>Coming soon</p>' : '<p>Pay ' + view.price + ' to unlock every page</p><a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a>') + '</div></div>' : '') + '</div>' +
-      (multi ? '<div class="dg-nav"><button type="button" id="dgPrev" aria-label="Previous page">\u2190</button><span id="dgCount"></span><button type="button" id="dgNext" aria-label="Next page">\u2192</button></div><p class="dg-cap">' + (v.category === 'windown' ? 'Flip through a few sample pages. The full book comes after you purchase.' : 'Flip through a sample. Your own copy is built for you after you purchase.') + '</p>' : '') + '</div>';
+      (multi ? '<div class="dg-nav"><button type="button" id="dgPrev" aria-label="Previous page">\u2190</button><span id="dgCount"></span><button type="button" id="dgNext" aria-label="Next page">\u2192</button></div><p class="dg-cap">' + (p.category === 'windown' ? 'Flip through a few sample pages. The full book comes after you purchase.' : 'Flip through a sample. Your own copy is built for you after you purchase.') + '</p>' : '') + '</div>';
 
     function item(title, body, open){ return '<div class="acc-item' + (open ? ' open' : '') + '"><div class="acc-q" data-acc-toggle>' + title + '<span class="acc-icon">+</span></div><div class="acc-a">' + body + '</div></div>'; }
     var acc = [];
