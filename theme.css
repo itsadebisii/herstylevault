@@ -726,3 +726,7 @@ a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
 .rep-visual:hover .rep-cover,.rep-visual:focus-visible .rep-cover{transform:translateX(-50%) translateY(-6px);}
 @media (max-width:820px){.rep-band{grid-template-columns:1fr;} .rep-visual{order:-1; height:300px;} .rep-copy{text-align:left;}}
 @media (prefers-reduced-motion:reduce){.rep-p{transition:none;}}
+
+/* four choices: a tidy 2 x 2 grid */
+.dg-opts:has(.dg-opt:nth-child(4)){display:grid; grid-template-columns:1fr 1fr;}
+.dg-opts:has(.dg-opt:nth-child(4)) .dg-opt{flex:none; width:auto;}
