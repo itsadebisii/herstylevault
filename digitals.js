@@ -84,7 +84,6 @@ var DIGITALS = [
     options: [
       {
         key: 'guide', label: 'Guide', badge: '11 pages',
-        status: 'coming-soon', /* HOLD: delete this one line to turn on buying once the download check at /.netlify/functions/get-guide?health=1 says ok */
         name: 'The Wardrobe Detox Guide',
         headline: 'Reset your closet, <em>one zone at a time</em>',
         lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, drawers, shoes and purses one zone at a time, with checklists to tick off as you go.',
