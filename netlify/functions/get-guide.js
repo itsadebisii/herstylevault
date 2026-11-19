@@ -64,7 +64,7 @@ exports.handler = async (event) => {
       statusCode: 200,
       isBase64Encoded: true,
       headers: {
-        'Content-Type': 'application/pdf',
+        'Content-Type': 'application/octet-stream', // forces a real download in Safari instead of opening a web page
         'Content-Disposition': 'attachment; filename="' + FILENAME + '"; filename*=UTF-8\'\'' + FILENAME,
         // not "no-store": Safari (especially on iPhone) can show the PDF but fail to save it when no-store is set
         'Cache-Control': 'private, max-age=0, must-revalidate',

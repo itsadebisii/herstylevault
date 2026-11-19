@@ -683,3 +683,14 @@ a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
 .we-pill b{font-weight:400; color:var(--accent); font-size:13px; margin-right:-.1rem;}
 .we-pill:hover b,.we-pill:focus-visible b{color:#fff;}
 @media (max-width:620px){ .svc-bar{flex-direction:column-reverse; gap:.9rem; justify-content:center;} }
+
+/* "Details" pill used everywhere a details link appears */
+.sh-go{display:inline-flex; align-items:center; gap:.4rem; padding:.28rem .35rem .28rem .8rem; border:1px solid var(--accent); border-radius:999px; font-size:12.5px; font-weight:500; letter-spacing:.02em; transition:background .2s,color .2s;}
+.sh-go i{font-style:normal; display:inline-grid; place-items:center; width:1.4rem; height:1.4rem; border-radius:50%; background:var(--accent); color:#fff; font-size:12px; transition:transform .2s;}
+.sh-card:hover .sh-go,.sh-card:focus-visible .sh-go{background:var(--accent); color:#fff;}
+.sh-card:hover .sh-go i,.sh-card:focus-visible .sh-go i{background:#fff; color:var(--accent); transform:translateX(2px);}
+.sh-go{padding-bottom:.28rem;}
+.pkg-peek{align-self:flex-start; margin:-.2rem 0 .3rem;}
+.svc-peek{align-self:flex-start; margin-top:.4rem;}
+.svc-teaser-card .svc-from{margin-top:0;}
+.svc-teaser-card .svc-peek{margin-top:auto;}
