@@ -141,7 +141,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 </head>
 <body>
 <div class="wrap" id="wrap">
-  <div class="topbar"><span class="brand">HerStyleVault</span><span class="top-actions"><button class="dl-btn alt" id="email-btn" hidden disabled>Email me my PDF</button><button class="dl-btn" id="dl-btn" disabled>Download PDF</button></span></div>
+  <div class="topbar"><span class="brand">HerStyleVault</span><span class="top-actions"><button class="dl-btn" id="email-btn" disabled>Email me my PDF</button></span></div>
   <div class="dl-ready" id="dl-ready" hidden></div>
   <div id="app"><div class="loader"><div class="spinner"></div><p>Generating your report...</p><p class="sub">This takes about 20 to 30 seconds. We're building your personalized color and style analysis now.</p></div></div>
 </div>
@@ -359,12 +359,12 @@ function fitPreviews(){
 async function renderReport(r){
   REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
-  document.getElementById('app').innerHTML='<p class="hint">Your report is ready. Scroll through it here, or download the PDF to keep.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
+  document.getElementById('app').innerHTML='<p class="hint">Your report is ready. Scroll through it here, and tap <b>Email me my PDF</b> to get a copy in your inbox.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
     +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 45 days.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>';
   fitPreviews();window.addEventListener('resize',fitPreviews);
-  const btn=document.getElementById('dl-btn');btn.disabled=false;btn.onclick=()=>downloadPdf(btn);
-  /* the email button only appears once email sending is set up on the server */
-  fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(j&&j.ok){window.__EMAIL_OK=true;const eb=document.getElementById('email-btn');eb.hidden=false;eb.disabled=false;eb.onclick=()=>emailPdf(eb);}}).catch(()=>{});
+  /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
+  const eb=document.getElementById('email-btn');eb.disabled=false;eb.onclick=()=>emailPdf(eb);
+  fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok)){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);}}).catch(()=>{eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);});
 }
 async function buildPdf(){
   const root=document.getElementById('pdf-root');
@@ -397,7 +397,7 @@ async function downloadPdf(btn){
     const blob=new Blob([pdf.output('arraybuffer')],{type:isSafari?'application/octet-stream':'application/pdf'});
     const url=URL.createObjectURL(blob);
     const box=document.getElementById('dl-ready');
-    box.innerHTML='Your PDF is ready. <a href="'+url+'" download="'+fname.replace(/"/g,'')+'">Tap here to download it</a>'+(window.__EMAIL_OK?' &middot; or use <b>Email me my PDF</b> above.':'');box.hidden=false;
+    box.innerHTML='Your PDF is ready. <a href="'+url+'" download="'+fname.replace(/"/g,'')+'">Tap here to download it</a>'+'';box.hidden=false;
     if(!isSafari)pdf.save(fname);
   }catch(e){console.error(e);alert('Something went wrong building the PDF. Please try again.');}
   finally{btn.disabled=false;btn.textContent=label;}
@@ -414,8 +414,8 @@ async function emailPdf(btn){
     const j=await res.json().catch(()=>({}));
     if(res.ok&&j.ok)say('Sent! Check your inbox at <strong>'+esc(j.to)+'</strong>. If you do not see it in a minute or two, look in spam or promotions.');
     else if(res.status===429)say('We have already emailed this report a few times. Please check your inbox and spam folder.');
-    else say('We could not send the email right now. Please use <b>Download PDF</b> instead.');
-  }catch(e){console.error(e);say('We could not send the email right now. Please use <b>Download PDF</b> instead.');}
+    else say('We could not send the email just now. Please try again in a minute.');
+  }catch(e){console.error(e);say('We could not send the email just now. Please try again in a minute.');}
   finally{btn.disabled=false;btn.textContent=label;}
 }
 async function init() {
