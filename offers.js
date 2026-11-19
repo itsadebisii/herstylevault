@@ -3,7 +3,7 @@
 /* art = the line drawings on the cover picture (see offers-art.js). Add or change them freely. */
 var OFFERS = [
   {
-    slug: 'the-unlock', tone: 'cream', coverImage: 'images/offers/the-unlock.jpg', art: ['blazer'], kind: 'package', name: 'The Unlock', tag: 'Private Styling Package',
+    slug: 'the-unlock', best: 'Best if you want fresh outfits from your own closet, plus a targeted shopping list.', tone: 'cream', coverImage: 'images/offers/the-unlock.jpg', art: ['blazer'], kind: 'package', name: 'The Unlock', tag: 'Private Styling Package',
     from: '$225', fromNote: '/ package', meta: '3 sessions + free first-time consultation',
     short: '3 sessions, 5 complete outfit builds',
     headline: 'Find your style identity, <em>unlocked</em>',
@@ -25,7 +25,7 @@ var OFFERS = [
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
-    slug: 'the-vault-edit', tone: 'blush', coverImage: 'images/offers/the-vault-edit.jpg', art: ['blazer','trousers'], kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
+    slug: 'the-vault-edit', best: 'Best if you want a deeper refresh: 7 outfits plus the Wardrobe Detox Guide to clear your closet.', tone: 'blush', coverImage: 'images/offers/the-vault-edit.jpg', art: ['blazer','trousers'], kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
     from: '$400', fromNote: '/ package', meta: '4 sessions + free first-time consultation',
     short: '4 sessions, 7 complete outfit builds',
     headline: 'Build a wardrobe with <em>purpose</em>',
@@ -46,7 +46,7 @@ var OFFERS = [
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
-    slug: 'the-full-reveal', tone: 'wine', coverImage: 'images/offers/the-full-reveal.jpg', art: ['dressBelted','heel','bag'], kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
+    slug: 'the-full-reveal', best: 'Best if you want a full closet overhaul with in-person shopping trips (in person only).', tone: 'wine', coverImage: 'images/offers/the-full-reveal.jpg', art: ['dressBelted','heel','bag'], kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
     from: '$725', fromNote: '/ package', meta: '5 sessions + free first-time consultation',
     short: '5 sessions, 10 outfits, in-person shopping trips',
     headline: 'The full overhaul, <em>in person</em>',

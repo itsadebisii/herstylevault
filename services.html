@@ -68,7 +68,7 @@
   var g = document.getElementById('svcGrid');
   g.innerHTML = OFFERS.filter(function(o){ return o.kind === 'service'; }).map(card).join('');
   applyBookButtons();
-  var btns = document.querySelectorAll('.svc-v'), wide = window.innerWidth > 980, phone = window.innerWidth <= 620;
+  var btns = document.querySelectorAll('.svc-v'), wide = window.innerWidth > 980, phone = window.innerWidth <= 767;
   function setView(v, save){
     g.setAttribute('data-view', v);
     Array.prototype.forEach.call(btns, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-v') === v ? 'true' : 'false'); });
@@ -76,7 +76,7 @@
   }
   Array.prototype.forEach.call(btns, function(b){ b.addEventListener('click', function(){ setView(b.getAttribute('data-v'), true); }); });
   var start = phone ? '1' : '2';
-  try { var sv = localStorage.getItem('hsvSvcView'); if ((sv === '1' || sv === '2') || (sv === '4' && wide)) start = sv; } catch(e){}
+  try { var sv = localStorage.getItem('hsvSvcView'); if (!phone && ((sv === '1' || sv === '2') || (sv === '4' && wide))) start = sv; } catch(e){}
   setView(start, false);
 })();
 </script>

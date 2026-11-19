@@ -75,20 +75,20 @@
     var url = offerUrl(o);
     return '<div class="vd-card tone-' + (o.tone || 'cream') + '"><a class="vd-media" href="' + url + '" aria-label="Details: ' + plain(o.name) + '"><div class="vd-cover has-img"><img src="' + o.coverImage + '" alt="' + plain(o.name) + ' cover" loading="lazy"></div></a><div class="vd-body">' +
       '<div class="vd-toprow"><p class="vd-eyebrow">' + (tagNote[o.slug] || 'Private Styling Package') + '</p><a class="vd-peek" href="' + url + '">Details <i aria-hidden="true">\u2192</i></a></div>' +
-      '<h3 class="card-title">' + o.name + '</h3><p class="vd-desc">' + o.short + '</p>' +
+      '<h3 class="card-title">' + o.name + '</h3>' + (o.best ? '<p class="vd-desc"><b>' + o.best.split(' ').slice(0,2).join(' ') + '</b> ' + o.best.split(' ').slice(2).join(' ') + '</p>' : '') + '<p class="vd-desc">' + o.short + '</p>' +
       '<p class="vd-prices"><span class="price">' + o.from + ' <small>/ package</small></span></p><p class="vd-desc" style="font-size:12.5px;">' + o.meta + '</p>' +
       '<div class="vd-actions"><a class="btn ' + (o.slug === 'the-vault-edit' ? 'btn-primary' : 'btn-secondary') + ' vd-buy" href="book.html">Book ' + o.name + '</a></div></div></div>';
   }
   var g = document.getElementById('pkgGrid');
   g.innerHTML = OFFERS.filter(function(o){ return o.kind === 'package'; }).map(card).join('');
-  var btns = document.querySelectorAll('.svc-v'), w = window.innerWidth, start = w <= 620 ? '1' : (w <= 980 ? '2' : '3');
+  var btns = document.querySelectorAll('.svc-v'), w = window.innerWidth, start = w <= 767 ? '1' : (w <= 980 ? '2' : '3');
   function setView(v, save){
     g.setAttribute('data-view', v);
     Array.prototype.forEach.call(btns, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-v') === v ? 'true' : 'false'); });
     if (save) { try { localStorage.setItem('hsvPkgView', v); } catch(e){} }
   }
   Array.prototype.forEach.call(btns, function(b){ b.addEventListener('click', function(){ setView(b.getAttribute('data-v'), true); }); });
-  try { var sv = localStorage.getItem('hsvPkgView'); if (sv === '1' || (sv === '2' && w > 620) || (sv === '3' && w > 980)) start = sv; } catch(e){}
+  try { var sv = localStorage.getItem('hsvPkgView'); if (sv === '1' || (sv === '2' && w > 767) || (sv === '3' && w > 980)) start = sv; } catch(e){}
   setView(start, false);
 })();
 </script>

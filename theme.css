@@ -777,7 +777,6 @@ h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;
   .offer-hero .dg-info{position:static;}
 }
 @media (max-width:620px){
-  #packages .pkg-card>ul{display:none;}
   #packages .pkg-card .price{margin-top:-.2rem;}
 }
 
@@ -789,3 +788,43 @@ h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;
 .vd-mini{min-width:0;}
 .vd-mini-body{overflow-wrap:anywhere;}
 .vd-mini-meta{flex-wrap:wrap; row-gap:.2rem;}
+
+.promo-popup{bottom:5.4rem;}
+.cmp tbody th{position:sticky; left:0; background:var(--bg); z-index:1;}
+.cmp tbody .hl{background:var(--surface);}
+.svc-grid:empty{min-height:70vh; background:linear-gradient(90deg,transparent,rgba(0,0,0,.03),transparent); background-size:200% 100%; animation:skel 1.4s ease infinite;}
+@keyframes skel{from{background-position:200% 0}to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.svc-grid:empty{animation:none;}}
+
+/* home package cards: best-for line, two buttons, phone carousel */
+.pkg-best{font-size:14px; line-height:1.5; color:var(--ink-soft); margin:-.2rem 0 .2rem;}
+.pkg-actions{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:auto;}
+.pkg-card .pkg-actions .btn{margin-top:0; align-self:auto;}
+.pkg-more summary{display:none;}
+.pkg-dots{display:none;}
+@media (max-width:620px){
+  .pkg-more{display:none;}
+  .pkg-grid{display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:2px 7vw 6px 2px; margin:0 -16px; padding-left:16px; scrollbar-width:none;}
+  .pkg-grid::-webkit-scrollbar{display:none;}
+  .pkg-grid>.pkg-card{flex:0 0 84%; scroll-snap-align:center; min-width:0;}
+  .pkg-actions{flex-direction:column;}
+  .pkg-actions .btn{width:100%;}
+  .pkg-dots{display:flex; justify-content:center; gap:4px; margin:8px 0 2px;}
+  .pkg-dots button{position:relative; width:32px; height:32px; padding:0; border:0; background:transparent; cursor:pointer; -webkit-tap-highlight-color:transparent;}
+  .pkg-dots button::after{content:''; position:absolute; left:50%; top:50%; width:10px; height:10px; margin:-5px 0 0 -5px; border-radius:50%; border:1px solid var(--accent); background:transparent;}
+  .pkg-dots button[aria-current="true"]::after{background:var(--accent);}
+}
+/* Sound familiar: three starting points, links always visible */
+.quote-grid.three{grid-template-columns:repeat(3,1fr);}
+@media (max-width:899px){.quote-grid.three{grid-template-columns:1fr;}}
+.quote-grid.three .quote-cell{cursor:default; gap:1rem;}
+.quote-grid.three .q-go{display:flex; flex-direction:column; align-items:flex-start; gap:.6rem;}
+.quote-grid.three .q-alt{font-size:13px; color:var(--ink-soft); text-decoration:underline; text-underline-offset:3px;}
+.pkg-best.vd-best{margin:0;}
+.pkg-card.tone-wine .btn-primary{background:#FAF9F6; color:#4E0B14; border-color:#FAF9F6;}
+.pkg-card.tone-wine .btn-secondary{background:transparent; color:#FAF9F6; border-color:rgba(250,249,246,.65);}
+
+/* phones: cards already stack in one column, so the cards-per-row switch is hidden */
+@media (max-width:767px){ .svc-view{display:none;} }
+
+.cmp thead th:first-child{position:sticky; left:0; background:var(--bg); z-index:2;}

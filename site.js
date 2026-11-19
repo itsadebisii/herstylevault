@@ -187,14 +187,29 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
     report:   {n:'Signature Style Report', p:'$40', u:'digital-signature-style-report.html', t:'Your color season, body shape and style persona in one custom report, ready in minutes.'},
     consult:  {n:'A free consultation', p:'Free', u:'book.html', t:'A free 30-minute call for first-time clients. We talk it through and I recommend what fits.'}
   };
+  var A = {};
+  function recommend(a){
+    var k = a.budget === 'low' ? 'unlock' : a.budget === 'mid' ? 'vault' : 'reveal', note = '';
+    if (k === 'reveal' && a.where === 'virtual') { k = 'vault'; note = 'The Full Reveal is in person only, so The Vault Edit is the best fit for virtual sessions.'; }
+    else if (k === 'reveal') note = 'The Full Reveal is in person (near Boston and Southern NH) and includes three shopping trips with you.';
+    else if (k === 'unlock' && a.focus === 'own') note = 'The Unlock builds your 5 outfits from the pieces you already own.';
+    else if (k === 'vault' && a.focus === 'own') note = 'The Vault Edit includes the Wardrobe Detox Guide to help you clear your closet.';
+    if (k !== 'reveal' && a.where !== 'virtual' && a.focus !== 'own') note = (note ? note + ' ' : '') + 'Want a shopping trip with me? You can add one in person for $100.';
+    return {k: k, note: note};
+  }
+  window.__hsvRec = recommend; window.__hsvR = R;
   var Q = {
     start: {q:'What do you need help with?', o:[
       ['Outfits for an event or trip', {r:'occasion'}], ['Outfits for a group trip or event', {r:'ensemble'}],
-      ['A full style overhaul', {next:'budget'}], ['A few new pieces that all work together', {r:'mini'}],
+      ['A full style overhaul', {next:'where'}], ['A few new pieces that all work together', {r:'mini'}],
       ['Declutter and organize my closet', {next:'closet'}], ['Find my colors and body shape', {r:'report'}],
       ['I am not sure', {r:'consult'}]]},
+    where: {q:'Do you want to meet in person or virtually?', o:[
+      ['In person', {set:['where','person'], next:'focus'}], ['Virtual', {set:['where','virtual'], next:'focus'}], ['Either is fine', {set:['where','either'], next:'focus'}]]},
+    focus: {q:'What should we focus on?', o:[
+      ['Outfits from what I already own', {set:['focus','own'], next:'budget'}], ['Shopping for new pieces', {set:['focus','shop'], next:'budget'}], ['Both', {set:['focus','both'], next:'budget'}]]},
     budget: {q:'What feels right for your budget?', o:[
-      ['About $225', {r:'unlock'}], ['About $400', {r:'vault'}], ['$725, the full in-person experience', {r:'reveal'}]]},
+      ['About $225', {set:['budget','low'], rec:true}], ['About $400', {set:['budget','mid'], rec:true}], ['$725, the full experience', {set:['budget','high'], rec:true}]]},
     closet: {q:'How would you like to do it?', o:[
       ['In person, with you helping', {r:'detox'}], ['On my own, with a guide', {r:'guide'}]]}
   };
@@ -216,21 +231,21 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
   function show(key){
     var s = Q[key];
     box.innerHTML = '<button type="button" class="hh-x" aria-label="Close">×</button><h2>' + esc(s.q) + '</h2><p class="hh-sub">Pick one. No wrong answers.</p>' + s.o.map(function(o, i){ return '<button type="button" class="hh-o" data-i="' + i + '">' + esc(o[0]) + '</button>'; }).join('');
-    Array.prototype.forEach.call(box.querySelectorAll('.hh-o'), function(b){ b.addEventListener('click', function(){ var a = s.o[+b.getAttribute('data-i')][1]; if (a.next) show(a.next); else result(a.r); }); });
+    Array.prototype.forEach.call(box.querySelectorAll('.hh-o'), function(b){ b.addEventListener('click', function(){ var a = s.o[+b.getAttribute('data-i')][1]; if (a.set) A[a.set[0]] = a.set[1]; if (a.rec) { var rr = recommend(A); result(rr.k, rr.note); } else if (a.next) show(a.next); else result(a.r); }); });
     wire();
   }
-  function result(k){
+  function result(k, note){
     var r = R[k], pk = /^(unlock|vault|reveal)$/.test(k);
     box.innerHTML = '<button type="button" class="hh-x" aria-label="Close">×</button><h2>I would start here</h2><p class="hh-sub">A good fit for what you told me.</p>'
-      + '<div class="hh-res"><b>' + esc(r.n) + '</b><i>' + esc(r.p) + '</i><p>' + esc(r.t) + '</p></div>'
+      + '<div class="hh-res"><b>' + esc(r.n) + '</b><i>' + esc(r.p) + '</i><p>' + esc(r.t) + '</p>' + (note ? '<p>' + esc(note) + '</p>' : '') + '</div>'
       + '<a class="hh-go" href="' + r.u + '">' + (k === 'consult' ? 'Book a free call' : 'See details') + '</a>'
       + (pk ? '<a class="hh-go" style="background:#fff;color:#7A1321;border:1px solid #7A1321;" href="book.html">Book a free call first</a>' : '')
       + '<br><button type="button" class="hh-link" data-restart>Start over</button>';
-    box.querySelector('[data-restart]').addEventListener('click', function(){ show('start'); });
+    box.querySelector('[data-restart]').addEventListener('click', function(){ A = {}; show('start'); });
     wire();
   }
   function wire(){ box.querySelector('.hh-x').addEventListener('click', close); }
-  function open(){ show('start'); box.hidden = false; btn.setAttribute('aria-expanded', 'true'); btn.textContent = 'Close'; }
+  function open(){ A = {}; show('start'); box.hidden = false; btn.setAttribute('aria-expanded', 'true'); btn.textContent = 'Close'; }
   function close(){ box.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.textContent = lbl(); }
   btn.addEventListener('click', function(){ if (box.hidden) open(); else close(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) { close(); btn.focus(); } });

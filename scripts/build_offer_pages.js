@@ -50,7 +50,7 @@ ctx.__O.forEach((o) => {
   const stat = '<section class="band wrap offer-hero tone-' + (o.tone || 'cream') + '" style="padding-bottom:clamp(2rem,4vw,3rem);">' +
     '<p class="crumb"><a href="' + listUrl + '">' + listName.replace('À', '&Agrave;') + '</a> / ' + nameH + '</p>' +
     '<h1 class="page-title"><span class="h1-kw">' + nameH + ': ' + plain(o.tag).replace(/&/g, '&amp;') + '</span>' + o.headline + '</h1>' +
-    '<p class="sub">' + o.lead + '</p>' +
+    '<p class="sub">' + o.lead + '</p>' + (o.best ? '<p><em>' + o.best + '</em></p>' : '') +
     '<p class="price">' + (isSvc ? 'From ' : '') + o.from + ' <small>' + (o.fromNote || '') + '</small></p>' +
     '<h2>What’s included</h2><ul>' + li(o.includes) + '</ul>' +
     '<h2>How it works</h2><ol>' + (o.steps || []).map((s) => '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>').join('') + '</ol>' +
