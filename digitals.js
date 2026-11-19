@@ -27,6 +27,7 @@
 var DIGITALS = [
   {
     slug: 'signature-style-report',
+    seoName: 'Signature Style Report', seoTitle: 'Signature Style Report: Color & Body Shape | HerStyleVault', seoDesc: 'Get your color season, body shape and signature style in one custom Signature Style Report. Answer 23 questions, add a photo and get your PDF by email.',
     name: 'Signature Style Report',
     category: 'reports', status: 'live',
     coverSub: 'Color · Shape · Style',
@@ -75,6 +76,7 @@ var DIGITALS = [
   },
   {
     slug: 'wardrobe-detox-series',
+    seoName: 'Wardrobe Detox Guide & Checklist', seoTitle: 'Wardrobe Detox Guide & Checklist | HerStyleVault', seoDesc: 'Declutter your closet with the Wardrobe Detox Guide, an 11-page PDF for $28.99, or the one-page Checklist. A calm, zone-by-zone method you can start today.',
     name: 'The Wardrobe Detox Series',
     eyebrow: 'Wardrobe Detox Series',
     cardCover: 'images/digitals/detox-series-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
@@ -182,6 +184,7 @@ var DIGITALS = [
   }
   ,{
     slug: 'coloring-book',
+    seoName: 'The HerStyleVault Fashion & Cocktail Coloring Book', seoTitle: 'Fashion & Cocktail Coloring Book | HerStyleVault', seoDesc: 'A 48-page fashion and cocktail coloring book for slow evenings: seven classic drinks, style illustrations and cocktail lore. Digital or paper, coming soon.',
     name: 'The HerStyleVault Coloring Book',
     eyebrow: 'Wind Down · Edition 001',
     category: 'windown', status: 'coming-soon', coverTone: 'stone',

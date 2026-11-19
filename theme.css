@@ -730,3 +730,6 @@ a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
 /* four choices: a tidy 2 x 2 grid */
 .dg-opts:has(.dg-opt:nth-child(4)){display:grid; grid-template-columns:1fr 1fr;}
 .dg-opts:has(.dg-opt:nth-child(4)) .dg-opt{flex:none; width:auto;}
+
+/* keyword line inside the page H1 (styled like the small label it replaced) */
+h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;font-size:11px;line-height:1.4;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);margin:0 0 0.9rem;}
