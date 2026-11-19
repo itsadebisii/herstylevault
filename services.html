@@ -42,6 +42,7 @@
 (function(){
   function plain(t){ return String(t).replace(/<[^>]*>/g,''); }
   function cover(o){
+    if (o.coverImage) return '<div class="vd-cover has-img"><img src="' + o.coverImage + '" alt="' + plain(o.name) + ' cover" loading="lazy"></div>';
     var words = plain(o.name).split(' '), last = words.pop(), first = words.join(' ');
     var art = (o.art || []).map(function(k){ return OFFER_ART[k] || ''; }).join('');
     return '<div class="vd-cover tone-ed" role="img" aria-label="' + plain(o.name) + ' cover"><span class="ed-top">HerStyleVault \u00b7 ' + o.tag.replace(/ ·.*/,'') + '</span><i class="ed-rule"></i>' +
