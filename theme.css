@@ -638,29 +638,26 @@ a.vd-opt:hover,a.vd-opt:focus-visible{border-color:var(--accent);}
 .vd-peek:hover,.vd-peek:focus-visible{background:var(--accent); color:#fff;}
 .vd-peek:hover i,.vd-peek:focus-visible i{background:#fff; color:var(--accent); transform:translateX(2px);}
 
-/* services: choose bigger or smaller cards (1 or 2 across on a phone, 2 or 4 across on a computer) */
+/* services: pick 1, 2 or 4 cards per row (4 is only offered on wide screens) */
 .svc-view{display:flex; align-items:center; justify-content:center; gap:.5rem; margin:0 auto 1.8rem; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-soft);}
 .svc-v{width:2.3rem; height:2.3rem; display:grid; place-items:center; border:1px solid var(--line); border-radius:50%; background:transparent; color:var(--ink-soft); cursor:pointer; transition:background .2s,color .2s,border-color .2s;}
 .svc-v:hover{border-color:var(--accent); color:var(--accent);}
 .svc-v[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff;}
-.svc-grid[data-view="big"]{max-width:880px; margin-left:auto; margin-right:auto;}
-.svc-grid[data-view="big"]>.vd-card{flex-basis:calc((100% - 1.8rem) / 2);}
+@media (max-width:980px){.svc-v[data-v="4"]{display:none;}}
+.svc-grid[data-view="1"]{max-width:440px; margin-left:auto; margin-right:auto;}
+.svc-grid[data-view="1"]>.vd-card{flex-basis:100%; max-width:none;}
+.svc-grid[data-view="2"]{max-width:880px; margin-left:auto; margin-right:auto;}
+.svc-grid[data-view="2"]>.vd-card{flex-basis:calc((100% - 1.8rem) / 2); max-width:none;}
+.svc-grid[data-view="4"]>.vd-card{flex-basis:calc((100% - 5.4rem) / 4); max-width:none;}
 @media (max-width:620px){
-  .svc-grid[data-view="big"]>.vd-card{flex-basis:100%; max-width:420px;}
-  .svc-grid[data-view="small"]{gap:1.8rem .8rem;}
-  .svc-grid[data-view="small"]>.vd-card{flex-basis:calc((100% - .8rem) / 2); max-width:none; gap:.8rem;}
-  .svc-grid[data-view="small"] .vd-toprow{flex-direction:column; align-items:flex-start; gap:.45rem;}
-  .svc-grid[data-view="small"] .vd-eyebrow{font-size:9.5px; letter-spacing:.1em;}
-  .svc-grid[data-view="small"] .card-title{font-size:19px; line-height:1.15;}
-  .svc-grid[data-view="small"] .vd-desc{font-size:12.5px;}
-  .svc-grid[data-view="small"] .vd-prices .price{font-size:19px;}
-  .svc-grid[data-view="small"] .vd-buy{font-size:12px; padding:.7rem .4rem;}
-  .svc-grid[data-view="small"] .vd-cover{font-size:60%;}
+  .svc-grid[data-view="2"]{max-width:none; gap:1.8rem .8rem;}
+  .svc-grid[data-view="2"]>.vd-card{flex-basis:calc((100% - .8rem) / 2); gap:.8rem;}
+  .svc-grid[data-view="2"] .vd-toprow{flex-direction:column; align-items:flex-start; gap:.45rem;}
+  .svc-grid[data-view="2"] .vd-eyebrow{font-size:9.5px; letter-spacing:.1em;}
+  .svc-grid[data-view="2"] .card-title{font-size:19px; line-height:1.15;}
+  .svc-grid[data-view="2"] .vd-desc{font-size:12.5px;}
+  .svc-grid[data-view="2"] .vd-prices .price{font-size:19px;}
+  .svc-grid[data-view="2"] .vd-buy{font-size:12px; padding:.7rem .4rem;}
 }
-@media (min-width:621px){
-  .svc-grid[data-view="small"]{max-width:none;}
-  .svc-grid[data-view="small"]>.vd-card{flex-basis:calc((100% - 5.4rem) / 4);}
-}
-@media (min-width:621px) and (max-width:980px){ .svc-grid[data-view="small"]>.vd-card{flex-basis:calc((100% - 1.8rem) / 2);} }
 /* the card already shows this line under the cover, so the cover's own subtitle is hidden here (it collided with the art at small sizes) */
 .svc-grid .ed-sub{display:none;}
