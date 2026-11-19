@@ -63,7 +63,7 @@ var DIGITALS = [
       ['How long does it take?', 'About 3 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
-      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 45 days, the $40 comes off it.']
+      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 45 days, the $40 comes off your final payment.']
     ],
     buyLabel: 'Start Style Analysis',
     cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },

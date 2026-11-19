@@ -264,7 +264,7 @@ function buildPages(r){
     pages.push(pdfPage('',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
   });
   pages.push(pdfPage('pdf-closing','<div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
-    +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 45 days (by '+esc(until)+'). One use, on your first package. Mention your report on your free consultation and it comes off your deposit invoice. It cannot be combined with other offers.</div>'
+    +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 45 days (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>'
     +'<p style="font-size:0.9rem;color:#3F3C38;">Book your free consultation at<br><strong data-href="https://herstylevault.com/book.html">herstylevault.com/book.html</strong></p><p style="font-size:0.9rem;color:#3F3C38;margin-top:1rem;">With love, <strong>Adebisi</strong><br>HerStyleVault</p>'));
   return pages;
 }
