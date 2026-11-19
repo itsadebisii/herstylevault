@@ -881,3 +881,48 @@ main p,section p{max-width:56ch;}
 @media (hover:none) and (min-width:900px){
   .how-card .how-overlay{margin:1.2rem -32px 0;}
 }
+
+
+/* ===== second polish pass ===== */
+/* package tones: lighter, fading washes */
+.tone-cream{--tb:rgba(24,23,22,0.035); --tb2:rgba(24,23,22,0.004);}
+.tone-blush{--tb:rgba(122,19,33,0.065); --tb2:rgba(122,19,33,0.008);}
+.tone-wine{--tb:rgba(122,19,33,0.10); --tb2:rgba(122,19,33,0.015);}
+.tone-sand{--tb:rgba(150,110,50,0.07); --tb2:rgba(150,110,50,0.008);}
+.tone-mist{--tb:rgba(60,90,110,0.06); --tb2:rgba(60,90,110,0.008);}
+.tone-sage{--tb:rgba(70,105,70,0.07); --tb2:rgba(70,105,70,0.008);}
+.tone-stone{--tb:rgba(24,23,22,0.045); --tb2:rgba(24,23,22,0.006);}
+.tone-cream,.tone-blush,.tone-wine,.tone-sand,.tone-mist,.tone-sage,.tone-stone{background:linear-gradient(180deg,var(--tb) 0%,var(--tb2) 100%);}
+
+/* "Or try ..." sits under the button; smaller on phones */
+.quote-grid.three .q-go{display:flex; flex-direction:column; align-items:flex-start; gap:12px;}
+.quote-grid.three .q-alt{display:block; font-size:15px;}
+@media (max-width:620px){ .quote-grid.three .q-alt{font-size:13px;} }
+
+/* compare button with a plain link under it */
+.cta-row.cta-stack{display:flex; flex-direction:column; align-items:center; gap:20px; margin-top:32px;}
+.text-link{font-size:14px; color:var(--ink-soft); text-decoration:underline; text-underline-offset:4px;}
+.text-link:hover{color:var(--accent);}
+
+/* services on the home page: one box at a time (two on wide screens) with arrows */
+.svc-slider{position:relative;}
+.svc-teaser{display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch;}
+.svc-teaser::-webkit-scrollbar{display:none;}
+.svc-teaser-card{flex:0 0 100%; min-width:0; scroll-snap-align:start;}
+@media (min-width:900px){ .svc-teaser{gap:24px;} .svc-teaser-card{flex-basis:calc((100% - 24px) / 2);} }
+.svc-nav{display:flex; align-items:center; justify-content:center; gap:16px; margin-top:20px;}
+.svc-nav button{width:48px; height:48px; border:1px solid var(--accent); border-radius:4px; background:transparent; color:var(--accent); font-size:20px; line-height:1; cursor:pointer;}
+.svc-nav button:disabled{opacity:.3; cursor:default;}
+.svc-nav button:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.svc-count{font-size:13px; color:var(--ink-soft); min-width:64px; text-align:center;}
+
+/* package page: session by session */
+.dg-sessions{list-style:none; margin:0; padding:0;}
+.dg-sessions li{display:grid; grid-template-columns:110px 1fr; gap:12px; padding:12px 0; border-bottom:1px solid var(--hair); font-size:14.5px; line-height:1.55;}
+.dg-sessions li:last-child{border-bottom:0;}
+.dg-sessions b{font-weight:600; color:var(--ink);}
+.dg-sessions span{color:var(--ink-soft);}
+@media (max-width:620px){ .dg-sessions li{grid-template-columns:1fr; gap:2px;} }
+
+/* shop page uses the same cards as the packages, services and digitals pages */
+.sh-sec .svc-grid{margin-top:8px;}

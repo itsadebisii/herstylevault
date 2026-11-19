@@ -68,6 +68,7 @@
       : '<div class="dg-price"><span class="price">' + o.from + '</span><span class="meta" style="margin:0;">' + o.fromNote + '</span></div>';
     var acc = [];
     acc.push(item(isSvc ? 'What\u2019s Included' : 'What\u2019s Included', '<ul class="dg-list">' + o.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>', true));
+    if (o.sessions) acc.push(item('Session by Session', '<ol class="dg-sessions">' + o.sessions.map(function(x){ return '<li><b>' + x[0] + '</b><span>' + x[1] + '</span></li>'; }).join('') + '</ol>', true));
     acc.push(item('How It Works', '<ol class="dg-ol">' + o.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
     acc.push(item('Good to Know', o.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
     var others = OFFERS.filter(function(x){ return x !== o && x.kind === o.kind; });

@@ -3,7 +3,7 @@
 /* art = the line drawings on the cover picture (see offers-art.js). Add or change them freely. */
 var OFFERS = [
   {
-    slug: 'the-unlock', best: 'Best if you want fresh outfits from your own closet, plus a targeted shopping list.', tone: 'cream', coverImage: 'images/offers/the-unlock.jpg', art: ['blazer'], kind: 'package', name: 'The Unlock', tag: 'Private Styling Package',
+    slug: 'the-unlock', sessions: [['Session 1','Up to 1 hour · main styling session · in person or virtual'],['Session 2','Up to 1 hour · check-in &amp; adjustments · in person or virtual'],['Session 3','Up to 1 hour · final review &amp; approval · in person or virtual']], best: 'Best if you want fresh outfits from your own closet, plus a targeted shopping list.', tone: 'cream', coverImage: 'images/offers/the-unlock.jpg', art: ['blazer'], kind: 'package', name: 'The Unlock', tag: 'Private Styling Package',
     from: '$225', fromNote: '/ package', meta: '3 sessions + free first-time consultation',
     short: '3 sessions, 5 complete outfit builds',
     headline: 'Find your style identity, <em>unlocked</em>',
@@ -25,7 +25,7 @@ var OFFERS = [
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
-    slug: 'the-vault-edit', best: 'Best if you want a deeper refresh: 7 outfits plus the Wardrobe Detox Guide to clear your closet.', tone: 'blush', coverImage: 'images/offers/the-vault-edit.jpg', art: ['blazer','trousers'], kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
+    slug: 'the-vault-edit', sessions: [['Session 1','Up to 2 hours · main styling session · in person or virtual'],['Session 2','Up to 1 hour · check-in &amp; adjustments · in person or virtual'],['Session 3','Up to 1 hour · mid review · in person or virtual'],['Session 4','Up to 1 hour · final review &amp; approval · in person or virtual']], best: 'Best if you want a deeper refresh: 7 outfits plus the Wardrobe Detox Guide to clear your closet.', tone: 'blush', coverImage: 'images/offers/the-vault-edit.jpg', art: ['blazer','trousers'], kind: 'package', name: 'The Vault Edit', tag: 'Private Styling Package · Most Popular',
     from: '$400', fromNote: '/ package', meta: '4 sessions + free first-time consultation',
     short: '4 sessions, 7 complete outfit builds',
     headline: 'Build a wardrobe with <em>purpose</em>',
@@ -46,7 +46,7 @@ var OFFERS = [
     cta: { label: 'Get Started', href: 'book.html' }, ctaNote: 'Every first-time client begins with a free consultation. No commitment.'
   },
   {
-    slug: 'the-full-reveal', best: 'Best if you want a full closet overhaul with in-person shopping trips (in person only).', tone: 'wine', coverImage: 'images/offers/the-full-reveal.jpg', art: ['dressBelted','heel','bag'], kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
+    slug: 'the-full-reveal', sessions: [['Session 1','Up to 2 hours · in person · the breakdown, closet audit &amp; planning'],['Sessions 2-4','Up to 2-3 hours each · in-person shopping trips'],['Session 5','Up to 1 hour · in person · The Reveal: trying on every final look together']], best: 'Best if you want a full closet overhaul with in-person shopping trips (in person only).', tone: 'wine', coverImage: 'images/offers/the-full-reveal.jpg', art: ['dressBelted','heel','bag'], kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
     from: '$725', fromNote: '/ package', meta: '5 sessions + free first-time consultation',
     short: '5 sessions, 10 outfits, in-person shopping trips',
     headline: 'The full overhaul, <em>in person</em>',
@@ -158,3 +158,21 @@ var OFFERS = [
 
 /* Page address for an offer: package-unlock.html, service-occasion-edit.html ... */
 function offerUrl(o){ return (o.kind === 'package' ? 'package-' : 'service-') + o.slug.replace(/^the-/, '') + '.html'; }
+
+/* The same card on the Packages, Services and Shop pages */
+var OFFER_TAG_NOTE = { 'the-unlock':'Starter', 'the-vault-edit':'Most Popular', 'the-full-reveal':'Premium' };
+function offerCard(o){
+  function plain(t){ return String(t).replace(/<[^>]*>/g, ''); }
+  var url = offerUrl(o), pkg = o.kind === 'package';
+  var cover = '<div class="vd-cover has-img"><img src="' + o.coverImage + '" alt="' + plain(o.name) + ' cover" loading="lazy"></div>';
+  var best = o.best ? '<p class="vd-desc"><b>' + o.best.split(' ').slice(0, 2).join(' ') + '</b> ' + o.best.split(' ').slice(2).join(' ') + '</p>' : '';
+  return '<div class="vd-card tone-' + (o.tone || 'cream') + '"><a class="vd-media" href="' + url + '" aria-label="Details: ' + plain(o.name) + '">' + cover + '</a><div class="vd-body">' +
+    '<div class="vd-toprow"><p class="vd-eyebrow">' + (pkg ? (OFFER_TAG_NOTE[o.slug] || 'Private Styling Package') : o.tag) + '</p><a class="vd-peek" href="' + url + '">Details <i aria-hidden="true">\u2192</i></a></div>' +
+    '<h3 class="card-title" role="heading" aria-level="2">' + o.name + '</h3>' + (pkg ? best : '') + '<p class="vd-desc">' + o.short + '</p>' +
+    '<p class="vd-prices"><span class="price">' + (pkg ? o.from + ' <small>/ package</small>' : 'From ' + o.from + (o.fromNote.indexOf('per person') > -1 ? ' <small>per person</small>' : '')) + '</span></p>' +
+    (pkg ? '<p class="vd-desc">' + o.meta + '</p>' : '') +
+    '<div class="vd-actions">' + (pkg
+      ? '<a class="btn ' + (o.slug === 'the-vault-edit' ? 'btn-primary' : 'btn-secondary') + ' vd-buy" href="book.html">Book ' + o.name + '</a>'
+      : '<a class="btn btn-primary vd-buy book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a>') +
+    '</div></div></div>';
+}
