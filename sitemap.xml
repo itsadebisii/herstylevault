@@ -41,6 +41,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://herstylevault.com/what-to-expect-services.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://herstylevault.com/policies.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
