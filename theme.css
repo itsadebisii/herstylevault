@@ -926,3 +926,7 @@ main p,section p{max-width:56ch;}
 
 /* shop page uses the same cards as the packages, services and digitals pages */
 .sh-sec .svc-grid{margin-top:8px;}
+
+/* tap-to-open card text (no label) */
+.vd-desc.vd-tap{cursor:pointer;}
+.vd-desc.vd-tap:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}

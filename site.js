@@ -253,3 +253,23 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
   btn.style.display = 'none'; window.addEventListener('scroll', reveal, {passive:true}); reveal();
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) { close(); btn.focus(); } });
 })();
+
+/* Card descriptions are cut off after 2 lines. When one is cut off, tapping the text opens the rest (tap again to close).
+   There is no label: the ellipsis is the only hint. Safe to call again after cards are drawn. */
+window.hsvTapMore = function(root){
+  Array.prototype.forEach.call((root || document).querySelectorAll('.vd-desc'), function(p){
+    if (p.getAttribute('data-more')) return;
+    if (p.scrollHeight <= p.clientHeight + 1) return;
+    p.setAttribute('data-more', '1');
+    p.classList.add('vd-tap'); p.setAttribute('role', 'button'); p.tabIndex = 0; p.setAttribute('aria-expanded', 'false');
+    function t(e){ e.preventDefault(); var open = p.classList.toggle('open'); p.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    p.addEventListener('click', t);
+    p.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') t(e); });
+  });
+};
+(function(){
+  var tm; function again(){ clearTimeout(tm); tm = setTimeout(function(){ window.hsvTapMore(document); }, 150); }
+  window.addEventListener('resize', again);
+  window.addEventListener('load', again);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(again);
+})();

@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css?v=1117431e">
+<link rel="stylesheet" href="theme.css?v=523f3f61">
 </head>
 <body>
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
@@ -44,14 +44,14 @@
 
 <footer class="site"><div class="footer-mount"></div></footer>
 
-<script src="site.js?v=ad29ab5d"></script>
-<script src="offers.js?v=78ec014e"></script>
+<script src="site.js?v=e5719494"></script>
+<script src="offers.js?v=91b7015b"></script>
 <script src="offers-art.js?v=79fd4b76"></script>
 <script>
 (function(){
   function plain(t){ return String(t).replace(/<[^>]*>/g,''); }
   var g = document.getElementById('svcGrid');
-  g.innerHTML = OFFERS.filter(function(o){ return o.kind === 'service'; }).map(offerCard).join('');
+  g.innerHTML = OFFERS.filter(function(o){ return o.kind === 'service'; }).map(offerCard).join(''); if (window.hsvTapMore) hsvTapMore(g);
   applyBookButtons();
   var btns = document.querySelectorAll('.svc-v'), wide = window.innerWidth > 980, phone = window.innerWidth <= 767;
   function setView(v, save){

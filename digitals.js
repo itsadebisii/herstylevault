@@ -81,7 +81,7 @@ var DIGITALS = [
     eyebrow: 'Wardrobe Detox Bundle',
     cardCover: 'images/digitals/detox-bundle-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
     category: 'guides', status: 'live',
-    buyLabel: 'Reset My Closet', /* the card button; it opens a small "which one?" chooser built from options below */
+    buyLabel: 'Buy Now', /* the card button; it opens a small "which one?" chooser built from options below */
     soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Bundle%20updates' },
     short: 'Declutter your closet your way: the 11-page Guide for the full reset, or the one-page Checklist for a quick one.',
     headline: 'Reset your closet, <em>one zone at a time</em>',
@@ -367,7 +367,7 @@ function digitalCard(p){
     buy = soon ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>'
                : '<a class="btn btn-primary vd-buy" href="' + (p.cta && p.cta.href) + '">' + (p.buyLabel || (p.cta && p.cta.label) || 'Buy Now') + '</a>';
   }
-  return '<div class="vd-card">' + cover + '<div class="vd-body"><div class="vd-toprow"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p><a class="vd-peek" href="' + url + '">Details <i aria-hidden="true">\u2192</i></a></div>' +
+  return '<div class="vd-card">' + cover + '<div class="vd-body"><div class="vd-toprow"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p><a class="vd-peek" href="' + url + '">See more <i aria-hidden="true">\u2192</i></a></div>' +
     '<h3 class="card-title">' + p.name + '</h3><p class="vd-desc">' + (p.short || '') + '</p>' + prices +
     '<div class="vd-actions">' + buy + '</div></div></div>';
 }
@@ -387,16 +387,5 @@ function digitalMini(p){
   return '<a class="vd-mini' + (soon ? ' is-soon' : '') + '" href="' + digitalUrl(p) + '">' + inner + '</a>';
 }
 
-/* "See more" appears only when a card description is cut off by the 2-line limit */
-function digitalMore(root){
-  Array.prototype.forEach.call((root || document).querySelectorAll('.vd-desc'), function(p){
-    if (p.getAttribute('data-more')) return;
-    if (p.scrollHeight <= p.clientHeight + 1) return;
-    p.setAttribute('data-more', '1');
-    var b = document.createElement('span'); b.className = 'vd-more'; b.setAttribute('role', 'button'); b.tabIndex = 0; b.textContent = 'See more';
-    function t(e){ e.preventDefault(); e.stopPropagation(); var open = p.classList.toggle('open'); b.textContent = open ? 'See less' : 'See more'; }
-    b.addEventListener('click', t);
-    b.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') t(e); });
-    p.parentNode.insertBefore(b, p.nextSibling);
-  });
-}
+/* Cut-off descriptions open when tapped (shared helper in site.js, no label) */
+function digitalMore(root){ if (window.hsvTapMore) window.hsvTapMore(root); }
