@@ -81,7 +81,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-prof-track{position:relative;height:6px;border-radius:3px;background:#DCD8D0;}
 .pdf-prof-dot{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#7A1321;border:3px solid #FAF9F6;box-shadow:0 0 0 1px #7A1321;transform:translate(-50%,-50%);}
 .pdf-prof-ends{display:flex;justify-content:space-between;margin-top:0.35rem;font-size:0.6rem;color:#8A8378;}
-.pdf-goalband{background:#4E0B14;border-radius:2px;padding:0.85rem 1.4rem;margin-top:1rem;}
+.pdf-goalband{background:#4E0B14;border-radius:2px;padding:0.8rem 1.4rem;margin-top:0.8rem;}
 .pdf-goalband .pdf-section-label{color:#DCD8D0;margin:0 0 0.3rem;}
 .pdf-goalband p:last-child{font-family:'Cormorant Garamond',serif;font-size:1.25rem;line-height:1.3;color:#FAF9F6;margin:0;font-style:italic;}
 .pdf-croq{background:#ECE8E2;border-radius:110px 110px 14px 14px;padding:22px 0 10px;align-self:stretch;display:flex;flex-direction:column;justify-content:center;}.pdf-croq-in{position:relative;}
@@ -93,6 +93,15 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-more-top{margin:1.6rem 0 0.7rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:#3F3C38;}
 .pdf-pill{display:inline-flex;align-items:center;gap:0.6rem;padding:0.4rem 0.45rem 0.4rem 1.2rem;border:1.5px solid #7A1321;border-radius:999px;color:#7A1321;font-size:0.85rem;font-weight:500;letter-spacing:0.02em;text-decoration:none;}
 .pdf-pill i{font-style:normal;display:inline-grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:50%;background:#7A1321;color:#fff;font-size:0.9rem;}
+.pdf-gl-t{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:#7A1321;font-weight:500;margin:0.8rem 0 0.35rem;}
+.pdf-arches{display:flex;justify-content:center;align-items:flex-end;gap:6px;background:#ECE8E2;border-radius:16px;padding:0.45rem 1rem;}
+.pdf-arches i{display:block;width:28px;border-radius:14px 14px 3px 3px;}
+.pdf-metalbadge{display:flex;align-items:center;gap:0.5rem;margin-left:1.1rem;font-size:0.68rem;line-height:1.3;color:#3F3C38;max-width:96px;}
+.pdf-metalbadge b{flex:0 0 34px;height:34px;border-radius:50%;}
+.pdf-lineup{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.pdf-lu{background:#ECE8E2;border-radius:16px;padding:0.3rem 0.7rem;display:flex;align-items:center;gap:0.6rem;font-size:0.7rem;line-height:1.3;color:#3F3C38;}
+.pdf-lu-ic{width:34px;height:34px;border-radius:50%;background:#FAF9F6;display:grid;place-items:center;flex:0 0 auto;}
+.pdf-lu-ic svg{width:23px;height:23px;}
 .pdf-colorband{background:#4E0B14;border-radius:2px;padding:1.4rem 1.6rem;margin-bottom:1.3rem;}
 .pdf-colorband .pdf-section-label{color:#DCD8D0;margin-top:0;}
 .pdf-colorband h1{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#FAF9F6;font-weight:500;margin:0;}
@@ -235,7 +244,7 @@ function shopChips(r){
   return '<div class="pdf-chips">'+links.map(l=>'<a class="pdf-chip" data-href="'+esc(l.url)+'" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.q)+' <span class="pdf-chip-store">at '+esc(l.store)+'</span></a>').join('')+'</div>';
 }
 /* ---- Tight layout: sections are measured and packed onto as few pages as fit, so no page is left half empty ---- */
-const PAGE_CAP=915, BLK_GAP=41; /* content height that fits above the footer; px added between stacked sections */
+const PAGE_CAP=915, BLK_GAP=32; /* content height that fits above the footer; px added between stacked sections */
 function bubbles(w,one){
   if(!w||!w.items||!w.items.length)return '';
   return '<div class="pdf-bubs'+(one?' one':'')+'">'+w.items.map(t=>'<div class="pdf-bub">'+esc(t)+'</div>').join('')+'</div>'+(w.note?'<p class="pdf-bubnote">'+esc(w.note)+'</p>':'');
@@ -244,7 +253,21 @@ function profileHtml(r){
   const p=r.colorProfile;if(!p||!p.length)return '';
   return '<p class="pdf-section-label">Your Coloring At A Glance</p><div class="pdf-prof">'+p.map(x=>'<div><div class="pdf-prof-t">'+esc(x.label)+'</div><div class="pdf-prof-track"><span class="pdf-prof-dot" style="left:'+Math.round(x.pos*100)+'%"></span></div><div class="pdf-prof-ends"><span>'+esc(x.a)+'</span><span>'+esc(x.b)+'</span></div></div>').join('')+'</div>';
 }
+const METALS={gold:'linear-gradient(135deg,#F3DDA0,#C9A05A 55%,#9C7634)',silver:'linear-gradient(135deg,#F2F2F2,#BFC3C8 55%,#8E949B)',rose:'linear-gradient(135deg,#F6D9CF,#D9A28F 55%,#B27565)'};
+function glanceHtml(r){
+  const cols=[].concat((r.neutrals||[]).slice(0,4),(r.signature||[]).slice(0,6),(r.accents||[]).slice(0,3));
+  if(cols.length<6)return '';
+  const m=String(r.metal||'');const mk=/rose/i.test(m)?'rose':/silver|platinum|white gold/i.test(m)?'silver':'gold';
+  return '<p class="pdf-gl-t">Your Full Palette</p><div class="pdf-arches">'+cols.map((c,i)=>'<i style="height:'+(24+((i*17)%5)*5)+'px;background:'+esc(c.h)+'"></i>').join('')+'<span class="pdf-metalbadge"><b style="background:'+METALS[mk]+'"></b><span>'+esc(m.split(/\s[—-]\s|—/)[0])+'</span></span></div>';
+}
+const LU_ICONS={dress:'<path d="M12 3l-3 4 2 4-4 10h10L13 11l2-4-3-4z M9 7h6"/>',skirt:'<path d="M9 4h6l4 16H5z M9 4c0 2 6 2 6 0"/>',trousers:'<path d="M8 3h8l1 18h-4l-1-10-1 10H7z"/>',top:'<path d="M9 3L4 7l2 4 2-1v11h8V10l2 1 2-4-5-4c-1 2-5 2-6 0z"/>',blazer:'<path d="M8 3L4 8l2 13h5V10 M16 3l4 5-2 13h-5V10 M8 3l4 7 4-7"/>'};
+function luKind(t){return /skirt/i.test(t)&&!/dress/i.test(t)?'skirt':/trouser|pant|jean|bottom/i.test(t)?'trousers':/blazer|jacket|coat/i.test(t)?'blazer':/\b(tops?|blouses?|shirts?|knits?|sweaters?|tees?)\b/i.test(t)?'top':'dress';}
+function lineupHtml(r){
+  const s=(r.silhouettes||[]).slice(0,3);if(s.length<3)return '';
+  return '<p class="pdf-gl-t">Your Silhouette Lineup</p><div class="pdf-lineup">'+s.map(x=>'<div class="pdf-lu"><span class="pdf-lu-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7A1321" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">'+LU_ICONS[luKind(x.text)]+'</svg></span><span>'+esc(x.text)+'</span></div>').join('')+'</div>';
+}
 function makeBlocks(r){
+  const X=r.__x||{glance:true,lineup:true};
   const sig=r.signature.slice(0,5),neu=r.neutrals.slice(0,3);
   const season=String(r.seasonLabel||'');
   const b={height:r.height,intensity:r.intensity};
@@ -262,10 +285,10 @@ function makeBlocks(r){
     +'<p class="pdf-section-label">Why This Is You</p>'+(r.whyColor?bubbles(r.whyColor):'<div class="pdf-box">'+esc(r.narrative)+'</div>')+profileHtml(r)});
   const avSw=(r.avoidSwatches&&r.avoidSwatches.length)?'<div class="pdf-avsw">'+r.avoidSwatches.slice(0,4).map(c=>'<div><i style="background:'+esc(c.h)+'"></i><span>'+esc(c.n)+'</span><em>'+hexOf(c)+'</em></div>').join('')+'</div>':'';
   const matureTip=(r.ageBracket==='45+')?'<div class="pdf-tip"><strong>Near your face:</strong> choose softer, light-reflecting shades, like champagne, pearl or a soft version of your signature colors. They bounce light back onto your skin and keep your face bright.</div>':'';
-  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'+matureTip});
+  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'+matureTip+(X.glance?glanceHtml(r):'')});
   L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><div class="pdf-croq-in"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div></div>'
     +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p>'+(r.whyBody?bubbles(r.whyBody,true)+'<p class="pdf-section-label">Tops &amp; Necklines</p>'+topTiles((r.bodyGuide.tops||[]).slice(0,4)):'<div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div>')+'</div></div>'
-    +(r.whyBody?'':'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4)))+(r.whyBody&&r.bodyGoal?'<div class="pdf-goalband"><p class="pdf-section-label">Your Styling Goal</p><p>'+esc(r.bodyGoal)+'</p></div>':'')});
+    +(r.whyBody?'':'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4)))+(r.whyBody&&r.bodyGoal?'<div class="pdf-goalband"><p class="pdf-section-label">Your Styling Goal</p><p>'+esc(r.bodyGoal)+'</p></div>':'')+(X.lineup?lineupHtml(r):'')});
   L.push({key:'silh',label:'Silhouettes & Shopping',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Silhouettes &amp; <em>Shopping</em></h1><p class="pdf-curated">'+esc(curated)+'</p><p class="pdf-section-label" style="margin-top:0;">Best Silhouettes For Your Shape</p>'+'<div class="pdf-three">'+(r.silhouettes||[]).map(s=>'<div class="pdf-box"><strong>'+esc(s.text)+'</strong><br>'+esc(s.reason)+'</div>').join('')+'</div>'
     +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live search at a store in your price range, so results stay current.</p>'+shopChips(r)+'</div></div>'});
   L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
@@ -274,19 +297,30 @@ function makeBlocks(r){
 }
 let LAYOUT=null;
 async function layoutPages(r){
-  const blocks=makeBlocks(r);
-  const host=document.createElement('div');host.className='pdf-page';host.style.cssText='position:absolute;left:-10000px;top:0;height:auto;overflow:visible;';
-  host.innerHTML=blocks.map(b=>'<div class="pdf-blk">'+b.html+'</div>').join('');document.body.appendChild(host);
-  try{
-    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
-    await Promise.all([...host.querySelectorAll('img')].map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve()));
-    const kids=[...host.children];blocks.forEach((b,i)=>{b.h=kids[i].offsetHeight;});
-  }finally{host.remove();}
-  /* in-order packing: keep the reading order, start a new page only when the next section no longer fits */
-  const pages=[];let cur=[],used=0;
-  blocks.forEach(b=>{const need=cur.length?b.h+BLK_GAP:b.h;if(cur.length&&used+need>PAGE_CAP){pages.push(cur);cur=[b];used=b.h;}else{cur.push(b);used+=need;}});
-  if(cur.length)pages.push(cur);
-  window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ');
+  /* The two extras (palette strip on page 3, silhouette lineup on page 4) are only kept when they fit; otherwise the page keeps its normal look. */
+  r.__x={glance:true,lineup:true};
+  let blocks,pages;
+  for(let pass=0;pass<3;pass++){
+    blocks=makeBlocks(r);
+    const host=document.createElement('div');host.className='pdf-page';host.style.cssText='position:absolute;left:-10000px;top:0;height:auto;overflow:visible;';
+    host.innerHTML=blocks.map(b=>'<div class="pdf-blk">'+b.html+'</div>').join('');document.body.appendChild(host);
+    try{
+      if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+      await Promise.all([...host.querySelectorAll('img')].map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve()));
+      const kids=[...host.children];blocks.forEach((b,i)=>{b.h=kids[i].offsetHeight;});
+    }finally{host.remove();}
+    /* in-order packing: keep the reading order, start a new page only when the next section no longer fits */
+    pages=[];let cur=[],used=0;
+    blocks.forEach(b=>{const need=cur.length?b.h+BLK_GAP:b.h;if(cur.length&&used+need>PAGE_CAP){pages.push(cur);cur=[b];used=b.h;}else{cur.push(b);used+=need;}});
+    if(cur.length)pages.push(cur);
+    const H=k=>(blocks.find(b=>b.key===k)||{h:0}).h;
+    const split=pages.every(pg=>!(pg.some(b=>b.key==='colortype')&&!pg.some(b=>b.key==='guidance')));
+    let changed=false;
+    if(r.__x.glance&&(!split||H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP)){r.__x.glance=false;changed=true;}
+    if(r.__x.lineup&&H('body')>PAGE_CAP){r.__x.lineup=false;changed=true;}
+    if(!changed)break;
+  }
+  window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ')+' | extras:'+JSON.stringify(r.__x);
   LAYOUT=pages.map(pg=>pg.map(b=>b.key));
 }
 function buildPages(r){
