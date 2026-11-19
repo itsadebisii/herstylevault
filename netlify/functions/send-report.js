@@ -28,7 +28,9 @@ async function payerEmail(sessionId) {
   const r = await fetch('https://api.stripe.com/v1/checkout/sessions/' + encodeURIComponent(sessionId), { headers: { Authorization: 'Bearer ' + key } });
   if (!r.ok) return { ok: false, code: 404, error: 'not_found' };
   const s = await r.json();
-  if (s.payment_status !== 'paid') return { ok: false, code: 402, error: 'not_paid' };
+  // A 100%-off code completes with a $0 total and status 'no_payment_required'; that counts as settled.
+  const settled = s.payment_status === 'paid' || (s.status === 'complete' && s.amount_total === 0 && s.payment_status === 'no_payment_required');
+  if (!settled) return { ok: false, code: 402, error: 'not_paid' };
   const email = (s.customer_details && s.customer_details.email) || s.customer_email || '';
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, code: 400, error: 'no_email' };
   return { ok: true, email };
