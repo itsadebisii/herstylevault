@@ -584,15 +584,14 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
 .sh-from small{font-size:12px; color:var(--ink-soft); margin-bottom:.15rem;}
 .sh-go{padding-bottom:.3rem;}
 
-/* Sound familiar: clean default (quote + arrow cue); the "Start with" link appears on hover, focus or tap */
-.quote-cell{cursor:pointer;}
-.cell-foot{position:relative; min-height:1.8rem; margin-top:.9rem;}
-.cell-cue{position:absolute; left:0; top:0; color:var(--accent); font-size:18px; line-height:1.4; transition:opacity .2s ease, transform .2s ease;}
-.quote-cell .cell-link{position:absolute; left:0; top:0; margin:0; white-space:nowrap; opacity:0; transform:translateY(6px); pointer-events:none; transition:opacity .22s ease, transform .22s ease;}
-.quote-cell.open .cell-link, .quote-cell:focus-within .cell-link{opacity:1; transform:none; pointer-events:auto;}
-.quote-cell.open .cell-cue, .quote-cell:focus-within .cell-cue{opacity:0; transform:translateX(8px);}
+/* Sound familiar: clean default (quote + arrow cue); on hover, focus or tap a shaded overlay with the "Start with" link covers the card */
+.quote-cell{position:relative; cursor:pointer;}
+.cell-foot{margin-top:.9rem; min-height:1.8rem;}
+.cell-cue{display:block; color:var(--accent); font-size:18px; line-height:1.4; transition:opacity .2s ease, transform .2s ease;}
+.quote-cell .cell-link{position:absolute; inset:0; margin:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.2rem; background:rgba(78,11,20,0.97); color:var(--accent-ink); text-decoration:none; font-family:var(--font-display); font-style:italic; font-size:19px; font-weight:400; letter-spacing:.02em; opacity:0; pointer-events:none; transition:opacity .22s ease;}
+.quote-cell .cell-link:focus-visible{outline:2px solid var(--accent-ink); outline-offset:-6px;}
+.quote-cell.open .cell-link, .quote-cell:focus-within .cell-link{opacity:1; pointer-events:auto;}
 @media (hover:hover){
-  .quote-cell:hover .cell-link{opacity:1; transform:none; pointer-events:auto;}
-  .quote-cell:hover .cell-cue{opacity:0; transform:translateX(8px);}
+  .quote-cell:hover .cell-link{opacity:1; pointer-events:auto;}
 }
-@media (prefers-reduced-motion:reduce){.cell-cue,.quote-cell .cell-link{transition:none;}}
+@media (prefers-reduced-motion:reduce){.quote-cell .cell-link{transition:none;}}
