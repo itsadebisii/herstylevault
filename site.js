@@ -177,8 +177,8 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
   if (skip || window.__hsvHelper) return; window.__hsvHelper = true;
   var R = {
     unlock:   {n:'The Unlock', p:'$225', u:'package-unlock.html', t:'3 sessions and 5 complete outfits. A great place to start: you learn your colors and shape and leave with a plan.'},
-    vault:    {n:'The Vault Edit', p:'$400', u:'package-vault-edit.html', t:'4 sessions and 7 outfits, plus the Wardrobe Detox Guide. Our most popular package.'},
-    reveal:   {n:'The Full Reveal', p:'$725', u:'package-full-reveal.html', t:'5 in-person sessions: a closet audit, three shopping trips and 10 outfits, ending with a try-on reveal.'},
+    vault:    {n:'The Vault Edit', p:'$400', u:'package-vault-edit.html', t:'4 sessions and 7 outfits, plus the Wardrobe Detox Checklist. Our most popular package.'},
+    reveal:   {n:'The Full Reveal', p:'$725', u:'package-full-reveal.html', t:'5 in-person sessions: a closet audit, three shopping trips and 10 outfits, plus the full Wardrobe Detox Series and a try-on reveal.'},
     occasion: {n:'Occasion Edit', p:'From $55', u:'service-occasion-edit.html', t:'Outfits for one event or trip, built around your style and emailed to you as a finished PDF.'},
     ensemble: {n:'The Ensemble', p:'From $95 per person', u:'service-ensemble.html', t:'Everyone in your group gets their own outfits, pulled around one shared vibe.'},
     mini:     {n:'The Mini Collection', p:'From $240', u:'service-mini-collection.html', t:'A small set of new pieces that all mix and match, sourced for you with shopping links.'},
@@ -193,7 +193,7 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
     if (k === 'reveal' && a.where === 'virtual') { k = 'vault'; note = 'The Full Reveal is in person only, so The Vault Edit is the best fit for virtual sessions.'; }
     else if (k === 'reveal') note = 'The Full Reveal is in person (near Boston and Southern NH) and includes three shopping trips with you.';
     else if (k === 'unlock' && a.focus === 'own') note = 'The Unlock builds your 5 outfits from the pieces you already own.';
-    else if (k === 'vault' && a.focus === 'own') note = 'The Vault Edit includes the Wardrobe Detox Guide to help you clear your closet.';
+    else if (k === 'vault' && a.focus === 'own') note = 'The Vault Edit includes the Wardrobe Detox Checklist to help you clear your closet.';
     if (k !== 'reveal' && a.where !== 'virtual' && a.focus !== 'own') note = (note ? note + ' ' : '') + 'Want a shopping trip with me? You can add one in person for $100.';
     return {k: k, note: note};
   }
