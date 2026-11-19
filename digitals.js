@@ -85,6 +85,8 @@ var DIGITALS = [
       {
         key: 'guide', label: 'Guide', badge: '11 pages',
         name: 'The Wardrobe Detox Guide',
+        headline: 'Reset your closet, <em>one zone at a time</em>',
+        lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, drawers, shoes and purses one zone at a time, with checklists to tick off as you go.',
         coverImage: 'images/digitals/detox-guide-cover.jpg',
         previews: [
           {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
@@ -113,11 +115,13 @@ var DIGITALS = [
       {
         key: 'checklist', label: 'Checklist', badge: '1 page',
         name: 'The Wardrobe Detox Checklist',
+        headline: 'Detox your closet, <em>in one sitting</em>',
+        lead: 'The Wardrobe Detox Checklist is one page you print and tick off while you work: three zones, the Keep, Sell, Donate check, and a scoreboard for your wins. Use it on its own, or right alongside the Guide.',
         status: 'coming-soon',
         coverSub: 'Quick · Printable · Reset', coverTone: 'stone',
         previews: [], /* add a blurred sneak peek here later: {src:'images/digitals/…jpg', alt:'…', locked:true} */
         soonNote: 'Coming soon: the one-page Checklist for a quick reset.',
-        includes: ['A one-page checklist you can print or use on your phone', 'The steps in order, so you always know what comes next', 'A digital file that is yours to keep and reuse every season'],
+        includes: ['One printable page you tick off as you go', 'Three zones with the key steps for each, in order', 'The Keep, Sell, Donate quick check', 'A scoreboard for what you keep, sell and donate', 'A short list for the pieces you are missing, so you only buy what completes your outfits', 'Works on its own or right alongside the Guide'],
         cta: { label: 'Buy the Checklist', href: 'STRIPE_LINK_HERE' },
         meta: 'Instant PDF download · One-time payment · 1 page'
       }
