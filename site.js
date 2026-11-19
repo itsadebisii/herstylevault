@@ -20,7 +20,6 @@ const NAV_HTML = `${TICKER_HTML}
 <a href="services.html">À La Carte Services</a>
 <a href="packages.html">Private Styling Packages</a>
 </div></li>
-<li><a href="shop.html">Shop All</a></li>
 <li><a href="lookbook.html">Lookbook</a></li>
 <li><a href="vault-digitals.html">Vault Digitals</a></li>
 <li><a href="locations.html">Locations</a></li>
