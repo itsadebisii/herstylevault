@@ -55,7 +55,7 @@ var DIGITALS = [
     steps: [
       ['Answer 23 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
       ['Add a Photo', "Optional, but it sharpens your color and shape read. Skip it if you'd rather not."],
-      ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear.']
+      ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear. Read it on screen, and we email you the PDF.']
     ],
     trustTitle: 'Not a generic <em>quiz result</em>',
     trust: [
@@ -63,6 +63,7 @@ var DIGITALS = [
       ['Written for you, not templated', 'A personalized digital report explaining exactly how your specific answers point to your result, including resolving any answers that seem to contradict each other, the way a real stylist would.']
     ],
     faqs: [
+      ['How do I get my report?', 'It opens on screen as soon as it is ready, and one tap sends the PDF to the email you checked out with, so you can keep it.'],
       ['How long does it take?', 'About 5 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
