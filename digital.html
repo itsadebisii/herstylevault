@@ -34,8 +34,8 @@
     var p = all.filter(function(d){ return d.slug === slug; })[0] || all[0];
     if (!p) { main.innerHTML = '<section class="band wrap"><p class="sub center" style="margin:0 auto;">Nothing here yet. <a href="vault-digitals.html">See Vault Digitals</a>.</p></section>'; return; }
     var opts = list(p.options), oi = opts ? Math.min(optIdx, opts.length - 1) : 0, o = opts ? opts[oi] : {};
-    var view = {}; Object.keys(p).forEach(function(k){ view[k] = p[k]; }); Object.keys(o).forEach(function(k){ if (o[k] !== '' && o[k] != null) view[k] = o[k]; });
-    var cat = digitalCat(p), soon = digitalSoon(p), cta = view.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
+    var view = digitalView(p, oi);
+    var cat = digitalCat(p), soon = digitalSoon(view), cta = view.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
     document.title = p.name + ' | HerStyleVault';
     var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', plain(p.short || p.lead));
     var ogt = document.querySelector('meta[property="og:title"]'); if (ogt) ogt.setAttribute('content', p.name + ' | HerStyleVault');
@@ -43,16 +43,16 @@
     var others = all.filter(function(d){ return d !== p; });
     var assure = (view.meta || 'Instant delivery · One-time payment').split(' · ');
     var buy = soon
-      ? (p.soonCta ? '<a class="btn btn-primary" href="' + p.soonCta.href + '">' + p.soonCta.label + '</a>' : '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>') + '<p class="meta">Not available to buy yet. Check back soon.</p>'
+      ? ((view.soonCta || p.soonCta) ? '<a class="btn btn-primary" href="' + (view.soonCta || p.soonCta).href + '">' + (view.soonCta || p.soonCta).label + '</a>' : '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>') + '<p class="meta">Not available to buy yet. Check back soon.</p>'
       : '<a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a><ul class="dg-assure">' + assure.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
 
     /* flipper slides: cover first, then any sneak-peek pages */
-    var slides = [{ html: digitalCover(view) }].concat((p.previews || []).map(function(v){ return { img: v.src, alt: v.alt || '', locked: !!v.locked }; }));
+    var slides = [{ html: digitalCover(view) }].concat((view.previews || []).map(function(v){ return { img: v.src, alt: v.alt || '', locked: !!v.locked }; }));
     var multi = slides.length > 1;
     var media = '<div class="dg-media"><div class="dg-stage" id="dgStage">' + slides.map(function(s,i){
         return '<div class="dg-slide-wrap" data-i="' + i + '"' + (i ? ' hidden' : '') + ' style="height:100%;">' + (s.html || ('<img class="dg-slide" src="' + s.img + '" alt="' + digitalAttr(s.alt) + '"' + (i ? ' loading="lazy"' : '') + '>')) + '</div>';
       }).join('') +
-      (multi ? '<div class="peek-lock" id="dgLock" hidden><div class="peek-lock-box">' + (soon ? '<p>The full guide is coming soon</p>' : '<p>Pay ' + p.price + ' to continue</p><a class="btn btn-primary" href="' + cta.href + '">Unlock ' + p.name + '</a>') + '</div></div>' : '') + '</div>' +
+      (multi ? '<div class="peek-lock" id="dgLock" hidden><div class="peek-lock-box">' + (soon ? '<p>Coming soon</p>' : '<p>Pay ' + view.price + ' to continue</p><a class="btn btn-primary" href="' + cta.href + '">Unlock ' + plain(view.name) + '</a>') + '</div></div>' : '') + '</div>' +
       (multi ? '<div class="dg-nav"><button type="button" id="dgPrev" aria-label="Previous page">\u2190</button><span id="dgCount"></span><button type="button" id="dgNext" aria-label="Next page">\u2192</button></div><p class="dg-cap">Flip through a sample. Your own copy is built for you after you purchase.</p>' : '') + '</div>';
 
     function item(title, body, open){ return '<div class="acc-item' + (open ? ' open' : '') + '"><div class="acc-q" data-acc-toggle>' + title + '<span class="acc-icon">+</span></div><div class="acc-a">' + body + '</div></div>'; }
@@ -64,7 +64,7 @@
 
     var h = '<section class="band wrap" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="vault-digitals.html">Vault Digitals</a> / ' + plain(p.name) + '</p>' +
       '<div class="dg-hero">' + media +
-      '<div class="dg-info"><p class="eyebrow">' + cat.eyebrow + (p.series ? ' \u00b7 ' + p.series : '') + '</p><h1 class="page-title">' + (p.headline || p.name) + '</h1>' +
+      '<div class="dg-info"><p class="eyebrow">' + (p.eyebrow || cat.eyebrow) + '</p><h1 class="page-title">' + (p.headline || p.name) + '</h1>' +
       (p.lead ? '<p class="sub" style="margin-bottom:1rem;">' + p.lead + '</p>' : '') +
       (opts ? '<div class="dg-opts" role="group" aria-label="Choose your version">' + opts.map(function(x,k){ return '<button type="button" class="dg-opt' + (k === oi ? ' on' : '') + '" data-oi="' + k + '" aria-pressed="' + (k === oi) + '"><b>' + x.label + '</b>' + (x.badge ? '<span>' + x.badge + '</span>' : '') + (x.price ? '<i>' + x.price + '</i>' : '') + '</button>'; }).join('') + '</div>' : '') +
       (view.price ? '<div class="dg-price"><span class="price">' + view.price + '</span>' + (view.priceNote ? '<span class="meta" style="margin:0;">' + view.priceNote + '</span>' : '') + '</div>' : '<p class="dg-soon">' + (view.soonNote || 'Coming soon.') + '</p>') + buy + '<p class="dg-license" style="font-size:12px;color:var(--ink-soft);margin:.8rem 0 0;">For personal use only. Please don\u2019t share or resell. See the <a href="policies.html#digital-products">digital product terms</a>.</p>' +

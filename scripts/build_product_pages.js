@@ -5,9 +5,9 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const root = path.join(__dirname, '..');
 const SITE = 'https://herstylevault.com';
-const ctx = { window: {} };
+const ctx = { window: {}, document: { addEventListener() {} } };
 vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(path.join(root, 'digitals.js'), 'utf8') + '\nthis.__D = DIGITALS; this.__soon = digitalSoon;', ctx);
+vm.runInContext(fs.readFileSync(path.join(root, 'digitals.js'), 'utf8') + '\nthis.__D = DIGITALS; this.__soon = digitalSoon; this.__view = digitalView;', ctx);
 const tpl = fs.readFileSync(path.join(root, 'digital.html'), 'utf8');
 const plain = (t) => String(t || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 const attr = (t) => plain(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
@@ -16,9 +16,10 @@ ctx.__D.filter((d) => d.live !== false && d.status !== 'hidden').forEach((p) => 
   const file = 'digital-' + p.slug + '.html', url = SITE + '/' + file;
   const title = plain(p.name) + ' | HerStyleVault';
   const desc = plain(p.short || p.lead);
-  const img = SITE + '/' + (p.coverImage || 'images/Hero_Closet.jpg');
-  const priceNum = String(p.price || '').replace(/[^0-9.]/g, '');
-  const soon = ctx.__soon(p);
+  const v0 = ctx.__view(p, 0);
+  const img = SITE + '/' + (v0.coverImage || 'images/Hero_Closet.jpg');
+  const priceNum = String(v0.price || '').replace(/[^0-9.]/g, '');
+  const soon = ctx.__soon(v0);
   const ld = { '@context': 'https://schema.org', '@type': 'Product', name: plain(p.name), description: plain(p.lead || p.short), image: img, brand: { '@type': 'Brand', name: 'HerStyleVault' }, url };
   if (priceNum) ld.offers = { '@type': 'Offer', price: priceNum, priceCurrency: 'USD', url, availability: soon ? 'https://schema.org/PreOrder' : 'https://schema.org/InStock' };
   let h = tpl

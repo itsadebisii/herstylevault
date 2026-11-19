@@ -8,7 +8,7 @@
      category     'reports' | 'guides'  (drives filter tabs, eyebrow, cover tone)
      status       'live' (default) | 'coming-soon' (card shows a badge, no link, no buy button)
                   | 'hidden' (kept in this file but not shown anywhere)
-     series       optional series name shown with the category on the product page, e.g. 'Wardrobe Detox Series'
+     eyebrow      optional small label above the title instead of the category (e.g. 'Wardrobe Detox Series')
      coverImage   optional 4:5 image path. Without it, a styled editorial cover is generated.
      coverTone    optional 'stone' (Cool Stone) | 'noir' (Bordeaux Noir). Default: reports=stone, guides=noir
      coverSub     optional small line printed on the generated cover
@@ -55,56 +55,77 @@ var DIGITALS = [
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
       ['What does it cost?', '$40, one-time. No subscription, no hidden extras.']
     ],
+    buyLabel: 'Start Style Analysis',
     cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
-    slug: 'wardrobe-detox-guide',
-    name: 'The Wardrobe Detox Guide',
-    series: 'Wardrobe Detox Series',
-    category: 'guides', status: 'live', /* the Buy button turns on once cta.href is your real Stripe link (see below) */
-    coverImage: 'images/digitals/detox-guide-cover.jpg',
-    coverSub: 'Closet · Declutter · Reset',
-    price: '$28.99', priceNote: 'one-time',
-    soonNote: 'Coming soon.',
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Guide%20updates' },
-    previews: [
-      {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
-      {src:'images/digitals/detox-guide-p5.jpg', alt:'Sample guide page: the Closet Reset visual guide to grouping by category and color flow'},
-      {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'}
-    ], /* sneak peek pages; slide 1 is always the cover */
-    short: 'An 11-page, zone-by-zone closet reset: sort, store, sell and keep it clear, without the overwhelm.',
+    slug: 'wardrobe-detox-series',
+    name: 'The Wardrobe Detox Series',
+    eyebrow: 'Wardrobe Detox Series',
+    category: 'guides', status: 'live',
+    buyLabel: 'Reset My Closet', /* the card button; it opens a small "which one?" chooser built from options below */
+    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Series%20updates' },
+    short: 'Declutter your closet your way: the 11-page Guide for the full reset, or the one-page Checklist for a quick one.',
     headline: 'Reset your closet, <em>one zone at a time</em>',
-    lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, drawers, shoes and bags one zone at a time, with checklists to tick off as you go. It is part of the Wardrobe Detox Series.',
-    includes: [
-      'A zone-by-zone method for your closet, dressers, shoes and purses',
-      'The Keep, Sell, Donate system, with a bag labeling guide and a three-question quick check',
-      'HerStyleVault’s Golden Rule for letting go, so you stop second-guessing',
-      'The Closet Reset Checklist and a visual guide to grouping by category and color',
-      'The Flat-Roll Method for drawers you can see into at a glance',
-      'Hanger and storage picks I actually recommend',
-      'A selling workflow and platform cheat sheet for what you’re ready to let go',
-      'A printable Wardrobe Gap Builder, so you only shop for what completes your outfits',
-      'Simple weekly and yearly habits to keep it clutter-free'
+    lead: 'The Wardrobe Detox Series is the calm, step-by-step method I use to clear a closet without the overwhelm. Choose the 11-page Guide for the full zone-by-zone reset, or the one-page Checklist when you want the quick version.',
+    /* options = the tiers. Each one carries its own name, cover, sneak-peek pages, price and Stripe link.
+       Status 'coming-soon' (or a link that is still STRIPE_LINK_HERE) keeps that option from being bought. */
+    options: [
+      {
+        key: 'guide', label: 'Guide', badge: '11 pages',
+        name: 'The Wardrobe Detox Guide',
+        coverImage: 'images/digitals/detox-guide-cover.jpg',
+        previews: [
+          {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
+          {src:'images/digitals/detox-guide-p5.jpg', alt:'Sample guide page: the Closet Reset visual guide to grouping by category and color flow'},
+          {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'}
+        ], /* sneak peek pages; slide 1 is always the cover */
+        price: '$28.99', priceNote: 'one-time',
+        includes: [
+          'A zone-by-zone method for your closet, drawers, shoes and bags',
+          'The Keep, Sell, Donate system, with a bag labeling guide and a three-question quick check',
+          'HerStyleVault’s Golden Rule for letting go, so you stop second-guessing',
+          'The Closet Reset Checklist and a visual guide to grouping by category and color',
+          'The Flat-Roll Method for drawers you can see into at a glance',
+          'Hanger and storage picks I actually recommend',
+          'A selling workflow and platform cheat sheet for what you’re ready to let go',
+          'A printable Wardrobe Gap Builder, so you only shop for what completes your outfits',
+          'Simple weekly and yearly habits to keep it clutter-free'
+        ],
+        /* After you create the $28.99 Payment Link in Stripe, paste it below in place of STRIPE_LINK_HERE.
+           In Stripe, set the Payment Link to redirect after payment to:
+           https://herstylevault.com/guide-download.html?session_id={CHECKOUT_SESSION_ID} */
+        cta: { label: 'Buy the Guide', href: 'STRIPE_LINK_HERE' },
+        meta: 'Instant PDF download · One-time payment · 11 pages'
+      },
+      {
+        key: 'checklist', label: 'Checklist', badge: '1 page',
+        name: 'The Wardrobe Detox Checklist',
+        status: 'coming-soon',
+        coverSub: 'Quick · Printable · Reset', coverTone: 'stone',
+        previews: [], /* add a blurred sneak peek here later: {src:'images/digitals/…jpg', alt:'…', locked:true} */
+        soonNote: 'Coming soon: the one-page Checklist for a quick reset.',
+        includes: ['A one-page checklist you can print or use on your phone', 'The steps in order, so you always know what comes next', 'A digital file that is yours to keep and reuse every season'],
+        cta: { label: 'Buy the Checklist', href: 'STRIPE_LINK_HERE' },
+        meta: 'Instant PDF download · One-time payment · 1 page'
+      }
     ],
     steps: [
-      ['Check out once', 'No account and no subscription.'],
-      ['Download right away', 'Your PDF is ready the moment you pay. It works on your phone, tablet or computer, and prints cleanly.'],
+      ['Choose your version', 'The 11-page Guide or the one-page Checklist.'],
+      ['Check out once', 'No account and no subscription. Your PDF is ready the moment you pay.'],
       ['Work at your pace', 'Do every zone in one day, or take one zone a day. About 45 minutes per zone, or a full afternoon for everything.']
     ],
     faqs: [
+      ['What is the difference between the Guide and the Checklist?', 'The Guide is the full 11-page method with the reasoning, checklists, storage picks and a selling plan. The Checklist is the one-page quick version.'],
       ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
-      ['What format is it?', 'An 11-page PDF. Use it on your phone or tablet, or print it and tick the checklists off by hand.'],
+      ['What format is it?', 'A PDF. Use it on your phone or tablet, or print it and tick the checklists off by hand.'],
       ['Do I need to buy anything?', 'No. The hanger and storage picks are optional suggestions.'],
       ['Is this included with a package?', 'Yes. The Vault Edit and The Full Reveal both include The Wardrobe Detox Guide.'],
-      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Guide is the do-it-yourself version.'],
+      ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Series is the do-it-yourself version.'],
       ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
     ],
-    /* After you create the $28.99 Payment Link in Stripe, paste it below in place of STRIPE_LINK_HERE.
-       In Stripe, set the Payment Link to redirect after payment to:
-       https://herstylevault.com/guide-download.html?session_id={CHECKOUT_SESSION_ID} */
-    cta: { label: 'Get The Wardrobe Detox Guide', href: 'STRIPE_LINK_HERE' },
-    meta: 'Instant PDF download · One-time payment · 11 pages'
+    meta: 'Instant PDF download · One-time payment'
   }
 ];
 
@@ -117,6 +138,14 @@ var DIGITAL_CATEGORIES = {
 function digitalUrl(p){ return 'digital-' + p.slug + '.html'; }
 function digitalCat(p){ return DIGITAL_CATEGORIES[p.category] || { label: 'Digital', eyebrow: 'Digital' }; }
 function digitalSoon(p){ return p.status === 'coming-soon' || !!(p.cta && /STRIPE_LINK_HERE/.test(p.cta.href || '')); }
+/* a product merged with one of its options (price, cover, previews, link and status of that option) */
+function digitalView(p, i){
+  var v = {}, o = (p.options && p.options[i || 0]) || {};
+  Object.keys(p).forEach(function(k){ v[k] = p[k]; });
+  Object.keys(o).forEach(function(k){ if (o[k] !== '' && o[k] != null) v[k] = o[k]; });
+  if (p.options && !o.status) v.status = p.status;
+  return v;
+}
 /* everything that should appear on the site (live + coming soon); legacy live:false and status:'hidden' are skipped */
 function visibleDigitals(){ return DIGITALS.filter(function(d){ return d.live !== false && d.status !== 'hidden'; }); }
 var liveDigitals = visibleDigitals; /* older name, kept so nothing breaks */
@@ -132,23 +161,44 @@ function digitalCover(p){
     '<span class="vc-brand">HerStyleVault</span></div>';
 }
 
-/* shop-grid card: cover, category eyebrow, title, 2-line description, price, CTA or Coming Soon */
+/* shop-grid card: cover (opens the details page), title, short text, prices, a buy button and a small Details link.
+   A product with options shows one button that opens a "which one?" chooser. */
 function digitalCard(p){
-  var soon = digitalSoon(p);
-  var inner = '<div class="vd-media">' + digitalCover(p) + '</div><div class="vd-body">' +
-    '<p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
-    '<p class="vd-desc">' + (p.short || '') + '</p>' +
-    '<div class="vd-foot">' + (p.price ? '<span class="price">' + p.price + (p.priceNote ? ' <span>' + p.priceNote + '</span>' : '') + '</span>' : '<span></span>') +
-    (soon ? '<span class="vd-badge">Coming Soon · See details →</span>' : '<span class="vd-cta">View Details →</span>') + '</div></div>';
-  return '<a class="vd-card' + (soon ? ' is-soon' : '') + '" href="' + digitalUrl(p) + '">' + inner + '</a>';
+  var url = digitalUrl(p), opts = p.options, v0 = digitalView(p, 0);
+  var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(opts ? v0 : p) + '</a>';
+  var prices = '', buy;
+  if (opts) {
+    prices = '<p class="vd-prices">' + opts.map(function(o, i){ var v = digitalView(p, i); return '<span><b>' + o.label + '</b> ' + (digitalSoon(v) ? 'soon' : (v.price || '')) + '</span>'; }).join('<i>·</i>') + '</p>';
+    buy = '<button type="button" class="btn btn-primary vd-buy" data-vd-choose aria-expanded="false">' + (p.buyLabel || 'Buy Now') + '</button>' +
+      '<div class="vd-choose" hidden><p class="vd-choose-lab">Which one?</p>' + opts.map(function(o, i){
+        var v = digitalView(p, i), nm = digitalAttr(v.name || o.label);
+        return digitalSoon(v)
+          ? '<span class="vd-opt is-soon"><b>' + nm + '</b><i>Coming soon</i></span>'
+          : '<a class="vd-opt" href="' + v.cta.href + '"><b>' + nm + '</b><i>' + (v.price || '') + ' \u2192</i></a>';
+      }).join('') + '</div>';
+  } else {
+    var soon = digitalSoon(p);
+    prices = p.price ? '<p class="vd-prices"><span class="price">' + p.price + (p.priceNote ? ' <small>' + p.priceNote + '</small>' : '') + '</span></p>' : '';
+    buy = soon ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span>'
+               : '<a class="btn btn-primary vd-buy" href="' + (p.cta && p.cta.href) + '">' + (p.buyLabel || (p.cta && p.cta.label) || 'Buy Now') + '</a>';
+  }
+  return '<div class="vd-card">' + cover + '<div class="vd-body"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p>' +
+    '<h3 class="card-title">' + p.name + '</h3><p class="vd-desc">' + (p.short || '') + '</p>' + prices +
+    '<div class="vd-actions">' + buy + '<a class="vd-details" href="' + url + '">Details</a></div></div></div>';
 }
+document.addEventListener('click', function(e){
+  var b = e.target.closest && e.target.closest('[data-vd-choose]'); if (!b) return;
+  var panel = b.parentNode.querySelector('.vd-choose'); if (!panel) return;
+  var open = panel.hasAttribute('hidden'); if (open) panel.removeAttribute('hidden'); else panel.setAttribute('hidden', '');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
 
 /* compact card for "More From Vault Digitals": small cover, title, price, hover "Discover" */
 function digitalMini(p){
-  var soon = digitalSoon(p);
-  var inner = '<div class="vd-thumb">' + digitalCover(p) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
-    '<div class="vd-mini-body"><p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
-    '<p class="vd-mini-meta">' + (p.price ? '<span class="price">' + p.price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
+  var soon = p.options ? digitalSoon(digitalView(p, 0)) && digitalSoon(digitalView(p, 1)) : digitalSoon(p);
+  var inner = '<div class="vd-thumb">' + digitalCover(p.options ? digitalView(p, 0) : p) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
+    '<div class="vd-mini-body"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p><h3 class="card-title">' + p.name + '</h3>' +
+    '<p class="vd-mini-meta">' + (digitalView(p, 0).price ? '<span class="price">' + digitalView(p, 0).price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
   return '<a class="vd-mini' + (soon ? ' is-soon' : '') + '" href="' + digitalUrl(p) + '">' + inner + '</a>';
 }
 
