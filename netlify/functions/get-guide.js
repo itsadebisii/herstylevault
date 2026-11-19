@@ -48,6 +48,13 @@ function readGuide() {
 exports.handler = async (event) => {
   if (event.httpMethod !== 'GET') return json(405, { error: 'method' });
   const qs = event.queryStringParameters || {};
+  // Setup check you can open in a browser: /.netlify/functions/get-guide?health=1  (shows only ok / what is missing, never the file)
+  if (qs.health) {
+    const out = { stripeKey: !!process.env.STRIPE_SECRET_KEY, guideKey: !!process.env.GUIDE_KEY, guide: 'unknown' };
+    try { const pdf = readGuide(); out.guide = pdf.subarray(0, 4).toString() === '%PDF' ? 'ok' : 'bad'; } catch (e) { out.guide = String(e.message || 'error').slice(0, 40); }
+    out.ok = out.stripeKey && out.guideKey && out.guide === 'ok';
+    return json(out.ok ? 200 : 500, out);
+  }
   try {
     const v = await verifyPurchase(qs.session_id);
     if (!v.ok) return json(v.code, { ok: false, error: v.error });
