@@ -102,6 +102,9 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-lu{background:#ECE8E2;border-radius:16px;padding:0.3rem 0.7rem;display:flex;align-items:center;gap:0.6rem;font-size:0.7rem;line-height:1.3;color:#3F3C38;}
 .pdf-lu-ic{width:34px;height:34px;border-radius:50%;background:#FAF9F6;display:grid;place-items:center;flex:0 0 auto;}
 .pdf-lu-ic svg{width:23px;height:23px;}
+.pdf-ribbon{position:relative;height:46px;border-radius:16px;margin-top:0.7rem;display:flex;align-items:center;justify-content:center;}
+.pdf-ribbon span{display:inline-flex;align-items:center;gap:0.6rem;background:rgba(250,249,246,0.93);border-radius:999px;padding:0.3rem 1.2rem;font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:#7A1321;line-height:1.2;}
+.pdf-ribbon span em{font-style:normal;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;}
 .pdf-colorband{background:#4E0B14;border-radius:2px;padding:1.4rem 1.6rem;margin-bottom:1.3rem;}
 .pdf-colorband .pdf-section-label{color:#DCD8D0;margin-top:0;}
 .pdf-colorband h1{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#FAF9F6;font-weight:500;margin:0;}
@@ -266,8 +269,14 @@ function lineupHtml(r){
   const s=(r.silhouettes||[]).slice(0,3);if(s.length<3)return '';
   return '<p class="pdf-gl-t">Your Silhouette Lineup</p><div class="pdf-lineup">'+s.map(x=>'<div class="pdf-lu"><span class="pdf-lu-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7A1321" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">'+LU_ICONS[luKind(x.text)]+'</svg></span><span>'+esc(x.text)+'</span></div>').join('')+'</div>';
 }
+function ribbonHtml(r){
+  const cols=[].concat((r.neutrals||[]).slice(0,4),(r.signature||[]).slice(0,6),(r.accents||[]).slice(0,2));
+  if(cols.length<6)return '';
+  const g='linear-gradient(90deg,'+cols.map((c,i)=>esc(c.h)+' '+Math.round(i/(cols.length-1)*100)+'%').join(',')+')';
+  return '<div class="pdf-ribbon" style="background:'+g+'"><span><em>Your season</em>'+esc(String(r.seasonLabel||'').replace(/\s*\u2726/,''))+'</span></div>';
+}
 function makeBlocks(r){
-  const X=r.__x||{glance:true,lineup:true};
+  const X=r.__x||{glance:true,lineup:true,ribbon:true};
   const sig=r.signature.slice(0,5),neu=r.neutrals.slice(0,3);
   const season=String(r.seasonLabel||'');
   const b={height:r.height,intensity:r.intensity};
@@ -279,7 +288,7 @@ function makeBlocks(r){
   const neuRow='<div class="pdf-neu">'+r.neutrals.slice(0,4).map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+hexOf(c)+'</div></div>').join('')+'</div>';
   const sigGrid='<div class="pdf-sig">'+r.signature.slice(0,6).map(c=>'<div class="pdf-sigc"><div class="pdf-arch pdf-arch-s" style="background:'+esc(c.h)+'"></div><div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+hexOf(c)+'</div></div></div>').join('')+'</div>';
   const accStrip=(r.accents&&r.accents.length)?'<div class="pdf-acc"><p class="pdf-mini-label">Accent tones</p><div class="pdf-acc-row">'+r.accents.slice(0,3).map(c=>'<div class="pdf-accc"><i style="background:'+esc(c.h)+'"></i><span>'+esc(c.n)+'</span><em>'+hexOf(c)+'</em></div>').join('')+'</div></div>':'';
-  L.push({key:'palette',label:'Color Palette',html:'<div class="pdf-pal-head"><h1 class="pdf-h1" style="margin:0;">Your <em>Palette</em></h1><span class="pdf-pal-tag">'+esc(season)+'</span></div><p class="pdf-section-label" style="margin-top:0;">Power Neutrals</p>'+neuRow+'<p class="pdf-section-label">Signature Colors</p>'+sigGrid+'<div class="pdf-metalrow"><div class="pdf-metalc"><p class="pdf-mini-label">Metal tone</p><p>'+esc(r.metal)+'</p></div>'+accStrip+'</div>'});
+  L.push({key:'palette',label:'Color Palette',html:'<div class="pdf-pal-head"><h1 class="pdf-h1" style="margin:0;">Your <em>Palette</em></h1><span class="pdf-pal-tag">'+esc(season)+'</span></div><p class="pdf-section-label" style="margin-top:0;">Power Neutrals</p>'+neuRow+'<p class="pdf-section-label">Signature Colors</p>'+sigGrid+'<div class="pdf-metalrow"><div class="pdf-metalc"><p class="pdf-mini-label">Metal tone</p><p>'+esc(r.metal)+'</p></div>'+accStrip+'</div>'+(X.ribbon?ribbonHtml(r):'')});
   L.push({key:'colortype',label:'Color Analysis',html:'<div class="pdf-colorband"><p class="pdf-section-label">Color Type</p><h1>You\'re a <em>'+esc(season)+'</em></h1></div>'
     +'<div class="pdf-box">'+esc(r.seasonDesc)+'</div>'
     +'<p class="pdf-section-label">Why This Is You</p>'+(r.whyColor?bubbles(r.whyColor):'<div class="pdf-box">'+esc(r.narrative)+'</div>')+profileHtml(r)});
@@ -298,7 +307,7 @@ function makeBlocks(r){
 let LAYOUT=null;
 async function layoutPages(r){
   /* The two extras (palette strip on page 3, silhouette lineup on page 4) are only kept when they fit; otherwise the page keeps its normal look. */
-  r.__x={glance:true,lineup:true};
+  r.__x={glance:true,lineup:true,ribbon:true};
   let blocks,pages;
   for(let pass=0;pass<3;pass++){
     blocks=makeBlocks(r);
@@ -318,6 +327,8 @@ async function layoutPages(r){
     let changed=false;
     if(r.__x.glance&&(!split||H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP)){r.__x.glance=false;changed=true;}
     if(r.__x.lineup&&H('body')>PAGE_CAP){r.__x.lineup=false;changed=true;}
+    const pgOf=k=>pages.findIndex(pg=>pg.some(b=>b.key===k));
+    if(r.__x.ribbon&&blocks.some(b=>b.key==='persona')&&pgOf('persona')!==pgOf('palette')){r.__x.ribbon=false;changed=true;}
     if(!changed)break;
   }
   window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ')+' | extras:'+JSON.stringify(r.__x);
