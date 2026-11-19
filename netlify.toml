@@ -14,3 +14,19 @@
   from = "/vault-exclusives.html"
   to = "/packages.html"
   status = 301
+
+# Let phones keep images and styles for a while so repeat visits load faster
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
