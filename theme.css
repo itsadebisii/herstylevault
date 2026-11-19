@@ -777,7 +777,6 @@ h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;
   .offer-hero .dg-info{position:static;}
 }
 @media (max-width:620px){
-  #packages .pkg-card>ul{display:none;}
   #packages .pkg-card .price{margin-top:-.2rem;}
 }
 
@@ -789,3 +788,19 @@ h1.page-title .h1-kw{display:block;font-family:var(--font-body);font-weight:500;
 .vd-mini{min-width:0;}
 .vd-mini-body{overflow-wrap:anywhere;}
 .vd-mini-meta{flex-wrap:wrap; row-gap:.2rem;}
+
+/* session breakdown: always open on bigger screens, tap to open on phones */
+.pkg-more summary{display:none;}
+@media (max-width:620px){
+  .pkg-more summary{display:flex; justify-content:space-between; align-items:center; cursor:pointer; list-style:none; padding:.75rem .9rem; border:1px solid var(--accent); border-radius:6px; color:var(--accent); font-size:13px; font-weight:500; letter-spacing:.04em;}
+  .pkg-more summary::-webkit-details-marker{display:none;}
+  .pkg-more summary::after{content:'+'; font-size:18px; line-height:1;}
+  .pkg-more[open] summary::after{content:'\2212';}
+  .pkg-more ul{margin-top:.8rem;}
+}
+.promo-popup{bottom:5.4rem;}
+.cmp tbody th{position:sticky; left:0; background:var(--bg); z-index:1;}
+.cmp tbody .hl{background:var(--surface);}
+.svc-grid:empty{min-height:70vh; background:linear-gradient(90deg,transparent,rgba(0,0,0,.03),transparent); background-size:200% 100%; animation:skel 1.4s ease infinite;}
+@keyframes skel{from{background-position:200% 0}to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.svc-grid:empty{animation:none;}}

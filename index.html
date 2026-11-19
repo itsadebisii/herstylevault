@@ -87,6 +87,7 @@
 <div class="pkg-opt"><b>Shop New Pieces</b> Curated shopping list with links</div>
 <div class="pkg-opt"><b>Optional Add-On</b> One guided shopping trip, $100</div>
 </div>
+<details class="pkg-more"><summary>View session breakdown</summary>
 <ul>
 <li>Session 1: Up to 1 hour · main styling session · in person or virtual</li>
 <li>Session 2: Up to 1 hour · check-in &amp; adjustments · in person or virtual</li>
@@ -97,6 +98,7 @@
 <li>Personalized shopping list with links</li>
 <li>Style guide delivered after final session</li>
 </ul>
+</details>
 <a class="btn btn-secondary" href="book.html">Book The Unlock</a>
 </div>
 
@@ -110,6 +112,7 @@
 <div class="pkg-opt"><b>Shop New Pieces</b> Curated additions with sourced links</div>
 <div class="pkg-opt"><b>Optional Add-On</b> One guided shopping trip, $100</div>
 </div>
+<details class="pkg-more"><summary>View session breakdown</summary>
 <ul>
 <li>Session 1: Up to 2 hours · main styling session · in person or virtual</li>
 <li>Session 2: Up to 1 hour · check-in &amp; adjustments · in person or virtual</li>
@@ -120,6 +123,7 @@
 <li>Personalized shopping list with links</li>
 <li>Style guide PDF delivered after final session</li>
 </ul>
+</details>
 <a class="btn btn-primary" href="book.html">Book The Vault Edit</a>
 </div>
 
@@ -132,6 +136,7 @@
 <div class="pkg-opt"><b>Full Closet Overhaul</b> Complete edit of everything you own</div>
 <div class="pkg-opt"><b>In-Person Shopping</b> Three trips included</div>
 </div>
+<details class="pkg-more"><summary>View session breakdown</summary>
 <ul>
 <li>Session 1: Up to 2 hours · in person · the breakdown, closet audit &amp; planning</li>
 <li>Sessions 2-4: Up to 2-3 hours each · in-person shopping trips</li>
@@ -142,6 +147,7 @@
 <li>Follow-up check-in call included</li>
 <li>Style guide PDF delivered after final session</li>
 </ul>
+</details>
 <a class="btn btn-secondary" href="book.html">Book The Full Reveal</a>
 </div>
 
@@ -226,6 +232,7 @@
 <script>
 (function(){
   try { if (sessionStorage.getItem('hsv_promo_dismissed')) return; } catch(e) {}
+  if (window.innerWidth <= 620) return; /* phones already have the report banner and the Help me choose button */
   setTimeout(function(){ var el = document.getElementById('promoPopup'); if (el) el.classList.add('show'); }, 20000);
 })();
 function closePromoPopup(){
@@ -234,6 +241,9 @@ function closePromoPopup(){
 }
 </script>
 <script src="site.js"></script>
+<script>
+(function(){ function sync(){ var d = window.innerWidth > 620; document.querySelectorAll('.pkg-more').forEach(function(x){ x.open = d; }); } sync(); window.addEventListener('resize', sync); })();
+</script>
 <script data-quote-js>
 (function(){
   var cells = document.querySelectorAll('.quote-cell');
