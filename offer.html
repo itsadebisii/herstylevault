@@ -65,13 +65,13 @@
       ? '<div class="dg-price"><span class="price">' + t[1] + '</span><span class="meta" style="margin:0;">' + (o.slug === 'the-ensemble' ? 'per person' : '') + '</span></div>'
       : '<div class="dg-price"><span class="price">' + o.from + '</span><span class="meta" style="margin:0;">' + o.fromNote + '</span></div>';
     var acc = [];
-    acc.push(item(isSvc ? 'What\u2019s Included' : 'What\u2019s Included', '<ul class="dg-list">' + o.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>'));
+    acc.push(item(isSvc ? 'What\u2019s Included' : 'What\u2019s Included', '<ul class="dg-list">' + o.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>', true));
     acc.push(item('How It Works', '<ol class="dg-ol">' + o.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
     acc.push(item('Good to Know', o.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
     var others = OFFERS.filter(function(x){ return x !== o && x.kind === o.kind; });
     var hh = '<section class="band wrap offer-hero tone-' + (o.tone || 'cream') + '" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="' + (isSvc ? 'services.html' : 'packages.html') + '">' + (isSvc ? '\u00c0 La Carte Services' : 'Private Styling Packages') + '</a> / ' + plain(o.name) + '</p>' +
       '<div class="dg-hero"><div class="dg-media">' + cover(o) + '</div><div class="dg-info">' +
-      '<p class="eyebrow">' + o.tag + '</p><h1 class="page-title"><span class="h1-kw">' + plain(o.name) + ': ' + (isSvc ? 'Personal Styling Service' : 'Personal Styling Package') + '</span>' + o.headline + '</h1>' +
+      '<h1 class="page-title"><span class="h1-kw">' + plain(o.name) + ': ' + plain(o.tag) + '</span>' + o.headline + '</h1>' +
       '<p class="sub" style="margin-bottom:1rem;">' + o.lead + '</p>' + picker + priceHtml +
       '<p class="meta" style="margin:0 0 1.2rem;">' + o.meta + '</p>' + cta +
       '<div class="dg-acc">' + acc.join('') + '</div></div></div></section>';

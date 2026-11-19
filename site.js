@@ -199,7 +199,7 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
       ['In person, with you helping', {r:'detox'}], ['On my own, with a guide', {r:'guide'}]]}
   };
   var css = '#hsvHelperBtn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:900;border:0;border-radius:999px;background:#7A1321;color:#FAF9F6;font:500 14px/1 var(--font-body,sans-serif);padding:14px 20px;cursor:pointer;box-shadow:0 10px 26px -10px rgba(24,23,22,.55);}'
-    + '#hsvHelperBtn:hover{background:#4E0B14;}#hsvHelperBtn:focus-visible,#hsvHelper button:focus-visible,#hsvHelper a:focus-visible{outline:2px solid #181716;outline-offset:2px;}'
+    + '#hsvHelperBtn:hover{background:#4E0B14;}@media (max-width:620px){#hsvHelperBtn{font-size:13px;padding:11px 16px;}}#hsvHelperBtn:focus-visible,#hsvHelper button:focus-visible,#hsvHelper a:focus-visible{outline:2px solid #181716;outline-offset:2px;}'
     + '#hsvHelper{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(72px,calc(env(safe-area-inset-bottom,0px) + 72px));z-index:901;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 110px);overflow:auto;background:#FAF9F6;color:#181716;border:1px solid #DCD8D0;border-radius:8px;box-shadow:0 24px 60px -20px rgba(24,23,22,.45);padding:20px 20px 18px;font-family:var(--font-body,sans-serif);}'
     + '#hsvHelper[hidden]{display:none;}#hsvHelper h2{font:500 22px/1.2 var(--font-display,serif);margin:0 28px 4px 0;}#hsvHelper .hh-sub{font-size:13px;color:#6B6862;margin:0 0 14px;}'
     + '#hsvHelper .hh-x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:24px;line-height:1;cursor:pointer;color:#6B6862;}'
@@ -208,7 +208,8 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
     + '#hsvHelper .hh-res b{font:500 22px/1.2 var(--font-display,serif);display:block;}#hsvHelper .hh-res i{font-style:normal;color:#7A1321;font-weight:600;font-size:14px;}#hsvHelper .hh-res p{font-size:14px;line-height:1.5;margin:6px 0 0;}'
     + '#hsvHelper .hh-go{display:inline-block;background:#7A1321;color:#FAF9F6;text-decoration:none;border-radius:4px;padding:11px 16px;font-size:14px;font-weight:500;margin:0 8px 8px 0;}#hsvHelper .hh-link{font-size:13px;color:#6B6862;background:none;border:0;text-decoration:underline;cursor:pointer;padding:4px 0;font-family:inherit;}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
-  var btn = document.createElement('button'); btn.id = 'hsvHelperBtn'; btn.type = 'button'; btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false'); btn.textContent = 'Not sure where to start?';
+  function lbl(){ return window.innerWidth <= 620 ? 'Help me choose' : 'Not sure where to start?'; }
+  var btn = document.createElement('button'); btn.id = 'hsvHelperBtn'; btn.type = 'button'; btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false'); btn.textContent = lbl();
   var box = document.createElement('div'); box.id = 'hsvHelper'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Help me choose');
   document.body.appendChild(box); document.body.appendChild(btn);
   function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
@@ -230,7 +231,7 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
   }
   function wire(){ box.querySelector('.hh-x').addEventListener('click', close); }
   function open(){ show('start'); box.hidden = false; btn.setAttribute('aria-expanded', 'true'); btn.textContent = 'Close'; }
-  function close(){ box.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.textContent = 'Not sure where to start?'; }
+  function close(){ box.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.textContent = lbl(); }
   btn.addEventListener('click', function(){ if (box.hidden) open(); else close(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) { close(); btn.focus(); } });
 })();
