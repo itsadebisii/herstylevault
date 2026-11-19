@@ -1,9 +1,9 @@
 /* ===== Vault Digitals catalog =====
    To add a digital: add one object to DIGITALS. The Vault Digitals shop grid and each
-   product page (digital.html#your-slug) build themselves from this list. No HTML edits.
+   product page (digital-your-slug.html) build themselves from this list. No HTML edits.
 
    Fields
-     slug         unique, lowercase, hyphens (becomes digital.html#slug)        REQUIRED
+     slug         unique, lowercase, hyphens (becomes digital-slug.html)        REQUIRED
      name         product title                                                  REQUIRED
      category     'reports' | 'guides'  (drives filter tabs, eyebrow, cover tone)
      status       'live' (default) | 'coming-soon' (card shows a badge, no link, no buy button)
@@ -29,11 +29,10 @@ var DIGITALS = [
     category: 'reports', status: 'live',
     coverSub: 'Color · Shape · Style',
     price: '$40', priceNote: 'one-time',
+    coverImage: 'images/digitals/report-cover.jpg',
     previews: [
-      {src:'images/digitals/report-persona.jpg', alt:'Sample report page: your style persona, 3-piece formula and color palette'},
-      {src:'images/digitals/report-color.jpg', alt:'Sample report page: your color type and accessory color guide'},
-      {src:'images/digitals/report-body.jpg', alt:'Sample report page: body shape and styling goal'},
-      {src:'images/digitals/report-locked.jpg', alt:'Locked report page: silhouettes, shopping links and fabric guide', locked:true}
+      {src:'images/digitals/report-page-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
+      {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
@@ -68,9 +67,9 @@ var DIGITALS = [
     soonNote: 'Coming soon.',
     soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Guide%20updates' },
     previews: [
-      {src:'images/digitals/detox-guide-1.jpg', alt:'Sample guide page: How It Works, the zone-by-zone method and what to gather before you start'},
-      {src:'images/digitals/detox-guide-2.jpg', alt:'Sample guide page: HerStyleVault’s Golden Rule and the Keep, Sell, Donate labeling guide'},
-      {src:'images/digitals/detox-guide-locked.jpg', alt:'Locked guide page: the Selling Workflow and platform cheat sheet', locked:true}
+      {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
+      {src:'images/digitals/detox-guide-p5.jpg', alt:'Sample guide page: the Closet Reset visual guide to grouping by category and color flow'},
+      {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'}
     ], /* sneak peek pages; slide 1 is always the cover */
     short: 'An 11-page, zone-by-zone closet reset: sort, store, sell and keep it clear, without the overwhelm.',
     headline: 'Reset your closet, <em>one zone at a time</em>',
@@ -112,6 +111,8 @@ var DIGITAL_CATEGORIES = {
   reports: { label: 'Style Reports', eyebrow: 'Style Report' },
   guides:  { label: 'Guides',        eyebrow: 'Guide' }
 };
+/* each product has its own page (digital-<slug>.html) so it can be found and shared; run scripts/build_product_pages.js after editing this file */
+function digitalUrl(p){ return 'digital-' + p.slug + '.html'; }
 function digitalCat(p){ return DIGITAL_CATEGORIES[p.category] || { label: 'Digital', eyebrow: 'Digital' }; }
 function digitalSoon(p){ return p.status === 'coming-soon' || !!(p.cta && /STRIPE_LINK_HERE/.test(p.cta.href || '')); }
 /* everything that should appear on the site (live + coming soon); legacy live:false and status:'hidden' are skipped */
@@ -137,7 +138,7 @@ function digitalCard(p){
     '<p class="vd-desc">' + (p.short || '') + '</p>' +
     '<div class="vd-foot">' + (p.price ? '<span class="price">' + p.price + (p.priceNote ? ' <span>' + p.priceNote + '</span>' : '') + '</span>' : '<span></span>') +
     (soon ? '<span class="vd-badge">Coming Soon · See details →</span>' : '<span class="vd-cta">View Details →</span>') + '</div></div>';
-  return '<a class="vd-card' + (soon ? ' is-soon' : '') + '" href="digital.html#' + p.slug + '">' + inner + '</a>';
+  return '<a class="vd-card' + (soon ? ' is-soon' : '') + '" href="' + digitalUrl(p) + '">' + inner + '</a>';
 }
 
 /* compact card for "More From Vault Digitals": small cover, title, price, hover "Discover" */
@@ -146,7 +147,7 @@ function digitalMini(p){
   var inner = '<div class="vd-thumb">' + digitalCover(p) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
     '<div class="vd-mini-body"><p class="vd-eyebrow">' + digitalCat(p).eyebrow + '</p><h3 class="card-title">' + p.name + '</h3>' +
     '<p class="vd-mini-meta">' + (p.price ? '<span class="price">' + p.price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
-  return '<a class="vd-mini' + (soon ? ' is-soon' : '') + '" href="digital.html#' + p.slug + '">' + inner + '</a>';
+  return '<a class="vd-mini' + (soon ? ' is-soon' : '') + '" href="' + digitalUrl(p) + '">' + inner + '</a>';
 }
 
 /* "See more" appears only when a card description is cut off by the 2-line limit */

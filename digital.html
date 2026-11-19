@@ -29,7 +29,7 @@
   function list(a){ return a && a.length ? a : null; }
   var plain = function(t){ return String(t || '').replace(/<[^>]*>/g, ''); };
   function render(){
-    var slug = (location.hash || '').replace('#','');
+    var slug = window.HSV_SLUG || (location.hash || '').replace('#','');
     var all = visibleDigitals();
     var p = all.filter(function(d){ return d.slug === slug; })[0] || all[0];
     if (!p) { main.innerHTML = '<section class="band wrap"><p class="sub center" style="margin:0 auto;">Nothing here yet. <a href="vault-digitals.html">See Vault Digitals</a>.</p></section>'; return; }
