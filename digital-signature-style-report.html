@@ -54,15 +54,15 @@
     var media = '<div class="dg-media"><div class="dg-stage" id="dgStage">' + slides.map(function(s,i){
         return '<div class="dg-slide-wrap" data-i="' + i + '"' + (i ? ' hidden' : '') + ' style="height:100%;">' + (s.html || ('<img class="dg-slide" src="' + s.img + '" alt="' + digitalAttr(s.alt) + '"' + (i ? ' loading="lazy"' : '') + '>')) + '</div>';
       }).join('') +
-      (multi ? '<div class="peek-lock" id="dgLock" hidden><div class="peek-lock-box">' + (soon ? '<p>Coming soon</p>' : '<p>Pay ' + view.price + ' to continue</p><a class="btn btn-primary" href="' + cta.href + '">Unlock ' + plain(view.name) + '</a>') + '</div></div>' : '') + '</div>' +
+      (multi ? '<div class="peek-lock" id="dgLock" hidden><div class="peek-lock-box">' + (soon ? '<p>Coming soon</p>' : '<p>Pay ' + view.price + ' to unlock every page</p><a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a>') + '</div></div>' : '') + '</div>' +
       (multi ? '<div class="dg-nav"><button type="button" id="dgPrev" aria-label="Previous page">\u2190</button><span id="dgCount"></span><button type="button" id="dgNext" aria-label="Next page">\u2192</button></div><p class="dg-cap">Flip through a sample. Your own copy is built for you after you purchase.</p>' : '') + '</div>';
 
     function item(title, body, open){ return '<div class="acc-item' + (open ? ' open' : '') + '"><div class="acc-q" data-acc-toggle>' + title + '<span class="acc-icon">+</span></div><div class="acc-a">' + body + '</div></div>'; }
     var acc = [];
     if (list(view.includes)) acc.push(item('What\u2019s Inside', '<ul class="dg-list">' + view.includes.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>'));
-    if (list(p.steps)) acc.push(item('How It Works', '<ol class="dg-ol">' + p.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
-    if (list(p.trust)) acc.push(item('Why It\u2019s Different', p.trust.map(function(t){ return '<p><b>' + t[0] + '.</b> ' + t[1] + '</p>'; }).join('')));
-    if (list(p.faqs)) acc.push(item('FAQs', p.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
+    if (list(view.steps)) acc.push(item('How It Works', '<ol class="dg-ol">' + view.steps.map(function(s){ return '<li><b>' + s[0] + '.</b> ' + s[1] + '</li>'; }).join('') + '</ol>'));
+    if (list(view.trust)) acc.push(item('Why It\u2019s Different', view.trust.map(function(t){ return '<p><b>' + t[0] + '.</b> ' + t[1] + '</p>'; }).join('')));
+    if (list(view.faqs)) acc.push(item('FAQs', view.faqs.map(function(f){ return '<div class="dg-qa"><b>' + f[0] + '</b>' + f[1] + '</div>'; }).join('')));
 
     var h = '<section class="band wrap" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="vault-digitals.html">Vault Digitals</a> / ' + plain(p.name) + '</p>' +
       '<div class="dg-hero">' + media +

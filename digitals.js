@@ -8,6 +8,7 @@
      category     'reports' | 'guides'  (drives filter tabs, eyebrow, cover tone)
      status       'live' (default) | 'coming-soon' (card shows a badge, no link, no buy button)
                   | 'hidden' (kept in this file but not shown anywhere)
+     cardCover    optional cover image used on the shop cards only (the details page keeps each option's own cover)
      eyebrow      optional small label above the title instead of the category (e.g. 'Wardrobe Detox Series')
      coverImage   optional 4:5 image path. Without it, a styled editorial cover is generated.
      coverTone    optional 'stone' (Cool Stone) | 'noir' (Bordeaux Noir). Default: reports=stone, guides=noir
@@ -33,7 +34,9 @@ var DIGITALS = [
     coverImage: 'images/digitals/report-cover.jpg',
     previews: [
       {src:'images/digitals/report-page-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
-      {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'}
+      {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
+      {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your color type and accessory guide', locked:true},
+      {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: silhouettes, shopping links and fabrics', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
@@ -73,6 +76,7 @@ var DIGITALS = [
     slug: 'wardrobe-detox-series',
     name: 'The Wardrobe Detox Series',
     eyebrow: 'Wardrobe Detox Series',
+    cardCover: 'images/digitals/detox-series-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
     category: 'guides', status: 'live',
     buyLabel: 'Reset My Closet', /* the card button; it opens a small "which one?" chooser built from options below */
     soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Series%20updates' },
@@ -89,11 +93,29 @@ var DIGITALS = [
         lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, drawers, shoes and purses one zone at a time, with checklists to tick off as you go.',
         coverImage: 'images/digitals/detox-guide-cover.jpg',
         previews: [
-          {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
           {src:'images/digitals/detox-guide-p5.jpg', alt:'Sample guide page: the Closet Reset visual guide to grouping by category and color flow'},
-          {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'}
+          {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
+          {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'},
+          {src:'images/digitals/detox-guide-b8.jpg', alt:'Blurred guide page: the Selling Workflow and platform cheat sheet', locked:true},
+          {src:'images/digitals/detox-guide-b2.jpg', alt:'Blurred guide page: How It Works', locked:true}
         ], /* sneak peek pages; slide 1 is always the cover */
         price: '$28.99', priceNote: 'one-time',
+        steps: [
+          ['Check out once', 'No account and no subscription.'],
+          ['Download right away', 'Your 11-page PDF is ready the moment you pay. It works on your phone, tablet or computer, and prints cleanly.'],
+          ['Work at your pace', 'Do every zone in one day, or take one zone a day. About 45 minutes per zone, or a full afternoon for everything.']
+        ],
+        faqs: [
+          ['What is in the Guide?', 'Eleven pages: the zone-by-zone method for your closet, drawers, shoes and purses, the Keep, Sell, Donate system, the Golden Rule for letting go, the Closet Reset Checklist and visual guide, the Flat-Roll Method, hanger and storage picks, a selling workflow, a Wardrobe Gap Builder and habits to keep it clutter-free.'],
+          ['How long does it take?', 'About 45 minutes per zone, or a full afternoon to do everything. You can spread it over several days.'],
+          ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
+          ['What format is it?', 'A PDF. Use it on your phone or tablet, or print it and tick the checklists off by hand.'],
+          ['Do I need to buy anything?', 'No. The hanger and storage picks are optional suggestions.'],
+          ['Is this included with a package?', 'Yes. The Vault Edit and The Full Reveal both include The Wardrobe Detox Guide.'],
+          ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Guide is the do-it-yourself version.'],
+          ['What is the difference between the Guide and the Checklist?', 'The Guide teaches the whole method, with the reasoning, storage picks and a selling plan. The Checklist is a single page you tick off while you work.'],
+          ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
+        ],
         includes: [
           'A zone-by-zone method for your closet, drawers, shoes and purses',
           'The Keep, Sell, Donate system, with a bag labeling guide and a three-question quick check',
@@ -121,6 +143,21 @@ var DIGITALS = [
         coverSub: 'Quick · Printable · Reset', coverTone: 'stone',
         previews: [], /* add a blurred sneak peek here later: {src:'images/digitals/…jpg', alt:'…', locked:true} */
         soonNote: 'Coming soon: the one-page Checklist for a quick reset.',
+        steps: [
+          ['Check out once', 'No account and no subscription.'],
+          ['Download and print', 'Your one-page PDF is ready the moment you pay. Print it on regular letter paper, or use it on your phone or tablet.'],
+          ['Tick it off as you go', 'Work through the three zones, use the Keep, Sell, Donate check, and fill in your scoreboard as you finish.']
+        ],
+        faqs: [
+          ['What is the Checklist?', 'One page you print and tick off while you work: three zones with the key steps for each, the Keep, Sell, Donate quick check, a scoreboard for what you keep, sell and donate, and a short list for the pieces you are missing.'],
+          ['Do I need the Guide too?', 'No. The Checklist works on its own. If you want the full method, with the reasoning, storage picks and a selling plan, the Guide goes deeper.'],
+          ['How long does it take?', 'It is built for one sitting. Plan on about 45 minutes per zone, or a full afternoon to do all three.'],
+          ['Can I use it more than once?', 'Yes. Print as many copies as you like for yourself and reset your closet again every season.'],
+          ['How do I get it?', 'Right after you pay, you land on a page with a download button. Keep that page’s link and you can download it again anytime. If you ever lose it, email me.'],
+          ['Is this included with a package?', 'No. The Vault Edit and The Full Reveal include the Guide. The Checklist is sold on its own.'],
+          ['Is this the same as The Wardrobe Detox service?', 'No. The service is in person, where I declutter and reorganize your closet with you. The Checklist is the do-it-yourself version.'],
+          ['Can I get a refund?', 'Digital products are final sale because they arrive instantly. If the file won’t open, email me and I’ll fix it.']
+        ],
         includes: ['One printable page you tick off as you go', 'Three zones with the key steps for each, in order', 'The Keep, Sell, Donate quick check', 'A scoreboard for what you keep, sell and donate', 'A short list for the pieces you are missing, so you only buy what completes your outfits', 'Works on its own or right alongside the Guide'],
         cta: { label: 'Buy the Checklist', href: 'STRIPE_LINK_HERE' },
         meta: 'Instant PDF download · One-time payment · 1 page'
@@ -180,7 +217,7 @@ function digitalCover(p){
    A product with options shows one button that opens a "which one?" chooser. */
 function digitalCard(p){
   var url = digitalUrl(p), opts = p.options, v0 = digitalView(p, 0);
-  var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(opts ? v0 : p) + '</a>';
+  var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(p.cardCover ? { coverImage: p.cardCover, name: p.name, category: p.category } : (opts ? v0 : p)) + '</a>';
   var prices = '', buy;
   if (opts) {
     buy = '<button type="button" class="btn btn-primary vd-buy" data-vd-choose aria-expanded="false">' + (p.buyLabel || 'Buy Now') + '</button>' +
@@ -210,7 +247,7 @@ document.addEventListener('click', function(e){
 /* compact card for "More From Vault Digitals": small cover, title, price, hover "Discover" */
 function digitalMini(p){
   var soon = p.options ? digitalSoon(digitalView(p, 0)) && digitalSoon(digitalView(p, 1)) : digitalSoon(p);
-  var inner = '<div class="vd-thumb">' + digitalCover(p.options ? digitalView(p, 0) : p) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
+  var inner = '<div class="vd-thumb">' + digitalCover(p.cardCover ? { coverImage: p.cardCover, name: p.name, category: p.category } : (p.options ? digitalView(p, 0) : p)) + '<span class="vd-hover" aria-hidden="true">Discover</span></div>' +
     '<div class="vd-mini-body"><p class="vd-eyebrow">' + (p.eyebrow || digitalCat(p).eyebrow) + '</p><h3 class="card-title">' + p.name + '</h3>' +
     '<p class="vd-mini-meta">' + (digitalView(p, 0).price ? '<span class="price">' + digitalView(p, 0).price + '</span>' : '') + (soon ? '<span class="vd-badge">Coming Soon</span>' : '<span class="vd-go">Discover \u2192</span>') + '</p></div>';
   return '<a class="vd-mini' + (soon ? ' is-soon' : '') + '" href="' + digitalUrl(p) + '">' + inner + '</a>';
