@@ -2,11 +2,11 @@
    colour and size of the text around it. It runs on every page, including cards drawn by other scripts. */
 (function(){
   if (window.__hsvArrows) return; window.__hsvArrows = true;
-  var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'>" +
-            "<circle cx='3.6' cy='12' r='1.2' fill='#000' stroke='none'/><path d='M8 12h10'/><path d='M13.4 6.6L18.8 12l-5.4 5.4'/></svg>";
+  var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>" +
+            "<path d='M1 12H13.5' stroke='#000' stroke-width='2.2' fill='none'/><path d='M11 4C12.9 8.6 16.8 11 23 12C16.8 13 12.9 15.4 11 20C12.4 16 12.4 8 11 4Z' fill='#000'/></svg>";
   var url = "url(\"data:image/svg+xml," + encodeURIComponent(svg) + "\")";
   var st = document.createElement('style');
-  st.textContent = ".hsv-ar{display:inline-block;width:1.25em;height:1.25em;vertical-align:-.28em;margin:-.2em 0;background:currentColor;" +
+  st.textContent = ".hsv-ar{display:inline-block;width:1.2em;height:1.2em;vertical-align:-.25em;margin:-.2em 0;background:currentColor;" +
     "-webkit-mask:" + url + " center/contain no-repeat;mask:" + url + " center/contain no-repeat;transition:transform .2s;}" +
     ".hsv-ar.l{transform:scaleX(-1);}";
   document.head.appendChild(st);
