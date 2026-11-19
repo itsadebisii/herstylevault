@@ -66,7 +66,7 @@
 
     var h = '<section class="band wrap" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="vault-digitals.html">Vault Digitals</a> / ' + plain(p.name) + '</p>' +
       '<div class="dg-hero">' + media +
-      '<div class="dg-info"><p class="eyebrow">' + cat.eyebrow + '</p><h1 class="page-title">' + (p.headline || p.name) + '</h1>' +
+      '<div class="dg-info"><p class="eyebrow">' + cat.eyebrow + (p.series ? ' \u00b7 ' + p.series : '') + '</p><h1 class="page-title">' + (p.headline || p.name) + '</h1>' +
       (p.lead ? '<p class="sub" style="margin-bottom:1rem;">' + p.lead + '</p>' : '') +
       (opts ? '<div class="dg-opts" role="group" aria-label="Choose your version">' + opts.map(function(x,k){ return '<button type="button" class="dg-opt' + (k === oi ? ' on' : '') + '" data-oi="' + k + '" aria-pressed="' + (k === oi) + '"><b>' + x.label + '</b>' + (x.badge ? '<span>' + x.badge + '</span>' : '') + (x.price ? '<i>' + x.price + '</i>' : '') + '</button>'; }).join('') + '</div>' : '') +
       (view.price ? '<div class="dg-price"><span class="price">' + view.price + '</span>' + (view.priceNote ? '<span class="meta" style="margin:0;">' + view.priceNote + '</span>' : '') + '</div>' : '<p class="dg-soon">' + (view.soonNote || 'Coming soon.') + '</p>') + buy + '<p class="dg-license" style="font-size:12px;color:var(--ink-soft);margin:.8rem 0 0;">For personal use only. Please don\u2019t share or resell. See the <a href="policies.html#digital-products">digital product terms</a>.</p>' +

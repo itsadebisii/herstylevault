@@ -8,12 +8,13 @@
      category     'reports' | 'guides'  (drives filter tabs, eyebrow, cover tone)
      status       'live' (default) | 'coming-soon' (card shows a badge, no link, no buy button)
                   | 'hidden' (kept in this file but not shown anywhere)
+     series       optional series name shown with the category on the product page, e.g. 'Wardrobe Detox Series'
      coverImage   optional 4:5 image path. Without it, a styled editorial cover is generated.
      coverTone    optional 'stone' (Cool Stone) | 'noir' (Bordeaux Noir). Default: reports=stone, guides=noir
      coverSub     optional small line printed on the generated cover
      price, priceNote, short (keep to ~2 lines), headline (may use <em>), lead
      soonNote, soonCta  optional, for status 'coming-soon': a line shown instead of the price, and a {label, href} button (e.g. mailto)
-     options[]    optional tiers on one product page (e.g. Checklist / Guidebook). Each can override: label, badge, price, priceNote, soonNote, includes, cta,
+     options[]    optional tiers on one product page (tiers on one page). Each can override: label, badge, price, priceNote, soonNote, includes, cta,
                   and its own cover: coverName, coverSub, coverTone, coverImage. The cover changes when the visitor picks an option.
      includes[]   What's Inside bullets
      steps[]      How It Works: [title, text] pairs (2 to 4 work best)
@@ -60,6 +61,7 @@ var DIGITALS = [
   {
     slug: 'wardrobe-detox-guide',
     name: 'The Wardrobe Detox Guide',
+    series: 'Wardrobe Detox Series',
     category: 'guides', status: 'live', /* the Buy button turns on once cta.href is your real Stripe link (see below) */
     coverImage: 'images/digitals/detox-guide-cover.jpg',
     coverSub: 'Closet · Declutter · Reset',
@@ -73,7 +75,7 @@ var DIGITALS = [
     ], /* sneak peek pages; slide 1 is always the cover */
     short: 'An 11-page, zone-by-zone closet reset: sort, store, sell and keep it clear, without the overwhelm.',
     headline: 'Reset your closet, <em>one zone at a time</em>',
-    lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, dressers, shoes and purses one zone at a time, with checklists to tick off as you go.',
+    lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, drawers, shoes and bags one zone at a time, with checklists to tick off as you go. It is part of the Wardrobe Detox Series.',
     includes: [
       'A zone-by-zone method for your closet, dressers, shoes and purses',
       'The Keep, Sell, Donate system, with a bag labeling guide and a three-question quick check',
