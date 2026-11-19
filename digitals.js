@@ -33,7 +33,9 @@ var DIGITALS = [
     coverImage: 'images/digitals/report-cover.jpg',
     previews: [
       {src:'images/digitals/report-page-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
-      {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'}
+      {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your color type and accessory guide', locked:true},
+      {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
+      {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: silhouettes, shopping links and fabrics', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 3 minutes',
@@ -89,9 +91,16 @@ var DIGITALS = [
         lead: 'The Wardrobe Detox Guide is the calm, step-by-step method I use to clear a closet without the overwhelm. Work through your closet, drawers, shoes and purses one zone at a time, with checklists to tick off as you go.',
         coverImage: 'images/digitals/detox-guide-cover.jpg',
         previews: [
+          {src:'images/digitals/detox-guide-b2.jpg', alt:'Blurred guide page: How It Works', locked:true},
+          {src:'images/digitals/detox-guide-b3.jpg', alt:'Blurred guide page: the Golden Rule and labeling guide', locked:true},
           {src:'images/digitals/detox-guide-p4.jpg', alt:'Sample guide page: the Closet Reset Checklist and HerStyleVault favorite hangers'},
           {src:'images/digitals/detox-guide-p5.jpg', alt:'Sample guide page: the Closet Reset visual guide to grouping by category and color flow'},
-          {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'}
+          {src:'images/digitals/detox-guide-b6.jpg', alt:'Blurred guide page: the Flat-Roll Method', locked:true},
+          {src:'images/digitals/detox-guide-b7.jpg', alt:'Blurred guide page: shoes and purses', locked:true},
+          {src:'images/digitals/detox-guide-b8.jpg', alt:'Blurred guide page: the selling workflow', locked:true},
+          {src:'images/digitals/detox-guide-p9.jpg', alt:'Sample guide page: the Wardrobe Gap Builder, a printable list of missing pieces'},
+          {src:'images/digitals/detox-guide-b10.jpg', alt:'Blurred guide page: habits to keep it clutter-free', locked:true},
+          {src:'images/digitals/detox-guide-b11.jpg', alt:'Blurred guide page: what to do next', locked:true}
         ], /* sneak peek pages; slide 1 is always the cover */
         price: '$28.99', priceNote: 'one-time',
         includes: [
