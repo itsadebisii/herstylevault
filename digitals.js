@@ -5,7 +5,7 @@
    Fields
      slug         unique, lowercase, hyphens (becomes digital-slug.html)        REQUIRED
      name         product title                                                  REQUIRED
-     category     'reports' | 'guides'  (drives filter tabs, eyebrow, cover tone)
+     category     'reports' | 'guides' | 'windown'  (drives filter tabs, eyebrow, cover tone)
      status       'live' (default) | 'coming-soon' (card shows a badge, no link, no buy button)
                   | 'hidden' (kept in this file but not shown anywhere)
      cardCover    optional cover image used on the shop cards only (the details page keeps each option's own cover)
@@ -179,12 +179,52 @@ var DIGITALS = [
     ],
     meta: 'Instant PDF download · One-time payment'
   }
+  ,{
+    slug: 'coloring-book',
+    name: 'The HerStyleVault Coloring Book',
+    eyebrow: 'Wind Down · Edition 001',
+    category: 'windown', status: 'coming-soon', coverTone: 'stone',
+    soonNote: 'Coming soon',
+    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Coloring%20Book%20updates' },
+    coverImage: 'images/digitals/coloring-book-cover.jpg',
+    previews: [
+      {src:'images/digitals/cb-olive-martini.jpg', alt:'Sample coloring page: The Olive Martini scene'},
+      {src:'images/digitals/cb-heels.jpg', alt:'Sample coloring page: a pair of statement heels'},
+      {src:'images/digitals/cb-margarita.jpg', alt:'Sample coloring page: The Margarita scene'},
+      {src:'images/digitals/cb-b1.jpg', alt:'Blurred coloring page from the book', locked:true},
+      {src:'images/digitals/cb-b2.jpg', alt:'Blurred coloring page from the book', locked:true}
+    ],
+    short: 'A 48-page cocktail and fashion coloring book for slow evenings: seven classic drinks, style illustrations and fun cocktail lore.',
+    headline: 'Pour a drink, grab your markers, <em>romanticize your night in</em>',
+    lead: 'A chic escape where classic cocktail culture meets high-fashion aesthetics. Each chapter pairs an iconic drink with curated style illustrations and a little cocktail history, made for slow evenings and creative self-care.',
+    includes: [
+      '48 pages of hand-drawn illustrations to color',
+      'Seven chapters, one classic cocktail each: Olive Martini, Mai Tai, Margarita, Gin & Tonic, Strawberry Daiquiri, Mojito and Tequila Cosmo',
+      'Cocktail scenes, plus heels, handbags, jewelry and accessories to color',
+      'An origin story page for every drink, with fun cocktail lore',
+      'A PDF you can print or color on a tablet'
+    ],
+    steps: [
+      ['Get your PDF', 'Your coloring book is ready to download as soon as you check out.'],
+      ['Print it or open it on a tablet', 'Whichever way you like to color.'],
+      ['Pour a drink and color', 'Take it slow, one chapter at a time. Share your pages and tag @herstylevault.official.']
+    ],
+    faqs: [
+      ['When is it available?', 'Soon. Email me and I will let you know the moment it is ready.'],
+      ['Do I have to print it?', 'No. It is a PDF, so you can print it at home or color it on a tablet.'],
+      ['Is it for personal use?', 'Yes. It is for personal use only, not for resale, reproduction or distribution.'],
+      ['Will there be more editions?', 'This is Edition 001. Ask me to keep you posted on what comes next.']
+    ],
+    cta: { label: 'Coming Soon', href: 'STRIPE_LINK_HERE' },
+    meta: 'Instant delivery · One-time payment'
+  }
 ];
 
 /* ---------- Catalog helpers ---------- */
 var DIGITAL_CATEGORIES = {
   reports: { label: 'Style Reports', eyebrow: 'Style Report' },
-  guides:  { label: 'Guides',        eyebrow: 'Guide' }
+  guides:  { label: 'Guides',        eyebrow: 'Guide' },
+  windown: { label: 'Wind Down',     eyebrow: 'Wind Down' }
 };
 /* each product has its own page (digital-<slug>.html) so it can be found and shared; run scripts/build_product_pages.js after editing this file */
 function digitalUrl(p){ return 'digital-' + p.slug + '.html'; }
