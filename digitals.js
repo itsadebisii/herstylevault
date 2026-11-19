@@ -192,7 +192,7 @@ var DIGITALS = [
       {src:'images/digitals/cb-olive-martini.jpg', alt:'Sample coloring page: The Olive Martini scene'},
       {src:'images/digitals/cb-heels.jpg', alt:'Sample coloring page: a pair of statement heels'},
       {src:'images/digitals/cb-margarita.jpg', alt:'Sample coloring page: The Margarita scene'},
-      {src:'images/digitals/cb-origin.jpg', alt:'Sample origin story page: how the Mai Tai got its name'},
+      {src:'images/digitals/cb-handbag.jpg', alt:'Sample coloring page: a handbag with an olive martini'},
       {src:'images/digitals/cb-b1.jpg', alt:'Blurred coloring page from the book', locked:true},
       {src:'images/digitals/cb-b2.jpg', alt:'Blurred coloring page from the book', locked:true}
     ],
