@@ -61,7 +61,7 @@
     var firstTier = o.tiers && o.tiers[0];
     return '<div class="expect-card"><div class="expect-head" data-acc-toggle><div class="expect-head-left"><img class="expect-thumb" src="' + o.coverImage + '" alt="' + plain(o.name) + '"><div class="expect-head-main"><h3 class="card-title">' + o.name + '</h3><div class="expect-head-meta">From ' + o.from + ' \u00b7 ' + o.meta + '</div></div></div><span class="acc-icon">+</span></div>' +
       '<div class="expect-body"><p class="sub" style="margin-bottom:1rem;">' + plain(o.lead) + '</p>' + tiers + steps + good +
-      '<div class="cta-row" style="margin-top:1.2rem;justify-content:flex-start;"><a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a><a class="btn btn-ghost" href="offer.html#' + o.slug + '">Full details</a></div></div></div>';
+      '<div class="cta-row" style="margin-top:1.2rem;justify-content:flex-start;"><a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a><a class="btn btn-ghost" href="' + offerUrl(o) + '">Full details</a></div></div></div>';
   }
   document.getElementById('weList').innerHTML = OFFERS.filter(function(o){ return o.kind === 'service'; }).map(card).join('');
   if (window.initAccordions) initAccordions('.expect-card');

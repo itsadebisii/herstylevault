@@ -10,7 +10,10 @@ CARD = {'index.html': 'home', 'about.html': 'about', 'book.html': 'book', 'packa
         'what-to-expect-services.html': 'what-to-expect-services', 'policies.html': 'policies',
         'digital-signature-style-report.html': 'digital-signature-style-report',
         'digital-wardrobe-detox-series.html': 'digital-wardrobe-detox-series',
-        'digital-coloring-book.html': 'digital-coloring-book'}
+        'digital-coloring-book.html': 'digital-coloring-book',
+        'package-unlock.html': 'package-unlock', 'package-vault-edit.html': 'package-vault-edit', 'package-full-reveal.html': 'package-full-reveal',
+        'service-occasion-edit.html': 'service-occasion-edit', 'service-ensemble.html': 'service-ensemble',
+        'service-mini-collection.html': 'service-mini-collection', 'service-wardrobe-detox.html': 'service-wardrobe-detox'}
 for f, card in CARD.items():
     h = open(f, encoding='utf8').read(); o = h
     title = re.search(r'<title>(.*?)</title>', h, re.S).group(1).strip()
