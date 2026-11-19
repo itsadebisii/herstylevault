@@ -19,7 +19,7 @@ engine = engine.replace('  return L;\n}', "  return L.filter(b=>b.key!=='silh'&&
 old_g = """'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two">"""
 assert engine.count(old_g) == 1
 engine = engine.replace(old_g, """'<h1 class="pdf-h1" style="margin-top:0;">Colors to <em>Avoid</em></h1><div class="pdf-two">""")
-head_old = 'Signature Style Report \\u00b7 HerStyleVault'
+head_old = "Signature Style Report \\u00b7 '+esc((REPORT&&REPORT.clientName)||'HerStyleVault')+'"
 assert engine.count(head_old) == 1
 engine = engine.replace(head_old, "'+(window.HSV_HEAD||'Style Analysis')+' \\u00b7 HerStyleVault")
 
