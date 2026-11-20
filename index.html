@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css?v=ec7d00a0">
+<link rel="stylesheet" href="theme.css?v=354424bc">
 </head>
 <body>
 <header class="site">
@@ -50,8 +50,12 @@
 <a href="digital-signature-style-report.html">Find your style, no session needed <span aria-hidden="true">→</span></a>
 </div>
 </div>
-<div class="photo-frame">
-<img src="images/Hero_Closet.jpg" alt="Organized walk-in closet with hanging clothes, shelving, and a styling vanity">
+<div class="photo-frame hero-car" id="heroCar" role="region" aria-roledescription="carousel" aria-label="HerStyleVault">
+<div class="hc-track" id="hcTrack">
+<a class="hc-slide" href="lookbook.html" aria-label="HerStyleVault Lookbook, open the Lookbook"><video id="hcVideo" muted loop playsinline autoplay preload="auto" poster="images/brand/logo-animated-poster.jpg" aria-hidden="true"><source src="images/brand/logo-animated-lookbook.mp4" type="video/mp4"></video></a>
+<div class="hc-slide"><img src="images/Hero_Closet.jpg" alt="Organized walk-in closet with hanging clothes, shelving, and a styling vanity"></div>
+</div>
+<div class="hc-dots" role="group" aria-label="Choose a slide"><button type="button" aria-label="Slide 1: Lookbook" aria-current="true"></button><button type="button" aria-label="Slide 2: Closet"></button></div>
 </div>
 </div>
 </section>
@@ -244,6 +248,15 @@ function closePromoPopup(){
       if (!wasOpen) c.classList.add('open');
     });
   });
+})();
+</script>
+<script>
+(function(){var t=document.getElementById('hcTrack'),v=document.getElementById('hcVideo');if(!t)return;
+var d=document.querySelectorAll('#heroCar .hc-dots button');
+try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches&&v){v.removeAttribute('autoplay');v.pause();}}catch(e){}
+function cur(){return Math.round(t.scrollLeft/Math.max(1,t.clientWidth));}
+t.addEventListener('scroll',function(){var i=cur();for(var k=0;k<d.length;k++)d[k].setAttribute('aria-current',k===i?'true':'false');},{passive:true});
+for(var k=0;k<d.length;k++)(function(i){d[i].addEventListener('click',function(){t.scrollTo({left:i*t.clientWidth,behavior:'smooth'});});})(k);
 })();
 </script>
 <script src="arrows.js?v=ad91749e"></script>
