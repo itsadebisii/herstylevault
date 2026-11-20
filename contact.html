@@ -50,8 +50,11 @@
   <label>What is this about?
     <select id="ctTopic" name="topic">
       <option>Booking or packages</option>
+      <option>À la carte services</option>
       <option>My Signature Style Report</option>
       <option>Digital products</option>
+      <option>My existing booking</option>
+      <option>Collaborations and press</option>
       <option>Something else</option>
     </select>
   </label>
@@ -69,7 +72,7 @@
 <script>
 (function () {
   var opened = Date.now(), form = document.getElementById('ctForm'), out = document.getElementById('ctOut'), btn = document.getElementById('ctSend');
-  var qs = new URLSearchParams(location.search), topic = qs.get('topic'), note = qs.get('note');
+  var qs = new URLSearchParams(location.search), topic = qs.get('topic'), note = qs.get('note'), ref = (qs.get('ref') || '').slice(0, 120);
   if (topic) { var sel = document.getElementById('ctTopic'); for (var i = 0; i < sel.options.length; i++) if (sel.options[i].text === topic) sel.selectedIndex = i; }
   if (note) document.getElementById('ctMessage').value = note.slice(0, 300);
   function say(cls, text) { out.className = 'ct-msg ' + cls; out.textContent = text; }
@@ -81,7 +84,7 @@
     if (message.length < 5) return say('err', 'Please add a short message.');
     btn.disabled = true; btn.textContent = 'Sending…'; out.className = 'ct-msg';
     fetch('/.netlify/functions/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, email: email, topic: document.getElementById('ctTopic').value, message: message, website: document.getElementById('ctWeb').value, t: Date.now() - opened }) })
+      body: JSON.stringify({ name: name, email: email, topic: document.getElementById('ctTopic').value, message: message, website: document.getElementById('ctWeb').value, ref: ref, t: Date.now() - opened }) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, j: j }; }); })
       .then(function (x) {
         if (x.j && x.j.ok) { form.reset(); say('ok', 'Thank you. We got your message and will reply to ' + email + ' within 2 to 3 business days.'); }
