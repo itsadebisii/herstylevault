@@ -416,7 +416,7 @@ async function renderReport(r){
   REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
   document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
-    +(r.__shared?'<div class="cta"><h3>Want your own style report?</h3><p>Find your colors, your best silhouettes and where to shop them. It takes about five minutes.</p><a href="'+QUIZ_URL+'">Get my own report</a></div>':'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>');
+    +(r.__shared?'':'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>');
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
   const eb=document.getElementById('email-btn');eb.style.display='';eb.disabled=false;eb.onclick=()=>emailPdf(eb);
@@ -573,14 +573,21 @@ async function showShared(token){
     SHARED_VIEW=true;AGE='';j.report.__shared=true;
     const first=esc(j.report.clientName||'a friend');
     await renderReport(j.report);
-    const eb=document.getElementById('email-btn');
-    if(eb){eb.style.display='';eb.disabled=false;eb.textContent='Get my own report';eb.onclick=()=>{location.href=QUIZ_URL;};}
+    const eb=document.getElementById('email-btn');if(eb)eb.style.display='none'; // the buyer's email button is not for visitors
     const n=document.getElementById('save-note');
-    if(n){n.innerHTML='<span><strong>'+first+'</strong> shared this report with you. Take the quiz to get your own, it only takes about five minutes.</span> <a class="share-btn" href="'+QUIZ_URL+'" style="text-decoration:none;display:inline-block;">Get my own report</a>';n.hidden=false;}
+    if(n){n.innerHTML='<span><strong>'+first+'</strong> shared this report with you. Scroll down to see all of it.</span>';n.hidden=false;}
     const rh=document.getElementById('report-hint');if(rh)rh.remove();
-    const bar=document.createElement('div');bar.className='share-bar';bar.innerHTML='<span>Want your own?</span> <a href="'+QUIZ_URL+'">Get my own report</a>';document.body.appendChild(bar);
+    /* the one button that is always there */
+    const bar=document.createElement('div');bar.className='share-bar';bar.innerHTML='<span>Liked what you saw?</span> <a href="'+QUIZ_URL+'">Get my own report</a>';document.body.appendChild(bar);
+    /* the pop-up: once, after 5 seconds or when they scroll near the end, whichever comes first */
     let seen=false;try{seen=sessionStorage.getItem('hsv_share_popup')==='1';}catch(e){}
-    if(!seen)setTimeout(()=>openSharePopup(first),1800);
+    if(!seen){
+      let fired=false;
+      const fire=()=>{if(fired)return;fired=true;clearTimeout(tm);window.removeEventListener('scroll',onScroll);openSharePopup(first);};
+      const onScroll=()=>{const doc=document.documentElement;if(window.scrollY+window.innerHeight>=doc.scrollHeight-700)fire();};
+      const tm=setTimeout(fire,5000);
+      window.addEventListener('scroll',onScroll,{passive:true});
+    }
   }catch(e){
     if(tb)tb.style.display='none';
     app.innerHTML='<div class="err-box"><h2>We could not open this report</h2><p>Please try again in a moment.</p></div>';
@@ -590,7 +597,7 @@ function openSharePopup(first){
   if(document.getElementById('share-pop'))return;
   const prev=document.activeElement;
   const m=document.createElement('div');m.id='share-pop';m.className='share-pop';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-labelledby','share-pop-t');
-  m.innerHTML='<div class="share-pop-in"><button type="button" class="share-pop-x" aria-label="Close">&times;</button><p class="share-pop-k">'+first+' shared this with you</p><h2 id="share-pop-t">Want your own style report?</h2><p>Find your colors, your best silhouettes and where to shop them. It takes about five minutes.</p><a class="share-btn share-pop-go" href="'+QUIZ_URL+'">Get my own report</a><button type="button" class="link-btn share-pop-later">Keep reading</button></div>';
+  m.innerHTML='<div class="share-pop-in"><button type="button" class="share-pop-x" aria-label="Close">&times;</button><p class="share-pop-k">'+first+' shared this with you</p><h2 id="share-pop-t">Want your own style report?</h2><p>Find your colors, your best silhouettes and where to shop them. It takes about five minutes.</p><a class="share-btn share-pop-go" href="'+QUIZ_URL+'">Take the 5-minute quiz</a><button type="button" class="link-btn share-pop-later">Keep reading</button></div>';
   document.body.appendChild(m);
   try{sessionStorage.setItem('hsv_share_popup','1');}catch(e){}
   const close=()=>{document.removeEventListener('keydown',onKey);if(m.parentNode)m.parentNode.removeChild(m);if(prev&&prev.focus)try{prev.focus();}catch(e){}};
