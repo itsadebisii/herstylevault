@@ -466,7 +466,7 @@ async function init() {
   } catch (e) { data = null; }
 
   if (!data || !data.answers) {
-    showError('We couldn\'t find your quiz answers', 'Your payment is confirmed. Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. Email us and we will send you a free code to retake the quiz, or retake it in the same browser you started in.', false);
+    showError('We couldn\'t find your quiz answers', 'Your payment is confirmed. Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. Please open this link in the browser you used for the quiz. If that does not work, email us and we will help.', false);
     return;
   }
 
