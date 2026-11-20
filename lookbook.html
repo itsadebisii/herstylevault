@@ -24,18 +24,27 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css?v=dfc45399">
+<link rel="stylesheet" href="theme.css?v=65e9600a">
 </head>
-<body>
+<body class="lbk-page">
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
 
-<section class="band wrap">
-<h1 class="page-title center"><span class="h1-kw">Personal Styling Lookbook</span>The <em>Lookbook</em></h1>
-<p class="sub center" style="margin:0 auto 2.2rem;">Sample HerStyleVault Edit boards: one occasion, one complete look, built around color and shape. Tap a board to see it bigger.</p>
-<div class="look-grid look-two" id="lookGrid"></div>
-<p class="sub center" style="margin:2.4rem auto 0;font-size:13px;color:var(--ink-soft);">These are sample style boards. Client photos and videos are only shared with the client's written permission.</p>
-<p class="sub center" style="margin:1.6rem auto 0;">Want a look like this for your next event?</p>
-<div class="cta-row"><a class="btn btn-primary" href="service-occasion-edit.html">Book an Occasion Edit</a> <a class="btn btn-secondary" href="book.html">Free Consultation</a></div>
+<div class="lbk-wall">
+<section class="lbk-hero" id="lbkHero" aria-labelledby="lbkTitle">
+<p class="lbk-eyebrow">Vol. 01 &middot; Fall &middot; Winter</p>
+<h1 class="lbk-title" id="lbkTitle"><span class="h1-kw">Personal Styling Lookbook</span><span aria-hidden="true">the lookbook</span></h1>
+<div class="lbk-me" id="lbkMe"></div>
+<p class="lbk-hand"><span>@herstylevault.official</span></p>
+</section>
+
+<section class="lbk-looks" id="lookGrid" aria-label="The looks"><noscript><p class="lbk-count">Turn on JavaScript to browse the looks, or <a href="book.html">book a free consultation</a>.</p></noscript></section>
+</div>
+
+<section class="lbk-end">
+<p class="lbk-end-mark">your turn</p>
+<p class="lbk-end-sub">Want a look like this for your next event?</p>
+<div class="lbk-end-btns"><a class="lbk-btn" href="service-occasion-edit.html">Book an Occasion Edit</a><a class="lbk-btn ghost" href="book.html">Free Consultation</a></div>
+<p class="lbk-note">Sample style boards. Client photos and videos are only shared with written permission.</p>
 </section>
 
 <footer class="site"><div class="footer-mount"></div></footer>
@@ -43,22 +52,89 @@
 <script src="lookbook.js"></script>
 <script>
 (function(){
-  var grid = document.getElementById('lookGrid');
-  grid.innerHTML = LOOKBOOK.map(function(i, n){
-    return '<div class="look-tile"><button type="button" class="board-frame look-frame look-open" data-n="' + n + '" aria-label="View bigger: ' + i.title + '"><img src="' + i.image + '" alt="' + i.alt + '" loading="lazy"></button>' +
-      '<div class="board-name">' + i.title + '</div><p class="board-caption">' + i.caption + '</p></div>';
-  }).join('');
-  function close(){ var m = document.getElementById('lookBox'); if (m) { m.parentNode.removeChild(m); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); } }
-  function esc(e){ if (e.key === 'Escape') close(); }
+  var grid = document.getElementById('lookGrid'), me = document.getElementById('lbkMe'), hero = document.getElementById('lbkHero');
+  var W = 900, H = 1125, filter = 'All';
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function plate(){
+    var c = '', x, y;
+    for (x = 70; x <= 830; x += 52) { c += '<circle cx="' + x + '" cy="46" r="34"/><circle cx="' + x + '" cy="' + (H - 46) + '" r="34"/>'; }
+    for (y = 122; y <= H - 122; y += 52) { c += '<circle cx="46" cy="' + y + '" r="34"/><circle cx="' + (W - 46) + '" cy="' + y + '" r="34"/>'; }
+    c += '<circle cx="50" cy="50" r="36"/><circle cx="' + (W - 50) + '" cy="50" r="36"/><circle cx="50" cy="' + (H - 50) + '" r="36"/><circle cx="' + (W - 50) + '" cy="' + (H - 50) + '" r="36"/>';
+    return '<svg class="lbk-plate" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true" focusable="false"><g fill="#FFFFFF" stroke="#8B1226" stroke-width="6">' + c + '</g>' +
+      '<rect x="50" y="50" width="' + (W - 100) + '" height="' + (H - 100) + '" rx="40" fill="#FFFFFF"/>' +
+      '<rect x="74" y="74" width="' + (W - 148) + '" height="' + (H - 148) + '" rx="30" fill="none" stroke="#8B1226" stroke-width="3" opacity=".55"/></svg>';
+  }
+  function ripple(cols){
+    var s = '<span class="rsq" aria-hidden="true">', k = 0;
+    cols.forEach(function(c){ s += '<i style="background:' + c[1] + '">'; k++; });
+    for (; k > 0; k--) s += '</i>';
+    return s + '</span>';
+  }
+  function dots(cols){ return '<span class="lbk-dots" aria-hidden="true">' + cols.map(function(c){ return '<b style="background:' + c[1] + '"></b>'; }).join('') + '</span>'; }
+  function tagOf(i){ return i.tag; }
+  function art(i, big){ return '<span class="lbk-pic' + (big ? ' big' : '') + '">' + plate() + '<img class="lbk-art' + (i.fit ? ' contain' : '') + '" src="' + i.art + '" alt="' + esc(i.alt) + '" loading="' + (big ? 'eager' : 'lazy') + '"></span>'; }
+  me.innerHTML = '<div class="lbk-pl">' + plate() + '<img class="lbk-photo" src="images/brand/photo-cover.jpg" alt="Adebisi, the stylist behind HerStyleVault, seated on a burgundy velvet sofa" loading="eager"><span class="lbk-sticker"><img src="images/brand/icon-header.png" alt="" width="58" height="33"></span></div>';
+
+  function tags(){
+    var seen = ['All'];
+    LOOKBOOK.forEach(function(i){ if (seen.indexOf(i.tag) < 0) seen.push(i.tag); });
+    return seen;
+  }
+  function renderGrid(){
+    hero.hidden = false;
+    var list = LOOKBOOK.filter(function(i){ return filter === 'All' || i.tag === filter; });
+    grid.className = 'lbk-looks is-grid';
+    grid.innerHTML = '<div class="lbk-bar"><p class="lbk-count">' + list.length + ' look' + (list.length === 1 ? '' : 's') + ' &middot; tap one to see the pieces</p>' +
+      '<div class="lbk-chips" role="group" aria-label="Filter by occasion">' + tags().map(function(t){ return '<button type="button" class="lbk-chip' + (t === filter ? ' on' : '') + '" data-tag="' + esc(t) + '" aria-pressed="' + (t === filter) + '">' + esc(t) + '</button>'; }).join('') + '</div></div>' +
+      '<div class="lbk-grid">' + list.map(function(i){
+        return '<a class="lbk-card" href="#' + i.slug + '" aria-label="' + esc(i.title) + ', ' + esc(tagOf(i)) + '">' + art(i, false) +
+          '<span class="lbk-card-tag">' + esc(tagOf(i)) + '</span><span class="lbk-card-name">' + esc(i.title) + '</span>' + dots(i.colors) + '</a>';
+      }).join('') + '</div>';
+  }
+  function renderDetail(i, n){
+    hero.hidden = true;
+    var num = ('0' + (n + 1)).slice(-2), tot = ('0' + LOOKBOOK.length).slice(-2);
+    var prev = LOOKBOOK[(n + LOOKBOOK.length - 1) % LOOKBOOK.length], next = LOOKBOOK[(n + 1) % LOOKBOOK.length];
+    grid.className = 'lbk-looks is-detail';
+    grid.innerHTML = '<a class="lbk-back" href="#">← All looks</a>' +
+      '<article class="lbk-detail"><div class="lbk-dpic"><button type="button" class="lbk-zoom" data-n="' + n + '" aria-label="View the board bigger">' + art(i, true) + '</button><span class="lbk-sticker small" aria-hidden="true"><img src="images/brand/icon-header.png" alt="" width="58" height="33"></span></div>' +
+      '<div class="lbk-dinfo"><p class="lbk-idx"><span>' + num + ' / ' + tot + '</span><span>' + esc(tagOf(i)) + '</span></p>' +
+      '<h2 class="lbk-name">' + esc(i.title) + '</h2>' +
+      (i.caption ? '<p class="lbk-story">' + esc(i.caption) + '</p>' : '') +
+      (i.client ? '<p class="lbk-clientnote">Styled for a real client</p>' : '') +
+      '<h3 class="lbk-h3">The colors</h3><div class="lbk-pal">' + ripple(i.colors) + '<ul class="lbk-cols">' + i.colors.map(function(c){ return '<li><b style="background:' + c[1] + '"></b>' + esc(c[0]) + '</li>'; }).join('') + '</ul></div>' +
+      '<h3 class="lbk-h3">The pieces</h3><ul class="lbk-pieces">' + (i.pieces || []).map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' +
+      (i.why ? '<h3 class="lbk-h3">Why it works</h3><p class="lbk-why">' + esc(i.why) + '</p>' : '') +
+      (i.wear ? '<h3 class="lbk-h3">Wear it to</h3><ul class="lbk-wear">' + i.wear.map(function(w){ return '<li>' + esc(w) + '</li>'; }).join('') + '</ul>' : '') +
+      '<div class="lbk-dcta"><a class="lbk-btn solid" href="service-occasion-edit.html">Book an Occasion Edit</a><a class="lbk-btn" href="book.html">Free Consultation</a></div></div></article>' +
+      '<nav class="lbk-pn" aria-label="More looks"><a href="#' + prev.slug + '"><span>← Previous</span>' + esc(prev.title) + '</a><a href="#' + next.slug + '"><span>Next →</span>' + esc(next.title) + '</a></nav>';
+  }
+  var baseTitle = document.title, first = true;
+  function route(){
+    var slug = (location.hash || '').replace('#', ''), n = -1;
+    LOOKBOOK.forEach(function(i, k){ if (i.slug === slug) n = k; });
+    if (n >= 0) { renderDetail(LOOKBOOK[n], n); document.title = LOOKBOOK[n].title + ' | HerStyleVault Lookbook'; }
+    else { renderGrid(); document.title = baseTitle; }
+    var top = document.querySelector('.lbk-wall'); if (top && top.scrollIntoView && !first) { try { top.scrollIntoView({block: 'start'}); } catch (e) {} }
+    first = false;
+  }
+  window.addEventListener('hashchange', route);
   grid.addEventListener('click', function(e){
-    var b = e.target.closest('.look-open'); if (!b) return;
-    var i = LOOKBOOK[+b.getAttribute('data-n')];
-    var m = document.createElement('div'); m.id = 'lookBox'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
-    m.innerHTML = '<div class="lb-in"><button type="button" class="lb-x" aria-label="Close">\u00d7</button><img src="' + i.image + '" alt="' + i.alt + '"><p>' + i.title + '</p></div>';
-    m.addEventListener('click', function(ev){ if (ev.target === m || ev.target.classList.contains('lb-x')) close(); });
-    document.addEventListener('keydown', esc);
-    document.body.appendChild(m); document.body.style.overflow = 'hidden';
+    var c = e.target.closest('.lbk-chip');
+    if (c) { filter = c.getAttribute('data-tag'); renderGrid(); return; }
+    var z = e.target.closest('.lbk-zoom');
+    if (z) openBox(LOOKBOOK[+z.getAttribute('data-n')]);
   });
+  function close(){ var m = document.getElementById('lookBox'); if (m) { m.parentNode.removeChild(m); document.body.style.overflow = ''; document.removeEventListener('keydown', onEsc); } }
+  function onEsc(e){ if (e.key === 'Escape') close(); }
+  function openBox(i){
+    var m = document.createElement('div'); m.id = 'lookBox'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
+    m.innerHTML = '<div class="lb-in"><button type="button" class="lb-x" aria-label="Close">×</button><img src="' + (i.image || i.art) + '" alt="' + esc(i.alt) + '"><p>' + esc(i.title) + '</p></div>';
+    m.addEventListener('click', function(ev){ if (ev.target === m || ev.target.classList.contains('lb-x')) close(); });
+    document.addEventListener('keydown', onEsc);
+    document.body.appendChild(m); document.body.style.overflow = 'hidden';
+  }
+  route();
 })();
 </script>
 <script src="arrows.js?v=ad91749e"></script>
