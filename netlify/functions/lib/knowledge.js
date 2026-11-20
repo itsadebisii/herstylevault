@@ -20,7 +20,7 @@ function computeColorAxes(a){
   if(a.veins==='blue')coolScore+=1;
   const net=warmScore-coolScore;
   const undertone=net>=3?'warm':net<=-3?'cool':'neutral';
-  const depthScore={porcelain:0,fair:0,light:0,beige:1,medium:1,olive:1,tan:2,caramel:2,brown:3,deep:3,rich:3}[a.depth]??1;
+  const depthScore={porcelain:0,ivory:0,fair:0,light:0,beige:1,sand:1,medium:1,olive:1,honey:2,tan:2,caramel:2,bronze:3,brown:3,deep:3,rich:3}[a.depth]??1;
   const value=depthScore===0?'light':depthScore>=2?'deep':'medium';
   let chromaScore=0;
   if(a.chroma==='bright')chromaScore+=2;if(a.chroma==='muted')chromaScore-=2;
@@ -53,7 +53,7 @@ function colorSignals(a){
   ['jewelry','wash','comp','sun','veins'].forEach(k=>{const e=(T[k]||{})[a[k]];if(e)out.push({k,dir:e[0],text:e[1]});});
   // If she chose her own colors, say so in her own words.
   if(a.compCustom){
-    const FAV_NAMES={rust:'rust',terracotta:'terracotta',mustard:'mustard',olive:'olive',camel:'camel',navy:'navy',emerald:'emerald',berry:'berry',lavender:'lavender',icy:'icy blue',pink:'pink',black:'black',white:'white',gray:'gray',taupe:'taupe'};
+    const FAV_NAMES={rust:'rust',terracotta:'terracotta',coral:'coral',peach:'peach',orange:'orange',goldenyellow:'golden yellow',mustard:'mustard',warmred:'warm red',camel:'camel',brown:'brown',olive:'olive',forest:'forest green',navy:'navy',royal:'royal blue',sky:'sky blue',icy:'icy blue',teal:'teal',emerald:'emerald',mint:'mint',lavender:'lavender',purple:'purple',plum:'plum',berry:'berry',fuchsia:'fuchsia',pink:'pink',black:'black',charcoal:'charcoal',gray:'gray',white:'white',cream:'cream',taupe:'taupe',sage:'sage',burgundy:'burgundy'};
     const names=(Array.isArray(a.favColors)?a.favColors:[]).map(x=>FAV_NAMES[x]).filter(Boolean).slice(0,4);
     const other=String(a.favOther||'').replace(/[^A-Za-z ,'-]/g,'').trim().slice(0,40).toLowerCase();
     if(other)names.push(other);
