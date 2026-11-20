@@ -396,7 +396,7 @@ async function renderReport(r){
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
   const eb=document.getElementById('email-btn');eb.disabled=false;eb.onclick=()=>emailPdf(eb);
   const hl=document.getElementById('hint-email');if(hl)hl.onclick=ev=>{ev.preventDefault();window.scrollTo({top:0,behavior:'smooth'});eb.click();};
-  if(AGE==='45+'){eb.classList.add('nudge');setTimeout(()=>eb.classList.remove('nudge'),9000);}
+  eb.classList.add('nudge');setTimeout(()=>eb.classList.remove('nudge'),9000);
   fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok))useDownload();}).catch(()=>useDownload());
   function useDownload(){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. We do not store it, so tap <b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
 }
