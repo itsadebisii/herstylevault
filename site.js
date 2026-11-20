@@ -13,7 +13,7 @@ var TICKER_HTML = '<div class="site-ticker ticker"><div class="ticker-track">' +
 
 const NAV_HTML = `${TICKER_HTML}
 <div class="nav-inner">
-<a class="wordmark" href="index.html">HerStyleVault</a>
+<a class="wordmark" href="index.html" aria-label="HerStyleVault home"><img class="wm-icon" src="images/brand/icon-header.png" alt="" width="58" height="33"><span class="wm-text"><span class="wm-her">Her</span>StyleVault</span></a>
 <ul class="nav-links" id="navLinks">
 <li class="has-dropdown"><a class="dd-label" href="packages.html">Services</a><div class="dropdown">
 <a href="services.html">À La Carte Services</a>

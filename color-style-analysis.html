@@ -20,7 +20,7 @@ body{font-family:var(--font-body);background:var(--surface);color:var(--ink);min
 .progress{display:flex;gap:3px;margin-bottom:1.6rem;}
 .progress span{height:2px;flex:1;background:var(--line);}
 .progress span.done{background:var(--accent);}
-.meta{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.8rem;font-weight:500;}
+.meta{font-size:0.75rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.8rem;font-weight:500;}
 .qtext{font-family:var(--font-display);font-size:1.7rem;font-weight:500;color:var(--ink);margin-bottom:0.9rem;line-height:1.2;}
 .hint{font-size:0.8rem;color:var(--ink-soft);margin-bottom:1.2rem;}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-top:auto;margin-bottom:1.6rem;}
@@ -39,14 +39,14 @@ body{font-family:var(--font-body);background:var(--surface);color:var(--ink);min
 .tone-swatch{width:100%;aspect-ratio:1;border-radius:50% 50% 3px 3px;margin:0 auto 0.6rem;border:1px solid var(--line);}
 .tone-opt .lbl{font-size:0.76rem;color:var(--ink-soft);}
 .tone-opt.sel .lbl{color:var(--ink);font-weight:500;}
-.group-lbl{font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.5rem;margin-top:0.9rem;font-weight:500;}
+.group-lbl{font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.5rem;margin-top:0.9rem;font-weight:500;}
 .group-lbl:first-of-type{margin-top:0;}
 .tri-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;}
 .tri-opt{border:1px solid var(--line);background:var(--bg);padding:0.7rem 0.5rem;text-align:center;cursor:pointer;border-radius:6px;}
 .tri-opt.sel{border-color:var(--accent);background:var(--surface);}
 .tri-opt .demo{display:flex;justify-content:center;align-items:stretch;gap:2px;margin-bottom:0.5rem;height:34px;}
 .tri-opt .demo div{width:18px;height:34px;border-radius:1px;}
-.tri-opt .lbl{font-size:0.7rem;color:var(--ink-soft);line-height:1.3;}
+.tri-opt .lbl{font-size:0.75rem;color:var(--ink-soft);line-height:1.3;}
 .tri-opt.sel .lbl{color:var(--ink);font-weight:500;}
 .tri-opt svg{width:46px;height:46px;margin-bottom:0.4rem;}
 .notsure-wrap{max-width:33%;margin-top:0.9rem;}
@@ -56,21 +56,28 @@ textarea.freetext:focus,input.nameinput:focus{outline:1px solid var(--accent);}
 input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);padding:0.9rem 1rem;font-family:var(--font-body);font-size:0.92rem;color:var(--ink);margin-bottom:0.8rem;border-radius:2px;}
 .field-err{font-size:0.78rem;color:var(--accent);margin:-0.2rem 0 0.8rem;}
 .upload-box{border:1px dashed var(--ink-soft);background:var(--bg);padding:1.6rem 1rem;text-align:center;font-size:0.8rem;color:var(--ink-soft);margin-top:auto;margin-bottom:1.6rem;cursor:pointer;border-radius:6px;}
-.upload-box strong{display:block;color:var(--accent);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+.upload-box strong{display:block;color:var(--accent);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
 .upload-box img{max-width:120px;max-height:120px;margin-top:0.8rem;border-radius:2px;}
 .upload-box input[type=file]{display:none;}
 .nav{display:flex;justify-content:space-between;align-items:center;}
-.back-link{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+.back-link{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;background:none;border:none;font-family:var(--font-body);}
 .back-link:disabled{opacity:0;pointer-events:none;}
-.next-btn,.cover-btn{font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--ink);color:var(--accent-ink);padding:0.85rem 1.9rem;border:none;cursor:pointer;border-radius:6px;font-weight:500;}
+.next-btn,.cover-btn{font-family:var(--font-body);font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--ink);color:var(--accent-ink);padding:0.85rem 1.9rem;border:none;cursor:pointer;border-radius:6px;font-weight:500;}
 .next-btn:hover,.cover-btn:hover{background:var(--accent-deep);}
 .next-btn:disabled,.cover-btn:disabled{opacity:0.4;cursor:not-allowed;}
 .cover{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:left;}
-.cover-eyebrow{font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.9rem;font-weight:500;}
+.cover-eyebrow{font-size:0.75rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.9rem;font-weight:500;}
 .cover-title{font-family:var(--font-display);font-weight:500;font-size:clamp(2rem,6.5vw,2.8rem);line-height:1.05;margin-bottom:0.9rem;color:var(--ink);}
 .cover-title em{font-style:italic;color:var(--accent);}
 .returning-toggle{display:flex;gap:0.5rem;margin:0.9rem 0 0.9rem;}
 .returning-opt{flex:1;font-family:var(--font-body);font-size:0.76rem;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);padding:0.65rem 0.5rem;cursor:pointer;border-radius:6px;}
+.depth-art{display:flex;flex-direction:column;align-items:center;width:100%}
+.depth-strip{display:flex;gap:3px;justify-content:center;margin-top:12px}
+.depth-strip i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
+.depth-strip i.cur{outline:2px solid var(--accent);outline-offset:1px}
+.swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+.opt.sw{display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem}
+.opt.sw i{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
 .plan-q{font-family:var(--font-body);font-size:0.84rem;color:var(--ink);margin:1rem 0 0.4rem;font-weight:500;line-height:1.45;}
 .plan-note{font-size:12px;opacity:.75;margin:0.5rem 0 0.9rem;line-height:1.55;}
 .returning-opt.sel{border-color:var(--accent);background:var(--surface);color:var(--ink);font-weight:500;}
@@ -84,21 +91,23 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
 
 .vc{text-align:center;margin-bottom:1.6rem;}
 .vc-group{display:flex;gap:0.5rem;justify-content:center;margin:0 0 0.9rem;}
-.vc-gbtn{font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.45rem 0.85rem;border-radius:2px;cursor:pointer;}
+.vc-gbtn{font-family:var(--font-body);font-size:0.75rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.45rem 0.85rem;border-radius:2px;cursor:pointer;}
 .vc-gbtn.on{border-color:var(--accent);color:var(--ink);background:var(--surface);font-weight:500;}
 .vc-frame{position:relative;}
 .vc-art{width:100%;height:300px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:4px;cursor:pointer;overflow:hidden;padding:1rem 3.1rem;user-select:none;-webkit-tap-highlight-color:transparent;}
 .vc-art:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 .vc-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(250,249,246,0.95);color:var(--ink);font-size:1.05rem;cursor:pointer;}.vc-arrow[data-dir="-1"]{left:8px;}.vc-arrow[data-dir="1"]{right:8px;}
 .vc-arrow:hover{border-color:var(--ink);}
-.vc-count{font-size:0.7rem;letter-spacing:0.14em;color:var(--ink-soft);margin:0.7rem 0 0.4rem;}
+.vc-count{font-size:0.75rem;letter-spacing:0.14em;color:var(--ink-soft);margin:0.7rem 0 0.4rem;}
 .vc-desc{font-family:var(--font-display);font-size:1.3rem;line-height:1.25;color:var(--ink);margin:0 0 0.9rem;min-height:3.3rem;display:flex;align-items:center;justify-content:center;}
-.vc-pick{font-family:var(--font-body);font-size:0.74rem;letter-spacing:0.12em;text-transform:uppercase;background:var(--bg);color:var(--ink);border:1px solid var(--ink);border-radius:2px;padding:0.8rem 1.8rem;cursor:pointer;min-width:200px;}
+.vc-pick{font-family:var(--font-body);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;background:var(--bg);color:var(--ink);border:1px solid var(--ink);border-radius:2px;padding:0.8rem 1.8rem;cursor:pointer;min-width:200px;}
 .vc-pick.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
-.vc-notsure{display:block;margin:0.7rem auto 0;font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.55rem 1.2rem;border-radius:2px;cursor:pointer;}
+.vc-notsure{display:block;margin:0.7rem auto 0;font-family:var(--font-body);font-size:0.75rem;letter-spacing:0.06em;background:transparent;border:1px solid var(--line);color:var(--ink-soft);padding:0.55rem 1.2rem;border-radius:2px;cursor:pointer;}
 .vc-notsure.on{border-color:var(--accent);color:var(--ink);background:var(--surface);font-weight:500;}
 .vc-sw{display:flex;gap:0.45rem;align-items:flex-end;justify-content:center;}
 .vc-arch{display:block;width:46px;height:56px;border-radius:23px 23px 4px 4px;border:3px solid #CDBBA8;background-clip:padding-box;}
+.vc-sw-many{flex-wrap:wrap;max-width:210px;margin:0 auto;row-gap:.55rem;align-items:center}
+.vc-sw-many .vc-arch{width:40px;height:50px;border-radius:20px 20px 4px 4px}
 .vc-arch-xl{width:110px;height:132px;border-radius:55px 55px 6px 6px;}
 .vc-sw-demo .vc-arch{width:62px;height:84px;border-radius:31px 31px 5px 5px;}
 .vc-arch-q{display:flex;align-items:center;justify-content:center;background:transparent!important;border:2px dashed #CDBBA8;font-family:var(--font-display);font-size:2rem;color:var(--ink-soft);}
@@ -143,26 +152,26 @@ function opt(label, value, icon) { return { label, value, icon }; }
 // Persona answers read differently by age bracket. The saved value (left) never changes, so scoring is identical for every age.
 const PERSONA_OPTS = {
   pq1: {
-    blazer: { icon: "art:blazer", labels: {'18-24': "Oversized blazer, baby tee or tank, relaxed denim and loafers", '25-34': "Tailored blazer, a clean tee, great-fitting jeans and a polished flat", '35-44': "Structured blazer, silk cami or knit top, tailored trousers or dark denim and loafers", '45+': "Sharp jacket or blazer, crisp shell top, ankle trousers and sleek flats"} },
-    casual: { icon: "art:tee", labels: {'18-24': "Baggy or straight jeans, a favorite tee, trending sneakers and gold hoops", '25-34': "Great-fitting jeans, an elevated ribbed tee, clean leather sneakers and hoops", '35-44': "Favorite dark-wash denim, a tucked-in knit tee, comfortable low-profile sneakers and everyday gold", '45+': "Well-cut jeans or chinos, a soft breathable tee, polished sneakers and simple jewelry"} },
-    feminine: { icon: "art:dress", labels: {'18-24': "A mini or midi dress with a cardigan and dainty layered necklaces", '25-34': "A wrap or slip midi dress with delicate jewelry and an easy sandal or flat", '35-44': "A flattering midi dress or soft knit top with a skirt and subtle gold accents", '45+': "A fluid midi dress or draped knit top with tailored pants and classic jewelry"} },
-    allblack: { icon: "art:coat", labels: {'18-24': "All-black everything: cropped jacket, black jeans or trousers and sleek boots", '25-34': "Monochrome black: a fitted knit, tailored black pants and ankle boots", '35-44': "Head-to-toe black: a great coat, a sleek column base and black leather boots", '45+': "An all-black signature: well-cut black trousers, a fine-knit top and a sharp black jacket"} },
-    bold: { icon: "art:statement", labels: {'18-24': "A statement top, bold print or standout bag that carries the whole outfit", '25-34': "An eye-catching print, dramatic sleeve or bold color with simple bottoms", '35-44': "Rich color, a textured statement piece or a standout shoe with clean basics", '45+': "A striking print, sculptural blouse or bold accessory that makes the outfit"} },
-    set: { icon: "art:matching", labels: {'18-24': "A matching knit or linen two-piece set with a mini shoulder bag", '25-34': "A coordinated vest-and-trouser or knit set with a structured bag", '35-44': "A tailored matching two-piece set with a polished leather tote or crossbody", '45+': "A crisp matching cardigan-and-trouser or suiting set with a structured bag"} },
-    sporty: { icon: "art:sneaker", labels: {'18-24': "A matching ribbed workout set, zip-up jacket, clean sneakers and a claw clip", '25-34': "A sculpted athleisure set, trench or bomber layer, clean sneakers and sunglasses", '35-44': "An elevated matching lounge or active set, a structured jacket and crisp sneakers", '45+': "A polished knit-active set, lightweight trench or cardigan and supportive clean sneakers"} },
+    blazer: { icon: "art:blazer", labels: {'18-24': "An oversized blazer, a tank top, jeans and loafers", '25-34': "A blazer, a plain tee, jeans that fit well and flats", '35-44': "A blazer, a nice top, trousers or dark jeans and loafers", '45+': "A jacket, a simple top, ankle pants and comfortable flats"} },
+    casual: { icon: "art:tee", labels: {'18-24': "Baggy or straight jeans, my favorite tee, sneakers and gold hoops", '25-34': "Good-fitting jeans, a ribbed tee, clean sneakers and hoops", '35-44': "Dark jeans, a tucked-in tee, comfortable sneakers and simple gold jewelry", '45+': "Well-cut jeans, a soft tee, comfortable sneakers and simple jewelry"} },
+    feminine: { icon: "art:dress", labels: {'18-24': "A mini or midi dress, a cardigan and a delicate necklace", '25-34': "A midi dress, delicate jewelry and flat sandals", '35-44': "A flattering dress, or a soft top with a skirt, and small gold jewelry", '45+': "A flowing dress, or a soft top with tailored pants, and classic jewelry"} },
+    allblack: { icon: "art:coat", labels: {'18-24': "All black: a cropped jacket, black jeans and boots", '25-34': "All black: a fitted knit, black pants and ankle boots", '35-44': "All black: a great coat, a sleek base layer and black boots", '45+': "All black: well-fitting black trousers, a fine knit top and a sharp jacket"} },
+    bold: { icon: "art:statement", labels: {'18-24': "One eye-catching piece, like a bold top or a statement bag, that carries the outfit", '25-34': "A bold print or bright color paired with simple bottoms", '35-44': "A rich color or a standout shoe with simple basics", '45+': "A striking print or a bold accessory that makes the outfit"} },
+    set: { icon: "art:matching", labels: {'18-24': "A matching two-piece set with a small shoulder bag", '25-34': "A matching set, such as a vest and trousers or a knit set, with a structured bag", '35-44': "A matching two-piece set with a leather tote or crossbody bag", '45+': "A matching cardigan and trousers, or a suit set, with a structured bag"} },
+    sporty: { icon: "art:sneaker", labels: {'18-24': "A matching workout set, a zip-up jacket, clean sneakers and a claw clip", '25-34': "A fitted workout set, a trench or bomber jacket, clean sneakers and sunglasses", '35-44': "A polished matching lounge or workout set, a structured jacket and crisp sneakers", '45+': "A knit workout set, a light jacket or cardigan and supportive sneakers"} },
   },
   pq2: {
     tailored: { icon: null, labels: {'18-24': "How crisp and structured it sits on my shoulders and frame", '25-34': "How clean and tailored the cut is through my shoulders, torso and waist", '35-44': "How well-tailored it feels: structure without feeling stiff or tight", '45+': "The precision of the tailoring: clean shoulder seams and a flattering, structured line"} },
-    drape: { icon: null, labels: {'18-24': "How soft, fluid and flattering the fabric moves when I walk", '25-34': "How effortlessly the fabric skims and drapes without clinging", '35-44': "How fluidly the fabric drapes over my body and moves with me", '45+': "The graceful drape: soft fabric that skims smoothly and never feels restrictive"} },
+    drape: { icon: null, labels: {'18-24': "How soft, fluid and flattering the fabric moves when I walk", '25-34': "How easily the fabric falls and moves without clinging", '35-44': "How smoothly the fabric falls over my body and moves with me", '45+': "Soft fabric that falls smoothly and never feels restrictive"} },
     quality: { icon: null, labels: {'18-24': "The weight and feel of the fabric, it looks way better than the price tag", '25-34': "The fabric thickness and finish, it feels substantial and looks polished", '35-44': "The fabric quality and construction, I know it will hold its shape after washing", '45+': "The richness and weight of the fabric, it feels refined, substantial and built to last"} },
     effortless: { icon: null, labels: {'18-24': "That I can throw it on with jeans or cargos and instantly look put-together", '25-34': "That it is an easy, throw-on piece I can wear with denim and still look styled", '35-44': "That it is effortless to style: one piece that makes everyday jeans look intentional", '45+': "That it is easy to reach for: pair it with simple pants or denim and I am out the door"} },
-    drama: { icon: null, labels: {'18-24': "The standout detail: an unexpected cut, bold texture or a piece nobody else has", '25-34': "The statement factor: a sculptural sleeve, rich texture or striking silhouette", '35-44': "The visual impact: a bold cut, rich texture or detail that lifts the whole outfit", '45+': "The distinctive design: an architectural cut, textured weave or memorable statement detail"} },
+    drama: { icon: null, labels: {'18-24': "The standout detail: an unexpected cut, bold texture or a piece nobody else has", '25-34': "The standout factor: a dramatic sleeve, rich texture or striking shape", '35-44': "The visual impact: a bold cut, rich texture or detail that lifts the whole outfit", '45+': "The distinctive design: an unusual cut, textured fabric or a memorable detail"} },
   },
   pq3: {
-    mono: { icon: null, labels: {'18-24': "Keep the whole outfit tonal or one color head-to-toe", '25-34': "Dress in one color family head-to-toe for a clean, cohesive look", '35-44': "Build a monochrome or tonal outfit using different textures in the same shade", '45+': "Layer different textures within one tonal color palette from head to toe"} },
+    mono: { icon: null, labels: {'18-24': "Wear one color from head to toe", '25-34': "Dress in one color family head-to-toe for a clean, cohesive look", '35-44': "Wear one color from head to toe, using different fabrics in the same shade", '45+': "Layer different fabrics in one color family from head to toe"} },
     set: { icon: null, labels: {'18-24': "Start with a matching two-piece set so the outfit is already half done", '25-34': "Reach for a coordinated matching set so everything feels intentional", '35-44': "Start with a tailored matching set as my base and add simple accessories", '45+': "Choose a polished two-piece matching set so the proportions already work together"} },
-    outerwear: { icon: null, labels: {'18-24': "Build around a great jacket, trench or oversized blazer over basics", '25-34': "Anchor the outfit with a sharp blazer, trench or leather jacket over simple basics", '35-44': "Start with my third piece, a structured blazer, coat or cardigan, over a clean base", '45+': "Let a great jacket, trench or structured cardigan anchor simple, comfortable basics"} },
-    standout: { icon: null, labels: {'18-24': "Pick one statement piece (shoes, bag or top) and keep everything else simple", '25-34': "Build around one hero piece, a great shoe, bag or top, and keep the rest clean", '35-44': "Let one standout piece lead (a bold top, shoe or bag) and keep the rest understated", '45+': "Focus on one signature piece, a statement jacket, shoe or accessory, over clean neutrals"} },
+    outerwear: { icon: null, labels: {'18-24': "Build around a great jacket, trench or oversized blazer over basics", '25-34': "Start with a sharp blazer, trench or leather jacket over simple basics", '35-44': "Start with a jacket layer, such as a structured blazer, coat or cardigan, over a clean base", '45+': "Start with a great jacket, trench or structured cardigan over simple, comfortable basics"} },
+    standout: { icon: null, labels: {'18-24': "Pick one standout piece (shoes, bag or top) and keep everything else simple", '25-34': "Build around one standout piece, such as a great shoe, bag or top, and keep the rest simple", '35-44': "Let one standout piece lead (a bold top, shoe or bag) and keep the rest understated", '45+': "Focus on one signature piece, such as a bold jacket, shoe or accessory, over simple neutrals"} },
   },
 };
 function personaOptions(key) { const age = PERSONA_OPTS[key] ? (['18-24','25-34','35-44','45+'].indexOf(A.ageBracket) > -1 ? A.ageBracket : '25-34') : null; return Object.keys(PERSONA_OPTS[key]).map(v => opt(PERSONA_OPTS[key][v].labels[age], v, PERSONA_OPTS[key][v].icon || undefined)); }
@@ -170,28 +179,28 @@ function personaOptions(key) { const age = PERSONA_OPTS[key] ? (['18-24','25-34'
 // Standard multiple-choice questions, in display order.
 const QUESTIONS = [
   { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold','foil:gold'), opt('Silver','silver','foil:silver'), opt('Both equally','both','foil:both'), opt('Not sure','unsure')] },
-  { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('Rarely in sun','neither')] },
+  { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('I rarely spend time in the sun','neither'), opt('Prefer not to tan','na')] },
   { section: 'color', n: 3, of: 8, key: 'veins', type: 'veins' },
-  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('All colors — I look good in everything','all'), opt('Not sure','unsure')] },
-  { section: 'color', n: 5, of: 8, key: 'wash', text: 'Are there colors that wash you out?', options: [opt('Warm tones wash me out','warm'), opt('Cool tones wash me out','cool'), opt('Very pale / icy colors','pale'), opt('Nothing washes me out','none')] },
+  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Which colors do people compliment you in most often?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('Many different colors','all'), opt('Choose my colors','custom'), opt('Not sure','unsure')] },
+  { section: 'color', n: 5, of: 8, key: 'wash', text: 'Are there colors that wash you out?', options: [opt('Warm tones wash me out','warm'), opt('Cool tones wash me out','cool'), opt('Very pale or icy colors wash me out','pale'), opt('Nothing washes me out','none')] },
   { section: 'color', n: 6, of: 8, key: 'depth', type: 'depth' },
   { section: 'color', n: 7, of: 8, key: 'contrast', type: 'contrast' },
-  { section: 'color', n: 8, of: 8, key: 'chroma', text: 'Do bright, saturated colors or soft, muted colors look better on you?', options: [opt('Bright, saturated colors','bright'), opt('Soft, muted colors','muted'), opt('Both look good','both')] },
-  { section: 'body', n: 1, of: 10, key: 'fit', text: 'When you shop, what fits better — tops or bottoms?', options: [opt('Tops fit better','tops'), opt('Bottoms fit better','bottoms'), opt('Both fit well','both'), opt('Neither fits great','neither')] },
-  { section: 'body', n: 2, of: 10, key: 'weight', multi: true, text: 'When you gain weight, where do you notice it? Choose all that apply.', options: [opt('Belly / midsection','belly'), opt('Hips / thighs','hips'), opt('Upper body / arms','upper'), opt('Evenly all over','evenly')] },
-  { section: 'body', n: 3, of: 10, key: 'styleGrav', text: 'Are there styles you always gravitate toward?', options: [opt('Flowy and loose','flowy'), opt('Fitted and structured','fitted'), opt('Anything that defines the waist','waist'), opt('Oversized and relaxed','oversized')] },
-  { section: 'body', n: 4, of: 10, key: 'dressSep', text: 'Dresses or separates — what works better on you?', options: [opt('Dresses work better','dresses'), opt('Separates work better','separates'), opt('Both equally','both')] },
-  { section: 'body', n: 5, of: 10, key: 'conf', text: 'Where do you feel most confident in your body?', options: [opt('Shoulders / collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('Overall confident','overall')] },
-  { section: 'body', n: 6, of: 10, key: 'shoulderHip', text: 'How do your shoulders compare to your hips?', options: [opt('Shoulders noticeably wider than hips','shouldersMuchWider','croq:inverted'), opt('Shoulders slightly wider than hips','shouldersSlightlyWider','croq:inverted'), opt('Shoulders and hips about the same width','equal','croq:rectangle'), opt('Hips slightly wider than shoulders','hipsSlightlyWider','croq:pear'), opt('Hips noticeably wider than shoulders','hipsMuchWider','croq:pear'), opt('Hips wider, but shoulders full too','hipsWiderShouldersFull','croq:hourglass')] },
-  { section: 'body', n: 7, of: 10, key: 'waistDef', text: 'How defined is your waist?', options: [opt('Very defined, much smaller than bust and hips','veryDefined'), opt('Slightly defined','slightlyDefined'), opt('Barely any waist definition','barelyDefined'), opt('Full midsection, waist is the widest part','fullMidsection')] },
-  { section: 'body', n: 8, of: 10, key: 'bustHip', text: 'How does your bust compare to your hips?', options: [opt('Bust noticeably larger than hips','bustMuchLarger'), opt('Bust slightly larger than hips','bustSlightlyLarger'), opt('Bust and hips roughly equal','roughlyEqual'), opt('Hips slightly larger than bust','hipsSlightlyLarger'), opt('Hips noticeably larger than bust','hipsMuchLarger'), opt('Full bust and full hips, both prominent','fullBoth')] },
+  { section: 'color', n: 8, of: 8, key: 'chroma', text: 'Do bright, vivid colors or soft, gentle colors look better on you?', options: [opt('Bright, vivid colors','bright'), opt('Soft, gentle colors','muted'), opt('Both look good','both')] },
+  { section: 'body', n: 1, of: 10, key: 'fit', text: 'When you shop, which fits you more easily: tops or bottoms?', options: [opt('Tops','tops'), opt('Bottoms','bottoms'), opt('Both fit well','both'), opt('Neither fits well','neither')] },
+  { section: 'body', n: 2, of: 10, key: 'weight', multi: true, text: 'Where does your body tend to carry extra weight? Choose all that apply.', options: [opt('Stomach','belly'), opt('Hips and thighs','hips'), opt('Upper body and arms','upper'), opt('Evenly all over','evenly')] },
+  { section: 'body', n: 3, of: 10, key: 'styleGrav', text: 'Which style of clothing do you reach for most?', options: [opt('Loose and flowing','flowy'), opt('Fitted and tailored','fitted'), opt('Anything that shows my waist','waist'), opt('Oversized and relaxed','oversized')] },
+  { section: 'body', n: 4, of: 10, key: 'dressSep', text: 'Do dresses or separate tops and bottoms work better on you?', options: [opt('Dresses','dresses'), opt('Separate tops and bottoms','separates'), opt('Both equally','both')] },
+  { section: 'body', n: 5, of: 10, key: 'conf', text: 'Which part of your body do you feel most confident about?', options: [opt('Shoulders and collarbone','shoulders'), opt('Waist','waist'), opt('Legs','legs'), opt('Bust','bust'), opt('My whole body','overall')] },
+  { section: 'body', n: 6, of: 10, key: 'shoulderHip', text: 'How do your shoulders compare to your hips?', options: [opt('Shoulders noticeably wider than hips','shouldersMuchWider','croq:inverted'), opt('Shoulders slightly wider than hips','shouldersSlightlyWider','croq:inverted'), opt('Shoulders and hips about the same width','equal','croq:rectangle'), opt('Hips slightly wider than shoulders','hipsSlightlyWider','croq:pear'), opt('Hips noticeably wider than shoulders','hipsMuchWider','croq:pear'), opt('Hips wider, with broad shoulders too','hipsWiderShouldersFull','croq:hourglass')] },
+  { section: 'body', n: 7, of: 10, key: 'waistDef', text: 'How much does your waist curve in?', options: [opt('Clearly, it is much narrower than my bust and hips','veryDefined'), opt('Slightly','slightlyDefined'), opt('Barely at all','barelyDefined'), opt('Not at all. My waist is the widest part of my torso','fullMidsection')] },
+  { section: 'body', n: 8, of: 10, key: 'bustHip', text: 'How does your bust compare to your hips?', options: [opt('Bust noticeably larger than hips','bustMuchLarger'), opt('Bust slightly larger than hips','bustSlightlyLarger'), opt('Bust and hips roughly equal','roughlyEqual'), opt('Hips slightly larger than bust','hipsSlightlyLarger'), opt('Hips noticeably larger than bust','hipsMuchLarger'), opt('Both my bust and hips are full','fullBoth')] },
   { section: 'body', n: 9, of: 10, key: 'height', text: "What's your height range?", options: [opt("Petite — under 5'4\"",'petite'), opt("Average — 5'4\" to 5'7\"",'average'), opt("Tall — 5'8\" and up",'tall')] },
   { section: 'body', n: 10, of: 10, key: 'proportion', text: 'Do you have a longer torso or longer legs?', options: [opt('Longer torso','longTorso'), opt('Longer legs','longLegs'), opt('Pretty balanced','balanced')] },
-  { section: 'persona', n: 1, of: 5, key: 'ageBracket', text: 'Which age bracket are you in?', options: [opt('18–24','18-24'), opt('25–34','25-34'), opt('35–44','35-44'), opt('45+','45+')] },
-  { section: 'persona', n: 2, of: 5, key: 'pq1', text: 'When you have 10 minutes to get ready for dinner, what is your default move?', dynamic: true },
-  { section: 'persona', n: 3, of: 5, key: 'pq2', text: 'When you try something on and immediately know "this is the one," what usually sold you?', dynamic: true },
-  { section: 'persona', n: 4, of: 5, key: 'pq3', text: 'When you are building an outfit from scratch, what is your natural instinct?', dynamic: true },
-  { section: 'persona', n: 5, of: 5, key: 'budget', label: 'Shopping Range', text: "When you're shopping for a great everyday piece (like a top, pair of jeans or dress), what price range feels most comfortable for you?", options: [opt('Everyday and accessible, about $25 to $75 a piece. I love finding great cuts and trending pieces at everyday prices.','budget'), opt('Mid-range, about $75 to $200 a piece. I will invest a bit more for better fabric, tailoring and pieces that last several seasons.','mid'), opt('Investment, $200 and up a piece. I prefer fewer, higher-end pieces with exceptional fabric and construction.','invest')] },
+  { section: 'about', label: 'About you', noCount: true, n: 1, of: 1, key: 'ageBracket', text: 'Which age range are you in?', hint: 'We use this to match the examples in your questions to your life.', options: [opt('18–24','18-24'), opt('25–34','25-34'), opt('35–44','35-44'), opt('45+','45+')] },
+  { section: 'persona', n: 1, of: 4, key: 'pq1', text: 'You have 10 minutes to get ready for dinner. What do you usually put on?', dynamic: true },
+  { section: 'persona', n: 2, of: 4, key: 'pq2', text: 'When you try something on and know right away that it is the one, what usually convinces you?', dynamic: true },
+  { section: 'persona', n: 3, of: 4, key: 'pq3', text: 'When you put an outfit together from scratch, where do you usually start?', dynamic: true },
+  { section: 'persona', n: 4, of: 4, key: 'budget', label: 'Shopping Range', text: "When you're shopping for a great everyday piece (like a top, pair of jeans or dress), what price range feels most comfortable for you?", options: [opt('Everyday and accessible, about $25 to $75 a piece. I love finding great cuts and trending pieces at everyday prices.','budget'), opt('Mid-range, about $75 to $200 a piece. I will invest a bit more for better fabric, tailoring and pieces that last several seasons.','mid'), opt('Investment, $200 and up a piece. I prefer fewer, higher-end pieces with exceptional fabric and construction.','invest')] },
 ];
 
 /* ----- Body shape (same rules as the stylist tools), used for the lead record ----- */
@@ -360,10 +369,42 @@ function veinsSvg(bg, stroke) {
 // Slide list: covers + all 23 questions + free text + photo + payment
 const SLIDES = ['name-cover', 'color-cover', ...QUESTIONS.filter(q => q.section === 'color').map((q, i) => i), 'body-cover', ...QUESTIONS.filter(q => q.section === 'body').map((q, i) => i), 'freetext', 'photo'];
 // Build a flat ordered list with proper indices into QUESTIONS
+// Colors people can pick if they choose "Choose my colors". t = which undertone the color leans toward (used to score the answer).
+const FAV = [
+  // g: which group heading it sits under. t: which undertone it leans toward (used to score the answer).
+  {v:'rust',l:'Rust',hex:'#B5541F',t:'warm',g:'e'},{v:'terracotta',l:'Terracotta',hex:'#C86B3C',t:'warm',g:'e'},{v:'coral',l:'Coral',hex:'#E8765C',t:'warm',g:'e'},
+  {v:'peach',l:'Peach',hex:'#F2B38C',t:'warm',g:'e'},{v:'orange',l:'Orange',hex:'#E07B2C',t:'warm',g:'e'},{v:'goldenyellow',l:'Golden yellow',hex:'#E3B72E',t:'warm',g:'e'},
+  {v:'mustard',l:'Mustard',hex:'#C99A2E',t:'warm',g:'e'},{v:'warmred',l:'Warm red',hex:'#C1272D',t:'warm',g:'e'},{v:'camel',l:'Camel',hex:'#B98A55',t:'warm',g:'e'},
+  {v:'brown',l:'Brown',hex:'#6B4423',t:'warm',g:'e'},{v:'olive',l:'Olive',hex:'#6E6B3F',t:'warm',g:'e'},{v:'forest',l:'Forest green',hex:'#3F6B3A',t:'warm',g:'e'},
+  {v:'navy',l:'Navy',hex:'#1F2F5A',t:'cool',g:'c'},{v:'royal',l:'Royal blue',hex:'#2D4FA8',t:'cool',g:'c'},{v:'sky',l:'Sky blue',hex:'#7FB0DC',t:'cool',g:'c'},
+  {v:'icy',l:'Icy blue',hex:'#BFD7EA',t:'cool',g:'c'},{v:'teal',l:'Teal',hex:'#1F7F86',t:'cool',g:'c'},{v:'emerald',l:'Emerald',hex:'#1F7A5C',t:'cool',g:'c'},
+  {v:'mint',l:'Mint',hex:'#A8DCC4',t:'cool',g:'c'},{v:'lavender',l:'Lavender',hex:'#9B8AC4',t:'cool',g:'c'},{v:'purple',l:'Purple',hex:'#6B3FA0',t:'cool',g:'c'},
+  {v:'plum',l:'Plum',hex:'#5B2A55',t:'cool',g:'c'},{v:'berry',l:'Berry',hex:'#8A1F4E',t:'cool',g:'c'},{v:'fuchsia',l:'Fuchsia',hex:'#C2185B',t:'cool',g:'c'},
+  {v:'pink',l:'Pink',hex:'#F2A0C0',t:'cool',g:'c'},
+  {v:'black',l:'Black',hex:'#141414',t:'neutral',g:'n'},{v:'charcoal',l:'Charcoal',hex:'#3A3A3A',t:'neutral',g:'n'},{v:'gray',l:'Gray',hex:'#9AA0A6',t:'neutral',g:'n'},
+  {v:'white',l:'White',hex:'#FFFFFF',t:'neutral',g:'n'},{v:'cream',l:'Cream',hex:'#F1E6CF',t:'neutral',g:'n'},{v:'taupe',l:'Taupe',hex:'#A89B8C',t:'neutral',g:'n'},
+  {v:'sage',l:'Sage',hex:'#A3A67A',t:'neutral',g:'n'},{v:'burgundy',l:'Burgundy',hex:'#6B1F2E',t:'neutral',g:'n'}
+];
+const FAV_GROUPS = { e: 'Earthy and golden', c: 'Blues, greens, purples and pinks', n: 'Neutrals' };
+const COMP_FOLLOWUP = { section: 'color', key: 'compColors', followUp: true, swatches: true, max: 4, showIf: (a) => a.comp === 'custom', text: 'Which colors do you get compliments in? Pick up to 4.' };
+// The answers we keep and send. If someone chose their own colors, the picks decide warm, cool or neutral for the analysis.
+function finalAnswers() {
+  const out = Object.assign({}, A);
+  if (A.comp === 'custom') {
+    const picks = Array.isArray(A.compColors) ? A.compColors : [];
+    let w = 0, c = 0;
+    picks.forEach((v) => { const f = FAV.find((x) => x.v === v); if (f && f.t === 'warm') w++; if (f && f.t === 'cool') c++; });
+    out.comp = !picks.length ? 'unsure' : (w > c ? 'warm' : (c > w ? 'cool' : 'neutral'));
+    out.compCustom = true; out.favColors = picks; out.favOther = String(A.compOther || '').trim().slice(0, 40);
+  }
+  delete out.compColors; delete out.compOther;
+  return out;
+}
 const FLOW = [];
 FLOW.push({ type: 'name-cover' });
+QUESTIONS.filter(q => q.section === 'about').forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'body-part-cover', part: 'color' });
-QUESTIONS.filter(q => q.section === 'color').forEach(q => FLOW.push({ type: 'question', q }));
+QUESTIONS.filter(q => q.section === 'color').forEach(q => { FLOW.push({ type: 'question', q }); if (q.key === 'comp') FLOW.push({ type: 'question', q: COMP_FOLLOWUP }); });
 FLOW.push({ type: 'body-part-cover', part: 'body' });
 QUESTIONS.filter(q => q.section === 'body').forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'body-part-cover', part: 'persona' });
@@ -377,7 +418,7 @@ const totalQuestions = QUESTIONS.length;
 function questionsCompletedSoFar() {
   let n = 0;
   const idx = FLOW.slice(0, step + 1);
-  idx.forEach(f => { if (f.type === 'question') n++; });
+  idx.forEach(f => { if (f.type === 'question' && !f.q.followUp) n++; });
   return n;
 }
 
@@ -390,7 +431,7 @@ function progressHtml() {
 
 function canAdvance() {
   const f = FLOW[step];
-  if (f.type === 'question') { const v = A[f.q.key]; return Array.isArray(v) ? v.length > 0 : !!v; }
+  if (f.type === 'question') { const v = A[f.q.key]; if (f.q.followUp) return (Array.isArray(v) && v.length > 0) || String(A.compOther || '').trim().length >= 2; return Array.isArray(v) ? v.length > 0 : !!v; }
   return true;
 }
 
@@ -423,7 +464,7 @@ function render() {
         <div class="cover">
           <p class="cover-eyebrow">Part One of Three</p>
           <h1 class="cover-title">Your <em>Color</em> Analysis</h1>
-          <p class="cover-sub">8 quick questions about your natural coloring — jewelry, sun, veins, contrast. Pick whatever's closest, there are no wrong answers.</p>
+          <p class="cover-sub">8 quick questions about your natural coloring, such as jewelry, sun and your hair, skin and eyes. Choose whatever is closest. There are no wrong answers.</p>
           <button class="cover-btn" id="next-cover-btn">Begin →</button>
         </div>`;
     } else if (f.part === 'persona') {
@@ -431,7 +472,7 @@ function render() {
         <div class="cover">
           <p class="cover-eyebrow">Part Three of Three</p>
           <h1 class="cover-title">Your <em>Style Persona</em></h1>
-          <p class="cover-sub">5 last questions about how you dress and shop. They shape the name and signature formula on your report, and the stores we link you to.</p>
+          <p class="cover-sub">4 last questions about how you dress and shop. They shape the name and signature formula on your report, and the stores we link you to.</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
         </div>`;
     } else {
@@ -439,7 +480,7 @@ function render() {
         <div class="cover">
           <p class="cover-eyebrow">Part Two of Three</p>
           <h1 class="cover-title">Your <em>Body &amp; Style</em></h1>
-          <p class="cover-sub">10 more questions about fit, proportions, and what already feels confident on you.</p>
+          <p class="cover-sub">10 more questions about how clothes fit you and what already makes you feel confident.</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
         </div>`;
     }
@@ -500,7 +541,7 @@ function iconHtml(ic) {
 const CAR = {};
 const ARCH = c => '<i class="vc-arch" style="background:' + c + '"></i>';
 const QMARK = '<i class="vc-arch vc-arch-q">?</i>';
-function artSw(colors) { return '<div class="vc-sw">' + colors.map(ARCH).join('') + '</div>'; }
+function artSw(colors) { return '<div class="vc-sw' + (colors.length > 4 ? ' vc-sw-many' : '') + '">' + colors.map(ARCH).join('') + '</div>'; }
 function artIcons(keys) { return '<div class="vc-icons">' + keys.map(k => '<div class="vc-ic">' + (ART_ICONS[k] || '') + '</div>').join('') + '</div>'; }
 function artCroq(m) { return '<div class="vc-croq">' + croquisSVG(m[0], { d: m[1] || 0, arrows: true, sw: 1.1 }) + '</div>'; }
 function artMetal(v) {
@@ -508,21 +549,38 @@ function artMetal(v) {
   if (v === 'both') return '<div class="vc-foils"><i class="vc-foil gold"></i><i class="vc-foil silver" style="margin-left:-28px"></i></div>';
   return '<div class="vc-foils"><i class="vc-foil ' + v + '"></i></div>';
 }
-const COMP_SW = { warm: ['#e07a3f', '#8a5a35', '#5f7a3a', '#d9a05b'], cool: ['#4f6fb3', '#d98ab0', '#7a5fb0', '#8fb7d9'], neutral: ['#d8c8b0', '#f3f1ec', '#b8b8b8', '#8f8f8f'] };
-const WASH_SW = { warm: ['#e9a24f', '#d9732b', '#c9a24a', '#b5541f'], cool: ['#6b8fd4', '#9c7bd0', '#d98ab0', '#5fb3c9'], pale: ['#e8f1f7', '#eadff2', '#f6e9ee', '#e4f0ea'], none: ['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a'] };
-const CHROMA_SW = { bright: ['#e8283a', '#1e6fe0', '#f2c200', '#12a86b'], muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88'], both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0'] };
+const COMP_SW = {
+  warm: ['#e07a3f', '#8a5a35', '#5f7a3a', '#d9a05b', '#c1272d', '#e3b72e', '#b5541f', '#6e6b3f'],
+  cool: ['#4f6fb3', '#d98ab0', '#7a5fb0', '#8fb7d9', '#1f2f5a', '#1f7a5c', '#8a1f4e', '#a8dcc4'],
+  neutral: ['#d8c8b0', '#f3f1ec', '#b8b8b8', '#8f8f8f', '#3a3a3a', '#a89b8c', '#f1e6cf', '#a3a67a'] };
+const WASH_SW = {
+  warm: ['#e9a24f', '#d9732b', '#c9a24a', '#b5541f', '#e3b72e', '#c1272d', '#b98a55', '#e8765c'],
+  cool: ['#6b8fd4', '#9c7bd0', '#d98ab0', '#5fb3c9', '#2d4fa8', '#c2185b', '#a8dcc4', '#bfd7ea'],
+  pale: ['#e8f1f7', '#eadff2', '#f6e9ee', '#e4f0ea', '#f7f2dc', '#f5e6e0', '#e0eef5', '#f0e8f5'],
+  none: ['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a', '#c1272d', '#7a5fb0', '#e3b72e', '#1f7a5c'] };
+const CHROMA_SW = {
+  bright: ['#e8283a', '#1e6fe0', '#f2c200', '#12a86b', '#e0218a', '#ff6a00', '#7a2de0', '#00b8d9'],
+  muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88', '#a58aa5', '#c19a7e', '#8c8f7a', '#9fb0c0'],
+  both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0', '#f2c200', '#b8a56a', '#12a86b', '#7f9a88'] };
 const DEPTH_ITEMS = [
-  { value: 'fair', label: 'Fair / Light', hex: '#f2d3b8' }, { value: 'medium', label: 'Medium / Olive', hex: '#d9a877' },
-  { value: 'tan', label: 'Tan / Caramel', hex: '#a9713f' }, { value: 'deep', label: 'Deep / Rich', hex: '#5c3b23' }];
+  { value: 'porcelain', label: 'Porcelain: very fair', hex: '#f7e1d3' }, { value: 'ivory', label: 'Ivory', hex: '#f3d6c0' },
+  { value: 'fair', label: 'Fair', hex: '#f0cdb0' }, { value: 'light', label: 'Light', hex: '#e8c29d' },
+  { value: 'beige', label: 'Light-medium / Beige', hex: '#deb38a' }, { value: 'sand', label: 'Sand', hex: '#d6a97c' },
+  { value: 'medium', label: 'Medium', hex: '#cc9d6e' }, { value: 'olive', label: 'Olive', hex: '#bb985f' },
+  { value: 'honey', label: 'Honey / Golden', hex: '#b4844e' }, { value: 'tan', label: 'Tan', hex: '#a9713f' },
+  { value: 'caramel', label: 'Caramel / Golden brown', hex: '#94603a' }, { value: 'bronze', label: 'Bronze', hex: '#85532f' },
+  { value: 'brown', label: 'Brown', hex: '#78492a' }, { value: 'deep', label: 'Deep', hex: '#5c3b23' },
+  { value: 'rich', label: 'Rich / Espresso', hex: '#3d2314' }];
+const DEPTH_LIGHT = ['porcelain', 'ivory', 'fair', 'light', 'beige', 'sand', 'medium', 'olive']; // which skin-tone group the contrast and vein pictures use
 const CONTRAST_SETS = {
   deep: { label: 'Deeper skin tones', items: [
     { value: 'high', colors: ['#e8e2d4', '#4a2e1c', '#241812'], label: 'High: light hair or eyes against deep skin' },
     { value: 'medium', colors: ['#5c3d24', '#a9713f', '#3a2418'], label: 'Medium: some difference between tones' },
-    { value: 'low', colors: ['#241812', '#3a2418', '#2a1810'], label: 'Low: deep skin, dark hair and eyes blend' }] },
+    { value: 'low', colors: ['#241812', '#3a2418', '#2a1810'], label: 'Low: skin, hair and eyes are all similarly dark' }] },
   light: { label: 'Lighter skin tones', items: [
     { value: 'high', colors: ['#241812', '#f2d3b8', '#3a2418'], label: 'High: dark hair against fair skin' },
     { value: 'medium', colors: ['#6b5a48', '#e0b894', '#5a7a5a'], label: 'Medium: some difference between tones' },
-    { value: 'low', colors: ['#d4b483', '#f2d3b8', '#c9a074'], label: 'Low: fair skin, blonde hair blend softly' }] }
+    { value: 'low', colors: ['#d4b483', '#f2d3b8', '#c9a074'], label: 'Low: skin, hair and eyes are all similarly light' }] }
 };
 const VEIN_SETS = {
   deep: { label: 'Deeper skin tones', bg: '#4a2e1c', strokes: { blue: '#7a8cd4', green: '#6bab6b', both: '#7c9c7c' } },
@@ -552,9 +610,9 @@ const VISUAL = {
     const g = VEIN_SETS[carGroup()];
     return ['blue', 'green', 'both'].map(v => ({ value: v, label: VEIN_LABELS[v], art: '<div class="vc-vein">' + veinsSvg(g.bg, g.strokes[v]) + '</div>' }));
   } },
-  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a']) : artSw(COMP_SW[v])) },
+  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'custom' ? artSw(['#C99A2E', '#1F7A5C', '#8A1F4E', '#9B8AC4', '#E8765C', '#2D4FA8', '#A3A67A', '#C2185B']) : v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a', '#c1272d', '#7a5fb0', '#e3b72e', '#1f7a5c']) : artSw(COMP_SW[v])) },
   wash: { art: (v) => artSw(WASH_SW[v]) },
-  depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div>' })) },
+  depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="depth-art"><div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div><div class="depth-strip" aria-hidden="true">' + DEPTH_ITEMS.map(x => '<i class="' + (x.value === o.value ? 'cur' : '') + '" style="background:' + x.hex + '"></i>').join('') + '</div></div>' })) },
   contrast: { group: true, items: () => CONTRAST_SETS[carGroup()].items.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw vc-sw-demo">' + o.colors.map(ARCH).join('') + '</div>' })) },
   chroma: { art: (v) => artSw(CHROMA_SW[v]) },
   styleGrav: { art: (v) => artIcons(STYLE_ART[v] || []) },
@@ -567,7 +625,7 @@ const VISUAL = {
   pq2: { art: (v) => artIcons(PQ2_ART[v] || []) },
   pq3: { art: (v) => artIcons(PQ3_ART[v] || []) }
 };
-function carGroup() { return CAR._group || ((A.depth === 'fair' || A.depth === 'medium') ? 'light' : (A.depth ? 'deep' : 'light')); }
+function carGroup() { return CAR._group || (DEPTH_LIGHT.indexOf(A.depth) > -1 ? 'light' : (A.depth ? 'deep' : 'light')); }
 function carItems(q) {
   const cfg = VISUAL[q.key];
   if (cfg.items) return cfg.items(q);
@@ -612,6 +670,12 @@ function renderQuestion(q) {
 
   if (VISUAL[q.key]) {
     body = carouselHtml(q);
+  } else if (q.swatches) {
+    const sel = Array.isArray(A[q.key]) ? A[q.key] : [];
+    const sw = (f) => `<div class="opt sw ${sel.indexOf(f.v) > -1 ? 'sel' : ''}" data-key="${q.key}" data-val="${f.v}" data-multi="1" data-max="${q.max}" role="checkbox" aria-checked="${sel.indexOf(f.v) > -1}" tabindex="0"><i style="background:${f.hex}"></i><span>${f.l}</span></div>`;
+    body = Object.keys(FAV_GROUPS).map(g => `<p class="group-lbl">${FAV_GROUPS[g]}</p><div class="swatches">${FAV.filter(f => f.g === g).map(sw).join('')}</div>`).join('') + `
+      <p class="group-lbl">Don't see yours? Type any color</p>
+      <input type="text" class="nameinput" id="comp-other" placeholder="For example: dusty rose" maxlength="40" value="${String(A.compOther || '').replace(/"/g, '&quot;')}">`;
   } else if (q.type === 'depth') {
     const opts = [
       { v: 'fair', label: 'Fair / Light', hex: '#f2d3b8' },
@@ -686,16 +750,17 @@ function renderQuestion(q) {
 
   return `
     ${progressHtml()}
-    <p class="meta">${sectionLabel} · Question ${q.n} of ${q.of}</p>
+    <p class="meta">${q.noCount ? sectionLabel : sectionLabel + ' · ' + (q.followUp ? 'Question 4, continued' : 'Question ' + q.n + ' of ' + q.of)}</p>
     <p class="qtext">${q.text || questionTextForType(q.type)}</p>
+    ${q.hint ? `<p class="hint">${q.hint}</p>` : ''}
     ${body}
     ${navHtml(true)}`;
 }
 
 function questionTextForType(type) {
-  if (type === 'depth') return 'How would you describe your own skin tone depth?';
-  if (type === 'contrast') return 'How much contrast is there between your hair, skin, and eyes?';
-  if (type === 'veins') return 'Look at your wrist — are your veins more blue/purple or green?';
+  if (type === 'depth') return 'Which shade is closest to your natural skin tone?';
+  if (type === 'contrast') return 'How different are your hair, skin and eye colors from one another?';
+  if (type === 'veins') return 'Look at the inside of your wrist in natural light. Do your veins look more blue or purple, or more green?';
   if (type === 'shape') return 'Which body shape best describes you?';
   return '';
 }
@@ -706,7 +771,8 @@ function attachHandlers(f) {
       if (el.dataset.multi) {
         /* choose-all-that-apply: "evenly" is exclusive, anything else clears it */
         const cur = Array.isArray(A[el.dataset.key]) ? A[el.dataset.key].slice() : [];
-        const v = el.dataset.val, at = cur.indexOf(v);
+        const v = el.dataset.val, at = cur.indexOf(v), max = Number(el.dataset.max) || 0;
+        if (max && at === -1 && cur.length >= max) return;
         let next;
         if (at > -1) { cur.splice(at, 1); next = cur; }
         else if (v === 'evenly') { next = ['evenly']; }
@@ -718,8 +784,10 @@ function attachHandlers(f) {
       render();
     });
   });
+  const compOther = document.getElementById('comp-other');
+  if (compOther) compOther.addEventListener('input', (e) => { A.compOther = e.target.value; const nb = document.getElementById('next-btn'); if (nb) nb.disabled = !canAdvance(); });
   const backBtn = document.getElementById('back-btn');
-  if (backBtn) backBtn.addEventListener('click', () => { if (step > 0) { step--; render(); } });
+  if (backBtn) backBtn.addEventListener('click', () => { if (step > 0) { step--; while (step > 0 && FLOW[step].type === 'question' && FLOW[step].q.showIf && !FLOW[step].q.showIf(A)) step--; render(); } });
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) nextBtn.addEventListener('click', onNext);
   attachCarousel();
@@ -782,6 +850,7 @@ function onNext() {
     return;
   }
   step++;
+  while (step < FLOW.length - 1 && FLOW[step].type === 'question' && FLOW[step].q.showIf && !FLOW[step].q.showIf(A)) step++;
   render();
 }
 
@@ -795,7 +864,7 @@ function leadPayload(stage, p) {
     ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name,
     depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '',
     shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '',
-    answers: JSON.stringify(A), notes: freeText || ''
+    answers: JSON.stringify(finalAnswers()), notes: freeText || ''
   });
 }
 
@@ -813,7 +882,7 @@ function sendLead(stage) {
 }
 
 function submitAndPay() {
-  const data = { name, email, planToBook, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
+  const data = { name, email, planToBook, answers: finalAnswers(), freeText, photoBase64, photoMediaType, createdAt: Date.now() };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {

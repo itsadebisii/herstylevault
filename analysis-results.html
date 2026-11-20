@@ -22,7 +22,11 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .dl-ready{background:#ECE8E2;border-radius:10px;padding:0.8rem 1rem;margin:0.8rem 0;text-align:center;font-size:0.9rem;color:#3F3C38;}.dl-ready a{color:#7A1321;font-weight:600;}
 .top-actions{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:flex-end;}.dl-btn.alt{background:transparent;color:var(--ink);border:1px solid var(--ink);}.dl-btn.alt:hover{background:var(--ink);color:var(--accent-ink);}
 .dl-btn[disabled]{opacity:0.6;cursor:wait;}
-.hint{color:var(--ink-soft);font-size:0.85rem;margin-bottom:1rem;line-height:1.6;}
+.hint{color:var(--ink-soft);font-size:0.95rem;margin-bottom:1rem;line-height:1.6;}
+.hint-link{color:var(--accent);font-weight:600;text-decoration:underline;}
+.dl-btn.nudge{animation:nudge 1.4s ease-in-out 5;}
+@keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(122,19,33,0)}50%{box-shadow:0 0 0 7px rgba(122,19,33,.28)}}
+@media (prefers-reduced-motion:reduce){.dl-btn.nudge{animation:none;box-shadow:0 0 0 3px rgba(122,19,33,.35)}}
 .loader{text-align:center;padding:4rem 1rem;color:var(--ink);}
 .loader .sub{font-size:0.8rem;color:var(--ink-soft);margin-top:0.5rem;}
 .spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;margin:0 auto 1rem;animation:spin 0.9s linear infinite;}
@@ -378,7 +382,7 @@ function buildPages(r){
     +'<p class="pdf-more-top">Ready for your next step?</p><a class="pdf-pill" data-href="https://herstylevault.com/shop.html" href="https://herstylevault.com/shop.html" target="_blank" rel="noopener"><span>Explore What Else We Offer</span><i><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></i></a>'));
   return pages;
 }
-let REPORT=null;
+let REPORT=null;let AGE='';
 function fitPreviews(){
   const w=Math.min(document.getElementById('wrap').clientWidth,816);const s=w/816;
   document.querySelectorAll('.prev-slot').forEach(el=>{el.style.width=(816*s)+'px';el.style.height=(1056*s)+'px';el.firstElementChild.style.transform='scale('+s+')';});
@@ -386,12 +390,15 @@ function fitPreviews(){
 async function renderReport(r){
   REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
-  document.getElementById('app').innerHTML='<p class="hint">Your report is ready, and it is yours to keep. We do not store it, so tap <b>Email me my PDF</b> now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
+  document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. We do not store it, so tap '+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
     +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>';
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
   const eb=document.getElementById('email-btn');eb.disabled=false;eb.onclick=()=>emailPdf(eb);
-  fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok)){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);}}).catch(()=>{eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);});
+  const hl=document.getElementById('hint-email');if(hl)hl.onclick=ev=>{ev.preventDefault();window.scrollTo({top:0,behavior:'smooth'});eb.click();};
+  eb.classList.add('nudge');setTimeout(()=>eb.classList.remove('nudge'),9000);
+  fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok))useDownload();}).catch(()=>useDownload());
+  function useDownload(){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. We do not store it, so tap <b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
 }
 async function buildPdf(){
   const root=document.getElementById('pdf-root');
@@ -452,6 +459,7 @@ async function init() {
       <div class="spinner"></div>
       <p>Generating your report...</p>
       <p class="sub">This takes about 20-30 seconds — we're building your personalized color and style analysis now.</p>
+      <p class="sub" style="margin-top:.8rem;font-weight:500;">Please stay on this page until your report appears. Leaving early can interrupt it.</p>
     </div>`;
 
   const sessionId = getSessionId();
@@ -465,6 +473,7 @@ async function init() {
     data = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
   } catch (e) { data = null; }
 
+  AGE = (data && data.answers && data.answers.ageBracket) || '';
   if (!data || !data.answers) {
     showError('We couldn\'t find your quiz answers', 'Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. If you have already paid, your payment is safe. Please open this link in the browser you used for the quiz. If that does not work, <a href="contact.html?topic=My%20Signature%20Style%20Report&note=My%20report%20did%20not%20load%20my%20answers.%20Could%20you%20check%20if%20I%20am%20eligible%20for%20an%20Encore%20Code%3F&ref=' + encodeURIComponent(sessionId) + '">contact us</a> and we will check whether you are eligible for an Encore Code, which lets you retake your Style Report at no charge.', false);
     return;
