@@ -170,7 +170,7 @@ function personaOptions(key) { const age = PERSONA_OPTS[key] ? (['18-24','25-34'
 // Standard multiple-choice questions, in display order.
 const QUESTIONS = [
   { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold','foil:gold'), opt('Silver','silver','foil:silver'), opt('Both equally','both','foil:both'), opt('Not sure','unsure')] },
-  { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('Rarely in sun','neither')] },
+  { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('Rarely in sun','neither'), opt('Not applicable','na')] },
   { section: 'color', n: 3, of: 8, key: 'veins', type: 'veins' },
   { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('All colors — I look good in everything','all'), opt('Not sure','unsure')] },
   { section: 'color', n: 5, of: 8, key: 'wash', text: 'Are there colors that wash you out?', options: [opt('Warm tones wash me out','warm'), opt('Cool tones wash me out','cool'), opt('Very pale / icy colors','pale'), opt('Nothing washes me out','none')] },
