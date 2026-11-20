@@ -34,6 +34,30 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .err-box{background:var(--bg);padding:2rem;max-width:560px;margin:2rem auto;line-height:1.7;}
 .err-box h2{font-family:var(--font-display);margin-bottom:0.6rem;}
 .retry-btn{border-radius:6px;margin-top:1rem;padding:0.7rem 1.2rem;border:1px solid var(--accent);background:transparent;cursor:pointer;font:inherit;}
+.gate input{display:block;width:100%;max-width:360px;margin-top:.8rem;padding:.8rem 1rem;border:1px solid var(--line,#DCD8D0);border-radius:6px;font:inherit;background:#fff;}
+.gate .gate-msg{min-height:1.4em;margin-top:.8rem;color:#7A1321;font-size:.9rem;}
+.gate .gate-fine{font-size:.82rem;color:#5E5A55;}
+.gate a{color:var(--accent);}
+.save-note .share-row{display:block;margin-top:.6rem;}
+.share-btn{display:inline-block;padding:.55rem 1rem;border:1px solid #7A1321;background:#7A1321;color:#fff;border-radius:6px;font:inherit;font-size:.85rem;cursor:pointer;}
+.share-btn:hover{background:#4E0B14;}
+.link-btn{background:none;border:0;padding:.55rem .6rem;color:#7A1321;font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer;}
+.share-panel{margin-top:.8rem;padding:.8rem 1rem;background:#fff;border:1px solid #DCD8D0;border-radius:6px;}
+.share-panel p{margin:0 0 .6rem;}
+.share-panel input{padding:.55rem .7rem;border:1px solid #DCD8D0;border-radius:6px;font:inherit;max-width:100%;margin-bottom:.4rem;}
+.share-msg{min-height:1.2em;margin:.6rem 0 0;color:#7A1321;font-size:.85rem;}
+.share-bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;justify-content:center;align-items:center;gap:.8rem;padding:.7rem 1rem;background:#181716;color:#fff;font-size:.9rem;}
+.share-bar a{color:#181716;background:#fff;padding:.45rem .9rem;border-radius:6px;text-decoration:none;font-weight:500;}
+.share-pop{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(24,23,22,.6);}
+.share-pop-in{position:relative;max-width:420px;width:100%;padding:2rem 1.6rem 1.4rem;background:#FAF9F6;border-radius:10px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.35);}
+.share-pop-in h2{font-family:var(--font-display,'Cormorant Garamond',serif);font-weight:500;font-size:2rem;line-height:1.1;margin:.3rem 0 .6rem;color:#181716;}
+.share-pop-in p{margin:0 0 1rem;line-height:1.5;color:#3F3C38;}
+.share-pop-k{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:#7A1321;font-weight:600;}
+.share-pop-go{display:block;text-decoration:none;padding:.8rem 1rem;}
+.share-pop-later{margin-top:.4rem;}
+.share-pop-x{position:absolute;top:8px;right:10px;width:34px;height:34px;border:0;background:none;font-size:1.6rem;line-height:1;cursor:pointer;color:#3F3C38;}
+
+.save-note{max-width:720px;margin:0 auto 1rem;padding:.7rem 1rem;background:#FAF9F6;border:1px solid #DCD8D0;border-radius:6px;font-size:.85rem;line-height:1.5;color:#3F3C38;}
 .prev-slot{position:relative;margin:0 auto 1.2rem;overflow:hidden;background:var(--bg);border:1px solid var(--line);}
 .prev-slot .pdf-page{transform-origin:top left;}
 .cta{background:var(--bg);border:1px solid var(--line);text-align:center;padding:2rem 1.4rem;margin-top:1.4rem;color:var(--ink);}
@@ -158,6 +182,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 <div class="wrap" id="wrap">
   <div class="topbar"><span class="brand">HerStyleVault</span><span class="top-actions"><button class="dl-btn" id="email-btn" disabled>Email me my PDF</button></span></div>
   <div class="dl-ready" id="dl-ready" hidden></div>
+  <p class="save-note" id="save-note" hidden></p>
   <div id="app"><div class="loader"><div class="spinner"></div><p>Generating your report...</p><p class="sub">This takes about 20 to 30 seconds. We're building your personalized color and style analysis now.</p></div></div>
 </div>
 <div id="pdf-root"></div>
@@ -377,7 +402,7 @@ function buildPages(r){
     pages.push(pdfPage(r.__tight?'pdf-tight':'',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
   });
   pages.push(pdfPage('pdf-closing','<div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
-    +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 12 months (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>'
+    +(r.__shared?'':'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 12 months (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>')
     +'<p style="font-size:0.9rem;color:#3F3C38;margin-top:0.4rem;">With love,<br><strong>HerStyleVault</strong></p>'
     +'<p class="pdf-more-top">Ready for your next step?</p><a class="pdf-pill" data-href="https://herstylevault.com/shop.html" href="https://herstylevault.com/shop.html" target="_blank" rel="noopener"><span>Explore What Else We Offer</span><i><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></i></a>'));
   return pages;
@@ -390,15 +415,16 @@ function fitPreviews(){
 async function renderReport(r){
   REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
-  document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. We do not store it, so tap '+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
-    +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>';
+  document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
+    +(r.__shared?'':'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>');
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
-  const eb=document.getElementById('email-btn');eb.disabled=false;eb.onclick=()=>emailPdf(eb);
+  const eb=document.getElementById('email-btn');eb.style.display='';eb.disabled=false;eb.onclick=()=>emailPdf(eb);
   const hl=document.getElementById('hint-email');if(hl)hl.onclick=ev=>{ev.preventDefault();window.scrollTo({top:0,behavior:'smooth'});eb.click();};
+  if(r.__shared)return;
   eb.classList.add('nudge');setTimeout(()=>eb.classList.remove('nudge'),9000);
   fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok))useDownload();}).catch(()=>useDownload());
-  function useDownload(){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. We do not store it, so tap <b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
+  function useDownload(){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+'<b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
 }
 async function buildPdf(){
   const root=document.getElementById('pdf-root');
@@ -452,6 +478,139 @@ async function emailPdf(btn){
   }catch(e){console.error(e);say('We could not send the email just now. Please try again in a minute.');}
   finally{btn.disabled=false;btn.textContent=label;}
 }
+let REPORT_SAVED = false; // true when a private saved copy exists for this report
+let SHARE_TOKEN = null;   // the owner's share link token
+let SHARED_VIEW = false;  // true when someone opened a shared link
+const CACHE_PREFIX = 'hsv_report_';
+const QUIZ_URL = 'color-style-analysis.html?ref=share';
+function readCache(sid){try{const c=JSON.parse(localStorage.getItem(CACHE_PREFIX+sid)||'null');return c&&c.report?c:null;}catch(e){return null;}}
+function writeCache(sid,report,share){try{localStorage.setItem(CACHE_PREFIX+sid,JSON.stringify({report:report,share:share||null,savedAt:Date.now()}));}catch(e){}}
+function shareUrl(){return location.href.split('?')[0].split('#')[0]+'?share='+encodeURIComponent(SHARE_TOKEN);}
+function showSavedNote(){
+  const n=document.getElementById('save-note');if(!n)return;
+  n.innerHTML='<span>Your report is saved. Bookmark this page, or use the link in your email, to reopen it on any phone or computer with the email you used at checkout.</span>'+
+    (SHARE_TOKEN?'<span class="share-row"><button type="button" class="share-btn" id="share-btn">Share my report</button><button type="button" class="link-btn" id="stop-btn">Stop sharing</button></span><div class="share-panel" id="share-panel" hidden></div>':'');
+  n.hidden=false;
+  const sb=document.getElementById('share-btn'),st=document.getElementById('stop-btn'),pn=document.getElementById('share-panel');
+  if(!sb)return;
+  sb.onclick=()=>{
+    pn.hidden=false;
+    pn.innerHTML='<p><strong>Anyone with this link can see your report.</strong> They will see your first name, your colors and your style guide. They will never see your photo, your email or your age. You can stop sharing any time.</p><button type="button" class="share-btn" id="share-go">Share the link</button> <button type="button" class="link-btn" id="share-cancel">Cancel</button><p class="share-msg" id="share-msg" role="status"></p>';
+    document.getElementById('share-cancel').onclick=()=>{pn.hidden=true;};
+    document.getElementById('share-go').onclick=async()=>{
+      const msg=document.getElementById('share-msg'),url=shareUrl();
+      try{
+        if(navigator.share){await navigator.share({title:'My Signature Style Report',text:'Take a look at my style report, then get yours.',url});msg.textContent='Shared!';}
+        else if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(url);msg.textContent='Link copied. Paste it into a message to send it.';}
+        else{msg.textContent=url;}
+      }catch(e){if(e&&e.name!=='AbortError'){msg.textContent=url;}}
+    };
+  };
+  st.onclick=()=>{
+    pn.hidden=false;
+    pn.innerHTML='<p>Stopping makes your current share link stop working. Enter the email you used at checkout to confirm.</p><input type="email" id="stop-email" autocomplete="email" placeholder="you@example.com"> <button type="button" class="share-btn" id="stop-go">Stop sharing</button> <button type="button" class="link-btn" id="stop-cancel">Cancel</button><p class="share-msg" id="share-msg" role="status"></p>';
+    document.getElementById('stop-cancel').onclick=()=>{pn.hidden=true;};
+    document.getElementById('stop-go').onclick=async()=>{
+      const msg=document.getElementById('share-msg'),email=document.getElementById('stop-email').value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent='Please enter a valid email address.';return;}
+      try{
+        const res=await fetch('/.netlify/functions/share',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sessionId:getSessionId(),email})});
+        const j=await res.json().catch(()=>({}));
+        if(res.ok&&j.shareToken){SHARE_TOKEN=j.shareToken;const c=readCache(getSessionId());if(c)writeCache(getSessionId(),c.report,SHARE_TOKEN);msg.textContent='Done. The old link no longer works. Tap Share my report to make a new one.';}
+        else if(res.status===403)msg.textContent='That email does not match the one used at checkout.';
+        else if(res.status===429)msg.textContent='Too many tries. Please wait about 15 minutes.';
+        else msg.textContent='Something went wrong. Please try again in a moment.';
+      }catch(e){msg.textContent='Something went wrong. Please try again in a moment.';}
+    };
+  };
+}
+function showGate(sessionId, note){
+  const app=document.getElementById('app');const tb=document.getElementById('email-btn');if(tb)tb.style.display='none';
+  app.innerHTML=`
+    <div class="err-box gate">
+      <h2>Open your report</h2>
+      <p>${note||'Your report is saved privately. Enter the email you used at checkout to open it.'}</p>
+      <form id="gate-form" novalidate>
+        <label for="gate-email" style="font-weight:500;">Email used at checkout</label>
+        <input id="gate-email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+        <button class="retry-btn" type="submit" id="gate-btn">Open my report</button>
+      </form>
+      <p class="gate-msg" id="gate-msg" role="alert"></p>
+      <p class="gate-fine">Reports open only with that email. Need help? <a href="contact.html">Contact us</a>.</p>
+    </div>`;
+  const form=document.getElementById('gate-form'),msg=document.getElementById('gate-msg'),btn=document.getElementById('gate-btn');
+  form.addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    const email=document.getElementById('gate-email').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent='Please enter a valid email address.';return;}
+    btn.disabled=true;btn.textContent='Opening...';msg.textContent='';
+    try{
+      const res=await fetch('/.netlify/functions/get-report',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sessionId,email})});
+      const j=await res.json().catch(()=>({}));
+      if(res.ok&&j.report){j.report.hadPhoto=false;SHARE_TOKEN=j.shareToken||null;writeCache(sessionId,j.report,SHARE_TOKEN);REPORT_SAVED=true;await renderReport(j.report);showSavedNote();return;}
+      if(res.status===403)msg.textContent='That email does not match the one used at checkout. Please check it and try again.';
+      else if(res.status===404)msg.textContent='We could not find a saved report for this link. If you took the quiz before saved reports started, your report was sent to you as a PDF. You can also contact us and we will help.';
+      else if(res.status===429)msg.textContent='Too many tries. Please wait about 15 minutes and try again.';
+      else if(res.status===503)msg.textContent='Saved reports are not available right now. Please try again later.';
+      else msg.textContent='Something went wrong. Please try again in a moment.';
+    }catch(err){msg.textContent='Something went wrong. Please try again in a moment.';}
+    btn.disabled=false;btn.textContent='Open my report';
+  });
+  document.getElementById('gate-email').focus();
+}
+/* A report someone shared: read-only, with a pop-up inviting the visitor to get their own. */
+async function showShared(token){
+  const app=document.getElementById('app');
+  const tb=document.getElementById('email-btn');
+  try{
+    const res=await fetch('/.netlify/functions/get-shared',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({token})});
+    const j=await res.json().catch(()=>({}));
+    if(!res.ok||!j.report){
+      if(tb)tb.style.display='none';
+      app.innerHTML='<div class="err-box"><h2>This shared report is not available</h2><p>The link may have been turned off by its owner. You can still get your own style report in about five minutes.</p><p><a class="retry-btn" href="'+QUIZ_URL+'" style="display:inline-block;text-decoration:none;">Get my own report</a></p></div>';
+      return;
+    }
+    SHARED_VIEW=true;AGE='';j.report.__shared=true;
+    const first=esc(j.report.clientName||'a friend');
+    await renderReport(j.report);
+    const eb=document.getElementById('email-btn');if(eb)eb.style.display='none'; // the buyer's email button is not for visitors
+    const n=document.getElementById('save-note');
+    if(n){n.innerHTML='<span><strong>'+first+'</strong> shared this report with you. Scroll down to see all of it.</span>';n.hidden=false;}
+    const rh=document.getElementById('report-hint');if(rh)rh.remove();
+    /* the one button that is always there */
+    const bar=document.createElement('div');bar.className='share-bar';bar.innerHTML='<span>Liked what you saw?</span> <a href="'+QUIZ_URL+'">Get my own report</a>';document.body.appendChild(bar);
+    /* the pop-up: once, after 5 seconds or when they scroll near the end, whichever comes first */
+    let seen=false;try{seen=sessionStorage.getItem('hsv_share_popup')==='1';}catch(e){}
+    if(!seen){
+      let fired=false;
+      const fire=()=>{if(fired)return;fired=true;clearTimeout(tm);window.removeEventListener('scroll',onScroll);openSharePopup(first);};
+      const onScroll=()=>{const doc=document.documentElement;if(window.scrollY+window.innerHeight>=doc.scrollHeight-700)fire();};
+      const tm=setTimeout(fire,5000);
+      window.addEventListener('scroll',onScroll,{passive:true});
+    }
+  }catch(e){
+    if(tb)tb.style.display='none';
+    app.innerHTML='<div class="err-box"><h2>We could not open this report</h2><p>Please try again in a moment.</p></div>';
+  }
+}
+function openSharePopup(first){
+  if(document.getElementById('share-pop'))return;
+  const prev=document.activeElement;
+  const m=document.createElement('div');m.id='share-pop';m.className='share-pop';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-labelledby','share-pop-t');
+  m.innerHTML='<div class="share-pop-in"><button type="button" class="share-pop-x" aria-label="Close">&times;</button><p class="share-pop-k">'+first+' shared this with you</p><h2 id="share-pop-t">Want your own style report?</h2><p>Find your colors, your best silhouettes and where to shop them. It takes about five minutes.</p><a class="share-btn share-pop-go" href="'+QUIZ_URL+'">Take the 5-minute quiz</a><button type="button" class="link-btn share-pop-later">Keep reading</button></div>';
+  document.body.appendChild(m);
+  try{sessionStorage.setItem('hsv_share_popup','1');}catch(e){}
+  const close=()=>{document.removeEventListener('keydown',onKey);if(m.parentNode)m.parentNode.removeChild(m);if(prev&&prev.focus)try{prev.focus();}catch(e){}};
+  const onKey=(e)=>{
+    if(e.key==='Escape'){close();return;}
+    if(e.key==='Tab'){const f=m.querySelectorAll('a[href],button');if(!f.length)return;const first=f[0],last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
+  };
+  document.addEventListener('keydown',onKey);
+  m.querySelector('.share-pop-x').onclick=close;m.querySelector('.share-pop-later').onclick=close;
+  m.addEventListener('click',(e)=>{if(e.target===m)close();});
+  m.querySelector('.share-pop-go').focus();
+}
 async function init() {
   const app = document.getElementById('app');
   app.innerHTML = `
@@ -462,11 +621,17 @@ async function init() {
       <p class="sub" style="margin-top:.8rem;font-weight:500;">Please stay on this page until your report appears. Leaving early can interrupt it.</p>
     </div>`;
 
+  const shareTok = new URLSearchParams(window.location.search).get('share');
+  if (shareTok) { await showShared(shareTok); return; }
+
   const sessionId = getSessionId();
   if (!sessionId) {
     showError('We couldn\'t confirm your payment', 'This page needs to be reached through the payment confirmation link. If you just paid, check your email for the receipt link, or reach out below.', false);
     return;
   }
+
+  const cached = readCache(sessionId);
+  if (cached) { REPORT_SAVED = true; SHARE_TOKEN = cached.share || null; await renderReport(cached.report); showSavedNote(); return; }
 
   let data;
   try {
@@ -475,7 +640,8 @@ async function init() {
 
   AGE = (data && data.answers && data.answers.ageBracket) || '';
   if (!data || !data.answers) {
-    showError('We couldn\'t find your quiz answers', 'Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. If you have already paid, your payment is safe. Please open this link in the browser you used for the quiz. If that does not work, <a href="contact.html?topic=My%20Signature%20Style%20Report&note=My%20report%20did%20not%20load%20my%20answers.%20Could%20you%20check%20if%20I%20am%20eligible%20for%20an%20Encore%20Code%3F&ref=' + encodeURIComponent(sessionId) + '">contact us</a> and we will check whether you are eligible for an Encore Code, which lets you retake your Style Report at no charge.', false);
+    // Opened on a different phone or browser: the saved copy opens with the email used at checkout.
+    showGate(sessionId);
     return;
   }
 
@@ -496,6 +662,7 @@ async function init() {
 
     if (!res.ok) {
       const errBody = await res.json().catch(() => ({}));
+      if (res.status === 409) { showGate(sessionId, 'This report was already created. Enter the email you used at checkout to open it.'); return; }
       if (res.status === 402) {
         showError('Payment not confirmed yet', 'Give it a moment and try again — if this keeps happening, email us and we\'ll take care of it.', true);
       } else {
@@ -506,7 +673,9 @@ async function init() {
 
     const report = await res.json();
     report.hadPhoto = !!data.photoBase64;
-    renderReport(report);
+    SHARE_TOKEN = report.shareToken || null; delete report.shareToken;
+    if (res.headers.get('x-hsv-saved') === '1') { REPORT_SAVED = true; writeCache(sessionId, report, SHARE_TOKEN); showSavedNote(); }
+    await renderReport(report);
   } catch (e) {
     showError('Something went wrong generating your report', 'Please try again in a moment.', true);
   }

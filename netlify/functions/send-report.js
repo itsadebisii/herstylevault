@@ -59,6 +59,7 @@ exports.handler = async (event) => {
     if (n > 3) return json(429, { ok: false, error: 'too_many' });
     sentCount.set(sessionId, n);
 
+    const link = 'https://herstylevault.com/analysis-results.html?session_id=' + encodeURIComponent(sessionId);
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
@@ -67,13 +68,14 @@ exports.handler = async (event) => {
         to: [who.email],
         reply_to: 'hello@herstylevault.com',
         subject: 'Your Signature Style Report is here',
-        text: 'Hi ' + (who.first || 'there') + ',\n\nThank you for taking the quiz. Your Signature Style Report is attached as a PDF.\n\n- Save it to your phone or computer so you always have it. We do not keep a copy, so this email is your copy.\n- Take it shopping. The links in your report open live searches at stores in your price range.\n- Thinking about booking a styling session? Keep this PDF and bring it to your consultation, so we can start from it.\n\nYour $40 credit toward a 1:1 package is explained on the last page of your report.\n\nWant help turning your report into real outfits? Book a free consultation: https://herstylevault.com/book.html\n\nSee our seasonal lookbooks: https://herstylevault.com/lookbook.html\n\nQuestions? Just reply to this email.\n\nWith love,\nHerStyleVault',
+        text: 'Hi ' + (who.first || 'there') + ',\n\nThank you for taking the quiz. Your Signature Style Report is attached as a PDF.\n\n- Save it to your phone or computer so you always have it.\n- Reopen your report online anytime, on any device, with this link and the email you paid with: ' + link + '\n- Take it shopping. The links in your report open live searches at stores in your price range.\n- Thinking about booking a styling session? Keep this PDF and bring it to your consultation, so we can start from it.\n\nYour $40 credit toward a 1:1 package is explained on the last page of your report.\n\nWant help turning your report into real outfits? Book a free consultation: https://herstylevault.com/book.html\n\nSee our seasonal lookbooks: https://herstylevault.com/lookbook.html\n\nQuestions? Just reply to this email.\n\nWith love,\nHerStyleVault',
         html: '<div style="font-family:Arial,Helvetica,sans-serif;color:#181716;max-width:520px;margin:0 auto;padding:24px;line-height:1.6">' +
           '<p style="font-family:Georgia,serif;font-size:26px;margin:0 0 16px">HerStyleVault</p>' +
           '<p>Hi ' + (who.first || 'there') + ',</p>' +
           '<p>Thank you for taking the quiz. Your Signature Style Report is attached as a PDF.</p>' +
           '<ul style="padding-left:18px">' +
-          '<li style="margin-bottom:8px"><strong>Save it</strong> to your phone or computer so you always have it. We do not keep a copy, so this email is your copy.</li>' +
+          '<li style="margin-bottom:8px"><strong>Save it</strong> to your phone or computer so you always have it.</li>' +
+          '<li style="margin-bottom:8px"><strong>Reopen it online</strong> anytime, on any device, with <a href="' + link + '" style="color:#7A1321">this link</a> and the email you paid with.</li>' +
           '<li style="margin-bottom:8px"><strong>Take it shopping.</strong> The links in your report open live searches at stores in your price range.</li>' +
           '<li style="margin-bottom:8px"><strong>Thinking about booking a styling session?</strong> Keep this PDF and bring it to your consultation, so we can start from it.</li></ul>' +
           '<p>Your $40 credit toward a 1:1 package is explained on the last page of your report.</p>' +
