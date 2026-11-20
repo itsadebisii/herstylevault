@@ -106,6 +106,8 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
 .vc-notsure.on{border-color:var(--accent);color:var(--ink);background:var(--surface);font-weight:500;}
 .vc-sw{display:flex;gap:0.45rem;align-items:flex-end;justify-content:center;}
 .vc-arch{display:block;width:46px;height:56px;border-radius:23px 23px 4px 4px;border:3px solid #CDBBA8;background-clip:padding-box;}
+.vc-sw-many{flex-wrap:wrap;max-width:210px;margin:0 auto;row-gap:.55rem;align-items:center}
+.vc-sw-many .vc-arch{width:40px;height:50px;border-radius:20px 20px 4px 4px}
 .vc-arch-xl{width:110px;height:132px;border-radius:55px 55px 6px 6px;}
 .vc-sw-demo .vc-arch{width:62px;height:84px;border-radius:31px 31px 5px 5px;}
 .vc-arch-q{display:flex;align-items:center;justify-content:center;background:transparent!important;border:2px dashed #CDBBA8;font-family:var(--font-display);font-size:2rem;color:var(--ink-soft);}
@@ -538,7 +540,7 @@ function iconHtml(ic) {
 const CAR = {};
 const ARCH = c => '<i class="vc-arch" style="background:' + c + '"></i>';
 const QMARK = '<i class="vc-arch vc-arch-q">?</i>';
-function artSw(colors) { return '<div class="vc-sw">' + colors.map(ARCH).join('') + '</div>'; }
+function artSw(colors) { return '<div class="vc-sw' + (colors.length > 4 ? ' vc-sw-many' : '') + '">' + colors.map(ARCH).join('') + '</div>'; }
 function artIcons(keys) { return '<div class="vc-icons">' + keys.map(k => '<div class="vc-ic">' + (ART_ICONS[k] || '') + '</div>').join('') + '</div>'; }
 function artCroq(m) { return '<div class="vc-croq">' + croquisSVG(m[0], { d: m[1] || 0, arrows: true, sw: 1.1 }) + '</div>'; }
 function artMetal(v) {
@@ -546,9 +548,19 @@ function artMetal(v) {
   if (v === 'both') return '<div class="vc-foils"><i class="vc-foil gold"></i><i class="vc-foil silver" style="margin-left:-28px"></i></div>';
   return '<div class="vc-foils"><i class="vc-foil ' + v + '"></i></div>';
 }
-const COMP_SW = { warm: ['#e07a3f', '#8a5a35', '#5f7a3a', '#d9a05b'], cool: ['#4f6fb3', '#d98ab0', '#7a5fb0', '#8fb7d9'], neutral: ['#d8c8b0', '#f3f1ec', '#b8b8b8', '#8f8f8f'] };
-const WASH_SW = { warm: ['#e9a24f', '#d9732b', '#c9a24a', '#b5541f'], cool: ['#6b8fd4', '#9c7bd0', '#d98ab0', '#5fb3c9'], pale: ['#e8f1f7', '#eadff2', '#f6e9ee', '#e4f0ea'], none: ['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a'] };
-const CHROMA_SW = { bright: ['#e8283a', '#1e6fe0', '#f2c200', '#12a86b'], muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88'], both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0'] };
+const COMP_SW = {
+  warm: ['#e07a3f', '#8a5a35', '#5f7a3a', '#d9a05b', '#c1272d', '#e3b72e', '#b5541f', '#6e6b3f'],
+  cool: ['#4f6fb3', '#d98ab0', '#7a5fb0', '#8fb7d9', '#1f2f5a', '#1f7a5c', '#8a1f4e', '#a8dcc4'],
+  neutral: ['#d8c8b0', '#f3f1ec', '#b8b8b8', '#8f8f8f', '#3a3a3a', '#a89b8c', '#f1e6cf', '#a3a67a'] };
+const WASH_SW = {
+  warm: ['#e9a24f', '#d9732b', '#c9a24a', '#b5541f', '#e3b72e', '#c1272d', '#b98a55', '#e8765c'],
+  cool: ['#6b8fd4', '#9c7bd0', '#d98ab0', '#5fb3c9', '#2d4fa8', '#c2185b', '#a8dcc4', '#bfd7ea'],
+  pale: ['#e8f1f7', '#eadff2', '#f6e9ee', '#e4f0ea', '#f7f2dc', '#f5e6e0', '#e0eef5', '#f0e8f5'],
+  none: ['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a', '#c1272d', '#7a5fb0', '#e3b72e', '#1f7a5c'] };
+const CHROMA_SW = {
+  bright: ['#e8283a', '#1e6fe0', '#f2c200', '#12a86b', '#e0218a', '#ff6a00', '#7a2de0', '#00b8d9'],
+  muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88', '#a58aa5', '#c19a7e', '#8c8f7a', '#9fb0c0'],
+  both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0', '#f2c200', '#b8a56a', '#12a86b', '#7f9a88'] };
 const DEPTH_ITEMS = [
   { value: 'porcelain', label: 'Porcelain: very fair', hex: '#f7e1d3' }, { value: 'ivory', label: 'Ivory', hex: '#f3d6c0' },
   { value: 'fair', label: 'Fair', hex: '#f0cdb0' }, { value: 'light', label: 'Light', hex: '#e8c29d' },
@@ -597,7 +609,7 @@ const VISUAL = {
     const g = VEIN_SETS[carGroup()];
     return ['blue', 'green', 'both'].map(v => ({ value: v, label: VEIN_LABELS[v], art: '<div class="vc-vein">' + veinsSvg(g.bg, g.strokes[v]) + '</div>' }));
   } },
-  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'custom' ? artSw(['#C99A2E', '#1F7A5C', '#8A1F4E', '#9B8AC4']) : v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a']) : artSw(COMP_SW[v])) },
+  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'custom' ? artSw(['#C99A2E', '#1F7A5C', '#8A1F4E', '#9B8AC4', '#E8765C', '#2D4FA8', '#A3A67A', '#C2185B']) : v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a', '#c1272d', '#7a5fb0', '#e3b72e', '#1f7a5c']) : artSw(COMP_SW[v])) },
   wash: { art: (v) => artSw(WASH_SW[v]) },
   depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="depth-art"><div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div><div class="depth-strip" aria-hidden="true">' + DEPTH_ITEMS.map(x => '<i class="' + (x.value === o.value ? 'cur' : '') + '" style="background:' + x.hex + '"></i>').join('') + '</div></div>' })) },
   contrast: { group: true, items: () => CONTRAST_SETS[carGroup()].items.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw vc-sw-demo">' + o.colors.map(ARCH).join('') + '</div>' })) },
