@@ -34,6 +34,11 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .err-box{background:var(--bg);padding:2rem;max-width:560px;margin:2rem auto;line-height:1.7;}
 .err-box h2{font-family:var(--font-display);margin-bottom:0.6rem;}
 .retry-btn{border-radius:6px;margin-top:1rem;padding:0.7rem 1.2rem;border:1px solid var(--accent);background:transparent;cursor:pointer;font:inherit;}
+.gate input{display:block;width:100%;max-width:360px;margin-top:.8rem;padding:.8rem 1rem;border:1px solid var(--line,#DCD8D0);border-radius:6px;font:inherit;background:#fff;}
+.gate .gate-msg{min-height:1.4em;margin-top:.8rem;color:#7A1321;font-size:.9rem;}
+.gate .gate-fine{font-size:.82rem;color:#5E5A55;}
+.gate a{color:var(--accent);}
+.save-note{max-width:720px;margin:0 auto 1rem;padding:.7rem 1rem;background:#FAF9F6;border:1px solid #DCD8D0;border-radius:6px;font-size:.85rem;line-height:1.5;color:#3F3C38;}
 .prev-slot{position:relative;margin:0 auto 1.2rem;overflow:hidden;background:var(--bg);border:1px solid var(--line);}
 .prev-slot .pdf-page{transform-origin:top left;}
 .cta{background:var(--bg);border:1px solid var(--line);text-align:center;padding:2rem 1.4rem;margin-top:1.4rem;color:var(--ink);}
@@ -158,6 +163,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 <div class="wrap" id="wrap">
   <div class="topbar"><span class="brand">HerStyleVault</span><span class="top-actions"><button class="dl-btn" id="email-btn" disabled>Email me my PDF</button></span></div>
   <div class="dl-ready" id="dl-ready" hidden></div>
+  <p class="save-note" id="save-note" hidden></p>
   <div id="app"><div class="loader"><div class="spinner"></div><p>Generating your report...</p><p class="sub">This takes about 20 to 30 seconds. We're building your personalized color and style analysis now.</p></div></div>
 </div>
 <div id="pdf-root"></div>
@@ -390,15 +396,15 @@ function fitPreviews(){
 async function renderReport(r){
   REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
-  document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. We do not store it, so tap '+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
+  document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
     +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>';
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
-  const eb=document.getElementById('email-btn');eb.disabled=false;eb.onclick=()=>emailPdf(eb);
+  const eb=document.getElementById('email-btn');eb.style.display='';eb.disabled=false;eb.onclick=()=>emailPdf(eb);
   const hl=document.getElementById('hint-email');if(hl)hl.onclick=ev=>{ev.preventDefault();window.scrollTo({top:0,behavior:'smooth'});eb.click();};
   eb.classList.add('nudge');setTimeout(()=>eb.classList.remove('nudge'),9000);
   fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok))useDownload();}).catch(()=>useDownload());
-  function useDownload(){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. We do not store it, so tap <b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
+  function useDownload(){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+'<b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
 }
 async function buildPdf(){
   const root=document.getElementById('pdf-root');
@@ -452,6 +458,45 @@ async function emailPdf(btn){
   }catch(e){console.error(e);say('We could not send the email just now. Please try again in a minute.');}
   finally{btn.disabled=false;btn.textContent=label;}
 }
+let REPORT_SAVED = false; // true when a private saved copy exists for this report
+const CACHE_PREFIX = 'hsv_report_';
+function readCache(sid){try{const c=JSON.parse(localStorage.getItem(CACHE_PREFIX+sid)||'null');return c&&c.report?c.report:null;}catch(e){return null;}}
+function writeCache(sid,report){try{localStorage.setItem(CACHE_PREFIX+sid,JSON.stringify({report:report,savedAt:Date.now()}));}catch(e){}}
+function showSavedNote(){const n=document.getElementById('save-note');if(!n)return;n.textContent='Your report is saved. Bookmark this page, or use the link in your email, to reopen it on any phone or computer with the email you used at checkout.';n.hidden=false;}
+function showGate(sessionId, note){
+  const app=document.getElementById('app');const tb=document.getElementById('email-btn');if(tb)tb.style.display='none';
+  app.innerHTML=`
+    <div class="err-box gate">
+      <h2>Open your report</h2>
+      <p>${note||'Your report is saved privately. Enter the email you used at checkout to open it.'}</p>
+      <form id="gate-form" novalidate>
+        <label for="gate-email" style="font-weight:500;">Email used at checkout</label>
+        <input id="gate-email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+        <button class="retry-btn" type="submit" id="gate-btn">Open my report</button>
+      </form>
+      <p class="gate-msg" id="gate-msg" role="alert"></p>
+      <p class="gate-fine">Reports open only with that email. Need help? <a href="contact.html">Contact us</a>.</p>
+    </div>`;
+  const form=document.getElementById('gate-form'),msg=document.getElementById('gate-msg'),btn=document.getElementById('gate-btn');
+  form.addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    const email=document.getElementById('gate-email').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent='Please enter a valid email address.';return;}
+    btn.disabled=true;btn.textContent='Opening...';msg.textContent='';
+    try{
+      const res=await fetch('/.netlify/functions/get-report',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sessionId,email})});
+      const j=await res.json().catch(()=>({}));
+      if(res.ok&&j.report){j.report.hadPhoto=false;writeCache(sessionId,j.report);REPORT_SAVED=true;renderReport(j.report);showSavedNote();return;}
+      if(res.status===403)msg.textContent='That email does not match the one used at checkout. Please check it and try again.';
+      else if(res.status===404)msg.textContent='We could not find a saved report for this link. If you took the quiz before saved reports started, your report was sent to you as a PDF. You can also contact us and we will help.';
+      else if(res.status===429)msg.textContent='Too many tries. Please wait about 15 minutes and try again.';
+      else if(res.status===503)msg.textContent='Saved reports are not available right now. Please try again later.';
+      else msg.textContent='Something went wrong. Please try again in a moment.';
+    }catch(err){msg.textContent='Something went wrong. Please try again in a moment.';}
+    btn.disabled=false;btn.textContent='Open my report';
+  });
+  document.getElementById('gate-email').focus();
+}
 async function init() {
   const app = document.getElementById('app');
   app.innerHTML = `
@@ -468,6 +513,9 @@ async function init() {
     return;
   }
 
+  const cachedReport = readCache(sessionId);
+  if (cachedReport) { REPORT_SAVED = true; renderReport(cachedReport); showSavedNote(); return; }
+
   let data;
   try {
     data = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
@@ -475,7 +523,8 @@ async function init() {
 
   AGE = (data && data.answers && data.answers.ageBracket) || '';
   if (!data || !data.answers) {
-    showError('We couldn\'t find your quiz answers', 'Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. If you have already paid, your payment is safe. Please open this link in the browser you used for the quiz. If that does not work, <a href="contact.html?topic=My%20Signature%20Style%20Report&note=My%20report%20did%20not%20load%20my%20answers.%20Could%20you%20check%20if%20I%20am%20eligible%20for%20an%20Encore%20Code%3F&ref=' + encodeURIComponent(sessionId) + '">contact us</a> and we will check whether you are eligible for an Encore Code, which lets you retake your Style Report at no charge.', false);
+    // Opened on a different phone or browser: the saved copy opens with the email used at checkout.
+    showGate(sessionId);
     return;
   }
 
@@ -496,6 +545,7 @@ async function init() {
 
     if (!res.ok) {
       const errBody = await res.json().catch(() => ({}));
+      if (res.status === 409) { showGate(sessionId, 'This report was already created. Enter the email you used at checkout to open it.'); return; }
       if (res.status === 402) {
         showError('Payment not confirmed yet', 'Give it a moment and try again — if this keeps happening, email us and we\'ll take care of it.', true);
       } else {
@@ -506,6 +556,7 @@ async function init() {
 
     const report = await res.json();
     report.hadPhoto = !!data.photoBase64;
+    if (res.headers.get('x-hsv-saved') === '1') { REPORT_SAVED = true; writeCache(sessionId, report); showSavedNote(); }
     renderReport(report);
   } catch (e) {
     showError('Something went wrong generating your report', 'Please try again in a moment.', true);

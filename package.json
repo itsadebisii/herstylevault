@@ -1,0 +1,8 @@
+{
+  "name": "herstylevault",
+  "private": true,
+  "description": "HerStyleVault static site with Netlify functions",
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0"
+  }
+}

@@ -20,6 +20,8 @@ const {
   isMatureAge
 } = require('./lib/knowledge');
 
+const reportStore = require('./lib/report-store');
+
 const ANTHROPIC_MODEL = 'claude-opus-5';
 const AI_TIMEOUT_MS = 20000;
 
@@ -247,6 +249,20 @@ exports.handler = async (event) => {
   }
 
   // --- Step 2: compute the factual season/shape data from the classifier. ---
+  // --- Saved reports: the same checkout always gets the same report, and we never pay for the AI twice. ---
+  const payerEmail = (session.customer_details && session.customer_details.email) || session.customer_email || '';
+  const answersFingerprint = reportStore.answersHash(answers); // taken before the code below adds fields to answers
+  const store = reportStore.openStore(event);
+  const existing = await reportStore.read(store, sessionId);
+  if (existing) {
+    // Only hand it back to someone who also holds the original quiz answers (the person who took the quiz).
+    // Anyone else opens it through the email check on the saved-report page.
+    if (existing.answersHash === answersFingerprint) {
+      return { statusCode: 200, headers: { 'content-type': 'application/json', 'x-hsv-saved': '1' }, body: JSON.stringify(existing.report) };
+    }
+    return { statusCode: 409, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ error: 'already_generated' }) };
+  }
+
   // Shape comes from the three proportion answers; older quiz sessions that self-selected a shape still work.
   if (answers.shoulderHip && answers.waistDef && answers.bustHip) { answers.shape = computeBodyShape(answers); }
   answers.intensity = answers.shape ? computeIntensity(answers.shape, answers) : 'plain';
@@ -356,9 +372,12 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     }
   };
 
+  // Keep a private copy (never the photo) so the link works on any device. A failed save never blocks the client's report.
+  const saved = payerEmail ? await reportStore.save(store, sessionId, report, payerEmail, answersFingerprint) : false;
+
   return {
     statusCode: 200,
-    headers: { 'content-type': 'application/json' },
+    headers: Object.assign({ 'content-type': 'application/json' }, saved ? { 'x-hsv-saved': '1' } : {}),
     body: JSON.stringify(report)
   };
 };
