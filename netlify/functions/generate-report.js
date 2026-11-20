@@ -240,7 +240,9 @@ exports.handler = async (event) => {
     return { statusCode: 502, body: JSON.stringify({ error: 'Payment verification failed' }) };
   }
 
-  if (session.payment_status !== 'paid') {
+  // A 100%-off code (e.g. a free report for a client) completes with a $0 total and status 'no_payment_required'; that counts as settled.
+  const settled = session.payment_status === 'paid' || (session.status === 'complete' && session.amount_total === 0 && session.payment_status === 'no_payment_required');
+  if (!settled) {
     return { statusCode: 402, body: JSON.stringify({ error: 'Payment not completed' }) };
   }
 
