@@ -20,7 +20,7 @@ function computeColorAxes(a){
   if(a.veins==='blue')coolScore+=1;
   const net=warmScore-coolScore;
   const undertone=net>=3?'warm':net<=-3?'cool':'neutral';
-  const depthScore={fair:0,light:0,medium:1,olive:1,tan:2,caramel:2,deep:3,rich:3}[a.depth]??1;
+  const depthScore={porcelain:0,fair:0,light:0,beige:1,medium:1,olive:1,tan:2,caramel:2,brown:3,deep:3,rich:3}[a.depth]??1;
   const value=depthScore===0?'light':depthScore>=2?'deep':'medium';
   let chromaScore=0;
   if(a.chroma==='bright')chromaScore+=2;if(a.chroma==='muted')chromaScore-=2;

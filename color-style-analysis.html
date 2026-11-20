@@ -71,6 +71,10 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
 .cover-title em{font-style:italic;color:var(--accent);}
 .returning-toggle{display:flex;gap:0.5rem;margin:0.9rem 0 0.9rem;}
 .returning-opt{flex:1;font-family:var(--font-body);font-size:0.76rem;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);padding:0.65rem 0.5rem;cursor:pointer;border-radius:6px;}
+.depth-art{display:flex;flex-direction:column;align-items:center;width:100%}
+.depth-strip{display:flex;gap:4px;justify-content:center;margin-top:12px}
+.depth-strip i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
+.depth-strip i.cur{outline:2px solid var(--accent);outline-offset:1px}
 .swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
 .opt.sw{display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem}
 .opt.sw i{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
@@ -537,8 +541,13 @@ const COMP_SW = { warm: ['#e07a3f', '#8a5a35', '#5f7a3a', '#d9a05b'], cool: ['#4
 const WASH_SW = { warm: ['#e9a24f', '#d9732b', '#c9a24a', '#b5541f'], cool: ['#6b8fd4', '#9c7bd0', '#d98ab0', '#5fb3c9'], pale: ['#e8f1f7', '#eadff2', '#f6e9ee', '#e4f0ea'], none: ['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a'] };
 const CHROMA_SW = { bright: ['#e8283a', '#1e6fe0', '#f2c200', '#12a86b'], muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88'], both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0'] };
 const DEPTH_ITEMS = [
-  { value: 'fair', label: 'Fair / Light', hex: '#f2d3b8' }, { value: 'medium', label: 'Medium / Olive', hex: '#d9a877' },
-  { value: 'tan', label: 'Tan / Caramel', hex: '#a9713f' }, { value: 'deep', label: 'Deep / Rich', hex: '#5c3b23' }];
+  { value: 'porcelain', label: 'Porcelain: very fair', hex: '#f7e1d3' }, { value: 'fair', label: 'Fair', hex: '#f2d3b8' },
+  { value: 'light', label: 'Light', hex: '#e8c29d' }, { value: 'beige', label: 'Light-medium / Beige', hex: '#ddb38a' },
+  { value: 'medium', label: 'Medium', hex: '#d9a877' }, { value: 'olive', label: 'Olive', hex: '#c29b64' },
+  { value: 'tan', label: 'Tan', hex: '#a9713f' }, { value: 'caramel', label: 'Caramel / Golden brown', hex: '#94603a' },
+  { value: 'brown', label: 'Brown', hex: '#78492a' }, { value: 'deep', label: 'Deep', hex: '#5c3b23' },
+  { value: 'rich', label: 'Rich / Espresso', hex: '#3d2314' }];
+const DEPTH_LIGHT = ['porcelain', 'fair', 'light', 'beige', 'medium', 'olive']; // which skin-tone group the contrast and vein pictures use
 const CONTRAST_SETS = {
   deep: { label: 'Deeper skin tones', items: [
     { value: 'high', colors: ['#e8e2d4', '#4a2e1c', '#241812'], label: 'High: light hair or eyes against deep skin' },
@@ -579,7 +588,7 @@ const VISUAL = {
   } },
   comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'custom' ? artSw(['#C99A2E', '#1F7A5C', '#8A1F4E', '#9B8AC4']) : v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a']) : artSw(COMP_SW[v])) },
   wash: { art: (v) => artSw(WASH_SW[v]) },
-  depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div>' })) },
+  depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="depth-art"><div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div><div class="depth-strip" aria-hidden="true">' + DEPTH_ITEMS.map(x => '<i class="' + (x.value === o.value ? 'cur' : '') + '" style="background:' + x.hex + '"></i>').join('') + '</div></div>' })) },
   contrast: { group: true, items: () => CONTRAST_SETS[carGroup()].items.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw vc-sw-demo">' + o.colors.map(ARCH).join('') + '</div>' })) },
   chroma: { art: (v) => artSw(CHROMA_SW[v]) },
   styleGrav: { art: (v) => artIcons(STYLE_ART[v] || []) },
@@ -592,7 +601,7 @@ const VISUAL = {
   pq2: { art: (v) => artIcons(PQ2_ART[v] || []) },
   pq3: { art: (v) => artIcons(PQ3_ART[v] || []) }
 };
-function carGroup() { return CAR._group || ((A.depth === 'fair' || A.depth === 'medium') ? 'light' : (A.depth ? 'deep' : 'light')); }
+function carGroup() { return CAR._group || (DEPTH_LIGHT.indexOf(A.depth) > -1 ? 'light' : (A.depth ? 'deep' : 'light')); }
 function carItems(q) {
   const cfg = VISUAL[q.key];
   if (cfg.items) return cfg.items(q);
