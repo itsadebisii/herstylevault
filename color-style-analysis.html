@@ -823,7 +823,8 @@ function submitAndPay() {
     } catch (e2) {}
   }
   sendLead('payment');
-  window.location.href = STRIPE_LINK;
+  // Stripe fills in the email they already typed here (they can still change it). The report is emailed to the address on the Stripe checkout.
+  window.location.href = STRIPE_LINK + (email ? (STRIPE_LINK.indexOf('?') > -1 ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(email) : '');
 }
 
 render();
