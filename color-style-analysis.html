@@ -133,7 +133,6 @@ const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzu7aq
 const A = {}; // answers
 let name = '';
 let email = '';
-let returningClient = false;
 let planToBook = ''; // 'yes' | 'no' | '' (not chosen yet)
 let freeText = '';
 let photoBase64 = null;
@@ -416,10 +415,6 @@ function render() {
         </div>
         <p class="plan-note">${planToBook === 'yes' ? 'Great. We will keep your answers and results on file. When you book, we will ask if you want to use this report as your starting point or run a new analysis. If you feel your answers would be different now, a new analysis is a good choice.' : planToBook === 'no' ? 'No problem. We will keep only your name and email. Your answers and results are not saved with us. If you book later, we will do your analysis in your session.' : 'Your answer decides what we keep. Yes: we keep your answers and results so you do not have to start over. No: we keep only your name and email.'}</p>
         <p class="field-err" id="start-err" style="display:none;">Please add your first name, a valid email, and choose Yes or No above so we can send your report.</p>
-        <div class="returning-toggle">
-          <button type="button" class="returning-opt ${!returningClient ? 'sel' : ''}" id="first-time-btn">First time here</button>
-          <button type="button" class="returning-opt ${returningClient ? 'sel' : ''}" id="returning-btn">I've booked before</button>
-        </div>
         <button class="cover-btn" id="begin-btn">Begin →</button>
       </div>`;
   } else if (f.type === 'body-part-cover') {
@@ -744,14 +739,10 @@ function attachHandlers(f) {
   if (nameField) nameField.addEventListener('input', (e) => { name = e.target.value; });
   const emailField = document.getElementById('email-field');
   if (emailField) emailField.addEventListener('input', (e) => { email = e.target.value; });
-  const firstTimeBtn = document.getElementById('first-time-btn');
-  if (firstTimeBtn) firstTimeBtn.addEventListener('click', () => { returningClient = false; render(); });
   const planYes = document.getElementById('plan-yes-btn');
   if (planYes) planYes.addEventListener('click', () => { planToBook = 'yes'; render(); });
   const planNo = document.getElementById('plan-no-btn');
   if (planNo) planNo.addEventListener('click', () => { planToBook = 'no'; render(); });
-  const returningBtn = document.getElementById('returning-btn');
-  if (returningBtn) returningBtn.addEventListener('click', () => { returningClient = true; render(); });
 
   const freetextField = document.getElementById('freetext-field');
   if (freetextField) freetextField.addEventListener('input', (e) => { freeText = e.target.value; });
@@ -822,7 +813,7 @@ function sendLead(stage) {
 }
 
 function submitAndPay() {
-  const data = { name, email, returningClient, planToBook, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
+  const data = { name, email, planToBook, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
@@ -832,7 +823,8 @@ function submitAndPay() {
     } catch (e2) {}
   }
   sendLead('payment');
-  window.location.href = STRIPE_LINK;
+  // Stripe fills in the email they already typed here (they can still change it). The report is emailed to the address on the Stripe checkout.
+  window.location.href = STRIPE_LINK + (email ? (STRIPE_LINK.indexOf('?') > -1 ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(email) : '');
 }
 
 render();
