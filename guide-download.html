@@ -22,7 +22,7 @@
 </section>
 
 <footer class="site"><div class="footer-mount"></div></footer>
-<script src="site.js?v=e5719494"></script>
+<script src="site.js?v=0b49f0af"></script>
 <script>
 (function(){
   var sid = new URLSearchParams(location.search).get('session_id') || '';
@@ -31,7 +31,7 @@
   function problem(msg){
     eb.textContent = 'Something went wrong';
     tt.innerHTML = 'We couldn’t find your <em>purchase</em>';
-    bd.innerHTML = '<p class="sub center" style="margin:0 auto 1.2rem;">' + msg + '</p><div class="cta-row"><a class="btn btn-primary" href="mailto:hello@herstylevault.com?subject=My%20Wardrobe%20Detox%20Guide">Email Me and I’ll Fix It</a></div>';
+    bd.innerHTML = '<p class="sub center" style="margin:0 auto 1.2rem;">' + msg + '</p><div class="cta-row"><a class="btn btn-primary" href="contact.html?topic=Digital%20products&note=My%20Wardrobe%20Detox%20Guide%20download%20is%20not%20working.">Contact Us and We’ll Fix It</a></div>';
   }
   if (!sid) { problem('This page needs the link you were sent right after checkout. If you paid and lost it, email me and I’ll send your guide.'); return; }
   fetch(base + '&check=1').then(function(r){ return r.json().then(function(j){ return { s: r.status, j: j }; }); }).then(function(res){
@@ -45,7 +45,7 @@
         '<ul class="dg-list" style="text-align:left;max-width:460px;margin:2rem auto 0;">' +
         '<li>Save it to your phone or computer so you always have it. You can also print it.</li>' +
         '<li>Keep this page’s link. You can come back and download it again anytime.</li>' +
-        '<li>Your receipt is on its way from Stripe. Questions? Email <a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a>.</li></ul>' +
+        '<li>Your receipt is on its way from Stripe. Questions? <a href="contact.html">Contact us</a>.</li></ul>' +
         '<p class="sub center" style="margin:2.2rem auto 0;font-size:14px;">Want hands-on help next? <a href="book.html">Book a free consultation</a> or <a href="shop.html">see everything I offer</a>.</p>';
     } else if (res.s === 402) {
       problem('Your payment hasn’t finished processing yet. Wait a moment, then refresh this page.');

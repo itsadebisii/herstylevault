@@ -51,7 +51,7 @@ var DIGITALS = [
       'Your style persona, with a 3-piece signature formula and a rule you are allowed to break',
       'The best fabrics for you, and an accessory styling guide',
       'Live store links for your colors and cuts, matched to your price range',
-      'A $40 credit toward any 1:1 package when you book within 45 days'
+      'A $40 credit toward any 1:1 package when you book within 12 months'
     ],
     steps: [
       ['Answer 23 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
@@ -68,7 +68,7 @@ var DIGITALS = [
       ['How long does it take?', 'About 5 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
-      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 45 days, the $40 comes off your final payment.']
+      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the $40 comes off your final payment.']
     ],
     buyLabel: 'Start Style Analysis',
     cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },
@@ -82,7 +82,7 @@ var DIGITALS = [
     cardCover: 'images/digitals/detox-bundle-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
     category: 'guides', status: 'live',
     buyLabel: 'Buy Now', /* the card button; it opens a small "which one?" chooser built from options below */
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Bundle%20updates' },
+    soonCta: { label: 'Be the First to Know', href: 'contact.html?topic=Digital%20products&note=Please%20let%20me%20know%20when%20the%20Wardrobe%20Detox%20Bundle%20updates%20are%20ready.' },
     short: 'Declutter your closet your way: the 11-page Guide for the full reset, or the one-page Checklist for a quick one.',
     headline: 'Reset your closet, <em>one zone at a time</em>',
     lead: 'The Wardrobe Detox Bundle is the calm, step-by-step method I use to clear a closet without the overwhelm. Choose the 11-page Guide for the full zone-by-zone reset, or the one-page Checklist when you want the quick version.',
@@ -189,7 +189,7 @@ var DIGITALS = [
     eyebrow: 'Wind Down · Edition 001',
     category: 'windown', status: 'coming-soon', coverTone: 'stone',
     soonNote: 'Coming soon',
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Coloring%20Book%20updates' },
+    soonCta: { label: 'Be the First to Know', href: 'contact.html?topic=Digital%20products&note=Please%20let%20me%20know%20when%20the%20coloring%20book%20is%20ready.' },
     coverImage: 'images/digitals/coloring-book-cover.jpg',
     previews: [
       {src:'images/digitals/cb-olive-martini.jpg', alt:'Sample coloring page: The Olive Martini scene'},

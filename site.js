@@ -23,6 +23,7 @@ const NAV_HTML = `${TICKER_HTML}
 <li><a href="vault-digitals.html">Vault Digitals</a></li>
 <li><a href="locations.html">Locations</a></li>
 <li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
 <li class="has-dropdown"><a class="dd-label" href="faq.html">FAQ &amp; Policies</a><div class="dropdown">
 <a href="how-it-works.html">How It Works</a>
 <a href="faq.html">FAQ</a>
@@ -60,6 +61,7 @@ const FOOTER_HTML = `<div class="wrap">
 <li><a href="how-it-works.html">How It Works</a></li>
 <li><a href="faq.html">FAQ</a></li>
 <li><a href="policies.html">Policies</a></li>
+<li><a href="contact.html">Contact</a></li>
 </ul>
 </div>
 </div>
