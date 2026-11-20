@@ -386,7 +386,7 @@ function fitPreviews(){
 async function renderReport(r){
   REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
-  document.getElementById('app').innerHTML='<p class="hint">Your report is ready. Scroll through it here, and tap <b>Email me my PDF</b> to get a copy in your inbox.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
+  document.getElementById('app').innerHTML='<p class="hint">Your report is ready, and it is yours to keep. We do not store it, so tap <b>Email me my PDF</b> now to put a copy in your inbox. After that, you can look at it any time.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
     +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 45 days.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>';
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
@@ -466,7 +466,7 @@ async function init() {
   } catch (e) { data = null; }
 
   if (!data || !data.answers) {
-    showError('We couldn\'t find your quiz answers', 'Your quiz answers are stored on the device and browser you took the quiz on. If you switched devices or cleared your browser data after paying, email us and we\'ll generate your report manually.', false);
+    showError('We couldn\'t find your quiz answers', 'Your payment is confirmed. Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. Email us and we will send you a free code to retake the quiz, or retake it in the same browser you started in.', false);
     return;
   }
 
