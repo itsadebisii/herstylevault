@@ -85,6 +85,14 @@ header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; backg
 .hero-actions{display:flex; gap:0.9rem; flex-wrap:wrap;}
 .photo-frame{border:1px solid var(--line); border-radius:4px; aspect-ratio:4/5; overflow:hidden; background:var(--surface); position:relative;}
 .photo-frame img{width:100%; height:100%; object-fit:cover;}
+.hero-car .hc-track{display:flex; height:100%; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch;}
+.hero-car .hc-track::-webkit-scrollbar{display:none;}
+.hero-car .hc-slide{flex:0 0 100%; scroll-snap-align:start; display:block; height:100%; background:#F9F8F6;}
+.hero-car .hc-slide video{width:100%; height:100%; object-fit:cover; display:block;}
+.hc-dots{position:absolute; bottom:8px; left:50%; transform:translateX(-50%); display:flex; gap:2px; background:rgba(250,249,246,.88); border-radius:99px; padding:0 4px;}
+.hc-dots button{width:24px; height:24px; border:0; background:none; padding:0; cursor:pointer; position:relative;}
+.hc-dots button::before{content:""; position:absolute; inset:7px; border-radius:50%; border:1px solid #660617;}
+.hc-dots button[aria-current="true"]::before{background:#660617;}
 .about-carousel .about-slide{position:absolute; inset:0; opacity:0; transition:opacity 0.6s ease;}
 .about-carousel .about-slide.active{opacity:1; position:relative;}
 .about-carousel .about-slide:not(.active){position:absolute;}
@@ -545,6 +553,7 @@ a.vd-mini:hover .vd-hover,a.vd-mini:focus-visible .vd-hover{opacity:1;}
   .hero{padding-top:0;}
   .hero-grid{gap:1.6rem;}
   .hero .photo-frame{order:-1; aspect-ratio:auto; height:clamp(230px,62vw,360px); width:calc(100% + 32px); margin-inline:-16px; border-radius:0; border-width:0 0 1px 0;}
+  .hero .photo-frame.hero-car{height:clamp(280px,82vw,420px);}
 }
 
 /* Compare packages table */
