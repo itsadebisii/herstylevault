@@ -951,7 +951,7 @@ main p,section p{max-width:56ch;}
 .price small,.vd-prices small,.price span{font-family:var(--font-body);font-size:13px;}
 
 /* ---------- Lookbook: "daily edit" layout (blush polka dots, scalloped plates) ---------- */
-.lbk-wall{background-color:#F3D8D0; background-image:radial-gradient(circle at 16px 16px, rgba(255,255,255,.62) 0 9px, transparent 10px), radial-gradient(circle at 44px 44px, rgba(255,255,255,.62) 0 9px, transparent 10px); background-size:56px 56px; padding:clamp(2.2rem,6vw,4rem) 20px clamp(2.4rem,6vw,4rem);}
+.lbk-wall{scroll-margin-top:96px; background-color:#F3D8D0; background-image:radial-gradient(circle at 16px 16px, rgba(255,255,255,.62) 0 9px, transparent 10px), radial-gradient(circle at 44px 44px, rgba(255,255,255,.62) 0 9px, transparent 10px); background-size:56px 56px; padding:clamp(2.2rem,6vw,4rem) 20px clamp(2.4rem,6vw,4rem);}
 .lbk-hero{max-width:640px; margin:0 auto; text-align:center; padding-bottom:clamp(2rem,6vw,3.4rem);}
 .lbk-eyebrow{margin:0 0 .5rem; font:500 11px var(--font-body); letter-spacing:.34em; text-transform:uppercase; color:#8B1226;}
 .lbk-title{margin:0 0 1.2rem; font-family:var(--font-display); font-style:italic; font-weight:500; color:#2A1814; line-height:1; font-size:clamp(3rem,15vw,5.8rem); letter-spacing:-.01em; text-transform:lowercase;}
@@ -1009,7 +1009,7 @@ main p,section p{max-width:56ch;}
 .lbk-wear{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.4rem;}
 .lbk-wear li{padding:.4rem .85rem; border-radius:999px; background:#F3D8D0; color:#2A1814; font:500 12px var(--font-body);}
 .lbk-dcta{display:flex; flex-direction:column; gap:10px; margin-top:1.4rem;}
-.lbk-detail .lbk-btn{display:block; padding:.9rem 1.2rem; border:1px solid #7A1321; background:transparent; color:#7A1321; font:500 13px var(--font-body); letter-spacing:.08em; text-decoration:none; text-align:center; border-radius:999px;}
+.lbk-detail .lbk-btn{min-width:0; display:block; padding:.9rem 1.2rem; border:1px solid #7A1321; background:transparent; color:#7A1321; font:500 13px var(--font-body); letter-spacing:.08em; text-decoration:none; text-align:center; border-radius:999px;}
 .lbk-detail .lbk-btn.solid{background:#7A1321; color:#FCF3EE;}
 .lbk-detail .lbk-btn:hover,.lbk-detail .lbk-btn:focus-visible{background:#4E0B14; border-color:#4E0B14; color:#FCF3EE;}
 .lbk-pn{display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin:1.8rem auto 0; max-width:640px;}
@@ -1034,7 +1034,7 @@ main p,section p{max-width:56ch;}
   .lbk-dpic{flex:none; width:400px; position:sticky; top:130px;}
   .lbk-dinfo{flex:none; width:460px;}
   .lbk-dcta{flex-direction:row;}
-  .lbk-dcta .lbk-btn{flex:1;}
+  .lbk-dcta .lbk-btn{flex:1 1 0; min-width:0;}
   .lbk-end-btns{flex-direction:row; max-width:none; justify-content:center;}
   .lbk-btn{min-width:230px;}
   .lbk-pl{width:360px;}
