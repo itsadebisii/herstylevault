@@ -8,6 +8,8 @@ const crypto = require('crypto');
 const SESSION_RE = /^cs_(test|live)_[A-Za-z0-9]+$/;
 const KEEP_DAYS = 365;
 
+const newToken = () => crypto.randomBytes(18).toString('base64url');
+const TOKEN_RE = /^[A-Za-z0-9_-]{20,40}$/;
 const sha = (s) => crypto.createHash('sha256').update(String(s)).digest('hex');
 const normEmail = (e) => String(e || '').trim().toLowerCase();
 const emailHash = (sessionId, email) => sha('email|' + sessionId + '|' + normEmail(email));
@@ -26,16 +28,47 @@ function openStore(event) {
 async function save(store, sessionId, report, email, fingerprint) {
   if (!store || !SESSION_RE.test(sessionId || '')) return false;
   try {
+    const shareToken = newToken();
     await store.setJSON('report/' + sessionId, {
       report,
       emailHash: emailHash(sessionId, email),
       answersHash: fingerprint,
+      shareToken,
       createdAt: Date.now()
     });
-    return true;
+    await store.setJSON('share/' + shareToken, { sessionId, createdAt: Date.now() });
+    return shareToken;
   } catch (e) {
     return false;
   }
+}
+
+// What a shared link shows: the report without the age bracket, the full name or the client flag. Never the photo or email.
+function publicView(report) {
+  const first = String((report && report.clientName) || '').trim().split(/\s+/)[0].slice(0, 30);
+  return Object.assign({}, report, { clientName: first || 'a friend', ageBracket: '', matureAge: false, isReturning: false });
+}
+
+async function readShared(store, token) {
+  if (!store || !TOKEN_RE.test(token || '')) return null;
+  try {
+    const idx = await store.get('share/' + token, { type: 'json' });
+    if (!idx || !idx.sessionId) return null;
+    const doc = await read(store, idx.sessionId);
+    if (!doc || doc.shareToken !== token) return null;
+    return doc;
+  } catch (e) {
+    return null;
+  }
+}
+
+// New share link; the old one stops working.
+async function rotateShare(store, sessionId, doc) {
+  const old = doc.shareToken, shareToken = newToken();
+  await store.setJSON('report/' + sessionId, Object.assign({}, doc, { shareToken }));
+  await store.setJSON('share/' + shareToken, { sessionId, createdAt: Date.now() });
+  if (old) { try { await store.delete('share/' + old); } catch (e) {} }
+  return shareToken;
 }
 
 async function read(store, sessionId) {
@@ -58,4 +91,4 @@ function safeEqual(a, b) {
   return x.length === y.length && crypto.timingSafeEqual(x, y);
 }
 
-module.exports = { SESSION_RE, KEEP_DAYS, normEmail, emailHash, answersHash, openStore, save, read, safeEqual };
+module.exports = { SESSION_RE, TOKEN_RE, KEEP_DAYS, publicView, readShared, rotateShare, normEmail, emailHash, answersHash, openStore, save, read, safeEqual };

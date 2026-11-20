@@ -34,5 +34,5 @@ exports.handler = async (event) => {
     return json(403, { error: 'wrong_email' });
   }
   tries.delete(sessionId);
-  return json(200, { report: doc.report });
+  return json(200, { report: doc.report, shareToken: doc.shareToken || null });
 };

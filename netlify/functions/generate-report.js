@@ -258,7 +258,7 @@ exports.handler = async (event) => {
     // Only hand it back to someone who also holds the original quiz answers (the person who took the quiz).
     // Anyone else opens it through the email check on the saved-report page.
     if (existing.answersHash === answersFingerprint) {
-      return { statusCode: 200, headers: { 'content-type': 'application/json', 'x-hsv-saved': '1' }, body: JSON.stringify(existing.report) };
+      return { statusCode: 200, headers: { 'content-type': 'application/json', 'x-hsv-saved': '1' }, body: JSON.stringify(Object.assign({}, existing.report, { shareToken: existing.shareToken || null })) };
     }
     return { statusCode: 409, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ error: 'already_generated' }) };
   }
@@ -378,6 +378,6 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
   return {
     statusCode: 200,
     headers: Object.assign({ 'content-type': 'application/json' }, saved ? { 'x-hsv-saved': '1' } : {}),
-    body: JSON.stringify(report)
+    body: JSON.stringify(saved ? Object.assign({}, report, { shareToken: saved }) : report)
   };
 };
