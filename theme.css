@@ -487,6 +487,8 @@ a.vd-card:hover .vd-cta{color:var(--accent);}
 .dg-nav{display:flex; align-items:center; justify-content:center; gap:1rem; margin-top:0.9rem; font-size:13px; color:var(--ink-soft);}
 .dg-nav button{font-family:var(--font-body); font-size:16px; background:transparent; color:var(--ink); border:1px solid var(--line); border-radius:2px; width:38px; height:34px; cursor:pointer;}
 .dg-nav button:hover:not(:disabled){border-color:var(--ink);}
+.dg-nav button{display:inline-flex; align-items:center; justify-content:center; padding:0; line-height:1;}
+.dg-nav button .hsv-ar{margin:0; vertical-align:0; width:1.05em; height:1.05em;}
 .dg-nav button:disabled{opacity:0.35; cursor:default;}
 .dg-nav span{min-width:3.2rem; text-align:center; letter-spacing:0.06em;}
 .dg-cap{font-size:13px; color:var(--ink-soft); text-align:center; margin:0.5rem 0 0;}
@@ -884,6 +886,7 @@ main p,section p{max-width:56ch;}
 @media (max-width:620px){
   .hero-actions .btn,.cta-row .btn,.pkg-card .btn,.vd-buy,.dg-info .btn,.quote-grid .btn{width:100%;}
   .hero-actions,.cta-row{flex-direction:column; align-items:stretch;}
+  .cta-row{display:flex; gap:12px;}
   .pkg-opt,.vd-desc,.pkg-best{font-size:14px;}
 }
 .how-card{padding:20px; overflow-wrap:anywhere;}
