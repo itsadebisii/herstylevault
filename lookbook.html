@@ -24,18 +24,27 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css?v=dfc45399">
+<link rel="stylesheet" href="theme.css?v=19ddf476">
 </head>
 <body>
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
 
-<section class="band wrap">
-<h1 class="page-title center"><span class="h1-kw">Personal Styling Lookbook</span>The <em>Lookbook</em></h1>
-<p class="sub center" style="margin:0 auto 2.2rem;">Sample HerStyleVault Edit boards: one occasion, one complete look, built around color and shape. Tap a board to see it bigger.</p>
-<div class="look-grid look-two" id="lookGrid"></div>
-<p class="sub center" style="margin:2.4rem auto 0;font-size:13px;color:var(--ink-soft);">These are sample style boards. Client photos and videos are only shared with the client's written permission.</p>
-<p class="sub center" style="margin:1.6rem auto 0;">Want a look like this for your next event?</p>
-<div class="cta-row"><a class="btn btn-primary" href="service-occasion-edit.html">Book an Occasion Edit</a> <a class="btn btn-secondary" href="book.html">Free Consultation</a></div>
+<section class="lbk-hero" aria-labelledby="lbkTitle">
+<p class="lbk-vert" aria-hidden="true">VOL. 01</p>
+<div class="lbk-hero-in">
+<p class="lbk-eyebrow">Fall &middot; Winter</p>
+<h1 class="lbk-title" id="lbkTitle"><span class="h1-kw">Personal Styling Lookbook</span><span aria-hidden="true">The</span><span aria-hidden="true">Look</span><span aria-hidden="true">book</span></h1>
+<div class="lbk-stack" id="lbkStack" aria-hidden="true"></div>
+</div>
+</section>
+
+<section class="lbk-looks" id="lookGrid" aria-label="The looks"></section>
+
+<section class="lbk-end">
+<p class="lbk-end-mark">(( Your turn ))</p>
+<p class="lbk-end-sub">Want a look like this for your next event?</p>
+<div class="lbk-end-btns"><a class="lbk-btn" href="service-occasion-edit.html">Book an Occasion Edit</a><a class="lbk-btn ghost" href="book.html">Free Consultation</a></div>
+<p class="lbk-note">Sample style boards. Client photos and videos are only shared with written permission.</p>
 </section>
 
 <footer class="site"><div class="footer-mount"></div></footer>
@@ -43,10 +52,22 @@
 <script src="lookbook.js"></script>
 <script>
 (function(){
-  var grid = document.getElementById('lookGrid');
+  var grid = document.getElementById('lookGrid'), stack = document.getElementById('lbkStack');
+  function ripple(cols){
+    var s = '<span class="rsq" aria-hidden="true">', k = 0;
+    cols.forEach(function(c){ s += '<i style="background:' + c[1] + '">'; k++; });
+    for (; k > 0; k--) s += '</i>';
+    return s + '</span>';
+  }
+  var order = [1, 2, 3, 0];
+  stack.innerHTML = order.map(function(n, p){ return '<img class="lbk-card c' + p + '" src="' + LOOKBOOK[n].image + '" alt="" loading="eager">'; }).join('');
   grid.innerHTML = LOOKBOOK.map(function(i, n){
-    return '<div class="look-tile"><button type="button" class="board-frame look-frame look-open" data-n="' + n + '" aria-label="View bigger: ' + i.title + '"><img src="' + i.image + '" alt="' + i.alt + '" loading="lazy"></button>' +
-      '<div class="board-name">' + i.title + '</div><p class="board-caption">' + i.caption + '</p></div>';
+    var num = ('0' + (n + 1)).slice(-2);
+    return '<article class="lbk-look">' +
+      '<button type="button" class="lbk-pic look-open" data-n="' + n + '" aria-label="View bigger: ' + i.title + '"><img src="' + i.image + '" alt="' + i.alt + '" loading="lazy"></button>' +
+      '<div class="lbk-info"><p class="lbk-idx"><span>' + num + ' / ' + ('0' + LOOKBOOK.length).slice(-2) + '</span><span>' + i.tag + '</span></p>' +
+      '<h2 class="lbk-name">' + i.title + '</h2>' +
+      '<div class="lbk-pal">' + ripple(i.colors) + '<ul class="lbk-cols">' + i.colors.map(function(c){ return '<li><b style="background:' + c[1] + '"></b>' + c[0] + '</li>'; }).join('') + '</ul></div></div></article>';
   }).join('');
   function close(){ var m = document.getElementById('lookBox'); if (m) { m.parentNode.removeChild(m); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); } }
   function esc(e){ if (e.key === 'Escape') close(); }
