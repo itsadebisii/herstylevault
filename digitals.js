@@ -51,7 +51,7 @@ var DIGITALS = [
       'Your style persona, with a 3-piece signature formula and a rule you are allowed to break',
       'The best fabrics for you, and an accessory styling guide',
       'Live store links for your colors and cuts, matched to your price range',
-      'A $40 credit toward any 1:1 package when you book within 45 days'
+      'A $40 credit toward any 1:1 package when you book within 12 months'
     ],
     steps: [
       ['Answer 23 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
@@ -68,7 +68,7 @@ var DIGITALS = [
       ['How long does it take?', 'About 5 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
-      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 45 days, the $40 comes off your final payment.']
+      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the $40 comes off your final payment.']
     ],
     buyLabel: 'Start Style Analysis',
     cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },

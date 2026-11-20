@@ -364,7 +364,7 @@ async function layoutPages(r){
 function buildPages(r){
   const label='Signature Style Report';
   const today=new Date();const date=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  const until=new Date(today.getTime()+45*86400000).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const untilD=new Date(today);untilD.setFullYear(untilD.getFullYear()+1);const until=untilD.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const blocks=makeBlocks(r),byKey={};blocks.forEach(b=>{byKey[b.key]=b;});
   const pages=[];
   pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="images/report-cover-sig.jpg" alt="">'));
@@ -373,7 +373,7 @@ function buildPages(r){
     pages.push(pdfPage(r.__tight?'pdf-tight':'',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
   });
   pages.push(pdfPage('pdf-closing','<div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
-    +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 45 days (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>'
+    +'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 12 months (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>'
     +'<p style="font-size:0.9rem;color:#3F3C38;margin-top:0.4rem;">With love,<br><strong>HerStyleVault</strong></p>'
     +'<p class="pdf-more-top">Ready for your next step?</p><a class="pdf-pill" data-href="https://herstylevault.com/shop.html" href="https://herstylevault.com/shop.html" target="_blank" rel="noopener"><span>Explore What Else We Offer</span><i><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></i></a>'));
   return pages;
@@ -387,7 +387,7 @@ async function renderReport(r){
   REPORT=r;await prepCroq(r);await layoutPages(r);
   const pages=buildPages(r);
   document.getElementById('app').innerHTML='<p class="hint">Your report is ready, and it is yours to keep. We do not store it, so tap <b>Email me my PDF</b> now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
-    +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 45 days.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>';
+    +'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>';
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
   const eb=document.getElementById('email-btn');eb.disabled=false;eb.onclick=()=>emailPdf(eb);
