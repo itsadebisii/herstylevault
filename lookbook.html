@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css?v=c7718374">
+<link rel="stylesheet" href="theme.css?v=804658d0">
 </head>
 <body>
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
@@ -34,7 +34,7 @@
 <p class="lbk-eyebrow">Vol. 01 &middot; Fall &middot; Winter</p>
 <h1 class="lbk-title" id="lbkTitle"><span class="h1-kw">Personal Styling Lookbook</span><span aria-hidden="true">the lookbook</span></h1>
 <div class="lbk-me" id="lbkMe"></div>
-<p class="lbk-hand">@herstylevault.official</p>
+<p class="lbk-hand"><span>@herstylevault.official</span></p>
 </section>
 
 <section class="lbk-looks" id="lookGrid" aria-label="The looks"></section>
@@ -73,10 +73,10 @@
   grid.innerHTML = LOOKBOOK.map(function(i, n){
     var num = ('0' + (n + 1)).slice(-2);
     return '<article class="lbk-look">' +
-      '<button type="button" class="lbk-pic look-open" data-n="' + n + '" aria-label="View bigger: ' + i.title + '">' + plate() + '<img class="lbk-art" src="' + i.art + '" alt="' + i.alt + '" loading="lazy"></button>' +
       '<div class="lbk-info"><p class="lbk-idx"><span>' + num + ' / ' + ('0' + LOOKBOOK.length).slice(-2) + '</span><span>' + i.tag + '</span></p>' +
       '<h2 class="lbk-name">' + i.title + '</h2>' +
-      '<div class="lbk-pal">' + ripple(i.colors) + '<ul class="lbk-cols">' + i.colors.map(function(c){ return '<li><b style="background:' + c[1] + '"></b>' + c[0] + '</li>'; }).join('') + '</ul></div></div></article>';
+      '<div class="lbk-pal">' + ripple(i.colors) + '<ul class="lbk-cols">' + i.colors.map(function(c){ return '<li><b style="background:' + c[1] + '"></b>' + c[0] + '</li>'; }).join('') + '</ul></div></div>' +
+      '<button type="button" class="lbk-pic look-open" data-n="' + n + '" aria-label="View bigger: ' + i.title + '">' + plate() + '<img class="lbk-art" src="' + i.art + '" alt="' + i.alt + '" loading="lazy"></button></article>';
   }).join('');
   function close(){ var m = document.getElementById('lookBox'); if (m) { m.parentNode.removeChild(m); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); } }
   function esc(e){ if (e.key === 'Escape') close(); }
