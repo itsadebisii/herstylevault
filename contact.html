@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact HerStyleVault | Ask a Styling Question</title>
+<meta name="description" content="Send HerStyleVault a message with a question about styling, booking or your report. We reply within 2 to 3 business days.">
+<meta name="author" content="HerStyleVault">
+<meta property="og:title" content="Contact HerStyleVault | Ask a Styling Question">
+<meta property="og:description" content="Send HerStyleVault a message with a question about styling, booking or your report. We reply within 2 to 3 business days.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://herstylevault.com/contact.html">
+<meta property="og:image" content="https://herstylevault.com/images/share/contact.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Contact HerStyleVault | Ask a Styling Question | HerStyleVault">
+<meta property="og:site_name" content="HerStyleVault">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact HerStyleVault | Ask a Styling Question">
+<meta name="twitter:description" content="Send HerStyleVault a message with a question about styling, booking or your report. We reply within 2 to 3 business days.">
+<meta name="twitter:image" content="https://herstylevault.com/images/share/contact.jpg">
+<link rel="canonical" href="https://herstylevault.com/contact.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css?v=523f3f61">
+<style>
+.ct-form{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;text-align:left}
+.ct-form label{display:flex;flex-direction:column;gap:.35rem;font-size:13px;font-weight:500;color:var(--ink)}
+.ct-form input,.ct-form select,.ct-form textarea{font:400 16px var(--font-body);padding:.8rem .9rem;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);width:100%}
+.ct-form textarea{min-height:150px;resize:vertical}
+.ct-form input:focus-visible,.ct-form select:focus-visible,.ct-form textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ct-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ct-msg{padding:.9rem 1rem;border-radius:4px;font-size:14.5px;display:none}
+.ct-msg.ok{display:block;background:#E4F0E9;color:#1F4A36}
+.ct-msg.err{display:block;background:#F6E4E6;color:#7A1321}
+.ct-side{max-width:560px;margin:2rem auto 0;font-size:14px;color:var(--ink-soft);text-align:center}
+</style>
+</head>
+<body>
+<header class="site"><nav><div class="nav-mount"></div></nav></header>
+
+<section class="band wrap">
+<h1 class="page-title center"><span class="h1-kw">Contact HerStyleVault</span>Ask us <em>anything</em></h1>
+<p class="sub center" style="margin:0 auto 2rem;">Questions about booking, your report or our products? Send us a message and we will reply within 2 to 3 business days.</p>
+
+<form class="ct-form" id="ctForm" novalidate>
+  <label>Your name<input type="text" id="ctName" name="name" autocomplete="name" maxlength="80" required></label>
+  <label>Your email<input type="email" id="ctEmail" name="email" autocomplete="email" maxlength="120" required></label>
+  <label>What is this about?
+    <select id="ctTopic" name="topic">
+      <option>Booking or packages</option>
+      <option>My Signature Style Report</option>
+      <option>Digital products</option>
+      <option>Something else</option>
+    </select>
+  </label>
+  <label>Your message<textarea id="ctMessage" name="message" maxlength="2000" required></textarea></label>
+  <div class="ct-hp" aria-hidden="true"><label>Leave this empty<input type="text" id="ctWeb" name="website" tabindex="-1" autocomplete="off"></label></div>
+  <button class="btn btn-primary" type="submit" id="ctSend">Send message</button>
+  <p class="ct-msg" id="ctOut" role="status" aria-live="polite"></p>
+</form>
+
+<p class="ct-side">Not sure where to start? <a href="book.html">Book a free consultation</a> or read our <a href="faq.html">FAQ</a>. You can also write to us at <a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a>.</p>
+</section>
+
+<footer class="site"><div class="footer-mount"></div></footer>
+
+<script>
+(function () {
+  var opened = Date.now(), form = document.getElementById('ctForm'), out = document.getElementById('ctOut'), btn = document.getElementById('ctSend');
+  var qs = new URLSearchParams(location.search), topic = qs.get('topic'), note = qs.get('note');
+  if (topic) { var sel = document.getElementById('ctTopic'); for (var i = 0; i < sel.options.length; i++) if (sel.options[i].text === topic) sel.selectedIndex = i; }
+  if (note) document.getElementById('ctMessage').value = note.slice(0, 300);
+  function say(cls, text) { out.className = 'ct-msg ' + cls; out.textContent = text; }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('ctName').value.trim(), email = document.getElementById('ctEmail').value.trim(), message = document.getElementById('ctMessage').value.trim();
+    if (!name) return say('err', 'Please add your name.');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return say('err', 'Please check your email address.');
+    if (message.length < 5) return say('err', 'Please add a short message.');
+    btn.disabled = true; btn.textContent = 'Sending…'; out.className = 'ct-msg';
+    fetch('/.netlify/functions/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, email: email, topic: document.getElementById('ctTopic').value, message: message, website: document.getElementById('ctWeb').value, t: Date.now() - opened }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, j: j }; }); })
+      .then(function (x) {
+        if (x.j && x.j.ok) { form.reset(); say('ok', 'Thank you. We got your message and will reply to ' + email + ' within 2 to 3 business days.'); }
+        else if (x.status === 429) say('err', 'You have sent a few messages already. Please try again in a little while, or email hello@herstylevault.com.');
+        else say('err', 'We could not send that just now. Please try again, or email us at hello@herstylevault.com.');
+      })
+      .catch(function () { say('err', 'We could not send that just now. Please try again, or email us at hello@herstylevault.com.'); })
+      .then(function () { btn.disabled = false; btn.textContent = 'Send message'; });
+  });
+})();
+</script>
+<script src="site.js?v=0b49f0af"></script>
+<script src="arrows.js?v=ad91749e"></script>
+</body>
+</html>

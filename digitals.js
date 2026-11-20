@@ -82,7 +82,7 @@ var DIGITALS = [
     cardCover: 'images/digitals/detox-bundle-cover.jpg', /* the cover shown on the shop cards before someone clicks in; the details page shows each option's own cover */
     category: 'guides', status: 'live',
     buyLabel: 'Buy Now', /* the card button; it opens a small "which one?" chooser built from options below */
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Wardrobe%20Detox%20Bundle%20updates' },
+    soonCta: { label: 'Be the First to Know', href: 'contact.html?topic=Digital%20products&note=Please%20let%20me%20know%20when%20the%20Wardrobe%20Detox%20Bundle%20updates%20are%20ready.' },
     short: 'Declutter your closet your way: the 11-page Guide for the full reset, or the one-page Checklist for a quick one.',
     headline: 'Reset your closet, <em>one zone at a time</em>',
     lead: 'The Wardrobe Detox Bundle is the calm, step-by-step method I use to clear a closet without the overwhelm. Choose the 11-page Guide for the full zone-by-zone reset, or the one-page Checklist when you want the quick version.',
@@ -189,7 +189,7 @@ var DIGITALS = [
     eyebrow: 'Wind Down · Edition 001',
     category: 'windown', status: 'coming-soon', coverTone: 'stone',
     soonNote: 'Coming soon',
-    soonCta: { label: 'Be the First to Know', href: 'mailto:hello@herstylevault.com?subject=Coloring%20Book%20updates' },
+    soonCta: { label: 'Be the First to Know', href: 'contact.html?topic=Digital%20products&note=Please%20let%20me%20know%20when%20the%20coloring%20book%20is%20ready.' },
     coverImage: 'images/digitals/coloring-book-cover.jpg',
     previews: [
       {src:'images/digitals/cb-olive-martini.jpg', alt:'Sample coloring page: The Olive Martini scene'},

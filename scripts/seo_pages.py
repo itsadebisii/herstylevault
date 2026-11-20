@@ -17,6 +17,7 @@ META = {
  'packages.html': (None, "Compare The Unlock, The Vault Edit and The Full Reveal: private personal styling packages from $225 with outfit builds, shopping lists and a style guide."),
  'services.html': (None, "À la carte personal styling: Occasion Edit, The Ensemble, Mini Collection and Wardrobe Detox. Pay upfront, send your inspo and get your outfits by email."),
  'shop.html': (None, "Shop HerStyleVault: private styling packages from $225, à la carte services, and Vault Digitals like the Signature Style Report. Start where it suits you."),
+ 'contact.html': ("Contact HerStyleVault | Ask a Styling Question", "Send HerStyleVault a message with a question about styling, booking or your report. We reply within 2 to 3 business days."),
  'locations.html': (None, "Personal stylist in Boston, Northern MA and Southern NH, plus virtual styling nationwide. See travel areas and fees and how to book a free consultation."),
  'offer.html': (None, "Personal styling packages and services from HerStyleVault: what is included, how it works and pricing for each. In person near Boston or virtual."),
  'color-style-analysis.html': ("Start Your Signature Style Report Quiz | HerStyleVault", "Answer 23 quick questions about your coloring and body to get your personalized Signature Style Report with your color season and body shape."),

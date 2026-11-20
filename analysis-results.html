@@ -167,7 +167,7 @@ function showError(title, message, allowRetry) {
       <h2>${title}</h2>
       <p>${message}</p>
       ${allowRetry ? '<button class="retry-btn" id="retry-btn">Try Again</button>' : ''}
-      <p style="margin-top:1rem;">Need help? Email <a href="mailto:hello@herstylevault.com">hello@herstylevault.com</a> and we'll sort it out — your payment is confirmed either way.</p>
+      <p style="margin-top:1rem;">Need help? <a href="contact.html">Contact us</a> and we'll sort it out — your payment is confirmed either way.</p>
     </div>`;
   const retryBtn = document.getElementById('retry-btn');
   if (retryBtn) retryBtn.addEventListener('click', init);
@@ -466,7 +466,7 @@ async function init() {
   } catch (e) { data = null; }
 
   if (!data || !data.answers) {
-    showError('We couldn\'t find your quiz answers', 'Your payment is confirmed. Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. Please open this link in the browser you used for the quiz. If that does not work, email us and we will help.', false);
+    showError('We couldn\'t find your quiz answers', 'Your payment is confirmed. Your answers are kept only in the browser you took the quiz in, so they are missing here, for example if you opened this link in a different browser or app. Please open this link in the browser you used for the quiz. If that does not work, <a href="contact.html">contact us</a> and we will help.', false);
     return;
   }
 
