@@ -71,6 +71,9 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
 .cover-title em{font-style:italic;color:var(--accent);}
 .returning-toggle{display:flex;gap:0.5rem;margin:0.9rem 0 0.9rem;}
 .returning-opt{flex:1;font-family:var(--font-body);font-size:0.76rem;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);padding:0.65rem 0.5rem;cursor:pointer;border-radius:6px;}
+.swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+.opt.sw{display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem}
+.opt.sw i{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
 .plan-q{font-family:var(--font-body);font-size:0.84rem;color:var(--ink);margin:1rem 0 0.4rem;font-weight:500;line-height:1.45;}
 .plan-note{font-size:12px;opacity:.75;margin:0.5rem 0 0.9rem;line-height:1.55;}
 .returning-opt.sel{border-color:var(--accent);background:var(--surface);color:var(--ink);font-weight:500;}
@@ -172,7 +175,7 @@ const QUESTIONS = [
   { section: 'color', n: 1, of: 8, key: 'jewelry', text: 'Does gold or silver jewelry look better on you?', options: [opt('Gold','gold','foil:gold'), opt('Silver','silver','foil:silver'), opt('Both equally','both','foil:both'), opt('Not sure','unsure')] },
   { section: 'color', n: 2, of: 8, key: 'sun', text: 'In the sun, do you tan easily or burn?', options: [opt('Tan easily','tan'), opt('Burn easily','burn'), opt('Tan then burn','both'), opt('Rarely in sun','neither'), opt('Not applicable','na')] },
   { section: 'color', n: 3, of: 8, key: 'veins', type: 'veins' },
-  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('All colors — I look good in everything','all'), opt('Not sure','unsure')] },
+  { section: 'color', n: 4, of: 8, key: 'comp', text: 'Are there colors you always get compliments in?', options: [opt('Warm — oranges, browns, greens','warm'), opt('Cool — blues, pinks, purples','cool'), opt('Neutral — beige, white, gray','neutral'), opt('All colors — I look good in everything','all'), opt('Choose my colors','custom'), opt('Not sure','unsure')] },
   { section: 'color', n: 5, of: 8, key: 'wash', text: 'Are there colors that wash you out?', options: [opt('Warm tones wash me out','warm'), opt('Cool tones wash me out','cool'), opt('Very pale / icy colors','pale'), opt('Nothing washes me out','none')] },
   { section: 'color', n: 6, of: 8, key: 'depth', type: 'depth' },
   { section: 'color', n: 7, of: 8, key: 'contrast', type: 'contrast' },
@@ -360,10 +363,32 @@ function veinsSvg(bg, stroke) {
 // Slide list: covers + all 23 questions + free text + photo + payment
 const SLIDES = ['name-cover', 'color-cover', ...QUESTIONS.filter(q => q.section === 'color').map((q, i) => i), 'body-cover', ...QUESTIONS.filter(q => q.section === 'body').map((q, i) => i), 'freetext', 'photo'];
 // Build a flat ordered list with proper indices into QUESTIONS
+// Colors people can pick if they choose "Choose my colors". t = which undertone the color leans toward (used to score the answer).
+const FAV = [
+  {v:'rust',l:'Rust',hex:'#B5541F',t:'warm'},{v:'terracotta',l:'Terracotta',hex:'#C86B3C',t:'warm'},{v:'mustard',l:'Mustard',hex:'#C99A2E',t:'warm'},
+  {v:'olive',l:'Olive',hex:'#6E6B3F',t:'warm'},{v:'camel',l:'Camel',hex:'#B98A55',t:'warm'},
+  {v:'navy',l:'Navy',hex:'#1F2F5A',t:'cool'},{v:'emerald',l:'Emerald',hex:'#1F7A5C',t:'cool'},{v:'berry',l:'Berry',hex:'#8A1F4E',t:'cool'},
+  {v:'lavender',l:'Lavender',hex:'#9B8AC4',t:'cool'},{v:'icy',l:'Icy blue',hex:'#BFD7EA',t:'cool'},{v:'pink',l:'Pink',hex:'#F2A0C0',t:'cool'},
+  {v:'black',l:'Black',hex:'#141414',t:'neutral'},{v:'white',l:'White',hex:'#FFFFFF',t:'neutral'},{v:'gray',l:'Gray',hex:'#9AA0A6',t:'neutral'},{v:'taupe',l:'Taupe',hex:'#A89B8C',t:'neutral'}
+];
+const COMP_FOLLOWUP = { section: 'color', key: 'compColors', followUp: true, swatches: true, max: 4, showIf: (a) => a.comp === 'custom', text: 'Which colors do you get compliments in? Pick up to 4.' };
+// The answers we keep and send. If someone chose their own colors, the picks decide warm, cool or neutral for the analysis.
+function finalAnswers() {
+  const out = Object.assign({}, A);
+  if (A.comp === 'custom') {
+    const picks = Array.isArray(A.compColors) ? A.compColors : [];
+    let w = 0, c = 0;
+    picks.forEach((v) => { const f = FAV.find((x) => x.v === v); if (f && f.t === 'warm') w++; if (f && f.t === 'cool') c++; });
+    out.comp = !picks.length ? 'unsure' : (w > c ? 'warm' : (c > w ? 'cool' : 'neutral'));
+    out.compCustom = true; out.favColors = picks; out.favOther = String(A.compOther || '').trim().slice(0, 40);
+  }
+  delete out.compColors; delete out.compOther;
+  return out;
+}
 const FLOW = [];
 FLOW.push({ type: 'name-cover' });
 FLOW.push({ type: 'body-part-cover', part: 'color' });
-QUESTIONS.filter(q => q.section === 'color').forEach(q => FLOW.push({ type: 'question', q }));
+QUESTIONS.filter(q => q.section === 'color').forEach(q => { FLOW.push({ type: 'question', q }); if (q.key === 'comp') FLOW.push({ type: 'question', q: COMP_FOLLOWUP }); });
 FLOW.push({ type: 'body-part-cover', part: 'body' });
 QUESTIONS.filter(q => q.section === 'body').forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'body-part-cover', part: 'persona' });
@@ -377,7 +402,7 @@ const totalQuestions = QUESTIONS.length;
 function questionsCompletedSoFar() {
   let n = 0;
   const idx = FLOW.slice(0, step + 1);
-  idx.forEach(f => { if (f.type === 'question') n++; });
+  idx.forEach(f => { if (f.type === 'question' && !f.q.followUp) n++; });
   return n;
 }
 
@@ -390,7 +415,7 @@ function progressHtml() {
 
 function canAdvance() {
   const f = FLOW[step];
-  if (f.type === 'question') { const v = A[f.q.key]; return Array.isArray(v) ? v.length > 0 : !!v; }
+  if (f.type === 'question') { const v = A[f.q.key]; if (f.q.followUp) return (Array.isArray(v) && v.length > 0) || String(A.compOther || '').trim().length >= 2; return Array.isArray(v) ? v.length > 0 : !!v; }
   return true;
 }
 
@@ -552,7 +577,7 @@ const VISUAL = {
     const g = VEIN_SETS[carGroup()];
     return ['blue', 'green', 'both'].map(v => ({ value: v, label: VEIN_LABELS[v], art: '<div class="vc-vein">' + veinsSvg(g.bg, g.strokes[v]) + '</div>' }));
   } },
-  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a']) : artSw(COMP_SW[v])) },
+  comp: { art: (v) => v === 'unsure' ? artSw([]).replace('</div>', QMARK + '</div>') : (v === 'custom' ? artSw(['#C99A2E', '#1F7A5C', '#8A1F4E', '#9B8AC4']) : v === 'all' ? artSw(['#e07a3f', '#4f6fb3', '#d98ab0', '#5f7a3a']) : artSw(COMP_SW[v])) },
   wash: { art: (v) => artSw(WASH_SW[v]) },
   depth: { items: () => DEPTH_ITEMS.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw">' + ARCH(o.hex).replace('class="vc-arch"', 'class="vc-arch vc-arch-xl"') + '</div>' })) },
   contrast: { group: true, items: () => CONTRAST_SETS[carGroup()].items.map(o => ({ value: o.value, label: o.label, art: '<div class="vc-sw vc-sw-demo">' + o.colors.map(ARCH).join('') + '</div>' })) },
@@ -612,6 +637,10 @@ function renderQuestion(q) {
 
   if (VISUAL[q.key]) {
     body = carouselHtml(q);
+  } else if (q.swatches) {
+    const sel = Array.isArray(A[q.key]) ? A[q.key] : [];
+    body = `<div class="swatches">${FAV.map(f => `<div class="opt sw ${sel.indexOf(f.v) > -1 ? 'sel' : ''}" data-key="${q.key}" data-val="${f.v}" data-multi="1" data-max="${q.max}" role="checkbox" aria-checked="${sel.indexOf(f.v) > -1}" tabindex="0"><i style="background:${f.hex}"></i><span>${f.l}</span></div>`).join('')}</div>
+      <input type="text" class="nameinput" id="comp-other" placeholder="Another color? Type it here (optional)" maxlength="40" value="${String(A.compOther || '').replace(/"/g, '&quot;')}" style="margin-top:.8rem;">`;
   } else if (q.type === 'depth') {
     const opts = [
       { v: 'fair', label: 'Fair / Light', hex: '#f2d3b8' },
@@ -686,7 +715,7 @@ function renderQuestion(q) {
 
   return `
     ${progressHtml()}
-    <p class="meta">${sectionLabel} · Question ${q.n} of ${q.of}</p>
+    <p class="meta">${sectionLabel} · ${q.followUp ? 'Question 4, continued' : 'Question ' + q.n + ' of ' + q.of}</p>
     <p class="qtext">${q.text || questionTextForType(q.type)}</p>
     ${body}
     ${navHtml(true)}`;
@@ -706,7 +735,8 @@ function attachHandlers(f) {
       if (el.dataset.multi) {
         /* choose-all-that-apply: "evenly" is exclusive, anything else clears it */
         const cur = Array.isArray(A[el.dataset.key]) ? A[el.dataset.key].slice() : [];
-        const v = el.dataset.val, at = cur.indexOf(v);
+        const v = el.dataset.val, at = cur.indexOf(v), max = Number(el.dataset.max) || 0;
+        if (max && at === -1 && cur.length >= max) return;
         let next;
         if (at > -1) { cur.splice(at, 1); next = cur; }
         else if (v === 'evenly') { next = ['evenly']; }
@@ -718,8 +748,10 @@ function attachHandlers(f) {
       render();
     });
   });
+  const compOther = document.getElementById('comp-other');
+  if (compOther) compOther.addEventListener('input', (e) => { A.compOther = e.target.value; const nb = document.getElementById('next-btn'); if (nb) nb.disabled = !canAdvance(); });
   const backBtn = document.getElementById('back-btn');
-  if (backBtn) backBtn.addEventListener('click', () => { if (step > 0) { step--; render(); } });
+  if (backBtn) backBtn.addEventListener('click', () => { if (step > 0) { step--; while (step > 0 && FLOW[step].type === 'question' && FLOW[step].q.showIf && !FLOW[step].q.showIf(A)) step--; render(); } });
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) nextBtn.addEventListener('click', onNext);
   attachCarousel();
@@ -782,6 +814,7 @@ function onNext() {
     return;
   }
   step++;
+  while (step < FLOW.length - 1 && FLOW[step].type === 'question' && FLOW[step].q.showIf && !FLOW[step].q.showIf(A)) step++;
   render();
 }
 
@@ -795,7 +828,7 @@ function leadPayload(stage, p) {
     ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name,
     depth: A.depth || '', jewelry: A.jewelry || '', veins: A.veins || '',
     shape: (A.shoulderHip && A.waistDef && A.bustHip) ? computeBodyShape(A) : '',
-    answers: JSON.stringify(A), notes: freeText || ''
+    answers: JSON.stringify(finalAnswers()), notes: freeText || ''
   });
 }
 
@@ -813,7 +846,7 @@ function sendLead(stage) {
 }
 
 function submitAndPay() {
-  const data = { name, email, planToBook, answers: A, freeText, photoBase64, photoMediaType, createdAt: Date.now() };
+  const data = { name, email, planToBook, answers: finalAnswers(), freeText, photoBase64, photoMediaType, createdAt: Date.now() };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {

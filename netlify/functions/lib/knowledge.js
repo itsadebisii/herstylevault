@@ -51,6 +51,15 @@ function colorSignals(a){
   };
   const out=[];
   ['jewelry','wash','comp','sun','veins'].forEach(k=>{const e=(T[k]||{})[a[k]];if(e)out.push({k,dir:e[0],text:e[1]});});
+  // If she chose her own colors, say so in her own words.
+  if(a.compCustom){
+    const FAV_NAMES={rust:'rust',terracotta:'terracotta',mustard:'mustard',olive:'olive',camel:'camel',navy:'navy',emerald:'emerald',berry:'berry',lavender:'lavender',icy:'icy blue',pink:'pink',black:'black',white:'white',gray:'gray',taupe:'taupe'};
+    const names=(Array.isArray(a.favColors)?a.favColors:[]).map(x=>FAV_NAMES[x]).filter(Boolean).slice(0,4);
+    const other=String(a.favOther||'').replace(/[^A-Za-z ,'-]/g,'').trim().slice(0,40).toLowerCase();
+    if(other)names.push(other);
+    const e=out.find(o=>o.k==='comp');
+    if(names.length){const text='you get compliments in '+joinList(names);if(e){e.text=text;const i=out.indexOf(e);if(i>0){out.splice(i,1);out.unshift(e);}}else out.push({k:'comp',dir:'neutral',text});}
+  }
   return out;
 }
 function joinList(arr){return arr.length<2?(arr[0]||''):arr.length===2?arr[0]+' and '+arr[1]:arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];}
@@ -123,6 +132,8 @@ function buildColorBullets(a,axes,season){
   const contrast={high:'Your hair, skin and eyes have clear contrast',low:'Your hair, skin and eyes blend softly together',medium:'Your coloring has a balanced, medium contrast'}[a.contrast];
   const chroma={bright:'You come alive in bright, saturated colors',muted:'You look best in soft, muted colors',both:'Bright and muted colors both work on you'}[a.chroma];
   if(contrast)items.push(contrast);if(chroma)items.push(chroma);
+  // Her own chosen colors always get a line, so the answer clearly shows up in her report.
+  if(a.compCustom){const c=colorSignals(a).find(s=>s.k==='comp');if(c&&/compliments in/.test(c.text)&&!items.some(i=>/compliments in/i.test(i)))items.unshift(cap1(c.text));}
   return{items:items.slice(0,4),note};
 }
 function buildBodyBullets(a,shapeData){
