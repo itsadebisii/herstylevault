@@ -684,7 +684,7 @@ const PERSONA_TABLE = {
               rule:'Permission granted to wear the sneaker with something structured. Athleisure looks luxe when one piece is tailored.' }
 };
 const PERSONA_FABRIC = { tailored:'Structured wovens', feminine:'Fluid silk and jersey', luxury:'Luxe knits and wool', casual:'Breathable cotton and denim', bold:'Sculptural and textured fabrics' };
-const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', allblack:'sleek', bold:'bold', set:'classic', sporty:'sporty' };
+const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', heels:'feminine', allblack:'sleek', bold:'bold', set:'classic', sporty:'sporty' };
 const PQ2_VIBE = { tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold' };
 function computePersona(a){
   a = a || {};

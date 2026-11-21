@@ -199,6 +199,24 @@ async function askClaude(anthropicKey, userContent) {
   }
 }
 
+const DEPTH_KEYS = ['porcelain','ivory','fair','light','beige','sand','medium','olive','honey','tan','caramel','bronze','brown','deep','rich'];
+const DIRECTION_OPTS = {
+  showOff: ['arms','shoulders','neckline','back','waist','legs','other'],
+  quiet: ['arms','shoulders','neckline','back','midsection','hips','legs','none'],
+  feel: ['confident','elegant','comfy','trend','expressive','feminine'],
+  worksBest: ['everyday','work','dates','travel','photos','special'],
+  guideFirst: ['colors','cuts','formulas','shopping','avoid','tips']
+};
+/* Only known option values are kept, so nothing typed by a client ever reaches the report. */
+function cleanDirections(answers) {
+  const out = {};
+  Object.keys(DIRECTION_OPTS).forEach(k => {
+    const v = Array.isArray(answers[k]) ? answers[k] : [];
+    out[k] = v.filter(x => DIRECTION_OPTS[k].indexOf(x) > -1).slice(0, 3);
+  });
+  return out;
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
@@ -358,6 +376,8 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     shopLinks: buildShopLinks(answers, (colorFacts.signature || []).slice(0,6), bodyFacts.shopKeywords, colorFacts.neutrals, answers.shape),
     shopTier: shopTier(answers),
     ageBracket: answers.ageBracket || '',
+    depthKey: DEPTH_KEYS.indexOf(answers.depth) > -1 ? answers.depth : '',
+    directions: cleanDirections(answers),
     matureAge: isMatureAge(answers),
     archetype,
     personaAnswered: !!(answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3),

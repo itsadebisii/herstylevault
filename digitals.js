@@ -27,7 +27,7 @@
 var DIGITALS = [
   {
     slug: 'signature-style-report',
-    seoName: 'Signature Style Report', seoTitle: 'Signature Style Report: Color & Body Shape | HerStyleVault', seoDesc: 'Get your color season, body shape and signature style in one custom Signature Style Report. Answer 23 questions, add a photo and get your PDF by email.',
+    seoName: 'Signature Style Report', seoTitle: 'Signature Style Report: Color & Body Shape | HerStyleVault', seoDesc: 'Get your color season, body shape and signature style in one custom Signature Style Report. Answer 26 questions, add a photo and get your PDF by email.',
     name: 'Signature Style Report',
     category: 'reports', status: 'live',
     coverSub: 'Color · Shape · Style',
@@ -39,7 +39,7 @@ var DIGITALS = [
       {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your color type and accessory guide', locked:true},
       {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: silhouettes, shopping links and fabrics', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
-    short: "23 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
+    short: "26 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 5 minutes',
     lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
     includes: [

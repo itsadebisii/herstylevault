@@ -20,7 +20,7 @@ META = {
  'contact.html': ("Contact HerStyleVault | Ask a Styling Question", "Send HerStyleVault a message with a question about styling, booking or your report. We reply within 2 to 3 business days."),
  'locations.html': (None, "Personal stylist in Boston, Northern MA and Southern NH, plus virtual styling nationwide. See travel areas and fees and how to book a free consultation."),
  'offer.html': (None, "Personal styling packages and services from HerStyleVault: what is included, how it works and pricing for each. In person near Boston or virtual."),
- 'color-style-analysis.html': ("Start Your Signature Style Report Quiz | HerStyleVault", "Answer 23 quick questions about your coloring and body to get your personalized Signature Style Report with your color season and body shape."),
+ 'color-style-analysis.html': ("Start Your Signature Style Report Quiz | HerStyleVault", "Answer 26 quick questions about your coloring and body to get your personalized Signature Style Report with your color season and body shape."),
 }
 # the line that goes inside the page's H1 (replaces the small label above it)
 H1KW = {
