@@ -773,10 +773,10 @@ const STORE_DIR = {
    18-34: trend-forward cuts and shades (the shape's own shopKeywords, e.g. corset top, apple green).
    35+:   classic, elevated cuts, and trendier color names are swapped for classic ones (apple green -> sage). */
 const SHOP_CUTS_CLASSIC = {
-  apple: 'wrap dress, belted shirt dress, A-line dress, silk blouse, V-neck knit top, wide leg trousers, tailored blazer',
+  apple: 'empire waist dress, belted shirt dress, A-line dress, silk blouse, V-neck knit top, wide leg trousers, tailored blazer',
   pear: 'A-line dress, tailored blazer, silk blouse, wide leg trousers, structured shoulder top, V-neck top',
-  hourglass: 'wrap dress, tailored blazer, silk blouse, high waisted trousers, pencil skirt, belted dress, fit and flare dress',
-  rectangle: 'peplum top, wrap dress, belted dress, tailored blazer, silk blouse, A-line skirt, fit and flare dress',
+  hourglass: 'sheath dress, tailored blazer, silk blouse, high waisted trousers, pencil skirt, belted dress, fit and flare dress',
+  rectangle: 'peplum top, shirt dress, belted dress, tailored blazer, silk blouse, A-line skirt, fit and flare dress',
   inverted: 'wide leg trousers, A-line skirt, V-neck top, flared trousers, tiered midi skirt, soft draped blouse'
 };
 const CLASSIC_COLOR_ALIAS = { 'Apple Green': 'Sage', 'Butter Yellow': 'Champagne', 'Kelly Green': 'Emerald', 'Magenta': 'Raspberry', 'Orchid': 'Plum', 'Cobalt Blue': 'Sapphire', 'Light Turquoise': 'Soft Teal', 'Light Aqua': 'Soft Aqua', 'Warm Yellow': 'Honey' };
