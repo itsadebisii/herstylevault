@@ -54,6 +54,11 @@ var DIGITALS = [
       'Dress Your Shape: tops, bottoms and dresses for your shape, with fit notes for your height and proportions',
       'Your style persona, with a 3-piece signature formula and a rule you are allowed to break',
       'Outfit formulas for the occasions you chose',
+      'A one-page style cheat sheet you can screenshot',
+      'A starter capsule wardrobe: 12 pieces to buy first, in your colors, with shop links',
+      'Six complete outfit recipes for the occasions you chose',
+      'A shopping and fit guide, plus a closet audit checklist',
+      'A Bring-to-your-session page with your style snapshot',
       'Fabrics and patterns picked from your answers, plus an accessory styling guide',
       'Live store links for your colors and cuts, matched to your price range',
       'A table of contents with tap-to-jump page links',
@@ -61,7 +66,7 @@ var DIGITALS = [
       'A $40 credit toward any 1:1 package when you book within 12 months'
     ],
     steps: [
-      ['Answer 26 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
+      ['Answer 26 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess. A few optional questions about your life, like work, climate and comfort, make it fit even better."],
       ['Add a Photo', "Optional, but it sharpens your color and shape read. Skip it if you'd rather not."],
       ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear. Read it on screen, and we email you the PDF.']
     ],

@@ -22,6 +22,7 @@
   var QUIETN = { arms: 'elbow or three-quarter sleeves and light layers', shoulders: 'set-in sleeves and V-necklines', neckline: 'higher necklines, scarves or open layers', back: 'closed backs and longer layers', midsection: 'empire seams, straight cuts and fabrics that skim', hips: 'A-line and straight cuts, with darker colors below and detail on top', legs: 'midi and maxi lengths and wide-leg trousers' };
   var ZN = { arms: 'your arms', shoulders: 'your shoulders', neckline: 'your neckline', back: 'your back', waist: 'your waist', legs: 'your legs', midsection: 'your midsection', hips: 'your hips and thighs' };
   function listW(a) { a = a.filter(Boolean); return a.length < 2 ? (a[0] || '') : a.length === 2 ? a[0] + ' and ' + a[1] : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
+  function shapeName(r) { return String(r.bodyShapeLabel || 'body').toLowerCase().replace(/\s*shape$/, '').trim() || 'body'; }
   function dirs(r) { var d = r.directions || {}; return { show: (d.showOff || []).filter(function (x) { return SHOWN[x]; }), quiet: (d.quiet || []).filter(function (x) { return QUIETN[x]; }), feel: d.feel || [], works: d.worksBest || [], first: d.guideFirst || [] }; }
   function lumH(h) { var c = [1, 3, 5].map(function (i) { return parseInt(h.substr(i, 2), 16); }); return (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255; }
   function satH(h) { var c = [1, 3, 5].map(function (i) { return parseInt(h.substr(i, 2), 16); }); return Math.max.apply(null, c) - Math.min.apply(null, c); }
@@ -111,12 +112,18 @@
     if (ch === 'bright') return 'Your coloring is clear and vivid, so a bright lip is the fastest way to bring your palette to your face.';
     return 'Start with lip color. It is the fastest way to bring your palette to your face.';
   }
+  function hairNotes(r) {
+    var L = r.life || {}; if (!L.hairType && !L.hairLen) return '';
+    var T = { straight: 'Straight hair shows off a clean cut and shine. Keep the ends neat and add a light smoothing serum.', wavy: 'Wavy hair loves a light mousse or cream to define the waves. Skip heavy products that weigh them down.', curly: 'Curly hair loves moisture. Use a leave-in and a gentle definer, and keep a shape that stays balanced around your face.', coily: 'Coily hair thrives on moisture. Use a water-based leave-in sealed with a light oil or butter. Twist-outs, braid-outs and puffs show off your texture, and a satin bonnet protects it at night.', protective: 'Protective styles give your hair a rest. Keep your scalp moisturized and your edges gentle, and add color or accessories in your shades to tie the look to your palette.', wig: 'Wigs and extensions let you try your hair tones with no commitment. Choose a lace color that matches your skin and a shade from your hair tones.' };
+    var N = { short: 'Short hair puts your face and earrings in focus, so a bold earring in your metal tone works well.', medium: 'Medium length is flexible, and layers add movement.', long: 'Long hair looks best with fresh ends and a little face-framing.' };
+    return '<div class="hx-box" style="margin-top:10px"><h6>For your hair</h6><p>' + E([T[L.hairType], N[L.hairLen]].filter(Boolean).join(' ')) + '</p></div>';
+  }
   function beautyBlock(r) {
     var B = BEAUTY[seasonFamily(r.seasonKey)];
     var order = ['Lips', 'Blush', 'Eyes', 'Nails', 'Hair'];
     var cards = order.map(function (k) { return '<div class="hx-box"><h6>' + (k === 'Hair' ? 'Hair tones' : k) + '</h6>' + B[k].map(function (c) { return '<div class="hx-bt"><i style="background:' + c[1] + '"></i><span>' + c[0] + '</span></div>'; }).join('') + '</div>'; }).join('');
     cards += '<div class="hx-box"><h6>Metal tone</h6><p>' + E(r.metal) + '</p><h6 style="margin-top:10px">Skip</h6><p>' + E(B.Skip) + '.</p></div>';
-    return { key: 'beauty', label: 'Hair, Makeup & Nails', html: '<div class="hx-page">' + head('Hair, makeup &amp; <em>nails</em>', 'The same coloring that guides your clothes also guides your beauty shopping.') + '<div class="hx-3b">' + cards + '</div>' + label('How to choose') + '<div class="hx-3"><div class="hx-box"><h6>For your style</h6><p>' + beautyPersona(r) + '</p></div><div class="hx-box"><h6>Test in daylight</h6><p>Swatch on your jawline near a window. The right shade looks natural, not heavy.</p></div><div class="hx-box"><h6>For your contrast</h6><p>' + beautyContrast(r) + '</p></div></div>' + '<div class="hx-tip">Screenshot this page and show it at the beauty counter or to your hair colorist. Shades are a starting point; texture and finish change how a color looks on you.</div></div>' };
+    return { key: 'beauty', label: 'Hair, Makeup & Nails', html: '<div class="hx-page">' + head('Hair, makeup &amp; <em>nails</em>', 'The same coloring that guides your clothes also guides your beauty shopping.') + '<div class="hx-3b">' + cards + '</div>' + label('How to choose') + '<div class="hx-3"><div class="hx-box"><h6>For your style</h6><p>' + beautyPersona(r) + '</p></div><div class="hx-box"><h6>Test in daylight</h6><p>Swatch on your jawline near a window. The right shade looks natural, not heavy.</p></div><div class="hx-box"><h6>For your contrast</h6><p>' + beautyContrast(r) + '</p></div></div>' + hairNotes(r) + '<div class="hx-tip">Screenshot this page and show it at the beauty counter or to your hair colorist. Shades are a starting point; texture and finish change how a color looks on you.</div></div>' };
   }
 
   /* ---------- 5. dress your shape ---------- */
@@ -126,6 +133,9 @@
       puff: '<ellipse cx="22" cy="40" rx="20" ry="17" fill="' + f + '"/><ellipse cx="98" cy="40" rx="20" ry="17" fill="' + f + '"/><path d="M34 34 Q60 52 86 34 L90 118 Q60 130 30 118 Z" fill="' + f + '"/><path d="M42 36 Q60 56 78 36" fill="none" stroke="' + w + '" stroke-opacity=".5" stroke-width="3"/>',
       bardot: '<path d="M10 44 Q60 26 110 44 L100 108 Q60 122 20 108 Z" fill="' + f + '"/><path d="M12 46 Q60 30 108 46" fill="none" stroke="' + w + '" stroke-opacity=".45" stroke-width="4"/>',
       halter: '<path d="M40 8 L60 56 L80 8 L84 56 Q100 84 90 122 Q60 136 30 122 Q20 84 36 56 Z" fill="' + f + '"/><path d="M44 74 Q60 84 76 74 M40 92 Q60 102 80 92 M38 108 Q60 118 82 108" fill="none" stroke="' + w + '" stroke-opacity=".4" stroke-width="2.5"/>',
+      bag: '<path d="M30 52 L90 52 L100 126 Q60 138 20 126 Z" fill="' + f + '"/><path d="M40 52 C40 14 80 14 80 52" fill="none" stroke="' + f + '" stroke-width="7" stroke-linecap="round"/><path d="M30 52 L90 52" stroke="' + w + '" stroke-opacity=".45" stroke-width="3"/><rect x="54" y="62" width="12" height="10" rx="2" fill="' + w + '" fill-opacity=".6"/>',
+      shoe: '<path d="M26 14 L62 14 L62 76 Q76 86 100 96 Q114 102 108 116 L24 116 Z" fill="' + f + '"/><path d="M24 116 L24 134 L46 134 L46 116" fill="' + f + '"/><path d="M62 76 Q40 70 26 60" fill="none" stroke="' + w + '" stroke-opacity=".45" stroke-width="2.6"/>',
+      coat: '<path d="M36 8 L52 8 L60 24 L68 8 L84 8 L112 34 L108 148 L66 150 L66 44 L60 34 L54 44 L54 150 L12 148 L8 34 Z" fill="' + f + '"/><path d="M54 44 L60 34 L66 44 M12 92 L108 92" fill="none" stroke="' + w + '" stroke-opacity=".5" stroke-width="2.6"/><circle cx="60" cy="68" r="2.4" fill="' + w + '" fill-opacity=".7"/>',
       blouse: '<path d="M36 12 L50 12 L60 24 L70 12 L84 12 L110 36 L102 86 L88 82 L86 126 Q60 134 34 126 L32 82 L18 86 L10 36 Z" fill="' + f + '"/><path d="M60 24 L60 128 M50 12 L60 24 L54 36 L42 22 Z M70 12 L60 24 L66 36 L78 22 Z" fill="none" stroke="' + w + '" stroke-opacity=".55" stroke-width="2.6" stroke-linejoin="round"/><circle cx="64" cy="58" r="1.8" fill="' + w + '" fill-opacity=".7"/><circle cx="64" cy="82" r="1.8" fill="' + w + '" fill-opacity=".7"/><circle cx="64" cy="106" r="1.8" fill="' + w + '" fill-opacity=".7"/>',
       blazer: '<path d="M34 10 L48 10 L60 46 L72 10 L86 10 L110 34 L106 134 L72 138 L72 72 L60 54 L48 72 L48 138 L14 134 L10 34 Z" fill="' + f + '"/><path d="M48 10 L60 46 L72 10 M48 72 L60 54 L72 72" fill="none" stroke="' + w + '" stroke-opacity=".55" stroke-width="2.6" stroke-linejoin="round"/><circle cx="66" cy="100" r="2.2" fill="' + w + '" fill-opacity=".7"/>',
       pencil: '<path d="M36 10 L84 10 L88 22 L86 130 Q60 140 34 130 L32 22 Z" fill="' + f + '"/><rect x="36" y="10" width="48" height="12" fill="#000" fill-opacity=".18"/><path d="M60 104 L60 132" stroke="' + w + '" stroke-opacity=".55" stroke-width="2.4"/>',
@@ -143,7 +153,7 @@
     }[k] || '';
     return '<svg viewBox="0 0 120 150" class="hx-gm">' + s + '</svg>';
   }
-  var NAMES = { puff: 'Puff sleeve', bardot: 'Off-shoulder', halter: 'Gathered halter', vneck: 'V-neck top', blouse: 'Button-up blouse', blazer: 'Tailored blazer', pencil: 'Pencil skirt', sheath: 'Sheath', wrap: 'Wrap top', peplum: 'Peplum', corset: 'Corset', askirt: 'A-line or pleated skirt', wide: 'Wide-leg jeans', trouser: 'Trousers', flare: 'Fit and flare', aline: 'A-line', ruffle: 'Ruffle' };
+  var NAMES = { puff: 'Puff sleeve', bardot: 'Off-shoulder', halter: 'Gathered halter', vneck: 'V-neck top', blouse: 'Button-up blouse', blazer: 'Tailored blazer', pencil: 'Pencil skirt', sheath: 'Sheath', bag: 'Bag', shoe: 'Shoes', coat: 'Coat', wrap: 'Wrap top', peplum: 'Peplum', corset: 'Corset', askirt: 'A-line or pleated skirt', wide: 'Wide-leg jeans', trouser: 'Trousers', flare: 'Fit and flare', aline: 'A-line', ruffle: 'Ruffle' };
   var DRESS_ROWS = {
     rectangle: { sub: 'Create curves: add some fullness up top and show your waist.', rows: [['Tops that add fullness up top', 'Gives your shoulders and bust more shape', ['puff', 'bardot', 'halter']], ['Tops that show your waist', 'Nips in at the waist so you get a waistline', ['vneck', 'peplum', 'corset']], ['Bottoms with some fullness', 'Adds shape to your lower half', ['askirt', 'wide', 'trouser']], ['Dresses that show your waist', 'Nip in at the waist and flare out below', ['flare', 'aline', 'ruffle']]] },
     hourglass: { sub: 'Follow your natural curves and keep your waist in view.', rows: [['Tops that follow your curves', 'Fit close at the bust and waist', ['vneck', 'corset', 'halter']], ['Tops that mark your waist', 'Fitted at the waist, or a shape that nips in', ['peplum', 'bardot']], ['Bottoms that skim your hips', 'Show your waist and skim over the hips', ['trouser', 'askirt']], ['Dresses that follow your waist', 'Belted or fitted at the waist', ['flare', 'aline']]] },
@@ -206,6 +216,10 @@
         var best = null, bs = -99;
         /* work must read professional: only polished pieces are allowed there, whatever else she likes */
         var WL = { work: { top: ['blouse', 'peplum'], bot: ['trouser', 'pencil'], dr: ['sheath', 'aline'] } };
+        var dcode = (r.life && r.life.dressCode) || '';
+        if (dcode === 'businessCasual') WL = { work: { top: ['blouse', 'peplum', 'vneck'], bot: ['trouser', 'pencil', 'askirt'], dr: ['sheath', 'aline', 'flare'] } };
+        else if (dcode === 'creative') WL = {};
+        else if (dcode === 'remote') WL = { work: { top: ['blouse', 'vneck', 'puff', 'bardot', 'peplum'], bot: ['wide', 'trouser', 'askirt', 'pencil'], dr: ['aline', 'flare', 'sheath'] } };
         var pool = avail[cat];
         if (WL[occ]) { var f = pool.filter(function (x) { return WL[occ][cat].indexOf(x) > -1; }); if (f.length) pool = f; }
         pool.forEach(function (g, gi) {
@@ -334,18 +348,33 @@
       ['boucle', 'Bouclé and tweed', 'Textured and polished. A jacket or skirt in this fabric looks expensive.', ['luxury', 'classic', 'feminine'], ['work', 'special'], 1, 'soft', /textur|tweed|boucl/i, 'invest'],
       ['poplin', 'Cotton poplin', 'Crisp and clean. Perfect for shirts, shirt-dresses and structured pieces.', ['tailored', 'classic', 'casual'], ['work', 'everyday'], -1, 'bright', /cotton|poplin|structured/i, 'budget']
     ];
+    var L0 = r.life || {};
+    var LF = { cold: L0.climate === 'cold', hot: L0.climate === 'warm', runsHot: L0.temp === 'hot', runsCold: L0.temp === 'cold', avoid: (L0.comfortFab || []).filter(function (x) { return x !== 'none'; }), formal: L0.dressCode === 'formal' };
+    var CLIM_HOT = { linen: 2, poplin: 1.5, chiffon: 1.5, satin: 1, jersey: 0.5, wool: -3, velvet: -3, knit: -2, boucle: -2, leather: -1 };
+    var CLIM_COLD = { wool: 2, knit: 2, velvet: 1.5, boucle: 1.5, leather: 1, ponte: 1, linen: -2, chiffon: -1 };
+    var AVOID_MAP = { itchy: { wool: -6, boucle: -2 }, clingy: { jersey: -3, satin: -2, knit: -1 }, stiff: { denim: -2, leather: -2, ponte: -1, poplin: -1, boucle: -1 }, sheer: { chiffon: -4 }, shiny: { satin: -4, leather: -2, velvet: -1 } };
     var clingy = D.quiet.indexOf('midsection') > -1 || D.quiet.indexOf('hips') > -1;
     var CLING = { satin: 1, jersey: 1, knit: 0.5 };
     var scored = LIB.map(function (f, i) {
       var parts = [], pi = f[3].indexOf(vibe);
       if (pi > -1) parts.push([pi < 2 ? 3 : 2, pname ? 'Matches your ' + pname + ' style.' : 'Matches your style direction.']);
-      if (f[7].test(good)) parts.push([2.5, 'It is on the best-fabrics list for your ' + String(r.bodyShapeLabel || 'body shape').toLowerCase() + ' shape.']);
+      if (f[7].test(good)) parts.push([2.5, 'It is on the best-fabrics list for your ' + shapeName(r) + ' shape.']);
       var worksHit = f[4].filter(function (o) { return D.works.indexOf(o) > -1; });
       if (worksHit.length) parts.push([1.5 * worksHit.length, 'Works well for ' + listW(worksHit.map(function (o) { return OCCN[o]; })) + ', which you asked for.']);
       if (f[6] && ch) parts.push([f[6] === ch ? 1 : (f[6] === 'blended' || ch === 'blended' ? 0 : -1), ch === 'bright' ? 'Crisp or sheen fabrics match your clear coloring.' : 'Matte, soft-textured fabrics match your blended coloring.']);
       if (invest && f[8] === 'invest') parts.push([1, 'Suits the investment range you chose.']);
       if (budget && f[8] === 'budget') parts.push([1, 'Easy to find at the everyday price range you chose.']);
+      var id = f[0], adj = 0, hard = false;
+      if (LF.cold && CLIM_COLD[id] > 0) parts.push([CLIM_COLD[id], 'You said your winters are long and cold, and this fabric keeps you warm.']);
+      if (LF.hot && CLIM_HOT[id] > 0) parts.push([CLIM_HOT[id], 'You said it is warm where you live, and this fabric is breathable.']);
+      if (LF.cold && CLIM_COLD[id] < 0) adj += CLIM_COLD[id];
+      if (LF.hot && CLIM_HOT[id] < 0) adj += CLIM_HOT[id];
+      if (LF.runsHot) adj += (CLIM_HOT[id] || 0) * 0.5;
+      if (LF.runsCold) adj += (CLIM_COLD[id] || 0) * 0.5;
+      LF.avoid.forEach(function (a) { var v = (AVOID_MAP[a] || {})[id] || 0; adj += v; if (v <= -4) hard = true; });
+      if (LF.formal && ['wool', 'crepe', 'poplin', 'boucle'].indexOf(id) > -1) parts.push([1, 'A polished fabric for your formal work dress code.']);
       var total = 0, best = [0, 'A dependable fabric that works with your palette.']; parts.forEach(function (x) { total += x[0]; if (x[0] > best[0]) best = x; });
+      total += adj - (hard ? 50 : 0);
       if (bad && f[7].test(bad) && !f[7].test(good)) total -= 4;
       if (clingy && CLING[f[0]]) { total -= 2 * CLING[f[0]]; }
       return { f: f, total: total, why: best[1], i: i };
@@ -356,9 +385,173 @@
     if (clingy) avoid.push('You prefer less attention on your midsection or hips, so skip thin, clingy fabrics there and choose ones that skim or hold their shape.');
     if (D.show.indexOf('waist') > -1) avoid.push('You like to show your waist, so avoid stiff boxy fabrics that hide it.');
     if (ch === 'soft') avoid.push('Very glossy, high-shine fabrics can fight your soft coloring.');
+    if (LF.avoid.length) avoid.push('You told us you avoid ' + listW(LF.avoid.map(function (a) { return ({ itchy: 'itchy fabrics', clingy: 'clingy fabrics', stiff: 'stiff fabrics', sheer: 'sheer fabrics', shiny: 'shiny fabrics' })[a]; })) + ', so we left them out of your picks.');
     var avoidHtml = '<div class="hx-box" style="margin-top:12px"><h6>Fabrics to skip or use carefully, for you</h6><ul class="hx-ul">' + avoid.map(function (x) { return '<li>' + E(x) + (/[.!?]$/.test(x) ? '' : '.') + '</li>'; }).join('') + '</ul></div>';
-    var sub = 'Picked for your ' + E(String(r.bodyShapeLabel || 'body shape').toLowerCase()) + ' shape' + (pname ? ', your ' + E(pname) + ' style' : '') + (D.works.length ? ' and ' + E(listW(D.works.slice(0, 3).map(function (w) { return OCCN[w]; }))) : '') + '. Touch a fabric before you buy it, since weight and finish matter more than the name.';
+    var sub = 'Picked for your ' + E(shapeName(r)) + ' shape' + (pname ? ', your ' + E(pname) + ' style' : '') + (D.works.length ? ' and ' + E(listW(D.works.slice(0, 3).map(function (w) { return OCCN[w]; }))) : '') + '. Touch a fabric before you buy it, since weight and finish matter more than the name.';
     return { key: 'fabrics', label: 'Fabrics', html: '<div class="hx-page">' + head('Fabrics that <em>work for you</em>', sub) + '<div class="hx-pgrid">' + tiles + '</div>' + avoidHtml + '</div>' };
+  }
+
+  /* ---------- new pages: at a glance, capsule, outfit recipes, shopping & fit guide, closet audit, session ---------- */
+  function shopLink(r, name, color, kind, idx) {
+    var st = r.stores && r.stores.list; if (!st || !st.length) return '';
+    var pool = st.filter(function (x) { return !x.mode || (x.mode === 'bag' && kind === 'bag') || (x.mode === 'denim' && kind === 'jeans'); });
+    if (!pool.length) return '';
+    var x = pool[idx % pool.length];
+    var q = (x.mode === 'bag' ? color + ' leather bag' : x.mode === 'denim' ? color + ' denim jacket' : color + ' ' + name).trim().toLowerCase();
+    var url = x.url + encodeURIComponent(q).replace(/%20/g, '+');
+    return '<a class="hx-sl" href="' + E(url) + '" target="_blank" rel="noopener" data-href="' + E(url) + '">' + E(x.name) + '</a>';
+  }
+  function ruleStrings(r) {
+    var G0 = dirs(r), con = r.contrastLevel || '', hiC = con === 'high' || con === 'mediumHigh', loC = con === 'low' || con === 'mediumLow';
+    return [
+      hiC ? 'Pair a bold color with a deep neutral. Your contrast carries it.' : loC ? 'Stay in one color family and keep contrast gentle.' : 'Wear your brightest color closest to your face.',
+      (G0.quiet.indexOf('hips') > -1 || G0.quiet.indexOf('midsection') > -1) ? 'Neutrals on your lower half, color on top.' : G0.show.indexOf('legs') > -1 ? 'Let one color come down to your legs.' : 'Keep neutrals low and color on top.',
+      'Finish with your metal tone: ' + String(r.metal || '').split(/\s[—-]\s|—/)[0] + '.'
+    ];
+  }
+  var GOAL_TXT = { event: 'a wedding or special event', job: 'a new job or interview', change: 'a big life change', trip: 'a trip or vacation' };
+  var GOAL_SEARCH = { event: 'wedding guest outfits', job: 'interview outfits', change: 'new chapter outfits', trip: 'vacation outfits' };
+  function pinUrl(q) { return 'https://www.pinterest.com/search/pins/?q=' + encodeURIComponent('trending ' + q); }
+
+  function glanceBlock(r) {
+    var P = pal(r), L = r.life || {}, pers = r.persona || null, season = String(r.seasonLabel || '').replace(/\s*✦/, '');
+    var arch = function (c) { return '<span class="hx-ar"><i style="background:' + E(c.h) + '"></i><b>' + E(c.n) + '</b></span>'; };
+    var avoid = (r.avoidSwatches || []).slice(0, 4);
+    var rl = ruleStrings(r).map(function (x, i) { return '<div class="hx-chk"><b>' + (i + 1) + '</b><p>' + E(x) + '</p></div>'; }).join('');
+    var nextBox;
+    if (L.goal && L.goal !== 'none' && GOAL_TXT[L.goal]) { var u = pinUrl(String(P.sig[0].n).toLowerCase() + ' ' + GOAL_SEARCH[L.goal]); nextBox = '<div class="hx-box"><h6>Your next up</h6><p>You told us about ' + E(GOAL_TXT[L.goal]) + (L.goalDate ? ' on ' + E(L.goalDate) : '') + '. Build it from your signature colors. <a class="hx-pin" href="' + E(u) + '" target="_blank" rel="noopener" data-href="' + E(u) + '">See ideas on Pinterest</a></p></div>'; }
+    else nextBox = '<div class="hx-box"><h6>Start here</h6><p>Begin with the pieces marked <b>Start here</b> in your starter capsule. They work with everything else.</p></div>';
+    return { key: 'glance', label: 'Your Style at a Glance', html: '<div class="hx-page hx-lg">' + head('Your style <em>at a glance</em>', 'Your whole report on one page. Screenshot it and keep it on your phone.')
+      + '<div class="hx-3"><div class="hx-box"><h6>Color season</h6><p><b>' + E(season) + '</b><br>' + E(String(r.metal || '').split(/\s[—-]\s|—/)[0]) + '</p></div><div class="hx-box"><h6>Body shape</h6><p><b>' + E(r.bodyShapeLabel || '') + '</b><br>' + E(r.bodyGoal || '') + '</p></div><div class="hx-box"><h6>Style persona</h6><p><b>' + E(pers ? pers.name : '') + '</b><br>' + E(pers && pers.formula ? pers.formula.join(' + ') : '') + '</p></div></div>'
+      + label('Your colors') + '<div class="hx-box"><h6>Power neutrals</h6><div class="hx-ars">' + P.neu.map(arch).join('') + '</div><h6 style="margin-top:10px">Signature colors</h6><div class="hx-ars">' + P.sig.map(arch).join('') + '</div><h6 style="margin-top:10px">Accents</h6><div class="hx-ars">' + P.acc.map(arch).join('') + '</div></div>'
+      + (avoid.length ? label('Colors to avoid near your face') + '<div class="hx-box"><div class="hx-ars">' + avoid.map(arch).join('') + '</div></div>' : '')
+      + label('Your three rules') + '<div class="hx-1">' + rl + '</div>'
+      + '<div class="hx-2" style="margin-top:12px">' + nextBox + (pers && pers.rule ? '<div class="hx-box"><h6>Your permission slip</h6><p>' + E(pers.rule) + '</p></div>' : '') + '</div></div>' };
+  }
+
+  function capsulePieces(r) {
+    var P = pal(r), N = P.neu, S = P.sig, A = P.acc, L = r.life || {};
+    var key = DRESS_ROWS[r.bodyShapeKey] ? r.bodyShapeKey : 'rectangle', D = DRESS_ROWS[key];
+    var tops = D.rows[0][2].concat(D.rows[1][2]).filter(function (g, i, a) { return a.indexOf(g) === i && g !== 'vneck'; });
+    var pro = key === 'hourglass' || key === 'rectangle';
+    var skirt = pro && L.dressCode === 'formal' ? 'pencil' : (D.rows[2][2].indexOf('askirt') > -1 ? 'askirt' : 'trouser');
+    var dr = D.rows[3][2], dress1 = pro ? 'sheath' : dr[0], dress2 = dr.filter(function (g) { return g !== dress1; })[0] || 'flare';
+    var statement = pickGarments(r, D, ['dates'])[0].top;
+    var lightN = N.slice().sort(function (a, b) { return lumH(b.h) - lumH(a.h); })[0];
+    var heelN = { flats: 'Flats or loafers', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes you can walk in';
+    var cold = L.climate === 'cold' || L.climate === 'mixed', coatN = cold ? 'Long coat' : 'Light trench or jacket';
+    var out = [
+      { k: 'blazer', n: 'Tailored blazer', c: N[3], start: true },
+      { k: 'trouser', n: 'Tailored trousers', c: N[1], start: true },
+      { k: 'blouse', n: 'Button-up blouse', c: lightN, start: true },
+      { k: 'vneck', n: 'V-neck top', c: S[0], start: true },
+      { k: statement, n: NAMES[statement] || 'Statement top', c: S[2] },
+      { k: skirt, n: NAMES[skirt] || 'Skirt', c: N[3] },
+      { k: 'trouser', n: 'Dark jeans', c: N[2], kind: 'jeans' },
+      { k: dress1, n: (NAMES[dress1] || 'A-line') + ' dress for work', c: S[3], dressy: false },
+      { k: dress2, n: (NAMES[dress2] || 'Fit and flare') + ' dress for dates', c: S[1], start: L.goal === 'event' },
+      { k: 'coat', n: coatN, c: N[2] },
+      { k: 'bag', n: 'Structured bag', c: A[0], kind: 'bag' },
+      { k: 'shoe', n: heelN, c: N[3], kind: 'shoe' }
+    ];
+    return out;
+  }
+  function capsuleBlock(r) {
+    var pcs = capsulePieces(r), L = r.life || {};
+    var tiles = pcs.map(function (p, i) {
+      var link = shopLink(r, p.n.replace(/ for (work|dates)$/, '').replace(/^Dark /, ''), p.c.n, p.kind || '', i);
+      return '<div class="hx-cp">' + (p.start ? '<em>Start here</em>' : '') + G(p.k, p.c.h) + '<h6>' + E(p.n) + '</h6><small>' + E(p.c.n) + '</small>' + (link ? '<div class="hx-sls">' + link + '</div>' : '') + '</div>';
+    }).join('');
+    var sec = (L.shopHabits || []).some(function (x) { return x === 'secondhand' || x === 'resale'; }) && r.stores && r.stores.secondhand ? '<div class="hx-box" style="margin-top:10px"><h6>You shop secondhand, so look here too</h6><p>' + r.stores.secondhand.map(function (x, i) { var q = String(pcs[i * 4].c.n + ' ' + (i === 2 ? 'bag' : pcs[i * 4].n)).toLowerCase(); var u = x.url + encodeURIComponent(q).replace(/%20/g, '+'); return '<a class="hx-sl" href="' + E(u) + '" target="_blank" rel="noopener" data-href="' + E(u) + '">' + E(x.name) + '</a>'; }).join(' ') + '</p></div>' : '';
+    var sub = '12 pieces to buy first, in your colors and for your ' + E(shapeName(r)) + ' shape' + (L.dressCode === 'formal' ? ', with a formal work wardrobe in mind' : '') + '. Budget per piece: ' + E((r.shopTier && r.shopTier.label) || 'Mid-range ($75–$200)') + '.';
+    return { key: 'capsule', label: 'Starter Capsule', html: '<div class="hx-page">' + head('Your starter <em>capsule</em>', sub) + '<div class="hx-cap4">' + tiles + '</div>' + sec + '<div class="hx-tip" style="margin-top:12px">Every piece should work with at least three others. Buy the Start here pieces first, then fill in the rest over a few months.</div></div>' };
+  }
+
+  function recipesBlock(r) {
+    var P = pal(r), N = P.neu, S = P.sig, A = P.acc, L = r.life || {}, D0 = dirs(r);
+    var key = DRESS_ROWS[r.bodyShapeKey] ? r.bodyShapeKey : 'rectangle', D = DRESS_ROWS[key];
+    var oc = (D0.works.length ? D0.works : ['everyday', 'work', 'dates']).slice(0, 3); while (oc.length < 3) { var extra = ['everyday', 'work', 'dates', 'photos'].filter(function (x) { return oc.indexOf(x) < 0; })[0]; oc.push(extra); }
+    var picks = pickGarments(r, D, [oc[0], oc[0], oc[1], oc[1], oc[2], oc[2]]);
+    var combos = [[N[1], S[0], A[0]], [N[3], S[2], A[0]], [N[0], S[1], A[1]], [N[2], S[3], A[0]], [N[3], S[4], A[2]], [N[1], S[5], A[1]]];
+    var cold = L.climate === 'cold', layerK = cold ? 'coat' : 'blazer', layerN = cold ? 'Coat' : 'Tailored blazer';
+    var heelN = { flats: 'Flats', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes';
+    var cards = picks.map(function (pk, i) {
+      var c = combos[i], o = OCC[oc[Math.floor(i / 2)]] || OCC.everyday, a = i % 2 === 0;
+      var items = a ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], ['shoe', c[2], heelN]] : [[pk.dr, c[1], (NAMES[pk.dr] || 'A-line') + ' dress'], [layerK, c[0], layerN], ['bag', c[2], 'Bag']];
+      var fg = items.map(function (it) { return '<div>' + G(it[0], it[1].h) + '<span>' + E(it[2]) + '<br><i>' + E(it[1].n) + '</i></span></div>'; }).join('');
+      var l1 = shopLink(r, items[0][2], items[0][1].n, '', i), l2 = shopLink(r, items[1][2], items[1][1].n, items[1][0] === 'bag' ? 'bag' : '', i + 1);
+      return '<div class="hx-rc"><h5>' + o[0] + ' look ' + (a ? 1 : 2) + '</h5><div class="hx-rfg">' + fg + '</div><div class="hx-rls">Shop: ' + l1 + ' ' + l2 + '</div></div>';
+    }).join('');
+    return { key: 'recipes', label: 'Outfit Recipes', html: '<div class="hx-page">' + head('Outfit <em>recipes</em>', 'Six complete outfits for ' + E(listW(oc.map(function (w) { return OCCN[w]; }))) + ', built from your colors. Each one is a starting point to remix.') + '<div class="hx-rgrid">' + cards + '</div><div class="hx-tip" style="margin-top:12px">Want these styled from your own closet? Try Style-11 for a free outfit idea any time, or book a session.</div></div>' };
+  }
+
+  var SHAPE_FIT = {
+    rectangle: ['Check that the waist is defined, with a belt or a fitted seam, so the outfit is not boxy.', 'Look for fullness at the shoulders and bust, or at the hips, to build shape.', 'Sit down in it. Nothing should pull at the waist.', 'Tailor the waist of jackets and dresses for definition.'],
+    hourglass: ['Buy for your largest measurement, bust or hips, and tailor the waist.', 'Skip boxy cuts that hide your waist.', 'Check that stretchy fabrics follow you without clinging.', 'Belts and seams should sit at your natural waist.'],
+    pear: ['Buy bottoms for your hips and tailor the waist.', 'Check that pockets lie flat at the hip.', 'Look for interest and structure on top.', 'Choose bottoms with a clean line and a little stretch.'],
+    apple: ['Try mid-rise bottoms. Nothing should dig in at the waist.', 'Check that tops skim and do not cling at the middle.', 'Look for V-necks and open necklines.', 'Choose fabrics with some structure so they fall away from the body.'],
+    inverted: ['Buy tops for your shoulders and bottoms for your hips.', 'Check that the shoulder seam sits at your shoulder point.', 'Look for volume or detail at the hem.', 'Avoid shoulder pads and heavy shoulder details.']
+  };
+  function fitGuideBlock(r) {
+    var L = r.life || {}, key = SHAPE_FIT[r.bodyShapeKey] ? r.bodyShapeKey : 'rectangle', tier = (r.shopTier && r.shopTier.key) || 'mid';
+    var alt = [];
+    if (r.height === 'petite') alt.push('Hemming trousers, skirts and sleeves is the best money you can spend on a petite frame.');
+    if (r.height === 'tall') alt.push('Check sleeve and trouser length first. Tall sizes or a let-down hem can fix both.');
+    if (r.proportion === 'longTorso') alt.push('With a longer torso, check that tops are long enough and that the rise sits at your natural waist.');
+    if (r.proportion === 'longLegs') alt.push('With longer legs, check the inseam before anything else, since many trousers run short.');
+    alt.push('A good tailor can fix a waist, hem or sleeve for far less than a new piece costs.');
+    var sizes = L.sizes && (L.sizes.top || L.sizes.bottom || L.sizes.shoe) ? '<p>Your usual sizes: ' + [L.sizes.top && 'tops ' + E(L.sizes.top), L.sizes.bottom && 'bottoms ' + E(L.sizes.bottom), L.sizes.shoe && 'shoes ' + E(L.sizes.shoe)].filter(Boolean).join(', ') + '. Sizes change from brand to brand, so check the measurements.</p>' : '';
+    var BUD = { budget: 'At the everyday level, spend on fit, not labels. A tailored $40 pair beats an untailored $120 pair. Buy your most-worn pieces in the best fabric you can afford.', mid: 'In the mid range, buy fewer, better pieces. Spend on outerwear, trousers and shoes, and save on trend items.', invest: 'At the investment level, buy a few pieces that last for years: outerwear, a tailored blazer and one statement piece. Always check the cost per wear.' };
+    var HAB = { store: 'In stores: take your phone with your palette and three rules, and try each piece with the shoes you will wear.', online: 'Online: check the fabric content and the return policy, and read the measurements, not just the size.', secondhand: 'Secondhand: search by fabric and measurements. Check seams, pilling and smell, and tailor after you buy.', resale: 'Designer resale: look for authentication, check the condition notes, and compare to the retail price.' };
+    var habs = (L.shopHabits || []).map(function (h) { return HAB[h]; }).filter(Boolean);
+    var stores = r.stores && r.stores.list ? r.stores.list.slice(0, 8).map(function (x) { return '<span class="hx-sp">' + E(x.name) + '</span>'; }).join('') : '';
+    var bx = function (t, body) { return '<div class="hx-box"><h6>' + t + '</h6>' + body + '</div>'; };
+    var ul = function (a) { return '<ul class="hx-ul">' + a.map(function (x) { return '<li>' + E(x) + '</li>'; }).join('') + '</ul>'; };
+    return { key: 'fitguide', label: 'Shopping & Fit Guide', html: '<div class="hx-page">' + head('Shopping &amp; <em>fit guide</em>', 'How to try things on, what to tailor and how to spend, for your ' + E(shapeName(r)) + ' shape.')
+      + '<div class="hx-2">' + bx('Try-on checklist for your shape', ul(SHAPE_FIT[key])) + bx('Alterations worth paying for', ul(alt)) + '</div>'
+      + '<div class="hx-2" style="margin-top:10px">' + bx('Reading size charts', '<p>Measure your bust, waist, hips and inseam once and save them on your phone. Compare them to each brand’s chart, since a size 8 at one store can be a 12 at another.</p>' + sizes) + bx('Spending, for your budget', '<p>' + E(BUD[tier] || BUD.mid) + '</p>') + '</div>'
+      + '<div class="hx-2" style="margin-top:10px">' + bx('The five-minute fit test', ul(['Raise both arms. Nothing should pull or ride up.', 'Sit, then stand. Check the waist, rise and hem.', 'Walk a few steps and bend over. Check for gaps and pulling.', 'Look at the back in a mirror, in daylight if you can.'])) + bx('Before you buy', ul(['Does it work with at least three things you own?', 'Do you have a place to wear it this month?', 'Is it in your colors and your shape rules?', 'Can you care for it the way it needs?'])) + '</div>'
+      + (habs.length ? '<div style="margin-top:10px">' + bx('How you like to shop', ul(habs)) + '</div>' : '')
+      + (stores ? '<div style="margin-top:10px">' + bx('Stores matched to your age and budget', '<div class="hx-sps">' + stores + '</div>') + '</div>' : '')
+      + '</div>' };
+  }
+
+  function auditBlock(r) {
+    var P = pal(r), L = r.life || {}, pers = r.persona || null, key = DRESS_ROWS[r.bodyShapeKey] ? r.bodyShapeKey : 'rectangle', D = DRESS_ROWS[key];
+    var avoid = (r.avoidSwatches || []).slice(0, 4), wheel = P.neu.slice(0, 3).concat(P.sig.slice(0, 4));
+    var dots = function (a) { return '<span class="hx-dots">' + a.map(function (c) { return '<i style="background:' + E(c.h) + '" title="' + E(c.n) + '"></i>'; }).join('') + '</span>'; };
+    var keep = ['It uses a color from your wheel ' + dots(wheel), 'It follows your shape rules: ' + E(D.rows[1][1].toLowerCase()) + '.', pers ? 'It fits your ' + E(pers.name) + ' style.' : 'It feels like you.', 'You have worn it in the last year.', 'It is comfortable' + (L.comfortFab && L.comfortFab.length && L.comfortFab.indexOf('none') < 0 ? ', with none of the fabrics you avoid.' : '.')];
+    var tailor = ['The color and fabric are right, but the length is not. Hem it.', 'It fits your hips or your bust, but not your waist.', 'The sleeves or the trouser length are off.', 'You love the piece but it looks tired. Try pressing, dyeing or new buttons.'];
+    var go = ['It is one of your avoid colors near your face ' + dots(avoid), 'It does not fit and cannot be tailored.', 'You have not worn it in a year and do not miss it.', L.comfortFab && L.comfortFab.indexOf('itchy') > -1 ? 'It is itchy or scratchy.' : 'It is uncomfortable to wear.'];
+    var col = function (t, a) { return '<div class="hx-box"><h6>' + t + '</h6>' + a.map(function (x) { return '<p class="hx-ck"><span></span><span>' + x + '</span></p>'; }).join('') + '</div>'; };
+    return { key: 'audit', label: 'Closet Audit Checklist', html: '<div class="hx-page">' + head('Closet audit <em>checklist</em>', 'Do this before you shop. Hold each piece up and ask these questions.')
+      + col('Keep it if…', keep) + '<div class="hx-2" style="margin-top:10px">' + col('Tailor it if…', tailor) + col('Let it go if…', go) + '</div>'
+      + '<div class="hx-3" style="margin-top:10px"><div class="hx-box"><h6>Closet math</h6><p>Aim for about 60% neutrals, 30% signature colors and 10% accents.</p></div><div class="hx-box"><h6>Fill the gaps</h6><p>Compare what you keep to your starter capsule and note what is missing.</p></div><div class="hx-box"><h6>For your session</h6><p>Photograph your keeps, your tailor pile and your gaps, and bring them to your stylist.</p></div></div><div class="hx-3" style="margin-top:10px"><div class="hx-box hx-tally"><h6>Keep</h6><p>______</p></div><div class="hx-box hx-tally"><h6>Tailor</h6><p>______</p></div><div class="hx-box hx-tally"><h6>Let go</h6><p>______</p></div></div></div>' };
+  }
+
+  function sessionBlock(r) {
+    var P = pal(r), L = r.life || {}, pers = r.persona || null, season = String(r.seasonLabel || '').replace(/\s*✦/, '');
+    var DC = { formal: 'Business formal', businessCasual: 'Business casual', creative: 'Creative or casual workplace', remote: 'Works from home or on video calls', none: 'No work dress code' };
+    var CL = { warm: 'Warm most of the year', mixed: 'Four seasons, mild winters', cold: 'Long, cold winters', varies: 'Changes a lot or travels often' };
+    var HT = { straight: 'Straight', wavy: 'Wavy', curly: 'Curly', coily: 'Coily', protective: 'Protective styles', wig: 'Wigs or extensions' };
+    var rows = [['Color season', season + ' (' + String(r.metal || '').split(/\s[—-]\s|—/)[0] + ')'], ['Body shape', r.bodyShapeLabel || ''], ['Style persona', pers ? pers.name : ''], ['Budget', (r.shopTier && r.shopTier.label) || '']];
+    if (L.dressCode) rows.push(['Work dress code', DC[L.dressCode]]);
+    if (L.climate) rows.push(['Climate', CL[L.climate] + (L.temp === 'hot' ? ', runs hot' : L.temp === 'cold' ? ', runs cold' : '')]);
+    if (L.heel) rows.push(['Heel height', { flats: 'Flats only', low: 'Up to 2 inches', mid: 'Up to 3 inches', high: 'Any height' }[L.heel]]);
+    if (L.hairType) rows.push(['Hair', HT[L.hairType] + (L.hairLen ? ', ' + L.hairLen : '')]);
+    if (L.sizes && (L.sizes.top || L.sizes.bottom || L.sizes.shoe)) rows.push(['Sizes', [L.sizes.top && 'tops ' + L.sizes.top, L.sizes.bottom && 'bottoms ' + L.sizes.bottom, L.sizes.shoe && 'shoes ' + L.sizes.shoe].filter(Boolean).join(', ')]);
+    if (L.goal && L.goal !== 'none') rows.push(['Coming up', GOAL_TXT[L.goal] + (L.goalDate ? ', ' + L.goalDate : '')]);
+    if (L.comfortFab && L.comfortFab.length && L.comfortFab.indexOf('none') < 0) rows.push(['Avoids', L.comfortFab.join(', ')]);
+    if (L.inspo) rows.push(['Inspiration', L.inspo]);
+    var tbl = '<div class="hx-snap">' + rows.map(function (x) { return '<div><b>' + E(x[0]) + '</b><span>' + E(x[1]) + '</span></div>'; }).join('') + '</div>';
+    var qs = ['Which three pieces from my capsule should I buy first?', 'What should I tailor, and what should I let go?', 'How do I wear my signature colors without looking too matchy?', pers ? 'How do I keep my ' + pers.name + ' style while building a ' + (L.dressCode === 'formal' ? 'formal work wardrobe?' : 'wardrobe I can wear every day?') : 'How do I build a wardrobe I can wear every day?', 'Which stores and price points should I focus on?'];
+    if (L.goal && L.goal !== 'none') qs.push('Can we plan my outfit for ' + GOAL_TXT[L.goal] + (L.goalDate ? ' on ' + L.goalDate : '') + '?');
+    var ul = function (a) { return '<ul class="hx-ul">' + a.map(function (x) { return '<li>' + E(x) + '</li>'; }).join('') + '</ul>'; };
+    var bring = ['Photos of your closet by zone: tops, bottoms, dresses, outerwear, shoes, bags and accessories.', 'A full-length photo in natural light: front, side and back.', 'Three favorite outfits and three pieces you never wear.', 'This report, saved on your phone.'];
+    return { key: 'session', label: 'Bring to Your Session', html: '<div class="hx-page">' + head('Bring this to your <em>session</em>', 'Your style snapshot, the questions to ask and what to photograph. It saves your stylist hours.')
+      + label('Your style snapshot', true) + tbl + '<div class="hx-2" style="margin-top:12px"><div class="hx-box"><h6>Questions to ask your stylist</h6>' + ul(qs) + '</div><div class="hx-box"><h6>What to bring or photograph</h6>' + ul(bring) + '</div></div>'
+      + '<div class="hx-2" style="margin-top:12px"><div class="hx-box hx-lines"><h6>My top three goals</h6><p>1. ______________________________</p><p>2. ______________________________</p><p>3. ______________________________</p></div><div class="hx-box hx-lines"><h6>Notes</h6><p>______________________________</p><p>______________________________</p><p>______________________________</p></div></div>'
+      + '<div class="hx-tip" style="margin-top:12px">Ready to turn this into outfits? Your $40 is credited toward any 1:1 package. <a class="hx-pin" style="color:#fff" href="https://herstylevault.com/book.html" target="_blank" rel="noopener" data-href="https://herstylevault.com/book.html">Book a free consultation</a></div></div>' };
   }
 
   function guidanceExtra(r) {
@@ -389,7 +582,7 @@
     return '<div class="hx-asked"><b>You asked us to start with</b> ' + out.join(' &middot; ') + '. Look for those pages first.</div>';
   }
 
-  var CSS = '.hx-pin{display:block;margin-top:5px;font-size:0.54rem;letter-spacing:0.08em;text-transform:uppercase;color:#7A1321;text-decoration:underline;font-weight:600;}.hx-pinrow{margin:6px 0 0;font-size:0.68rem;color:#3F3C38;}.hx-pinrow .hx-pin{display:inline;font-size:0.62rem;margin:0 0 0 4px;}.hx-page{min-height:880px;}.hx-1{display:grid;gap:6px;}.hx-goal{margin-top:14px;background:#4E0B14;color:#fff;border-radius:3px;padding:12px 18px;}.hx-goal h6{margin:0 0 4px;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:#E8D8D2;}.hx-goal p{margin:0;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.15rem;}.hx-tipc div{display:flex;align-items:center;gap:6px;font-size:0.72rem;line-height:1.35;color:#3F3C38;}.hx-fg{display:flex;gap:10px;margin:6px 0 2px;}.hx-fg>div{flex:1;text-align:center;}.hx-fg svg{width:100%;height:46px;display:block;}.hx-fg span{display:block;font-size:0.6rem;color:#3F3C38;}.hx-sub{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:#7A1321;margin:0 0 0.5rem;}'
+  var CSS = '.hx-ars{display:flex;flex-wrap:wrap;gap:6px 12px}.hx-ar{display:inline-flex;align-items:center;gap:6px;font-size:0.68rem;color:#3F3C38}.hx-ar i{display:block;width:20px;height:26px;border-radius:10px 10px 3px 3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}.hx-ar b{font-weight:500}.hx-cap4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.hx-cp{position:relative;text-align:center;background:#ECE8E2;border-radius:14px;padding:12px 6px 10px}.hx-cp svg{width:100%;height:88px;display:block}.hx-cp h6{margin:4px 0 0;font-size:0.66rem;font-weight:600;color:#181716;line-height:1.25}.hx-cp small{display:block;font-size:0.58rem;color:#6B6862}.hx-cp em{position:absolute;top:6px;left:6px;font-style:normal;font-size:0.46rem;letter-spacing:0.1em;text-transform:uppercase;background:#7A1321;color:#fff;border-radius:99px;padding:2px 6px}.hx-sls{margin-top:3px}.hx-sl{display:inline-block;font-size:0.54rem;letter-spacing:0.06em;text-transform:uppercase;color:#7A1321;text-decoration:underline;font-weight:600;margin:0 3px 0 0}.hx-rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hx-rc{background:#ECE8E2;border-radius:14px;padding:14px 14px}.hx-rc h5{margin:0 0 4px;font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:600}.hx-rfg{display:flex;gap:6px}.hx-rfg>div{flex:1;text-align:center}.hx-rfg svg{width:100%;height:92px;display:block}.hx-rfg span{display:block;font-size:0.64rem;color:#3F3C38;line-height:1.3}.hx-rfg i{font-style:normal;color:#6B6862}.hx-rls{margin-top:8px;font-size:0.62rem;color:#6B6862}.hx-tally p{font-size:0.9rem!important;letter-spacing:0.1em}.hx-lines p{font-size:0.8rem!important;margin:10px 0 0!important;color:#6B6862!important}.hx-lg .hx-box p{font-size:0.86rem}.hx-lg .hx-ar{font-size:0.82rem}.hx-lg .hx-ar i{width:26px;height:34px;border-radius:13px 13px 4px 4px}.hx-lg .hx-box{padding:0.95rem 1.2rem}.hx-lg .hx-chk p{font-size:0.82rem}.hx-lg .hx-chk{padding:10px 14px}.hx-ck{font-size:0.8rem}.hx-sps{display:flex;flex-wrap:wrap;gap:6px}.hx-sp{border:1px solid #DCD8D0;border-radius:99px;padding:3px 10px;font-size:0.66rem;color:#7A1321;background:#fff}.hx-ck{display:flex;gap:8px;align-items:flex-start;margin:0 0 5px!important}.hx-ck>span:first-child{flex:0 0 11px;height:11px;border:1.4px solid #7A1321;border-radius:2px;margin-top:3px}.hx-dots{display:inline-flex;gap:3px;vertical-align:middle;margin-left:4px}.hx-dots i{display:block;width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}.hx-snap{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}.hx-snap>div{display:flex;gap:8px;border-bottom:1px solid #DCD8D0;padding:7px 0;font-size:0.78rem;color:#3F3C38}.hx-snap b{flex:0 0 92px;font-size:0.56rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;font-weight:600;padding-top:2px}.hx-pin{display:block;margin-top:5px;font-size:0.54rem;display:block;margin-top:5px;font-size:0.54rem;letter-spacing:0.08em;text-transform:uppercase;color:#7A1321;text-decoration:underline;font-weight:600;}.hx-pinrow{margin:6px 0 0;font-size:0.68rem;color:#3F3C38;}.hx-pinrow .hx-pin{display:inline;font-size:0.62rem;margin:0 0 0 4px;}.hx-page{min-height:880px;}.hx-1{display:grid;gap:6px;}.hx-goal{margin-top:14px;background:#4E0B14;color:#fff;border-radius:3px;padding:12px 18px;}.hx-goal h6{margin:0 0 4px;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:#E8D8D2;}.hx-goal p{margin:0;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.15rem;}.hx-tipc div{display:flex;align-items:center;gap:6px;font-size:0.72rem;line-height:1.35;color:#3F3C38;}.hx-fg{display:flex;gap:10px;margin:6px 0 2px;}.hx-fg>div{flex:1;text-align:center;}.hx-fg svg{width:100%;height:46px;display:block;}.hx-fg span{display:block;font-size:0.6rem;color:#3F3C38;}.hx-sub{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:#7A1321;margin:0 0 0.5rem;}'
     + '.hx-box{background:#ECE8E2;border-radius:12px;padding:0.75rem 0.95rem;}.hx-box h6{margin:0 0 5px;font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:#7A1321;font-weight:600;}.hx-box p{margin:0;font-size:0.74rem;line-height:1.55;color:#3F3C38;}.hx-box p b{font-weight:600;}'
     + '.hx-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}.hx-3b{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}.hx-2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;}.hx-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}'
     + '.hx-dot{display:inline-block;width:18px;height:18px;border-radius:50%;margin-right:6px;vertical-align:middle;}'
@@ -404,10 +597,10 @@
     + '.hx-tip{margin-top:16px;background:#7A1321;color:#fff;padding:11px 16px;border-radius:3px;text-align:center;font-size:0.7rem;line-height:1.5;letter-spacing:0.02em;}'
     + '.hx-grow{display:flex;gap:14px;align-items:center;margin:0 0 8px;}.hx-fig{flex:0 0 66px;width:66px;height:116px;background:#F7E4DD;border:1px solid rgba(122,19,33,.3);border-radius:4px;padding:3px;box-sizing:border-box;}.hx-fig svg{width:100%;height:100%;display:block;}.hx-gb{flex:1;}.hx-gb h5{margin:0;font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:600;}.hx-gis{display:flex;gap:10px;}.hx-gi{flex:1;text-align:center;}.hx-gm{width:100%;height:92px;display:block;margin:0 auto;}.hx-gi span{display:block;font-size:0.66rem;color:#3F3C38;margin-top:1px;}.hx-gb p{margin:3px 0 0;font-size:0.66rem;font-weight:600;color:#7A1321;}'
     + '.hx-occ{background:#ECE8E2;border-radius:14px;padding:8px 16px;margin:0 0 6px;}.hx-occh{display:flex;align-items:center;gap:12px;}.hx-occh h4{margin:0;font-family:"Cormorant Garamond",serif;font-size:1.4rem;font-weight:600;}.hx-fm{display:flex;gap:14px;margin:6px 0 4px;font-size:0.7rem;color:#3F3C38;}.hx-fm b{font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;margin-right:5px;}.hx-try{margin:2px 0 4px;font-size:0.72rem;color:#3F3C38;}.hx-try b{color:#7A1321;}.hx-occ ul{margin:0;padding-left:18px;font-size:0.7rem;line-height:1.5;color:#3F3C38;}'
-    + '.hx-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;}.hx-why{color:#7A1321!important;font-style:italic;font-size:0.64rem!important;}.hx-ul{margin:0;padding-left:16px;font-size:0.7rem;line-height:1.5;color:#3F3C38;}.hx-pc{height:112px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 3px #fff,0 4px 8px -4px rgba(0,0,0,.3);}.hx-pc svg{width:100%;height:100%;display:block;}.hx-pt h5{margin:10px 0 0;font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:600;}.hx-pt small{display:block;font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;font-weight:600;}.hx-pt p{margin:3px 0 0;font-size:0.7rem;line-height:1.45;color:#3F3C38;}'
+    + '.hx-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;}.hx-why{color:#7A1321!important;font-style:italic;font-size:0.64rem!important;}.hx-ul{margin:0;padding-left:16px;font-size:0.78rem;line-height:1.55;color:#3F3C38;}.hx-pc{height:112px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 3px #fff,0 4px 8px -4px rgba(0,0,0,.3);}.hx-pc svg{width:100%;height:100%;display:block;}.hx-pt h5{margin:10px 0 0;font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:600;}.hx-pt small{display:block;font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;font-weight:600;}.hx-pt p{margin:3px 0 0;font-size:0.7rem;line-height:1.45;color:#3F3C38;}'
     + '.hx-disc{margin:12px 0 0;border:1px solid #D9CFC8;border-radius:8px;padding:9px 14px;font-size:0.62rem;line-height:1.5;color:#5a5551;background:#fff;}.hx-disc b{display:block;font-size:0.54rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;margin-bottom:2px;}.hx-asked{margin:14px auto 0;max-width:520px;background:#fff;border:1px solid #E3D8D2;border-radius:10px;padding:10px 16px;font-size:0.74rem;line-height:1.5;color:#3F3C38;text-align:center;}.hx-asked b{color:#7A1321;}';
 
   function ensureCss() { if (document.getElementById('hx-css')) return; var s = document.createElement('style'); s.id = 'hx-css'; s.textContent = CSS; document.head.appendChild(s); }
   ensureCss();
-  window.HX = { fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock, asked: askedHtml };
+  window.HX = { glance: glanceBlock, capsule: capsuleBlock, recipes: recipesBlock, fitguide: fitGuideBlock, audit: auditBlock, session: sessionBlock, fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock, asked: askedHtml };
 })();

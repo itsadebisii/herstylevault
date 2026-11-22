@@ -46,7 +46,7 @@ async function save(store, sessionId, report, email, fingerprint) {
 // What a shared link shows: the report without the age bracket, the full name or the client flag. Never the photo or email.
 function publicView(report) {
   const first = String((report && report.clientName) || '').trim().split(/\s+/)[0].slice(0, 30);
-  return Object.assign({}, report, { clientName: first || 'a friend', ageBracket: '', matureAge: false, isReturning: false, depthKey: '', directions: {} });
+  return Object.assign({}, report, { clientName: first || 'a friend', ageBracket: '', matureAge: false, isReturning: false, depthKey: '', directions: {}, life: {} });
 }
 
 async function readShared(store, token) {

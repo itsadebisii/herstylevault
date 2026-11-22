@@ -16,6 +16,7 @@ const {
   computeIntensity,
   computePersona,
   buildShopLinks,
+  storeListFor,
   shopTier,
   isMatureAge
 } = require('./lib/knowledge');
@@ -383,6 +384,8 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     ageBracket: answers.ageBracket || '',
     depthKey: DEPTH_KEYS.indexOf(answers.depth) > -1 ? answers.depth : '',
     directions: cleanDirections(answers),
+    life: cleanLife(answers),
+    stores: storeListFor(answers),
     contrastLevel: ['high','mediumHigh','medium','mediumLow','low'].indexOf(answers.contrast) > -1 ? answers.contrast : '',
     chromaKey: axes.chroma || '',
     styleGrav: ['flowy','fitted','waist','oversized','layered','cropped','bodyskim','sets','mix'].indexOf(answers.styleGrav) > -1 ? answers.styleGrav : '',
@@ -409,6 +412,29 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     headers: Object.assign({ 'content-type': 'application/json' }, saved ? { 'x-hsv-saved': '1' } : {}),
     body: JSON.stringify(saved ? Object.assign({}, report, { shareToken: saved }) : report)
   };
+}
+
+/* Optional "life and details" answers: only known options or short plain text are ever kept. */
+const LIFE_OPTS = {
+  dressCode: ['formal','businessCasual','creative','remote','none'],
+  climate: ['warm','mixed','cold','varies'],
+  temp: ['hot','cold','between'],
+  heel: ['flats','low','mid','high'],
+  goal: ['none','event','job','change','trip'],
+  hairType: ['straight','wavy','curly','coily','protective','wig'],
+  hairLen: ['short','medium','long']
+};
+const LIFE_MULTI = { comfortFab: ['itchy','clingy','stiff','sheer','shiny','none'], shopHabits: ['store','online','secondhand','resale'] };
+const plainText = (v, n) => String(v == null ? '' : v).replace(/[^A-Za-z0-9 ,.'&:\/\-_?=#@]/g, '').slice(0, n).trim();
+function cleanLife(a) {
+  const out = {};
+  Object.keys(LIFE_OPTS).forEach(k => { out[k] = LIFE_OPTS[k].indexOf(a[k]) > -1 ? a[k] : ''; });
+  Object.keys(LIFE_MULTI).forEach(k => { out[k] = (Array.isArray(a[k]) ? a[k] : []).filter(x => LIFE_MULTI[k].indexOf(x) > -1).slice(0, 4); });
+  out.goalDate = plainText(a.goalDate, 30);
+  out.sizes = { top: plainText(a.sizeTop, 8), bottom: plainText(a.sizeBottom, 8), shoe: plainText(a.sizeShoe, 8) };
+  out.inspo = plainText(a.inspo, 140);
+  out.any = !!(Object.keys(LIFE_OPTS).some(k => out[k]) || out.comfortFab.length || out.shopHabits.length || out.goalDate || out.inspo || out.sizes.top || out.sizes.bottom || out.sizes.shoe);
+  return out;
 }
 
 exports.handler = async (event) => {

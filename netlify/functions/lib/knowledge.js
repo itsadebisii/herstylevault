@@ -818,7 +818,17 @@ function buildShopLinks(a, signature, keywords, neutrals, shapeKey){
   });
 }
 
+/* Stores for this client's age and price range, for the capsule and outfit-recipe shop links (the browser builds the searches). */
+function storeListFor(a) {
+  const age = STORE_DIR[a && a.ageBracket] ? a.ageBracket : '25-34';
+  const tier = shopTier(a).key;
+  const list = STORE_DIR[age][tier].map(k => ({ key: k, name: S[k][0], url: S[k][1], mode: k === 'coach' ? 'bag' : k === 'levi' ? 'denim' : '' }));
+  const sec = [{ key: 'poshmark', name: 'Poshmark', url: 'https://poshmark.com/search?query=', mode: '' }, { key: 'thredup', name: 'ThredUp', url: 'https://www.thredup.com/products?search_text=', mode: '' }, { key: 'therealreal', name: 'The RealReal', url: 'https://www.therealreal.com/products?keywords=', mode: '' }];
+  return { list, secondhand: sec };
+}
+
 module.exports = {
+  storeListFor,
   buildShopLinks,
   shopTier,
   isMatureAge,

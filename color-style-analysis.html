@@ -31,6 +31,7 @@ body{font-family:var(--font-body);background:var(--surface);color:var(--ink);min
 .opt-ic svg{width:100%;height:100%;}
 .opt-ic.tall{flex:0 0 40px;width:40px;height:72px;}
 .opt{position:relative;}
+.size-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.7rem;margin-bottom:1.2rem}.size-f{display:flex;flex-direction:column;gap:0.3rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft)}.size-f select{padding:0.85rem 0.4rem;border:1px solid var(--line);background:var(--bg);font:inherit;font-size:0.95rem;color:var(--ink);border-radius:4px}
 .own-box{width:100%;border:1px dashed var(--accent);border-radius:6px;padding:0.8rem 1rem;font:inherit;font-size:0.85rem;background:#fff;color:var(--ink);margin:0 0 1rem;}
 .foil{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);}
 .foil.gold{background:linear-gradient(135deg,#f4e3a8 0%,#c9a24a 38%,#8a6a22 52%,#e9d28a 78%,#b5892f 100%);}
@@ -426,6 +427,23 @@ const FAV = [
   {v:'sage',l:'Sage',hex:'#A3A67A',t:'neutral',g:'n'},{v:'burgundy',l:'Burgundy',hex:'#6B1F2E',t:'neutral',g:'n'}
 ];
 const FAV_GROUPS = { e: 'Earthy and golden', c: 'Blues, greens, purples and pinks', n: 'Neutrals' };
+const SIZE_TOP = ['XXS','XS','S','M','L','XL','XXL','1X','2X','3X','4X','5X'];
+const SIZE_BOTTOM = ['0','2','4','6','8','10','12','14','16','18','20','22','24','26','28'];
+const SIZE_SHOE = ['5','5.5','6','6.5','7','7.5','8','8.5','9','9.5','10','10.5','11','11.5','12','13'];
+const LIFE_Q = (n, key, text, options, extra) => Object.assign({ section: 'life', label: 'Optional details', optional: true, n, of: 11, key, text, options: options.map(o => opt(o[0], o[1])) }, extra || {});
+const LIFE_QUESTIONS = [
+  LIFE_Q(1, 'dressCode', "What is your work dress code?", [['Business formal: suits and blazers', 'formal'], ['Business casual: polished but relaxed', 'businessCasual'], ['Creative or casual workplace', 'creative'], ['I work from home or mostly on video calls', 'remote'], ['I do not dress up for work', 'none']]),
+  LIFE_Q(2, 'climate', "What is your climate like most of the year?", [['Warm or hot most of the year', 'warm'], ['Four seasons with mild winters', 'mixed'], ['Long, cold winters', 'cold'], ['It changes a lot, or I travel often', 'varies']]),
+  LIFE_Q(3, 'temp', "Do you tend to run hot or cold?", [['I run hot and get warm easily', 'hot'], ['I run cold and get chilly easily', 'cold'], ['In between', 'between']]),
+  LIFE_Q(4, 'comfortFab', "Are there fabrics or feelings you avoid?", [['Itchy fabrics, like some wool', 'itchy'], ['Clingy or very stretchy', 'clingy'], ['Stiff or heavy', 'stiff'], ['Sheer or see-through', 'sheer'], ['Shiny or slippery', 'shiny'], ['No limits', 'none']], { multi: true, hint: 'Choose any that apply.' }),
+  LIFE_Q(5, 'heel', "How high a heel do you enjoy wearing?", [['Flats only', 'flats'], ['A low block heel, up to 2 inches', 'low'], ['Up to 3 inches', 'mid'], ['Any height, I love a heel', 'high']]),
+  LIFE_Q(6, 'goal', "Do you have an event or goal coming up?", [['Not right now', 'none'], ['A wedding or special event', 'event'], ['A new job or an interview', 'job'], ['A big life change, like a move or a new chapter', 'change'], ['A trip or vacation', 'trip']]),
+  LIFE_Q(7, 'sizes', "What sizes do you usually wear?", [], { type: 'sizes', hint: 'Pick the sizes you buy most often.' }),
+  LIFE_Q(8, 'shopHabits', "How do you like to shop?", [['In stores', 'store'], ['Online', 'online'], ['Secondhand or thrift', 'secondhand'], ['Designer resale', 'resale']], { multi: true, hint: 'Choose any that apply.' }),
+  LIFE_Q(9, 'hairType', "What best describes your hair?", [['Straight', 'straight'], ['Wavy', 'wavy'], ['Curly', 'curly'], ['Coily or kinky', 'coily'], ['Braids, locs or other protective styles', 'protective'], ['Wigs or extensions', 'wig']]),
+  LIFE_Q(10, 'hairLen', "How long is your hair?", [['Short, above the chin', 'short'], ['Medium, chin to shoulders', 'medium'], ['Long, past the shoulders', 'long']]),
+  LIFE_Q(11, 'inspo', "Who or what inspires your style?", [], { type: 'inspo', hint: 'A Pinterest board link, or three people whose style you love.' })
+];
 const COMP_FOLLOWUP = { section: 'color', key: 'compColors', followUp: true, swatches: true, max: 4, showIf: (a) => a.comp === 'custom', text: 'Which colors do you get compliments in? Pick up to 4.' };
 // The answers we keep and send. If someone chose their own colors, the picks decide warm, cool or neutral for the analysis.
 function finalAnswers() {
@@ -439,6 +457,9 @@ function finalAnswers() {
     out.comp = !picks.length ? 'unsure' : (w > c ? 'warm' : (c > w ? 'cool' : 'neutral'));
     out.compCustom = true; out.favColors = picks; out.favOther = String(A.compOther || '').trim().slice(0, 40);
   }
+  ['sizeTop', 'sizeBottom', 'sizeShoe'].forEach(k => { out[k] = String(out[k] || '').replace(/[^A-Za-z0-9.]/g, '').slice(0, 8); });
+  out.goalDate = String(out.goalDate || '').replace(/[^A-Za-z0-9 ,.'\/-]/g, '').slice(0, 30);
+  out.inspo = String(out.inspo || '').replace(/[^A-Za-z0-9 ,.'&:\/\-_?=#@]/g, '').slice(0, 140).trim();
   delete out.compColors; delete out.compOther;
   return out;
 }
@@ -451,6 +472,8 @@ FLOW.push({ type: 'body-part-cover', part: 'body' });
 QUESTIONS.filter(q => q.section === 'body').forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'body-part-cover', part: 'persona' });
 QUESTIONS.filter(q => q.section === 'persona').forEach(q => FLOW.push({ type: 'question', q }));
+FLOW.push({ type: 'body-part-cover', part: 'life' });
+LIFE_QUESTIONS.forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'freetext' });
 FLOW.push({ type: 'photo' });
 
@@ -460,7 +483,7 @@ const totalQuestions = QUESTIONS.length;
 function questionsCompletedSoFar() {
   let n = 0;
   const idx = FLOW.slice(0, step + 1);
-  idx.forEach(f => { if (f.type === 'question' && !f.q.followUp) n++; });
+  idx.forEach(f => { if (f.type === 'question' && !f.q.followUp && !f.q.optional) n++; });
   return n;
 }
 
@@ -473,7 +496,7 @@ function progressHtml() {
 
 function canAdvance() {
   const f = FLOW[step];
-  if (f.type === 'question') { const v = A[f.q.key]; if (f.q.followUp) return (Array.isArray(v) && v.length > 0) || String(A.compOther || '').trim().length >= 2; return Array.isArray(v) ? v.length > 0 : !!v; }
+  if (f.type === 'question') { if (f.q.optional) return true; const v = A[f.q.key]; if (f.q.followUp) return (Array.isArray(v) && v.length > 0) || String(A.compOther || '').trim().length >= 2; return Array.isArray(v) ? v.length > 0 : !!v; }
   return true;
 }
 
@@ -487,7 +510,7 @@ function render() {
       <div class="cover">
         <p class="cover-eyebrow">Signature Style Report</p>
         <h1 class="cover-title">Let's find <em>your</em> colors and shape</h1>
-        <p class="cover-sub">26 quick questions about your natural coloring, body and style, then an optional photo. Takes about 5 minutes — your personalized report is generated right after you check out.</p>
+        <p class="cover-sub">26 quick questions about your natural coloring, body and style, a few optional extras about your life, then an optional photo. Takes about 5 to 8 minutes — your personalized report is generated right after you check out.</p>
         <input type="text" class="nameinput" id="name-field" placeholder="First name" value="${name}" autocomplete="given-name">
         <input type="email" class="nameinput" id="email-field" placeholder="Email address" value="${email}" autocomplete="email">
         <p class="field-note" style="font-size:12px;opacity:.7;margin:.2rem 0 .8rem;line-height:1.5;">By starting, you agree to receive your report and occasional style tips by email. Unsubscribe anytime.</p>
@@ -504,15 +527,24 @@ function render() {
     if (f.part === 'color') {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part One of Three</p>
+          <p class="cover-eyebrow">Part One of Four</p>
           <h1 class="cover-title">Your <em>Color</em> Analysis</h1>
           <p class="cover-sub">8 quick questions about your natural coloring, such as jewelry, sun and your hair, skin and eyes. Choose whatever is closest. There are no wrong answers.</p>
           <button class="cover-btn" id="next-cover-btn">Begin →</button>
         </div>`;
+    } else if (f.part === 'life') {
+      html = `
+        <div class="cover">
+          <p class="cover-eyebrow">Part Four of Four · Optional</p>
+          <h1 class="cover-title">Your <em>Life</em> &amp; Details</h1>
+          <p class="cover-sub">11 optional questions about your work, climate, comfort and shopping habits. They make your outfits, fabrics and shopping plan fit your real life. Skip any you like, or skip them all.</p>
+          <button class="cover-btn" id="next-cover-btn">Continue →</button>
+          <button type="button" class="back-link" id="skip-life-btn" style="display:block;margin:1rem auto 0;">Skip this part</button>
+        </div>`;
     } else if (f.part === 'persona') {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part Three of Three</p>
+          <p class="cover-eyebrow">Part Three of Four</p>
           <h1 class="cover-title">Your <em>Style Persona</em></h1>
           <p class="cover-sub">9 last questions about how you want to feel, where you want your outfits to work, and how you dress and shop. They shape your persona, your outfit ideas and the stores we link you to.</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
@@ -520,7 +552,7 @@ function render() {
     } else {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part Two of Three</p>
+          <p class="cover-eyebrow">Part Two of Four</p>
           <h1 class="cover-title">Your <em>Body &amp; Style</em></h1>
           <p class="cover-sub">8 more questions about how clothes fit you and your proportions.</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
@@ -559,7 +591,8 @@ function render() {
 
 function navHtml(showNext, nextLabel) {
   const isLast = step === FLOW.length - 1;
-  const label = nextLabel || (isLast ? 'Continue to Payment — $40' : 'Next');
+  const fq = FLOW[step] && FLOW[step].q, unanswered = fq && fq.optional && !(fq.type === 'sizes' ? (A.sizeTop || A.sizeBottom || A.sizeShoe) : fq.type === 'inspo' ? String(A.inspo || '').trim() : (Array.isArray(A[fq.key]) ? A[fq.key].length : A[fq.key]));
+  const label = nextLabel || (isLast ? 'Continue to Payment — $40' : (unanswered ? 'Skip' : 'Next'));
   return `<div class="nav">
     <button class="back-link" id="back-btn" ${step === 0 ? 'disabled' : ''}>← Back</button>
     <button class="next-btn" id="next-btn" ${showNext && !canAdvanceForCurrent() ? 'disabled' : ''}>${label}</button>
@@ -852,7 +885,18 @@ const WHY = {
   pq1: 'What you actually reach for is the best clue to your natural style, better than any trend quiz.',
   pq2: 'What convinces you in the fitting room shows what you value most, such as fit, fabric, comfort or impact.',
   pq3: 'Where you start an outfit shows how you naturally build looks, and we build your formulas the same way.',
-  budget: 'This sets the stores and price range of your shopping links.'
+  budget: 'This sets the stores and price range of your shopping links.',
+  dressCode: 'Your work outfits should fit your real workplace, so we match the pieces to your dress code.',
+  climate: 'Climate changes which fabrics and layers make sense, so your fabric picks fit where you live.',
+  temp: 'Some people are always warm and some are always cold. This keeps your fabrics comfortable.',
+  comfortFab: 'Anything you tell us here is left out of your fabric picks.',
+  heel: 'We match the shoes in your capsule and outfits to the heel height you actually enjoy.',
+  goal: 'An event or goal gives your report a date to work toward, so we can point you to outfits for it.',
+  sizes: 'Your sizes go into your session notes so shopping together is faster. Skip it if you prefer.',
+  shopHabits: 'If you shop secondhand, we add thrift and resale links next to your shopping plan.',
+  hairType: 'Hair texture and length shape the beauty tips in your report.',
+  hairLen: 'Length changes which styles and cuts we suggest.',
+  inspo: 'Inspiration shows us the look you are drawn to, and it goes on your session page for your stylist.'
 };
 function whyHtml(key) { return WHY[key] ? '<p class="why"><b>How this helps</b>' + WHY[key] + '</p>' : ''; }
 function renderQuestion(q) {
@@ -928,6 +972,11 @@ function renderQuestion(q) {
           <span class="lbl">Not sure / can't tell</span>
         </div>
       </div>`;
+  } else if (q.type === 'sizes') {
+    const sel = (id, label, arr, cur) => `<label class="size-f"><span>${label}</span><select id="${id}"><option value="">Skip</option>${arr.map(v => `<option value="${v}" ${cur === v ? 'selected' : ''}>${v}</option>`).join('')}</select></label>`;
+    body = `<div class="size-row">${sel('sizeTop', 'Tops', SIZE_TOP, A.sizeTop)}${sel('sizeBottom', 'Bottoms', SIZE_BOTTOM, A.sizeBottom)}${sel('sizeShoe', 'Shoes', SIZE_SHOE, A.sizeShoe)}</div>`;
+  } else if (q.type === 'inspo') {
+    body = `<textarea class="freetext" id="inspo-field" maxlength="140" style="min-height:90px" placeholder="For example: pinterest.com/yourname/style, or Zendaya, Michelle Obama and Hailey Bieber">${String(A.inspo || '').replace(/</g, '&lt;')}</textarea>`;
   } else if (q.type === 'shape') {
     body = `<div class="shape-opts">${Object.keys(SHAPE_SVGS).map(k => `
       <div class="shape-opt ${A.shape === k ? 'sel' : ''}" data-key="shape" data-val="${k}">
@@ -937,15 +986,16 @@ function renderQuestion(q) {
       </div>`).join('')}</div>`;
   } else {
     const qOpts = q.dynamic ? personaOptions(q.key) : q.options;
-    body = `<div class="opts"${(q.section === 'persona' && !q.max) ? ' style="grid-template-columns:1fr;"' : ''}>${qOpts.map(o => `
+    body = `<div class="opts"${((q.section === 'persona' || q.section === 'life') && !q.max) ? ' style="grid-template-columns:1fr;"' : ''}>${qOpts.map(o => `
       <div class="opt ${(q.multi ? (A[q.key] || []).indexOf(o.value) > -1 : A[q.key] === o.value) ? 'sel' : ''}" data-key="${q.key}" data-val="${o.value}"${q.multi ? ' data-multi="1"' + (q.max ? ' data-max="' + q.max + '"' : '') + ' role="checkbox" aria-checked="' + ((A[q.key] || []).indexOf(o.value) > -1) + '"' : ''}>${iconHtml(o.icon)}<span>${o.label}</span></div>`).join('')}</div>`;
   }
 
+  if (q.key === 'goal' && A.goal && A.goal !== 'none') body += '<input type="text" class="own-box" id="goalDate" maxlength="30" placeholder="When is it? For example: June 12" value="' + String(A.goalDate || '').replace(/"/g, '&quot;') + '">';
   if (OWN_PLACEHOLDER[q.key] && A[q.key] === 'other') body += '<input type="text" class="own-box" id="' + q.key + '-other" maxlength="90" placeholder="' + OWN_PLACEHOLDER[q.key] + '" value="' + String(A[q.key + 'Other'] || '').replace(/"/g, '&quot;') + '">';
 
   return `
     ${progressHtml()}
-    <p class="meta">${q.noCount ? sectionLabel : sectionLabel + ' · ' + (q.followUp ? 'Question 4, continued' : 'Question ' + q.n + ' of ' + q.of)}</p>
+    <p class="meta">${q.noCount ? sectionLabel : sectionLabel + ' · ' + (q.followUp ? 'Question 4, continued' : (q.optional ? 'Optional ' + q.n + ' of ' + q.of : 'Question ' + q.n + ' of ' + q.of))}</p>
     <p class="qtext">${q.text || questionTextForType(q.type)}</p>
     ${q.hint ? `<p class="hint">${q.hint}</p>` : ''}
     ${whyHtml(q.key)}
@@ -981,6 +1031,10 @@ function attachHandlers(f) {
     });
   });
   ['pq1', 'pq2', 'pq3'].forEach(k => { const el = document.getElementById(k + '-other'); if (el) el.addEventListener('input', (e) => { A[k + 'Other'] = e.target.value; }); });
+  const gd = document.getElementById('goalDate'); if (gd) gd.addEventListener('input', (e) => { A.goalDate = e.target.value; });
+  const inspoF = document.getElementById('inspo-field'); if (inspoF) inspoF.addEventListener('input', (e) => { A.inspo = e.target.value; });
+  [['sizeTop'], ['sizeBottom'], ['sizeShoe']].forEach(([id]) => { const el = document.getElementById(id); if (el) el.addEventListener('change', (e) => { A[id] = e.target.value; const nb = document.getElementById('next-btn'); if (nb) nb.textContent = (A.sizeTop || A.sizeBottom || A.sizeShoe) ? 'Next' : 'Skip'; }); });
+  const skipLife = document.getElementById('skip-life-btn'); if (skipLife) skipLife.addEventListener('click', () => { step = FLOW.findIndex(f => f.type === 'freetext'); render(); });
   const compOther = document.getElementById('comp-other');
   if (compOther) compOther.addEventListener('input', (e) => { A.compOther = e.target.value; const nb = document.getElementById('next-btn'); if (nb) nb.disabled = !canAdvance(); });
   const backBtn = document.getElementById('back-btn');
