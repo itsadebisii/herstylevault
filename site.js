@@ -180,15 +180,40 @@ document.addEventListener('click', function(e){
   else hsvFormModal(id, hidden);
 }, true);
 
-/* Package "Book" / "Get Started" and "Book Your Free Consultation" buttons go straight to the free consultation form pop-up (not the Book page).
-   Services skip this on purpose: they are paid upfront and open their own form above. */
+/* Package "Book" / "Get Started" buttons ask one quick question first (new, returning, or already in a package), then open the right thing.
+   "Book Your Free Consultation" buttons go straight to the consultation form. Services skip all of this: they are paid upfront and open their own form above. */
+function hsvOpenForm(id, hidden){
+  if (window.Tally && Tally.openPopup) Tally.openPopup(id, { layout: 'modal', width: 700, hiddenFields: hidden || {} });
+  else hsvFormModal(id, hidden || {});
+}
+function hsvChooser(){
+  var old = document.getElementById('hsvChooser'); if (old) old.remove();
+  var m = document.createElement('div'); m.id = 'hsvChooser'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-labelledby', 'hsvChT');
+  m.innerHTML = '<div class="ch-panel"><button type="button" class="ch-x" aria-label="Close">\u00d7</button>' +
+    '<p class="ch-k">Quick question</p><h2 id="hsvChT" tabindex="-1">Have you worked with HerStyleVault before?</h2>' +
+    '<button type="button" class="ch-opt" data-go="new"><b>I\u2019m new here</b><span>Start with a free 30-minute consultation. No commitment.</span></button>' +
+    '<button type="button" class="ch-opt" data-go="returning"><b>I\u2019m a returning client</b><span>Starting a new package. A short form first, then you book.</span></button>' +
+    '<button type="button" class="ch-opt" data-go="active"><b>I\u2019m already in a package</b><span>Book your next session on the calendar.</span></button></div>';
+  function close(){ m.remove(); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); }
+  function esc(e){ if (e.key === 'Escape') close(); }
+  m.addEventListener('click', function(e){
+    if (e.target === m || e.target.classList.contains('ch-x')) { close(); return; }
+    var o = e.target.closest && e.target.closest('.ch-opt'); if (!o) return;
+    var go = o.getAttribute('data-go'); close();
+    if (go === 'new') hsvOpenForm('yPeEjp', { source: 'package button' });
+    else if (go === 'returning') hsvOpenForm('GxY5bk', { source: 'package button' });
+    else { var u = 'https://calendly.com/herstylevault/book-a-session'; hsvWithCalendly(function(){ window.openCalendlyPopup(null, u); }); }
+  });
+  document.addEventListener('keydown', esc);
+  document.body.appendChild(m); document.body.style.overflow = 'hidden';
+  var t = m.querySelector('h2'); if (t) t.focus();
+}
 document.addEventListener('click', function(e){
   var b = e.target.closest && e.target.closest('a[data-consult]');
   if (!b || e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
   e.preventDefault(); e.stopImmediatePropagation();
-  var id = 'yPeEjp', hidden = { source: (b.textContent || '').trim().slice(0, 60) };
-  if (window.Tally && Tally.openPopup) Tally.openPopup(id, { layout: 'modal', width: 700, hiddenFields: hidden });
-  else hsvFormModal(id, hidden);
+  if (b.getAttribute('data-consult') === 'choose') hsvChooser();
+  else hsvOpenForm('yPeEjp', { source: (b.textContent || '').trim().slice(0, 60) });
 }, true);
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
