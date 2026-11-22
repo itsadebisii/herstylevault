@@ -58,7 +58,7 @@
     var ti = tiers ? Math.min(tierIdx, tiers.length - 1) : 0, t = tiers ? tiers[ti] : null;
     var cta = isSvc
       ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '"' + (t ? ' data-tier="' + t[0] + '"' : '') + '>Book ' + o.name + '</a><p class="meta">Pay upfront \u00b7 No consultation needed \u00b7 <a href="policies.html">Terms &amp; Privacy</a></p>'
-      : '<a class="btn btn-primary" href="' + o.cta.href + '">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Terms &amp; Privacy</a></p>';
+      : '<a class="btn btn-primary" href="' + o.cta.href + '" data-consult="choose">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Terms &amp; Privacy</a></p>';
     var picker = tiers ? '<div class="dg-opts" role="group" aria-label="Choose your tier">' + tiers.map(function(x, k){
         return '<button type="button" class="dg-opt' + (k === ti ? ' on' : '') + '" data-ti="' + k + '" aria-pressed="' + (k === ti) + '"><b>' + x[0] + '</b><span>' + x[1] + (o.slug === 'the-ensemble' ? ' per person' : '') + '</span></button>';
       }).join('') + '</div><p class="dg-soon"><b>' + t[0] + '</b> \u00b7 ' + t[2] + '<br>' + t[3] + '</p>' : '';
@@ -73,7 +73,7 @@
     var others = OFFERS.filter(function(x){ return x !== o && x.kind === o.kind; });
     var hh = '<section class="band wrap offer-hero tone-' + (o.tone || 'cream') + '" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="' + (isSvc ? 'services.html' : 'packages.html') + '">' + (isSvc ? '\u00c0 La Carte Services' : 'Private Styling Packages') + '</a> / ' + plain(o.name) + '</p>' +
       '<div class="dg-hero"><div class="dg-media">' + cover(o, true) + '</div><div class="dg-info">' +
-      '<h1 class="page-title"><span class="h1-kw">' + plain(o.name) + ': ' + plain(o.tag) + '</span>' + o.headline + '</h1>' +
+      '<p class="kind-badge' + (isSvc ? ' svc' : '') + '">' + (isSvc ? 'Service \u00b7 one-time' : 'Package \u00b7 several sessions') + '</p><h1 class="page-title"><span class="h1-kw">' + plain(o.name) + ': ' + plain(o.tag) + '</span>' + o.headline + '</h1>' +
       '<p class="sub" style="margin-bottom:1rem;">' + o.lead + '</p>' + (o.best ? '<p class="meta" style="margin:-.4rem 0 1rem;font-style:italic;">' + o.best + '</p>' : '') + picker + priceHtml +
       '<p class="meta" style="margin:0 0 1.2rem;">' + o.meta + '</p>' + cta +
       '<div class="dg-acc">' + acc.join('') + '</div></div></div></section>';
