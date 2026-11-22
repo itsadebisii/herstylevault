@@ -24,7 +24,7 @@ META = {
 }
 # the line that goes inside the page's H1 (replaces the small label above it)
 H1KW = {
- 'index.html': "Personal Stylist in Boston, MA &amp; Southern NH",
+ 'index.html': "Personal Stylist Serving Boston, MA &amp; Southern NH",
  'faq.html': "Personal Styling FAQ",
  'how-it-works.html': "How Personal Styling Works",
  'her-style-suite.html': "Her Style Suite: Personal Styling Looks",
@@ -52,7 +52,7 @@ BUSINESS = {
  "image": SITE + "/images/Hero_Closet.jpg",
  "priceRange": "$28.99-$725",
  "founder": {"@type": "Person", "name": "Adebisi"},
- "address": {"@type": "PostalAddress", "addressRegion": "MA", "addressCountry": "US"},
+ "address": {"@type": "PostalAddress", "addressRegion": "NH", "addressCountry": "US"},
  "areaServed": [
    {"@type": "AdministrativeArea", "name": "Greater Boston, MA"},
    {"@type": "AdministrativeArea", "name": "Northern Massachusetts"},

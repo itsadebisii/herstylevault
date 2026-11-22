@@ -178,9 +178,9 @@
     }
     /* the "Help me out" button is an iPhone-style notification banner that drops in after the texts */
     function bannerHtml(){
-      return '<button type="button" class="s11-banner" style="--d:3.6s" data-act="start" aria-label="Help me out. New message from HerStyleVault: Style-11. Tap to start.">' +
+      return '<button type="button" class="s11-banner" style="--d:3.6s" data-act="start" aria-label="New message from HerStyleVault: Style-11. Need a look? Tap to get yours.">' +
         '<span class="bn-ic"><img src="' + ICON + '" alt="" width="58" height="33"></span>' +
-        '<span class="bn-tx"><span class="bn-top"><b>HERSTYLEVAULT</b><i>now</i></span><span class="bn-t">Style-11 \uD83D\uDEA8</span><span class="bn-m">Ready when you are. Tap to help me out.</span></span></button>';
+        '<span class="bn-tx"><span class="bn-top"><b>HERSTYLEVAULT</b><i>now</i></span><span class="bn-t">Style-11 \uD83D\uDEA8</span><span class="bn-m">Need a look? Tap to get yours.</span></span></button>';
     }
     function clearCues(){ (st.cues || []).forEach(clearTimeout); st.cues = []; }
     function startCues(){
