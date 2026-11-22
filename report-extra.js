@@ -524,13 +524,14 @@
   }
   function shopTerm(name) {
     var t = String(name || '').toLowerCase().replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-    var M = [[/mesh or lace/, 'mesh long sleeve top'], [/band tee/, 'oversized band tee'], [/leather (moto )?jacket/, 'leather moto jacket'], [/tiered maxi/, 'tiered maxi skirt'], [/boots/, 'combat boots'], [/block heel/, 'block heel pumps'], [/mid heel/, 'heeled pumps'], [/statement heel/, 'high heel sandals'], [/flats or loafers|loafer/, 'loafers'], [/^flats/, 'flats'], [/^shoes/, 'flats'],
+    var M = [[/mesh or lace/, 'mesh long sleeve top'], [/band tee/, 'oversized band tee'], [/leather (moto )?jacket/, 'leather moto jacket'], [/tiered maxi/, 'tiered maxi skirt'], [/boots/, 'combat boots'], [/block heel/, 'block heel'], [/mid heel/, 'heels'], [/statement heel/, 'heeled sandals'], [/flats or loafers|loafer/, 'loafers'], [/^flats/, 'flats'], [/^shoes/, 'flats'],
       [/puff sleeve/, 'puff sleeve top'], [/off-shoulder/, 'off the shoulder top'], [/halter/, 'halter top'], [/v-neck/, 'v neck top'], [/^peplum$/, 'peplum top'], [/^corset$/, 'corset top'],
       [/pleated skirt/, 'pleated skirt'], [/^trousers$|tailored trousers/, 'trousers'], [/wide-leg/, 'wide leg jeans'], [/^sheath/, 'sheath dress'], [/fit and flare/, 'fit and flare dress'], [/^a-line dress|^a-line$/, 'a-line dress'], [/^ruffle/, 'ruffle dress'], [/^bag$/, 'handbag'], [/^coat$/, 'coat'], [/light trench/, 'trench coat']];
     for (var i = 0; i < M.length; i++) if (M[i][0].test(t)) return M[i][1];
     return t.replace(/ for (work|dates)$/, '');
   }
-  function shopQuery(name, color, hex) { var cw = hex ? basicColor(hex) : String(color || '').toLowerCase(), t = shopTerm(name); return (cw + ' ' + t).replace(/\bwomen'?s?\b/g, '').replace(/\s+/g, ' ').trim(); }
+  function shopQuery(name, color, hex) { var cw = hex ? basicColor(hex) : String(color || '').toLowerCase(), t = shopTerm(name);
+    if (/^(block heel|heels|heeled sandals|loafers|flats|combat boots)$/.test(t)) cw = ''; /* short searches work best for shoes */ return (cw + ' ' + t).replace(/\bwomen'?s?\b/g, '').replace(/\s+/g, ' ').trim(); }
   function shopLink(r, name, color, kind, idx) {
     var st = r.stores && r.stores.list; if (!st || !st.length) return '';
     var pool = st.filter(function (x) { return !x.mode || (x.mode === 'bag' && kind === 'bag') || (x.mode === 'denim' && kind === 'jeans'); });
