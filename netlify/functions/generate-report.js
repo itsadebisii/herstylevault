@@ -385,6 +385,8 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     directions: cleanDirections(answers),
     contrastLevel: ['high','mediumHigh','medium','mediumLow','low'].indexOf(answers.contrast) > -1 ? answers.contrast : '',
     chromaKey: axes.chroma || '',
+    styleGrav: ['flowy','fitted','waist','oversized','layered','cropped','bodyskim','sets','mix'].indexOf(answers.styleGrav) > -1 ? answers.styleGrav : '',
+    dressSep: ['dresses','separates','both'].indexOf(answers.dressSep) > -1 ? answers.dressSep : '',
     matureAge: isMatureAge(answers),
     archetype,
     personaAnswered: !!(answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3),
