@@ -96,6 +96,14 @@
     coolVivid: { Lips: [['True red', '#C8102E'], ['Fuchsia', '#D2127E'], ['Deep berry', '#8A1538']], Blush: [['Cool rose', '#E58AA0'], ['Berry pink', '#D0577E'], ['Plum rose', '#B44B6D']], Eyes: [['Charcoal', '#3B3B3F'], ['Navy', '#1F2A5A'], ['Cool plum', '#5B2A5E']], Nails: [['Cherry', '#B0102B'], ['Berry', '#7A1642'], ['Icy nude', '#E6C9C7']], Hair: [['Espresso', '#3B2A22'], ['Blue-black', '#1E1B24'], ['Cool dark brown', '#4A3830']], Skip: 'orange-based, golden and earthy shades' },
     coolSoft: { Lips: [['Rose', '#C8647F'], ['Raspberry', '#B03A6A'], ['Soft mauve', '#A8697B']], Blush: [['Powder rose', '#E8A6B4'], ['Cool pink', '#DE8CA3'], ['Dusty rose', '#C9808C']], Eyes: [['Soft taupe', '#9A8A8A'], ['Slate blue', '#6A7E9C'], ['Mauve', '#8F6F86']], Nails: [['Pink mauve', '#C58C9A'], ['Soft raspberry', '#B96A8A'], ['Milky nude', '#E3CFCB']], Hair: [['Ash brown', '#7A6A60'], ['Cool blonde', '#C9B89A'], ['Soft mushroom', '#8A7A72']], Skip: 'orange-based shades and harsh, stark contrast' }
   };
+  function beautyPersona(r) {
+    var v = (r.persona && r.persona.vibe) || '', n = (r.persona && r.persona.name) || '', f = dirs(r).feel;
+    var T = { tailored: 'Polished and groomed: defined brows, a clean base and a satin lip.', luxury: 'Quiet and expensive: glowy skin, a soft neutral lip and neat, shiny hair.', sleek: 'Clean skin with one sharp feature: a deep lip or a crisp liner.', feminine: 'Soft and romantic: rosy cheeks, a glossy lip and soft waves or smooth hair.', casual: 'Skin first: a light base, tinted lip balm and easy, natural hair.', bold: 'Pick one statement feature, like a vivid lip or graphic liner, and keep the rest simple.', classic: 'Classic and balanced: groomed brows, a definite lip in your shades and neat hair.', sporty: 'Fresh and low-maintenance: tinted SPF, clear or tinted gloss and hair that stays put.' };
+    var t = T[v] || 'Start with your shades and keep the rest simple.';
+    if (f.indexOf('confident') > -1 || f.indexOf('expressive') > -1) t += ' You want to feel confident, so do not be afraid to go one shade bolder.';
+    else if (f.indexOf('comfy') > -1) t += ' You want to feel comfortable, so choose lightweight formulas.';
+    return (n ? E(n) + ': ' : '') + E(t);
+  }
   function beautyContrast(r) {
     var con = r.contrastLevel || '', hiC = con === 'high' || con === 'mediumHigh', loC = con === 'low' || con === 'mediumLow', ch = r.chromaKey || '';
     if (hiC) return 'Your hair, skin and eyes contrast clearly, so a defined lip or eye holds up on you.';
@@ -108,7 +116,7 @@
     var order = ['Lips', 'Blush', 'Eyes', 'Nails', 'Hair'];
     var cards = order.map(function (k) { return '<div class="hx-box"><h6>' + (k === 'Hair' ? 'Hair tones' : k) + '</h6>' + B[k].map(function (c) { return '<div class="hx-bt"><i style="background:' + c[1] + '"></i><span>' + c[0] + '</span></div>'; }).join('') + '</div>'; }).join('');
     cards += '<div class="hx-box"><h6>Metal tone</h6><p>' + E(r.metal) + '</p><h6 style="margin-top:10px">Skip</h6><p>' + E(B.Skip) + '.</p></div>';
-    return { key: 'beauty', label: 'Hair, Makeup & Nails', html: '<div class="hx-page">' + head('Hair, makeup &amp; <em>nails</em>', 'The same coloring that guides your clothes also guides your beauty shopping.') + '<div class="hx-3b">' + cards + '</div>' + label('How to choose') + '<div class="hx-3"><div class="hx-box"><h6>Match the undertone</h6><p>Your list is already matched to your coloring. Start there.</p></div><div class="hx-box"><h6>Test in daylight</h6><p>Swatch on your jawline near a window. The right shade looks natural, not heavy.</p></div><div class="hx-box"><h6>For your contrast</h6><p>' + beautyContrast(r) + '</p></div></div>' + '<div class="hx-tip">Screenshot this page and show it at the beauty counter or to your hair colorist. Shades are a starting point; texture and finish change how a color looks on you.</div></div>' };
+    return { key: 'beauty', label: 'Hair, Makeup & Nails', html: '<div class="hx-page">' + head('Hair, makeup &amp; <em>nails</em>', 'The same coloring that guides your clothes also guides your beauty shopping.') + '<div class="hx-3b">' + cards + '</div>' + label('How to choose') + '<div class="hx-3"><div class="hx-box"><h6>For your style</h6><p>' + beautyPersona(r) + '</p></div><div class="hx-box"><h6>Test in daylight</h6><p>Swatch on your jawline near a window. The right shade looks natural, not heavy.</p></div><div class="hx-box"><h6>For your contrast</h6><p>' + beautyContrast(r) + '</p></div></div>' + '<div class="hx-tip">Screenshot this page and show it at the beauty counter or to your hair colorist. Shades are a starting point; texture and finish change how a color looks on you.</div></div>' };
   }
 
   /* ---------- 5. dress your shape ---------- */
@@ -245,6 +253,72 @@
     return { key: 'patterns', label: 'Patterns', html: '<div class="hx-page">' + head('Patterns you <em>can wear</em>', sub) + '<div class="hx-pgrid">' + tl + '</div>' + tipHtml + '<div class="hx-tip" style="margin-top:10px">One pattern per outfit. Let it be the star and keep everything else solid.</div></div>' };
   }
 
+  /* ---------- 8. fabrics (chosen from the client's answers; swatches are drawn placeholders until real photos are added) ---------- */
+  function fabricsBlock(r) {
+    var P = pal(r), N = P.neu, S = P.sig, A = P.acc, D = dirs(r), good = String((r.bodyGuide && r.bodyGuide.fabGood) || ''), bad = String((r.bodyGuide && r.bodyGuide.fabAvoid) || '');
+    var vibe = (r.persona && r.persona.vibe) || '', pname = (r.persona && r.persona.name) || '', season = r.seasonLabel || '';
+    var heavy = /autumn|winter/i.test(r.seasonKey || ''), ch = r.chromaKey || '', tier = (r.shopTier && r.shopTier.key) || '';
+    var invest = tier === 'invest', budget = tier === 'budget';
+    var sh = function (c) { return E(c.h); };
+    var tex = {
+      satin: function () { return 'background:linear-gradient(115deg,' + sh(S[0]) + ' 0%,' + E(mixc(S[0].h, 0.45, 'w')) + ' 38%,' + sh(S[0]) + ' 55%,' + E(mixc(S[0].h, 0.3, 'k')) + ' 100%)'; },
+      crepe: function () { return 'background:radial-gradient(' + E(mixc(N[1].h, 0.12, 'w')) + ' 1px,transparent 1.5px) 0 0/5px 5px,' + sh(N[1]); },
+      ponte: function () { return 'background:repeating-linear-gradient(45deg,' + sh(N[3]) + ' 0 2px,' + E(mixc(N[3].h, 0.12, 'w')) + ' 2px 4px)'; },
+      denim: function () { return 'background:repeating-linear-gradient(60deg,#2c4a78 0 2px,#3a5c8f 2px 4px)'; },
+      wool: function () { return 'background:radial-gradient(' + E(mixc(N[2].h, 0.35, 'w')) + ' 1px,transparent 1.5px) 0 0/6px 6px,radial-gradient(' + E(mixc(N[2].h, 0.3, 'k')) + ' 1px,transparent 1.5px) 3px 3px/6px 6px,' + sh(N[2]); },
+      knit: function () { return 'background:repeating-linear-gradient(90deg,' + sh(S[2]) + ' 0 5px,' + E(mixc(S[2].h, 0.22, 'k')) + ' 5px 7px)'; },
+      linen: function () { return 'background:repeating-linear-gradient(0deg,rgba(255,255,255,.35) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 1px,transparent 1px 5px),' + E(mixc(N[0].h, 0.15, 'k')); },
+      leather: function () { return 'background:linear-gradient(120deg,' + sh(N[3]) + ',' + E(mixc(N[3].h, 0.25, 'w')) + ' 45%,' + sh(N[3]) + ' 70%)'; },
+      velvet: function () { return 'background:radial-gradient(circle at 30% 30%,' + E(mixc(S[3].h, 0.3, 'w')) + ',' + sh(S[3]) + ' 55%,' + E(mixc(S[3].h, 0.35, 'k')) + ')'; },
+      chiffon: function () { return 'background:repeating-linear-gradient(100deg,' + E(mixc(S[1].h, 0.35, 'w')) + ' 0 14px,' + E(mixc(S[1].h, 0.55, 'w')) + ' 14px 26px)'; },
+      jersey: function () { return 'background:repeating-linear-gradient(90deg,' + sh(N[2]) + ' 0 3px,' + E(mixc(N[2].h, 0.12, 'k')) + ' 3px 4px)'; },
+      boucle: function () { return 'background:radial-gradient(circle,' + E(mixc(N[0].h, 0.2, 'k')) + ' 2px,transparent 3px) 0 0/9px 9px,radial-gradient(circle,rgba(255,255,255,.7) 2px,transparent 3px) 4px 4px/9px 9px,' + sh(N[0]); },
+      poplin: function () { return 'background:repeating-linear-gradient(0deg,rgba(255,255,255,.5) 0 1px,transparent 1px 3px),' + E(mixc(N[0].h, 0.04, 'k')); }
+    };
+    /* id, name, line, personas, occasions, season weight (1 heavier, -1 lighter), chroma, regex words in the shape's good / avoid lists, price lean */
+    var LIB = [
+      ['satin', 'Satin and silk', 'A fluid sheen that dresses an outfit up. Best for tops, slip skirts and dresses.', ['feminine', 'luxury', 'sleek'], ['dates', 'special'], -1, 'bright', /satin|silk|sleek|shiny/i, 'invest'],
+      ['crepe', 'Crepe', 'A matte, fluid fabric that skims the body and holds a line.', ['tailored', 'classic', 'luxury'], ['work', 'dates'], 0, 'blended', /crepe|fluid|drap/i, ''],
+      ['ponte', 'Ponte', 'A thick, stretchy knit with structure. Comfortable, polished and wrinkle-resistant.', ['tailored', 'classic', 'casual'], ['work', 'travel', 'everyday'], 0, '', /ponte|structured/i, 'budget'],
+      ['denim', 'Denim', 'Sturdy and easy. Choose a dark wash or a weight that holds its shape.', ['casual', 'sporty', 'bold'], ['everyday', 'travel'], 0, '', /denim|cotton/i, 'budget'],
+      ['wool', 'Wool and wool blends', 'Rich and substantial. Beautiful in coats, blazers and trousers.', ['luxury', 'tailored', 'classic'], ['work'], 1, 'soft', /wool|structured/i, 'invest'],
+      ['knit', 'Soft knits and cashmere', 'Cozy, refined and easy to layer.', ['luxury', 'casual', 'feminine'], ['everyday', 'travel'], 1, 'soft', /knit|cashmere/i, 'invest'],
+      ['linen', 'Linen and cotton-linen', 'Breathable and relaxed. Best for warm days and easy shapes.', ['casual', 'classic'], ['everyday'], -1, 'soft', /linen|cotton/i, ''],
+      ['leather', 'Leather and faux leather', 'Sharp and grown-up. A jacket, skirt or boot changes any outfit.', ['sleek', 'bold', 'luxury'], ['dates', 'special'], 1, 'bright', /leather/i, ''],
+      ['velvet', 'Velvet', 'Deep and rich. A strong choice for evenings and special occasions.', ['bold', 'luxury', 'feminine'], ['special', 'dates'], 1, 'bright', /velvet/i, ''],
+      ['chiffon', 'Chiffon and georgette', 'Light and airy. Beautiful in tops, blouses and flowing skirts.', ['feminine', 'classic'], ['dates', 'special'], -1, 'soft', /chiffon|georgette|flow|drap/i, ''],
+      ['jersey', 'Stretch jersey', 'Soft and comfortable. Works best in a thicker weight that does not cling.', ['casual', 'sporty'], ['everyday', 'travel'], 0, '', /jersey|stretch/i, 'budget'],
+      ['boucle', 'Bouclé and tweed', 'Textured and polished. A jacket or skirt in this fabric looks expensive.', ['luxury', 'classic', 'feminine'], ['work', 'special'], 1, 'soft', /textur|tweed|boucl/i, 'invest'],
+      ['poplin', 'Cotton poplin', 'Crisp and clean. Perfect for shirts, shirt-dresses and structured pieces.', ['tailored', 'classic', 'casual'], ['work', 'everyday'], -1, 'bright', /cotton|poplin|structured/i, 'budget']
+    ];
+    var clingy = D.quiet.indexOf('midsection') > -1 || D.quiet.indexOf('hips') > -1;
+    var CLING = { satin: 1, jersey: 1, knit: 0.5 };
+    var scored = LIB.map(function (f, i) {
+      var parts = [], pi = f[3].indexOf(vibe);
+      if (pi > -1) parts.push([pi < 2 ? 3 : 2, pname ? 'Matches your ' + pname + ' style.' : 'Matches your style direction.']);
+      if (f[7].test(good)) parts.push([2.5, 'It is on the best-fabrics list for your ' + String(r.bodyShapeLabel || 'body shape').toLowerCase() + ' shape.']);
+      var worksHit = f[4].filter(function (o) { return D.works.indexOf(o) > -1; });
+      if (worksHit.length) parts.push([1.5 * worksHit.length, 'Works well for ' + listW(worksHit.map(function (o) { return OCCN[o]; })) + ', which you asked for.']);
+      if (f[5] !== 0) parts.push([(f[5] === 1) === heavy ? 0.8 : -0.8, heavy ? 'Rich, substantial fabrics suit your ' + season + ' coloring.' : 'Lighter fabrics suit your ' + season + ' coloring.']);
+      if (f[6] && ch) parts.push([f[6] === ch ? 1 : (f[6] === 'blended' || ch === 'blended' ? 0 : -1), ch === 'bright' ? 'Crisp or sheen fabrics match your clear coloring.' : 'Matte, soft-textured fabrics match your blended coloring.']);
+      if (invest && f[8] === 'invest') parts.push([1, 'Suits the investment range you chose.']);
+      if (budget && f[8] === 'budget') parts.push([1, 'Easy to find at the everyday price range you chose.']);
+      var total = 0, best = [0, 'A dependable fabric that works with your palette.']; parts.forEach(function (x) { total += x[0]; if (x[0] > best[0]) best = x; });
+      if (bad && f[7].test(bad) && !f[7].test(good)) total -= 4;
+      if (clingy && CLING[f[0]]) { total -= 2 * CLING[f[0]]; }
+      return { f: f, total: total, why: best[1], i: i };
+    }).sort(function (a2, b2) { return b2.total - a2.total || a2.i - b2.i; }).slice(0, 6);
+    var tiles = scored.map(function (o) { var f = o.f; return '<div class="hx-pt"><div class="hx-pc" style="' + tex[f[0]]() + '"></div><h5>' + f[1] + '</h5><p>' + f[2] + '</p><p class="hx-why">' + E(o.why) + '</p></div>'; }).join('');
+    var avoid = [];
+    if (bad) avoid.push(bad.replace(/\.\s*$/, ''));
+    if (clingy) avoid.push('You prefer less attention on your midsection or hips, so skip thin, clingy fabrics there and choose ones that skim or hold their shape.');
+    if (D.show.indexOf('waist') > -1) avoid.push('You like to show your waist, so avoid stiff boxy fabrics that hide it.');
+    if (ch === 'soft') avoid.push('Very glossy, high-shine fabrics can fight your soft coloring.');
+    var avoidHtml = '<div class="hx-box" style="margin-top:12px"><h6>Fabrics to skip or use carefully, for you</h6><ul class="hx-ul">' + avoid.map(function (x) { return '<li>' + E(x) + (/[.!?]$/.test(x) ? '' : '.') + '</li>'; }).join('') + '</ul></div>';
+    var sub = 'Picked for your ' + E(String(r.bodyShapeLabel || 'body shape').toLowerCase()) + ' shape' + (pname ? ', your ' + E(pname) + ' style' : '') + (D.works.length ? ' and ' + E(listW(D.works.slice(0, 3).map(function (w) { return OCCN[w]; }))) : '') + '. Touch a fabric before you buy it, since weight and finish matter more than the name.';
+    return { key: 'fabrics', label: 'Fabrics', html: '<div class="hx-page">' + head('Fabrics that <em>work for you</em>', sub) + '<div class="hx-pgrid">' + tiles + '</div>' + avoidHtml + '</div>' };
+  }
+
   function guidanceExtra(r) {
     var P = pal(r);
     var tips = [['Closest to you', P.sig[0], 'Wear ' + E(P.sig[0].n) + ' or ' + E(P.sig[1].n) + ' as a top or scarf'], ['Your best neutral', P.neu[3], E(P.neu[3].n) + ' for blazers and bags'], ['Your finishing metal', P.acc[0], E(String(r.metal || '').split(/\s[\u2014-]\s|\u2014/)[0]) + ' in your jewelry']];
@@ -255,7 +329,14 @@
     var r3 = 'When in doubt, add your metal tone: ' + E(String(r.metal || '').split(/\\s[\\u2014-]\\s|\\u2014/)[0]) + '.';
     var rules = [r1, r2, r3].map(function (x, i) { return '<div class="hx-chk"><b>' + (i + 1) + '</b><p>' + x + '</p></div>'; }).join('');
     var goal = r.chromaKey === 'bright' ? 'Wear clear, saturated color close to your face and let your neutrals do the quiet work.' : r.chromaKey === 'soft' ? 'Wear soft, blended color close to your face and let your neutrals do the quiet work.' : 'Wear clear color close to your face and let your neutrals do the quiet work.';
-    return label('Wear it near your face') + '<div class="hx-3">' + t + '</div>' + label('Three quick rules') + '<div class="hx-1">' + rules + '</div><div class="hx-goal"><h6>Your color goal</h6><p>' + goal + '</p></div>';
+    var pf = (r.persona && r.persona.formula) || [], acc = [];
+    if (pf[2]) acc.push('Your ' + E(r.persona.name) + ' finishing touch: ' + E(pf[2]) + '.');
+    if (G0.show.indexOf('neckline') > -1 || G0.show.indexOf('shoulders') > -1) acc.push('You like to show your neckline and shoulders, so choose earrings and necklaces that frame them.');
+    if (G0.show.indexOf('waist') > -1) acc.push('You like to show your waist, so a belt in your accent color earns its place.');
+    if (G0.show.indexOf('legs') > -1) acc.push('You like to show your legs, so a statement shoe is a good place to spend.');
+    if (G0.quiet.indexOf('arms') > -1) acc.push('You prefer less attention on your arms, so keep bracelets and cuffs light and let a scarf or earrings lead.');
+    var accHtml = acc.length ? label('Accessories, for you') + '<div class="hx-box"><ul class="hx-ul">' + acc.slice(0, 3).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' : '';
+    return label('Wear it near your face') + '<div class="hx-3">' + t + '</div>' + label('Three quick rules') + '<div class="hx-1">' + rules + '</div>' + accHtml + '<div class="hx-goal"><h6>Your color goal</h6><p>' + goal + '</p></div>';
   }
 
   /* ---------- "you asked for" list for the closing page ---------- */
@@ -286,5 +367,5 @@
 
   function ensureCss() { if (document.getElementById('hx-css')) return; var s = document.createElement('style'); s.id = 'hx-css'; s.textContent = CSS; document.head.appendChild(s); }
   ensureCss();
-  window.HX = { guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock, asked: askedHtml };
+  window.HX = { fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock, asked: askedHtml };
 })();

@@ -346,7 +346,7 @@ function makeBlocks(r){
     +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live search at a store in your price range, so results stay current.</p>'+shopChips(r)+'</div></div>'});
   L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
     +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
-  if(window.HX){L.push(HX.formulas(r));L.push(HX.patterns(r));}
+  if(window.HX){L.push(HX.formulas(r));L.push(HX.fabrics(r));L.push(HX.patterns(r));}
   return L;
 }
 /* Make sure the web fonts are really loaded before anything is measured or photographed.
