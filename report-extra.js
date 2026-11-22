@@ -161,7 +161,43 @@
   }
 
   /* ---------- 5. dress your shape ---------- */
+  /* Real garment photos (plain gray on transparent), recolored to the client's own palette on the fly.
+     Falls back to the drawn shape if a photo fails to load. */
+  var GKEYS = { puff: 1, bardot: 1, halter: 1, vneck: 1, blouse: 1, peplum: 1, corset: 1, askirt: 1, pencil: 1, wide: 1, trouser: 1, jeans: 1, flare: 1, aline: 1, ruffle: 1, sheath: 1, blazer: 1, coat: 1, trench: 1, bag: 1, loafer: 1, lowheel: 1, midheel: 1, highheel: 1 };
+  var GA = { img: {}, mean: {}, cache: {} }, curHeel = '';
+  function loadGarment(k) {
+    return new Promise(function (res) {
+      var im = new Image();
+      im.onload = function () {
+        try {
+          var c = document.createElement('canvas'); c.width = im.width; c.height = im.height; var x = c.getContext('2d'); x.drawImage(im, 0, 0);
+          var d = x.getImageData(0, 0, c.width, c.height).data, sum = 0, n = 0;
+          for (var i = 0; i < d.length; i += 4) if (d[i + 3] > 128) { sum += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]; n++; }
+          GA.mean[k] = n ? sum / n / 255 : 0.78; GA.img[k] = im;
+        } catch (e) {}
+        res();
+      };
+      im.onerror = function () { res(); };
+      im.src = 'images/report/clothes/' + k + '.png';
+    });
+  }
+  function garmentImg(k, hex) {
+    var key = k + hex; if (GA.cache[key]) return GA.cache[key];
+    var im = GA.img[k]; if (!im) return '';
+    var sc = 240 / Math.max(im.width, im.height), w = Math.max(1, Math.round(im.width * sc)), h = Math.max(1, Math.round(im.height * sc));
+    var c = document.createElement('canvas'); c.width = w; c.height = h; var x = c.getContext('2d'); x.drawImage(im, 0, 0, w, h);
+    var dd = x.getImageData(0, 0, w, h), px = dd.data, mean = GA.mean[k] || 0.78, rgb = [1, 3, 5].map(function (q) { return parseInt(hex.substr(q, 2), 16); });
+    for (var i = 0; i < px.length; i += 4) {
+      if (!px[i + 3]) continue;
+      var l = (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 255, v = Math.max(0, Math.min(1, 0.55 + (l - mean) * 1.6));
+      for (var q = 0; q < 3; q++) px[i + q] = v < 0.55 ? rgb[q] * (v / 0.55) : rgb[q] + (255 - rgb[q]) * ((v - 0.55) / 0.45) * 0.5;
+    }
+    x.putImageData(dd, 0, 0);
+    return (GA.cache[key] = '<img class="hx-gm" alt="" src="' + c.toDataURL('image/png') + '">');
+  }
   function G(k, col) {
+    if (k === 'shoe') k = { flats: 'loafer', low: 'lowheel', mid: 'midheel', high: 'highheel' }[curHeel] || 'lowheel';
+    if (GA.img[k]) { try { var gi = garmentImg(k, col); if (gi) return gi; } catch (e) {} }
     var f = col, w = '#fff';
     var s = {
       puff: '<ellipse cx="22" cy="40" rx="20" ry="17" fill="' + f + '"/><ellipse cx="98" cy="40" rx="20" ry="17" fill="' + f + '"/><path d="M34 34 Q60 52 86 34 L90 118 Q60 130 30 118 Z" fill="' + f + '"/><path d="M42 36 Q60 56 78 36" fill="none" stroke="' + w + '" stroke-opacity=".5" stroke-width="3"/>',
@@ -315,15 +351,15 @@
       ['crocog', 'Croc emboss, cognac', 'Cognac leather + camel', 'The warm version of croc. Beautiful on boots, belts and bags.', '', img('croc-cognac.jpg'), ['luxury', 'classic', 'tailored'], 1, -1, 'blended'],
       ['polka', 'Polka dot', warm ? 'Brown + cream' : 'Navy + white', 'Timeless. Works as a dress, blouse or scarf.', '', img(warm ? 'polka-warm.jpg' : 'polka-cool.jpg'), ['classic', 'feminine', 'tailored'], 0, 1, 'bright'],
       ['stripe', 'Breton stripe', warm ? 'Rust + cream' : 'Navy + white', 'Classic and easy. Great for tops, knits and scarves.', '', img(warm ? 'stripe-warm.jpg' : 'stripe-cool.jpg'), ['casual', 'sporty', 'classic'], 0, 1, ''],
-      ['gingham', 'Gingham', 'Blue + white', 'Fresh and friendly. Keep the rest of the outfit solid.', '', img('gingham.jpg'), ['feminine', 'casual', 'sporty'], -1, 0, 'bright'],
+      ['gingham', 'Gingham', warm ? 'Rust + cream' : 'Blue + white', 'Fresh and friendly. Keep the rest of the outfit solid.', '', img(warm ? 'gingham-warm.jpg' : 'gingham.jpg'), ['feminine', 'casual', 'sporty'], 0, 0, 'bright'],
       ['plaid', 'Plaid', warm ? 'Olive + rust' : 'Navy + gray', 'Structured and polished. Choose one in your colors.', '', img(warm ? 'plaid-warm.jpg' : 'plaid-cool.jpg'), ['alt', 'tailored', 'classic', 'luxury', 'sporty', 'casual'], 0, 0, 'blended'],
-      ['floral', 'Ditsy floral', 'Blue + cream', 'Soft and feminine. Small flowers close together read as a quiet pattern.', '', img('floral-ditsy.jpg'), ['feminine', 'casual'], -1, -1, ''],
+      ['floral', 'Ditsy floral', warm ? 'Rust + olive' : 'Blue + cream', 'Soft and feminine. Small flowers close together read as a quiet pattern.', '', img(warm ? 'floral-ditsy-warm.jpg' : 'floral-ditsy.jpg'), ['feminine', 'casual'], 0, -1, ''],
       ['hound', 'Houndstooth', 'Black + white', 'A classic for blazers, skirts and coats. Wear it with solid black or white.', '', img('houndstooth.jpg'), ['tailored', 'alt', 'classic', 'sleek'], 0, 1, 'bright'],
-      ['pinstripe', 'Pinstripe', 'Navy + white', 'Sharp and professional. Best in a suit, blazer or trouser.', '', img('pinstripe.jpg'), ['tailored', 'sleek', 'classic'], 0, 1, ''],
-      ['snake', 'Snake print', 'Tan + brown', 'A neutral that acts like a print. Great on boots, bags and blouses.', '', img('snake.jpg'), ['alt', 'bold', 'luxury', 'casual'], 1, 0, 'blended'],
-      ['bigfloral', 'Large floral', 'Burgundy + blush', 'Big flowers make a statement. Wear on a dress or skirt and keep the top simple.', '', img('floral-large.jpg'), ['alt', 'feminine', 'bold', 'luxury'], 1, 0, 'blended'],
-      ['watercolor', 'Watercolor print', 'Rose + dusty blue', 'Soft edges and blended color. Pretty on a scarf, blouse or flowy dress.', '', img('watercolor.jpg'), ['feminine', 'casual', 'luxury'], 0, -1, 'blended'],
-      ['paisley', 'Paisley', 'Rust + deep red', 'Rich and vintage. Try it as a scarf, blouse or lining.', '', img('paisley.jpg'), ['alt', 'luxury', 'classic', 'casual'], 1, 0, 'blended']
+      ['pinstripe', 'Pinstripe', warm ? 'Navy + white' : 'Charcoal + white', 'Sharp and professional. Best in a suit, blazer or trouser.', '', img(warm ? 'pinstripe.jpg' : 'pinstripe-charcoal.jpg'), ['tailored', 'sleek', 'classic'], 0, 1, ''],
+      ['snake', 'Snake print', warm ? 'Tan + brown' : 'Gray + charcoal', 'A neutral that acts like a print. Great on boots, bags and blouses.', '', img(warm ? 'snake.jpg' : 'snake-cool.jpg'), ['alt', 'bold', 'luxury', 'casual'], 0, 0, 'blended'],
+      ['bigfloral', 'Large floral', warm ? 'Burgundy + blush' : 'Navy + pink', 'Big flowers make a statement. Wear on a dress or skirt and keep the top simple.', '', img(warm ? 'floral-large.jpg' : 'floral-large-cool.jpg'), ['alt', 'feminine', 'bold', 'luxury'], 0, 0, 'blended'],
+      ['watercolor', 'Watercolor print', warm ? 'Terracotta + ochre' : 'Rose + dusty blue', 'Soft edges and blended color. Pretty on a scarf, blouse or flowy dress.', '', img(warm ? 'watercolor-warm.jpg' : 'watercolor.jpg'), ['feminine', 'casual', 'luxury'], 0, -1, 'blended'],
+      ['paisley', 'Paisley', warm ? 'Rust + deep red' : 'Teal + navy', 'Rich and vintage. Try it as a scarf, blouse or lining.', '', img(warm ? 'paisley.jpg' : 'paisley-cool.jpg'), ['alt', 'luxury', 'classic', 'casual'], 0, 0, 'blended']
     ];
     var FEEL = { expressive: ['leopard', 'zebra', 'floral', 'crocred', 'paisley', 'bigfloral', 'snake'], trend: ['leopard', 'zebra', 'crocred', 'tortoise', 'snake', 'watercolor'], elegant: ['crocog', 'tortoise', 'polka', 'crocred', 'paisley', 'hound'], comfy: ['stripe', 'gingham', 'plaid'], feminine: ['floral', 'gingham', 'polka', 'tortoise', 'bigfloral', 'watercolor'], confident: ['leopard', 'zebra', 'crocred', 'snake', 'hound', 'pinstripe'] };
     var FEELW = { expressive: 'express yourself', trend: 'feel stylish and on-trend', elegant: 'feel elegant', comfy: 'feel comfortable', feminine: 'feel feminine', confident: 'feel confident' };
@@ -353,7 +389,9 @@
   }
 
   /* real fabric photos, tinted to the client's own colors (denim and leather stay natural) */
-  var FABP = { crepe: ['crepe.jpg', 'n1'], ponte: ['ponte.jpg', 'n3'], denim: ['denim.jpg', null], wool: ['wool.jpg', 'n2'], knit: ['knit.jpg', 's2'], linen: ['linen.jpg', 'n0'], leather: ['leather.jpg', null], jersey: ['jersey.jpg', 'n2'], boucle: ['boucle.jpg', 'n0'], poplin: ['poplin.jpg', 'n0'] };
+  var FABP = { crepe: ['crepe.jpg', 'n1'], ponte: ['ponte.jpg', 'n3'], denim: ['denim.jpg', null], wool: ['wool.jpg', 'n2'], knit: ['knit.jpg', 's2'], linen: ['linen.jpg', 'n0'], leather: ['leather.jpg', null], jersey: ['jersey.jpg', 'n2'], boucle: ['boucle.jpg', 'n0'], poplin: ['poplin.jpg', 'n0'], satin: ['satin.jpg', 's0'], velvet: ['velvet.jpg', 's3'], chiffon: ['chiffon.jpg', 's4'] };
+  /* chiffon should read light and airy, so its color is blended toward white */
+  function airy(hex) { var c = [1, 3, 5].map(function (i) { return Math.round(parseInt(hex.substr(i, 2), 16) * 0.55 + 255 * 0.45); }); return '#' + c.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join(''); }
   function tintImage(im, hex) {
     var w = 480, h = 320, c = document.createElement('canvas'); c.width = w; c.height = h; var x = c.getContext('2d'); x.drawImage(im, 0, 0, w, h);
     var d = x.getImageData(0, 0, w, h), px = d.data, n = px.length / 4, sum = 0, i;
@@ -366,15 +404,16 @@
     x.putImageData(d, 0, 0); return c.toDataURL('image/jpeg', 0.86);
   }
   function prep(r) {
-    var P = pal(r), pick = { n0: P.neu[0], n1: P.neu[1], n2: P.neu[2], n3: P.neu[3], s2: P.sig[2] }; r.__fab = {};
-    return Promise.all(Object.keys(FABP).map(function (id) {
+    var P = pal(r), pick = { n0: P.neu[0], n1: P.neu[1], n2: P.neu[2], n3: P.neu[3], s0: P.sig[0], s2: P.sig[2], s3: P.sig[3] || P.sig[0], s4: P.sig[4] || P.sig[1] }; r.__fab = {};
+    curHeel = (r.life && r.life.heel) || '';
+    return Promise.all(Object.keys(GKEYS).map(loadGarment).concat(Object.keys(FABP).map(function (id) {
       return new Promise(function (res) {
         var im = new Image();
-        im.onload = function () { try { r.__fab[id] = FABP[id][1] ? tintImage(im, pick[FABP[id][1]].h) : 'images/report/fabrics/' + FABP[id][0]; } catch (e) {} res(); };
+        im.onload = function () { try { r.__fab[id] = FABP[id][1] ? tintImage(im, id === 'chiffon' ? airy(pick[FABP[id][1]].h) : pick[FABP[id][1]].h) : 'images/report/fabrics/' + FABP[id][0]; } catch (e) {} res(); };
         im.onerror = function () { res(); };
         im.src = 'images/report/fabrics/' + FABP[id][0];
       });
-    }));
+    })));
   }
   /* ---------- 8. fabrics (chosen from the client's answers; swatches are drawn placeholders until real photos are added) ---------- */
   function fabricsBlock(r) {
@@ -515,10 +554,10 @@
       { k: 'vneck', n: 'V-neck top', c: S[0], start: true },
       { k: statement, n: NAMES[statement] || 'Statement top', c: S[2] },
       { k: skirt, n: NAMES[skirt] || 'Skirt', c: N[3] },
-      { k: 'trouser', n: 'Dark jeans', c: N[2], kind: 'jeans' },
+      { k: 'jeans', n: 'Dark jeans', c: N.slice().sort(function (a, b) { return lumH(a.h) - lumH(b.h); }).filter(function (c) { return lumH(c.h) > 0.05; })[0] || N[2], kind: 'jeans' },
       sep ? { k: 'wide', n: 'Wide-leg trousers for work', c: S[3] } : { k: dress1, n: (NAMES[dress1] || 'A-line') + ' dress for work', c: S[3], dressy: false },
       sep ? { k: 'vneck', n: 'Dressy top for dates', c: S[1], start: L.goal === 'event' } : { k: dress2, n: (NAMES[dress2] || 'Fit and flare') + ' dress for dates', c: S[1], start: L.goal === 'event' },
-      { k: 'coat', n: coatN, c: N[2] },
+      { k: cold ? 'coat' : 'trench', n: coatN, c: N[2] },
       { k: 'bag', n: 'Structured bag', c: A[0], kind: 'bag' },
       { k: 'shoe', n: heelN, c: N[3], kind: 'shoe' }
     ];
@@ -667,7 +706,7 @@
     + '.hx-chk{background:#ECE8E2;border-radius:99px;padding:7px 12px;display:flex;align-items:center;gap:9px;}.hx-chk b{flex:0 0 20px;height:20px;border-radius:50%;background:#7A1321;color:#fff;display:grid;place-items:center;font-size:0.62rem;}.hx-chk p{margin:0;font-size:0.68rem;line-height:1.3;color:#3F3C38;}'
     + '.hx-3b .hx-box{padding:0.75rem 1rem;}.hx-bt{display:flex;align-items:center;gap:10px;margin:5px 0;font-size:0.8rem;color:#3F3C38;}.hx-bt i{width:25px;height:25px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);flex:0 0 25px;}'
     + '.hx-tip{margin-top:16px;background:#7A1321;color:#fff;padding:11px 16px;border-radius:3px;text-align:center;font-size:0.7rem;line-height:1.5;letter-spacing:0.02em;}'
-    + '.hx-grow{display:flex;gap:14px;align-items:center;margin:0 0 8px;}.hx-fig{flex:0 0 66px;width:66px;height:116px;background:#F7E4DD;border:1px solid rgba(122,19,33,.3);border-radius:4px;padding:3px;box-sizing:border-box;}.hx-fig svg{width:100%;height:100%;display:block;}.hx-gb{flex:1;}.hx-gb h5{margin:0;font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:600;}.hx-gis{display:flex;gap:10px;}.hx-gi{flex:1;text-align:center;}.hx-gm{width:100%;height:92px;display:block;margin:0 auto;}.hx-gi span{display:block;font-size:0.66rem;color:#3F3C38;margin-top:1px;}.hx-gb p{margin:3px 0 0;font-size:0.66rem;font-weight:600;color:#7A1321;}'
+    + '.hx-grow{display:flex;gap:14px;align-items:center;margin:0 0 8px;}.hx-fig{flex:0 0 66px;width:66px;height:116px;background:#F7E4DD;border:1px solid rgba(122,19,33,.3);border-radius:4px;padding:3px;box-sizing:border-box;}.hx-fig svg{width:100%;height:100%;display:block;}.hx-gb{flex:1;}.hx-gb h5{margin:0;font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:600;}.hx-gis{display:flex;gap:10px;}.hx-gi{flex:1;text-align:center;}.hx-gm{width:100%;height:92px;display:block;margin:0 auto;}img.hx-gm{object-fit:contain;}.hx-cp img.hx-gm{height:88px}.hx-fg img.hx-gm{height:46px}.hx-rfg img.hx-gm{height:92px}.hx-gi span{display:block;font-size:0.66rem;color:#3F3C38;margin-top:1px;}.hx-gb p{margin:3px 0 0;font-size:0.66rem;font-weight:600;color:#7A1321;}'
     + '.hx-occ{background:#ECE8E2;border-radius:14px;padding:8px 16px;margin:0 0 6px;}.hx-occh{display:flex;align-items:center;gap:12px;}.hx-occh h4{margin:0;font-family:"Cormorant Garamond",serif;font-size:1.4rem;font-weight:600;}.hx-fm{display:flex;gap:14px;margin:6px 0 4px;font-size:0.7rem;color:#3F3C38;}.hx-fm b{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;margin-right:5px;}.hx-try{margin:2px 0 4px;font-size:0.72rem;color:#3F3C38;}.hx-try b{color:#7A1321;}.hx-occ ul{margin:0;padding-left:18px;font-size:0.7rem;line-height:1.5;color:#3F3C38;}'
     + '.hx-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;}.hx-why{color:#7A1321!important;font-style:italic;font-size:0.64rem!important;}.hx-ul{margin:0;padding-left:16px;font-size:0.78rem;line-height:1.55;color:#3F3C38;}.hx-pc{height:122px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 3px #fff,0 4px 8px -4px rgba(0,0,0,.3);}.hx-pc svg{width:100%;height:100%;display:block;}.hx-pt h5{margin:10px 0 0;font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:600;}.hx-pt small{display:block;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;font-weight:600;}.hx-pt p{margin:3px 0 0;font-size:0.7rem;line-height:1.45;color:#3F3C38;}'
     + '';
