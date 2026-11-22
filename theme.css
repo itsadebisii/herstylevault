@@ -1136,3 +1136,8 @@ a.hc-cta:hover,a.hc-cta:focus-visible{background:#6E0F20;}
 
 /* centered handle on the Suite page */
 .lbk-hero .lbk-hand{margin-left:auto; margin-right:auto; text-align:center;}
+
+/* Her Style Suite: Concierge Catalog heading */
+.lbk-cat{margin:0; font-family:var(--font-display); font-weight:500; font-size:clamp(1.9rem,5vw,2.7rem); line-height:1.05; color:#2A1814; text-align:center;}
+.lbk-cat em{color:#8B1226; font-style:italic;}
+.lbk-cat-sub{margin:.15rem auto .3rem; max-width:34ch; font:400 14.5px/1.5 var(--font-body); color:#5E3B38; text-align:center;}

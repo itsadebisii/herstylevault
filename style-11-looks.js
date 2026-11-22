@@ -1,6 +1,7 @@
 /* Style-11 looks: the one place to add, remove or reorder looks.
    title / short (name on the wheel) / art (the flat lay image) / alt / colors
    tags: occ (occasions it suits), time, vibe (polished, romantic, bold, easy), wx (cold, mild, warm)
+   theme: optional collection name. When set, the result says "From the Concierge Catalog · <theme>" in place of "Matched to your brief".
    wearing: true shows the "I'm wearing this" badge. credit: tiny photo credit {text, url} or null.
    outfit: link to the whole look (affiliate true/false)
    pieces: name, type (dress, top, bottom, shoes, bag, jewelry, accessory), url, affiliate, and box = [left, top, width, height] as % of the image.

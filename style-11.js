@@ -341,7 +341,7 @@
       var focusPiece = flagTypes ? l.pieces.filter(function(p){ return flagTypes.indexOf(p.type) > -1; })[0] : null;
       var focusLabel = (b.looking === 'shoes') ? 'Your shoes' : (b.looking === 'dress' ? 'Your dress' : (b.looking === 'accessories' ? 'Your accessories' : 'Your pieces'));
       var tags = st.fromBrief ? '<p class="s9-tagsline">' + [by(OCC, b.occ).t, by(VIBES, b.vibe).t, by(WX, b.wx).t].map(esc).join(' &middot; ') + '</p>' : '';
-      var match = st.fromBrief ? '<p class="s9-match">' + (r.s >= 8 ? 'Matched to your brief' : 'Closest look for now. More coming soon.') + '</p>' : '';
+      var match = st.fromBrief ? '<p class="s9-match">' + (r.s >= 8 ? (r.look.theme ? 'From the Concierge Catalog \u00b7 ' + esc(r.look.theme) : 'Matched to your brief') : 'Closest look for now. More coming soon.') + '</p>' : '';
       var all = (l.outfit ? '<li class="whole"><span>The whole look</span><a href="' + esc(l.outfit.url) + '" target="_blank" rel="noopener noreferrer' + (l.outfit.affiliate ? ' sponsored' : '') + '">Get it' + star(l.outfit.affiliate) + '</a></li>' : '') +
         l.pieces.map(function(p){ return '<li><span>' + esc(p.name) + '</span><a href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer' + (p.affiliate ? ' sponsored' : '') + '">Get it' + star(p.affiliate) + '</a></li>'; }).join('');
       var credit = l.credit ? '<p class="s9-credit">' + (l.credit.url ? '<a href="' + esc(l.credit.url) + '" target="_blank" rel="noopener noreferrer">' + esc(l.credit.text) + '</a>' : esc(l.credit.text)) + '</p>' : '';
