@@ -346,6 +346,30 @@
     return { key: 'patterns', label: 'Patterns', html: '<div class="hx-page">' + head('Patterns you <em>can wear</em>', sub) + '<div class="hx-pgrid">' + tl + '</div>' + tipHtml + '<div class="hx-tip" style="margin-top:10px">One pattern per outfit. Let it be the star and keep everything else solid.</div></div>' };
   }
 
+  /* real fabric photos, tinted to the client's own colors (denim and leather stay natural) */
+  var FABP = { crepe: ['crepe.jpg', 'n1'], ponte: ['ponte.jpg', 'n3'], denim: ['denim.jpg', null], wool: ['wool.jpg', 'n2'], knit: ['knit.jpg', 's2'], linen: ['linen.jpg', 'n0'], leather: ['leather.jpg', null], jersey: ['jersey.jpg', 'n2'], boucle: ['boucle.jpg', 'n0'], poplin: ['poplin.jpg', 'n0'] };
+  function tintImage(im, hex) {
+    var w = 480, h = 320, c = document.createElement('canvas'); c.width = w; c.height = h; var x = c.getContext('2d'); x.drawImage(im, 0, 0, w, h);
+    var d = x.getImageData(0, 0, w, h), px = d.data, n = px.length / 4, sum = 0, i;
+    for (i = 0; i < px.length; i += 4) sum += 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+    var mean = sum / n / 255 || 0.5, rgb = [1, 3, 5].map(function (k) { return parseInt(hex.substr(k, 2), 16); });
+    for (i = 0; i < px.length; i += 4) {
+      var l = (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 255, v = Math.max(0, Math.min(1, 0.55 + (l - mean) * 1.15));
+      for (var k = 0; k < 3; k++) px[i + k] = v < 0.55 ? rgb[k] * (v / 0.55) : rgb[k] + (255 - rgb[k]) * ((v - 0.55) / 0.45) * 0.55;
+    }
+    x.putImageData(d, 0, 0); return c.toDataURL('image/jpeg', 0.86);
+  }
+  function prep(r) {
+    var P = pal(r), pick = { n0: P.neu[0], n1: P.neu[1], n2: P.neu[2], n3: P.neu[3], s2: P.sig[2] }; r.__fab = {};
+    return Promise.all(Object.keys(FABP).map(function (id) {
+      return new Promise(function (res) {
+        var im = new Image();
+        im.onload = function () { try { r.__fab[id] = FABP[id][1] ? tintImage(im, pick[FABP[id][1]].h) : 'images/report/fabrics/' + FABP[id][0]; } catch (e) {} res(); };
+        im.onerror = function () { res(); };
+        im.src = 'images/report/fabrics/' + FABP[id][0];
+      });
+    }));
+  }
   /* ---------- 8. fabrics (chosen from the client's answers; swatches are drawn placeholders until real photos are added) ---------- */
   function fabricsBlock(r) {
     var P = pal(r), N = P.neu, S = P.sig, A = P.acc, D = dirs(r), good = String((r.bodyGuide && r.bodyGuide.fabGood) || ''), bad = String((r.bodyGuide && r.bodyGuide.fabAvoid) || '');
@@ -415,7 +439,7 @@
       if (clingy && CLING[f[0]]) { total -= 2 * CLING[f[0]]; }
       return { f: f, total: total, why: best[1], i: i };
     }).sort(function (a2, b2) { return b2.total - a2.total || a2.i - b2.i; }).slice(0, 6);
-    var tiles = scored.map(function (o) { var f = o.f; return '<div class="hx-pt"><div class="hx-pc" style="' + tex[f[0]]() + '"></div><h5>' + f[1] + '</h5><p>' + f[2] + '</p><p class="hx-why">' + E(o.why) + '</p></div>'; }).join('');
+    var tiles = scored.map(function (o) { var f = o.f; return '<div class="hx-pt"><div class="hx-pc" style="' + ((r.__fab && r.__fab[f[0]]) ? 'background:url(' + r.__fab[f[0]] + ') center/cover' : tex[f[0]]()) + '"></div><h5>' + f[1] + '</h5><p>' + f[2] + '</p><p class="hx-why">' + E(o.why) + '</p></div>'; }).join('');
     var avoid = [];
     if (bad) avoid.push(bad.replace(/\.\s*$/, ''));
     if (clingy) avoid.push('You prefer less attention on your midsection or hips, so skip thin, clingy fabrics there and choose ones that skim or hold their shape.');
@@ -634,5 +658,5 @@
 
   function ensureCss() { if (document.getElementById('hx-css')) return; var s = document.createElement('style'); s.id = 'hx-css'; s.textContent = CSS; document.head.appendChild(s); }
   ensureCss();
-  window.HX = { glance: glanceBlock, capsule: capsuleBlock, recipes: recipesBlock, fitguide: fitGuideBlock, audit: auditBlock, session: sessionBlock, fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock };
+  window.HX = { prep: prep, glance: glanceBlock, capsule: capsuleBlock, recipes: recipesBlock, fitguide: fitGuideBlock, audit: auditBlock, session: sessionBlock, fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock };
 })();
