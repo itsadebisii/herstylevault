@@ -168,7 +168,7 @@ function offerCard(o){
   var best = o.best ? '<p class="vd-desc"><b>' + o.best.split(' ').slice(0, 2).join(' ') + '</b> ' + o.best.split(' ').slice(2).join(' ') + '</p>' : '';
   return '<div class="vd-card tone-' + (o.tone || 'cream') + '"><a class="vd-media" href="' + url + '" aria-label="Details: ' + plain(o.name) + '">' + cover + '</a><div class="vd-body">' +
     '<div class="vd-toprow"><p class="vd-eyebrow">' + (pkg ? (OFFER_TAG_NOTE[o.slug] || 'Private Styling Package') : o.tag) + '</p><a class="vd-peek" href="' + url + '">See more <i aria-hidden="true">\u2192</i></a></div>' +
-    '<h3 class="card-title" role="heading" aria-level="2">' + o.name + '</h3>' + (pkg ? best : '') + '<p class="vd-desc">' + o.short + '</p>' +
+    '<p class="kind-badge' + (pkg ? '' : ' svc') + '">' + (pkg ? 'Package \u00b7 several sessions' : 'Service \u00b7 one-time') + '</p><h3 class="card-title" role="heading" aria-level="2">' + o.name + '</h3>' + (pkg ? best : '') + '<p class="vd-desc">' + o.short + '</p>' +
     '<p class="vd-prices"><span class="price">' + (pkg ? o.from + ' <small>/ package</small>' : 'From ' + o.from + (o.fromNote.indexOf('per person') > -1 ? ' <small>per person</small>' : '')) + '</span></p>' +
     (pkg ? '<p class="vd-desc">' + o.meta + '</p>' : '') +
     '<div class="vd-actions">' + (pkg

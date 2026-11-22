@@ -73,7 +73,7 @@
     var others = OFFERS.filter(function(x){ return x !== o && x.kind === o.kind; });
     var hh = '<section class="band wrap offer-hero tone-' + (o.tone || 'cream') + '" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="' + (isSvc ? 'services.html' : 'packages.html') + '">' + (isSvc ? '\u00c0 La Carte Services' : 'Private Styling Packages') + '</a> / ' + plain(o.name) + '</p>' +
       '<div class="dg-hero"><div class="dg-media">' + cover(o, true) + '</div><div class="dg-info">' +
-      '<h1 class="page-title"><span class="h1-kw">' + plain(o.name) + ': ' + plain(o.tag) + '</span>' + o.headline + '</h1>' +
+      '<p class="kind-badge' + (isSvc ? ' svc' : '') + '">' + (isSvc ? 'Service \u00b7 one-time' : 'Package \u00b7 several sessions') + '</p><h1 class="page-title"><span class="h1-kw">' + plain(o.name) + ': ' + plain(o.tag) + '</span>' + o.headline + '</h1>' +
       '<p class="sub" style="margin-bottom:1rem;">' + o.lead + '</p>' + (o.best ? '<p class="meta" style="margin:-.4rem 0 1rem;font-style:italic;">' + o.best + '</p>' : '') + picker + priceHtml +
       '<p class="meta" style="margin:0 0 1.2rem;">' + o.meta + '</p>' + cta +
       '<div class="dg-acc">' + acc.join('') + '</div></div></div></section>';

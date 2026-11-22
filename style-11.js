@@ -5,11 +5,11 @@
      window.STYLE11_PAY_URL       Stripe link for the day pass
      window.STYLE11_WAITLIST_URL  Google Apps Script URL that receives waitlist emails
      window.STYLE11_FREE_ROLLS    free rolls per day (default 3)
-     window.STYLE11_CLIENT_CODES  array of codes you give booked clients; a valid code unlocks unlimited rolls on that device */
+     window.STYLE11_KEYS          Suite Keys (style-11-keys.js): a valid key unlocks unlimited rolls and the bonus modes on that device */
 (function(){
   var LOOKS = window.STYLE11_LOOKS || [];
   var FREE_ROLLS = window.STYLE11_FREE_ROLLS || 3;
-  var RKEY = 'hsv_s11_rolls', SKEY = 'hsv_s11_saved', CKEY = 'hsv_s11_client', EARN = 3;
+  var RKEY = 'hsv_s11_rolls', SKEY = 'hsv_s11_saved', CKEY = 'hsv_s11_key', EARN = 3;
   var ICON = 'images/brand/icon-header.png';
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var noHover = window.matchMedia && matchMedia('(hover: none)').matches;
@@ -46,7 +46,15 @@
     return r;
   }
   function saveRolls(r){ try { localStorage.setItem(RKEY, JSON.stringify(r)); } catch (e) {} }
-  function isClient(){ try { return localStorage.getItem(CKEY) === '1'; } catch (e) { return false; } }
+  function normKey(x){ return String(x || '').trim().toUpperCase().replace(/\s+/g, ''); }
+  function keyList(){ return (window.STYLE11_KEYS || []).map(normKey); }
+  /* a key only counts while it is still on the list, so turning one off works everywhere */
+  function isClient(){ try { var k = normKey(localStorage.getItem(CKEY)); return !!k && keyList().indexOf(k) > -1; } catch (e) { return false; } }
+  function tryKey(raw){
+    var k = normKey(raw); if (k && k.indexOf('SUITE-') !== 0) k = 'SUITE-' + k.replace(/^SUITE-?/, '');
+    if (!k || keyList().indexOf(k) < 0) return false;
+    try { localStorage.setItem(CKEY, k); } catch (e) {} return true;
+  }
   function canEarn(){ return (rolls().bonus || 0) < EARN; }
   function rollsLeft(){ if (isClient()) return 99; var r = rolls(); return Math.max(0, FREE_ROLLS + (r.bonus || 0) - r.used); }
   function useRoll(){ if (isClient()) return true; var r = rolls(); if (FREE_ROLLS + (r.bonus || 0) - r.used <= 0) return false; r.used += 1; saveRolls(r); return true; }
@@ -80,14 +88,14 @@
 
   /* ---------- chat (intro) ---------- */
   function chatHtml(){
-    return '<div class="s9-phone" role="img" aria-label="A text conversation. A client writes: Help, I’m stressed, I need an outfit for dinner this weekend. Style-11 please. The stylist replies: I got you girl lala. What are we doing this weekend? What are your vibes?">' +
+    return '<div class="s9-phone" role="img" aria-label="A text conversation. A client writes: Help, I’m stressed, I need an outfit for dinner this weekend. Style-11 please. The stylist replies: I got you girlala. What are we doing this weekend? What are your vibes?">' +
       '<div class="s9-notch" aria-hidden="true"></div>' +
       '<div class="s9-status" aria-hidden="true"><span>9:41</span><span class="s9-sig"><i></i><i></i><i></i><i></i><em></em></span></div>' +
       '<div class="s9-bar" aria-hidden="true"><span class="s9-back">‹</span><span class="s9-av"><img src="' + ICON + '" alt="" width="58" height="33"></span><span class="s9-who">HerStyleVault</span></div>' +
       '<div class="s9-chat" aria-hidden="true"><p class="s9-time"><b>Friday</b> 4:47 PM</p>' +
       '<div style="--d:0.4s" class="s11-pop s9-row them"><p class="b them">HELP I’m stressed 🥲 I need an outfit for dinner this weekend</p></div>' +
       '<div style="--d:1.2s" class="s11-pop s9-row them"><p class="b them tail">Style-11 please 🚨<span class="s9-react">❤️</span></p></div>' +
-      '<div style="--d:2.1s" class="s11-pop s9-row me"><p class="b me">I got you girl lala 🫶🏾</p></div>' +
+      '<div style="--d:2.1s" class="s11-pop s9-row me"><p class="b me">I got you girlala 🫶🏾</p></div>' +
       '<div style="--d:2.9s" class="s11-pop s9-row me"><p class="b me tail">What are we doing this weekend? What are your vibes??</p></div>' +
       '<p class="s9-deliv s11-pop" style="--d:3.3s">Delivered</p>' +
       '<div style="--d:3.7s" class="s11-pop s9-row them"><p class="b them typing tail"><i></i><i></i><i></i></p></div></div>' +
@@ -99,6 +107,9 @@
     roll: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>',
     spin: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5v17M3.5 12h17M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.2" opacity=".7"/></svg>',
     pick: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-1.2a1.5 1.5 0 0 1 3 0V11m0-.6a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a5 5 0 0 1-4-2L4.2 15.7a1.5 1.5 0 0 1 2.4-1.8L9 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    scratch: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 15c2-4 3-4 5 0s3 3 5-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    gift: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><rect x="3.5" y="9" width="17" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 9v11M3.5 13h17M12 9C9 9 7.5 7.6 8.2 6.3S11 5.2 12 9zm0 0c3 0 4.5-1.4 3.8-2.7S13 5.2 12 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',
+    lock: '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="9.5" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     heart: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'
   };
 
@@ -158,17 +169,25 @@
     }
     function meterHtml(){
       var left = rollsLeft(), pips = '';
-      if (isClient()) return '<div class="s11-meter" role="status"><span>Rolls today</span><b>Unlimited</b></div>';
+      if (isClient()) return '<div class="s11-meter" role="status"><span>Suite Key</span><b>Unlimited rolls</b></div>';
       for (var i = 0; i < FREE_ROLLS + (rolls().bonus || 0); i++) pips += '<i class="' + (i < left ? 'on' : '') + '"></i>';
       return '<div class="s11-meter" role="status"><span>Rolls today</span><span class="pips" aria-hidden="true">' + pips + '</span><b>' + left + ' left</b></div>';
     }
     function howText(){
-      return {roll:'Tap the dice. We shuffle your matches and land on one.', spin:'Spin the wheel. It lands on one of your matches.', pick:'Tap the piece you would grab first. We reveal the full look.'}[st.method];
+      return {roll:'Tap the dice. We shuffle your matches and land on one.', spin:'Spin the wheel. It lands on one of your matches.', pick:'Tap the piece you would grab first. We reveal the full look.', scratch:'Scratch the foil with your finger or mouse to uncover your look.', gift:'Tap the gift to open it and see what is inside.'}[st.method];
     }
     function methodsHtml(){
       var M = [['roll','Roll'],['spin','Spin'],['pick','Pick']];
       return '<div class="s9-methods" role="group" aria-label="How do you want to play?">' + M.map(function(m){
         return '<button type="button" class="s9-m' + (st.method === m[0] ? ' on' : '') + '" data-method="' + m[0] + '" aria-pressed="' + (st.method === m[0]) + '">' + IC[m[0]] + ' ' + m[1] + '</button>';
+      }).join('') + '</div>' + bonusHtml();
+    }
+    /* Suite Key bonus modes: open for key holders, shown locked for everyone else */
+    function bonusHtml(){
+      var B = [['scratch','Scratch to reveal'],['gift','Gift box']], has = isClient();
+      return '<div class="s9-methods s11-bonus" role="group" aria-label="Suite Key bonus modes">' + B.map(function(m){
+        if (has) return '<button type="button" class="s9-m' + (st.method === m[0] ? ' on' : '') + '" data-method="' + m[0] + '" aria-pressed="' + (st.method === m[0]) + '">' + IC[m[0]] + ' ' + m[1] + '</button>';
+        return '<button type="button" class="s9-m locked" data-act="key" aria-label="' + m[1] + ', a bonus mode. Enter a Suite Key to unlock.">' + IC.lock + ' ' + m[1] + '</button>';
       }).join('') + '</div>';
     }
     /* the wheel: one slice per look that matches the brief */
@@ -198,7 +217,19 @@
         return '<button type="button" class="s11-pick' + (c.chosen ? ' chosen' : '') + (c.dim ? ' dim' : '') + '" data-pick="' + i + '" aria-label="' + esc(c.piece.name) + '"><span class="crop">' + pieceCrop(c.look, c.piece) + '</span><span class="cap">' + esc(c.piece.name) + '</span></button>';
       }).join('') + '</div>';
     }
+    function scratchHtml(){
+      var key = JSON.stringify(st.brief);
+      if (!st.sWin || st.sKey !== key) { st.sWin = choose(candidates()); st.sKey = key; }
+      return '<div class="s11-scratch" id="scr"><img src="' + esc(st.sWin.look.art) + '" alt="" draggable="false"><canvas id="scrC" role="img" aria-label="Scratch card. Drag across it to scratch and uncover your look."></canvas><span class="s11-scr-hint" id="scrHint">Scratch here</span></div>' +
+        '<button type="button" class="link-btn s11-scr-skip" data-act="scrall">Or reveal it for me</button>';
+    }
+    function giftHtml(){
+      return '<button type="button" class="s11-gift" id="gift" data-act="gift" aria-label="Tap to open the gift"><span class="g-lid"><i class="g-bow"></i></span><span class="g-box"><img src="' + ICON + '" alt="" width="58" height="33"></span><span class="g-rib"></span><span class="g-spk"><b></b><b></b><b></b><b></b><b></b><b></b></span></button>' +
+        '<button type="button" class="lbk-btn s9-rollbtn" data-act="gift">Open the gift</button>';
+    }
     function stageHtml(){
+      if (st.method === 'scratch' && isClient()) return scratchHtml();
+      if (st.method === 'gift' && isClient()) return giftHtml();
       if (st.method === 'spin') { if (!st.strip.length) dealStrip(); return wheelHtml() + '<button type="button" class="lbk-btn s9-rollbtn" data-act="spin">Spin the wheel</button>'; }
       if (st.method === 'pick') return pickHtml();
       var faces = [1,2,3,4,5,6].map(function(n){ return '<span class="f f' + n + '"><img src="' + ICON + '" alt="" width="58" height="33"></span>'; }).join('');
@@ -208,13 +239,22 @@
         '<button type="button" class="lbk-btn s9-rollbtn" data-act="roll">Roll the dice</button>';
     }
     function renderPlay(){
+      if ((st.method === 'scratch' || st.method === 'gift') && !isClient()) st.method = 'roll';
       var left = rollsLeft(), n = savedList().length;
       return '<section class="s9-quiz s9-play"><h2 class="s9-h2" data-title tabindex="-1">find your look</h2>' +
         '<div class="s11-brief"><p class="s11-chips">' + briefChips().map(function(c){ return '<span>' + esc(c) + '</span>'; }).join('') + '</p><button type="button" class="link-btn" data-act="edit">Edit answers</button>' +
         (n ? '<button type="button" class="link-btn" data-act="saved">Saved (' + n + ')</button>' : '') + '</div>' +
-        meterHtml() + methodsHtml() + '<p class="s11-how">' + howText() + '</p>' +
+        meterHtml() + (isClient() ? '' : '<button type="button" class="link-btn s11-keylink" data-act="key">Have a Suite Key?</button>') + methodsHtml() + '<p class="s11-how">' + howText() + '</p>' +
         (left ? stageHtml() : '<div class="s11-out"><p>You have used today’s rolls.</p><button type="button" class="lbk-btn s9-rollbtn" data-act="locked">Get more rolls</button></div>') +
         '<button type="button" class="s9-back-btn" data-act="back">‹ Back</button> <button type="button" class="link-btn" data-act="how">How it works</button><p class="s9-hint" role="status" aria-live="polite"></p></section>';
+    }
+    function renderKey(){
+      return '<section class="s9-quiz s11-keyscr"><p class="s11-kicker">Suite Key</p><h2 class="s9-h2" data-title tabindex="-1">Have a Suite Key?</h2>' +
+        '<p class="s9-rsub">Your key came with your style guide. It unlocks unlimited rolls and two bonus modes: Scratch to reveal and Gift box.</p>' +
+        '<form class="s11-wl s11-keyform" id="cc" novalidate><label class="s11-vh" for="ccCode">Suite Key</label><input id="ccCode" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="SUITE-XXXX" required><button type="submit" class="lbk-btn">Unlock</button></form>' +
+        '<p class="s9-hint" id="ccMsg" role="status" aria-live="polite"></p>' +
+        '<p class="s11-fine">No key yet? One comes with every package. <a href="packages.html" target="_blank" rel="noopener">See the packages</a></p>' +
+        '<button type="button" class="s9-back-btn" data-act="keyback">\u2039 Back</button></section>';
     }
     function renderLocked(){
       var total = FREE_ROLLS + EARN, back = '<button type="button" class="s9-back-btn" data-act="toplay">‹ Back</button></section>';
@@ -226,8 +266,8 @@
           '<p class="s9-rsub">You have used all ' + total + ' of today’s free rolls. Book a package to keep going.</p>' +
           '<div class="s11-offers">' +
           '<div class="s11-offer feat"><span class="tag">Best way to unlock</span><h3>Book a package</h3><p>Every package unlocks more Style-11 rolls, plus you get me styling you for real.</p><a class="lbk-btn" href="packages.html" data-act="book">See the packages</a></div>' +
-          ((window.STYLE11_CLIENT_CODES || []).length ? '<div class="s11-offer"><span class="tag">Already booked?</span><h3>Enter your client code</h3><p>Your code is in your booking confirmation.</p>' +
-          '<form class="s11-wl" id="cc" novalidate><label class="s11-vh" for="ccCode">Client code</label><input id="ccCode" type="text" autocomplete="off" autocapitalize="characters" placeholder="Your code" required><button type="submit" class="lbk-btn ghost">Unlock my rolls</button></form><p class="s9-hint" id="ccMsg" role="status" aria-live="polite"></p></div>' : '') +
+          (keyList().length ? '<div class="s11-offer"><span class="tag">Already booked?</span><h3>Enter your Suite Key</h3><p>Your key came with your style guide.</p>' +
+          '<form class="s11-wl" id="cc" novalidate><label class="s11-vh" for="ccCode">Client code</label><input id="ccCode" type="text" autocomplete="off" autocapitalize="characters" placeholder="SUITE-XXXX" required><button type="submit" class="lbk-btn ghost">Unlock my rolls</button></form><p class="s9-hint" id="ccMsg" role="status" aria-live="polite"></p></div>' : '') +
           wlCard +
           '</div><p class="s11-fine">Free rolls reset tomorrow.</p>' + back;
       }
@@ -305,10 +345,12 @@
       else if (s === 'brief') view.innerHTML = renderBrief();
       else if (s === 'play') view.innerHTML = renderPlay();
       else if (s === 'locked') view.innerHTML = renderLocked();
+      else if (s === 'key') view.innerHTML = renderKey();
       else if (s === 'saved') view.innerHTML = renderSaved();
       else if (s === 'how') view.innerHTML = renderHow();
       else if (s === 'result') view.innerHTML = renderResult(st.result);
       if (s === 'result') { clearTimeout(st.spreadT); st.spreadT = setTimeout(spreadTags, reduce ? 80 : (view.querySelectorAll('.hs').length * 160 + 1500)); }
+      if (s === 'play' && st.method === 'scratch' && isClient()) initScratch();
       if (focus) focusTitle();
       if (modal) { var body = root.closest('.s11-body'); if (body && s !== 'result') body.scrollTop = 0; }
     }
@@ -412,6 +454,48 @@
       g.style.transition = 'transform 3.6s cubic-bezier(.12,.65,.1,1)'; g.style.transform = 'rotate(' + st.wrot + 'deg)';
       setTimeout(function(){ reveal(win); }, 4100);
     }
+    /* ---------- bonus modes (Suite Key) ---------- */
+    function initScratch(){
+      var c = view.querySelector('#scrC'), box = view.querySelector('#scr'); if (!c || !box) return;
+      var w = Math.round(box.clientWidth), h = Math.round(box.clientHeight), dpr = Math.min(2, window.devicePixelRatio || 1);
+      if (!w || !h) { setTimeout(initScratch, 60); return; }
+      c.width = w * dpr; c.height = h * dpr; c.style.width = w + 'px'; c.style.height = h + 'px';
+      var x = c.getContext('2d'); x.scale(dpr, dpr);
+      var g = x.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#9A1830'); g.addColorStop(.5, '#6E0F20'); g.addColorStop(1, '#8B1226');
+      x.fillStyle = g; x.fillRect(0, 0, w, h);
+      x.fillStyle = 'rgba(255,255,255,.13)';
+      for (var yy = 14, r = 0; yy < h; yy += 26, r++) for (var xx = (r % 2) * 13 + 8; xx < w; xx += 26) { x.beginPath(); x.arc(xx, yy, 5, 0, 6.2832); x.fill(); }
+      x.strokeStyle = 'rgba(201,154,46,.9)'; x.lineWidth = 3; x.strokeRect(6, 6, w - 12, h - 12);
+      var down = false, done = false, started = false;
+      function pos(e){ var b = c.getBoundingClientRect(); return [(e.clientX - b.left) * (w / b.width), (e.clientY - b.top) * (h / b.height)]; }
+      function scratchAt(e){
+        var p = pos(e); x.globalCompositeOperation = 'destination-out'; x.fillStyle = '#000'; x.beginPath(); x.arc(p[0], p[1], Math.max(20, w * .075), 0, 6.2832); x.fill(); x.globalCompositeOperation = 'source-over';
+        if (!started) { started = true; var hint = view.querySelector('#scrHint'); if (hint) hint.classList.add('off'); }
+      }
+      function cleared(){
+        var d = x.getImageData(0, 0, c.width, c.height).data, n = 0, t = 0, step = 16 * 4 * Math.max(1, Math.round(dpr));
+        for (var i = 3; i < d.length; i += step) { t++; if (d[i] < 40) n++; }
+        return n / t;
+      }
+      function finish(){
+        if (done) return; done = true; c.classList.add('gone');
+        var win = st.sWin; st.sWin = null; setTimeout(function(){ if (win) reveal(win); }, reduce ? 0 : 420);
+      }
+      c.addEventListener('pointerdown', function(e){ if (done) return; down = true; try { c.setPointerCapture(e.pointerId); } catch (x2) {} scratchAt(e); e.preventDefault(); });
+      c.addEventListener('pointermove', function(e){ if (!down || done) return; scratchAt(e); });
+      function up(){ if (!down) return; down = false; if (!done && cleared() > .5) finish(); }
+      c.addEventListener('pointerup', up); c.addEventListener('pointercancel', up);
+      st.scratchFinish = finish;
+    }
+    function gift(){
+      if (st.busy) return;
+      if (!useRoll()) { go('locked'); return; }
+      st.busy = true; refreshMeter();
+      var win = choose(candidates()), el = view.querySelector('#gift');
+      if (!el || reduce) { reveal(win); return; }
+      lockButtons(true); el.classList.add('open');
+      setTimeout(function(){ reveal(win); }, 1250);
+    }
     function dealPicksFresh(){ st.picks = null; dealPicks(); }
     function pickPiece(i){
       if (st.busy || !st.picks || st.picks.some(function(c){ return c.chosen; })) return;
@@ -464,6 +548,10 @@
       else if (what === 'saved') go('saved');
       else if (what === 'roll') roll();
       else if (what === 'spin') spin();
+      else if (what === 'gift') gift();
+      else if (what === 'key') { st.keyFrom = st.screen; go('key'); }
+      else if (what === 'keyback') go(st.keyFrom === 'locked' ? 'locked' : 'play');
+      else if (what === 'scrall') { if (st.scratchFinish) st.scratchFinish(); else if (st.sWin) { var sw = st.sWin; st.sWin = null; reveal(sw); } }
       else if (what === 'locked') go('locked');
       else if (what === 'again') { if (rollsLeft()) { st.picks = null; go('play'); } else go('locked'); }
       else if (what === 'restart') { st.brief = {occ:null,time:null,looking:null,vibe:null,wx:null,age:null}; st.seen = []; st.strip = []; st.picks = null; st.step = 0; go('brief'); }
@@ -485,9 +573,9 @@
     root.addEventListener('submit', function(e){
       if (e.target.id === 'cc') {
         e.preventDefault();
-        var code = view.querySelector('#ccCode').value.trim().toUpperCase(), cm = view.querySelector('#ccMsg'), codes = (window.STYLE11_CLIENT_CODES || []).map(function(x){ return String(x).trim().toUpperCase(); });
-        if (code && codes.indexOf(code) > -1) { try { localStorage.setItem(CKEY, '1'); } catch (x) {} cm.textContent = 'Unlocked. Roll away!'; setTimeout(function(){ st.picks = null; go('play'); }, 700); }
-        else cm.textContent = codes.length ? 'That code did not work. Check your booking confirmation.' : 'Preview: your client codes go in STYLE11_CLIENT_CODES.';
+        var cm = view.querySelector('#ccMsg');
+        if (tryKey(view.querySelector('#ccCode').value)) { cm.textContent = 'Suite Key accepted. Unlimited rolls and bonus modes unlocked!'; setTimeout(function(){ st.picks = null; st.method = 'roll'; go('play'); }, 900); }
+        else cm.textContent = 'That key did not work. Check it and try again, or reach out and I will help.';
         return;
       }
       if (e.target.id !== 'wl') return; e.preventDefault();

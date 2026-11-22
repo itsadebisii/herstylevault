@@ -4,8 +4,8 @@ var HSV_ICONS = {
   bag: '<path d="M5.2 9h13.6l1 11.5H4.2L5.2 9Z"/><path d="M8.6 9V7.2a3.4 3.4 0 0 1 6.8 0V9"/>'
 };
 function hsvIcon(name, size){ return HSV_ICON_BASE.replace(/SIZE/g, size || 14) + HSV_ICONS[name] + '</svg>'; }
-var TICKER_ITEMS = ['Color Analysis','Wardrobe Detox','Wardrobe Consulting','Personal Shopping','Now Booking'];
-var TICKER_MARKS = ['hanger','bag','hanger','bag','hanger'];
+var TICKER_ITEMS = ['Color Analysis','Wardrobe Detox','One-Time Services, No Subscriptions','Wardrobe Consulting','Personal Shopping','Now Booking'];
+var TICKER_MARKS = ['hanger','bag','hanger','bag','hanger','bag'];
 function tickerSet(hidden){
   return '<div class="ticker-set"' + (hidden ? ' aria-hidden="true"' : '') + '>' + TICKER_ITEMS.map(function(t,i){ return '<span class="ticker-item">' + t + '</span><span class="ticker-sep">' + hsvIcon(TICKER_MARKS[i], 15) + '</span>'; }).join('') + '</div>';
 }
@@ -20,7 +20,7 @@ const NAV_HTML = `${TICKER_HTML}
 <a href="packages.html">Private Styling Packages</a>
 <a href="services.html">À La Carte Services</a>
 </div></li>
-<li><a href="lookbook.html">Lookbook</a></li>
+<li><a href="her-style-suite.html">Her Style Suite</a></li>
 <li><a href="vault-digitals.html">Vault Digitals</a></li>
 <li><a href="locations.html">Locations</a></li>
 <li><a href="about.html">About</a></li>
@@ -50,7 +50,7 @@ const FOOTER_HTML = `<div class="wrap">
 <li><a href="packages.html">Private Styling Packages</a></li>
 <li><a href="services.html">À La Carte Services</a></li>
 <li><a href="vault-digitals.html">Vault Digitals</a></li>
-<li><a href="lookbook.html">Lookbook</a></li>
+<li><a href="her-style-suite.html">Her Style Suite</a></li>
 </ul>
 </div>
 <div class="footer-col">
@@ -218,14 +218,14 @@ document.addEventListener('click', function(e){
 
 /* ===== Style-11 =====
    Opens as a pop-up from anywhere. Its files load the first time someone asks for it (or hovers/touches a Style-11 link). */
-var S11_V = '20261122a', s11Loading = null;
+var S11_V = '20261122b', s11Loading = null;
 function loadStyle11(){
   if (window.Style11) return Promise.resolve();
   if (s11Loading) return s11Loading;
   s11Loading = new Promise(function(resolve, reject){
     var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'style-11.css?v=' + S11_V; document.head.appendChild(l);
     function add(src, next){ var t = document.createElement('script'); t.src = src + '?v=' + S11_V; t.onload = next; t.onerror = reject; document.head.appendChild(t); }
-    add('style-11-looks.js', function(){ add('style-11.js', resolve); });
+    add('style-11-looks.js', function(){ add('style-11-keys.js', function(){ add('style-11.js', resolve); }); });
   });
   s11Loading.catch(function(){ s11Loading = null; });
   return s11Loading;
