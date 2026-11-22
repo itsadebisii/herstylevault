@@ -892,7 +892,7 @@ function renderQuestion(q) {
     const sw = (f) => `<div class="opt sw ${sel.indexOf(f.v) > -1 ? 'sel' : ''}" data-key="${q.key}" data-val="${f.v}" data-multi="1" data-max="${q.max}" role="checkbox" aria-checked="${sel.indexOf(f.v) > -1}" tabindex="0"><i style="background:${f.hex}"></i><span>${f.l}</span></div>`;
     body = Object.keys(FAV_GROUPS).map(g => `<p class="group-lbl">${FAV_GROUPS[g]}</p><div class="swatches">${FAV.filter(f => f.g === g).map(sw).join('')}</div>`).join('') + `
       <p class="group-lbl">Don't see yours? Type any color</p>
-      <input type="text" class="nameinput" id="comp-other" placeholder="For example: dusty rose" maxlength="40" value="${String(A.compOther || '').replace(/"/g, '&quot;')}">`;
+      <input type="text" class="nameinput" id="comp-other" placeholder="For example: muted rose" maxlength="40" value="${String(A.compOther || '').replace(/"/g, '&quot;')}">`;
   } else if (q.type === 'depth') {
     const opts = [
       { v: 'fair', label: 'Fair / Light', hex: '#f2d3b8' },

@@ -154,7 +154,7 @@
     "h": "#9aa0a6"
    },
    {
-    "n": "Dusty Mauve",
+    "n": "Muted Mauve",
     "h": "#a98995"
    }
   ]
@@ -222,7 +222,7 @@
   ],
   "avoidSwatches": [
    {
-    "n": "Dusty Taupe",
+    "n": "Muted Taupe",
     "h": "#a89c90"
    },
    {
@@ -278,7 +278,7 @@
     "h": "#9fcfd0"
    },
    {
-    "n": "Dusty Rose",
+    "n": "Muted Rose",
     "h": "#c98fa0"
    },
    {
@@ -342,7 +342,7 @@
   ],
   "signature": [
    {
-    "n": "Dusty Rose",
+    "n": "Muted Rose",
     "h": "#c98a91"
    },
    {
@@ -412,7 +412,7 @@
     "h": "#9b9691"
    },
    {
-    "n": "Dusty Navy",
+    "n": "Muted Navy",
     "h": "#3e4a5c"
    },
    {
@@ -422,7 +422,7 @@
   ],
   "signature": [
    {
-    "n": "Dusty Teal",
+    "n": "Muted Teal",
     "h": "#5b8a86"
    },
    {
@@ -506,7 +506,7 @@
     "h": "#8a9a6b"
    },
    {
-    "n": "Dusty Coral",
+    "n": "Muted Coral",
     "h": "#c98a6b"
    },
    {
@@ -782,7 +782,7 @@
   ],
   "avoidSwatches": [
    {
-    "n": "Dusty Camel",
+    "n": "Muted Camel",
     "h": "#b79b7a"
    },
    {
@@ -794,7 +794,7 @@
     "h": "#a89f7f"
    },
    {
-    "n": "Dusty Rose",
+    "n": "Muted Rose",
     "h": "#c9a3a0"
    }
   ]
@@ -874,7 +874,7 @@
     "h": "#c99a2e"
    },
    {
-    "n": "Dusty Sage",
+    "n": "Muted Sage",
     "h": "#a3af9a"
    }
   ]

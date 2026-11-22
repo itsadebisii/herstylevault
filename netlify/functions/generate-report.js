@@ -29,7 +29,7 @@ const AI_TIMEOUT_MS = Number(process.env.AI_TIMEOUT_MS) || 8500;
 
 // Phrases that make a report sound machine-written, plus any echo of the quiz wording.
 // Anything the model returns that matches is thrown away and replaced by the template version.
-const BANNED = /absolutely|stunning|\bicon\b|iconic|icon energy|unforgettable|elevate|game[- ]?changer|you selected|you chose|you picked|you told us|you said|based on (your|what you)|fabulous|gorgeous|obsessed|slay|bestie|queen|journey|embrace your|unlock your|chef's kiss|look no further|level up|stand out from the crowd|it's not (just )?[a-z ]+, it's/i;
+const BANNED = /dusty|absolutely|stunning|\bicon\b|iconic|icon energy|unforgettable|elevate|game[- ]?changer|you selected|you chose|you picked|you told us|you said|based on (your|what you)|fabulous|gorgeous|obsessed|slay|bestie|queen|journey|embrace your|unlock your|chef's kiss|look no further|level up|stand out from the crowd|it's not (just )?[a-z ]+, it's/i;
 
 const wordCount = (t) => String(t || '').trim().split(/\s+/).filter(Boolean).length;
 const lcFirst = (t) => (t ? t.charAt(0).toLowerCase() + t.slice(1) : t);
@@ -54,6 +54,7 @@ VOICE
 - Use at most one em dash in the whole narrative. Prefer commas and full stops.
 
 NEVER WRITE
+- The word "dusty" in any form. Say muted, soft or smoky instead.
 - Hype or filler words: absolutely, stunning, gorgeous, iconic, icon energy, unforgettable, elevate, game-changer, fabulous, obsessed, slay, queen, journey, "unlock your", "embrace your", "look no further", "level up".
 - Echoes of the quiz: "You selected", "You chose", "You told us", "You said", "Based on your answers". Do not recite answers in the order she gave them.
 - The "it's not X, it's Y" construction, or three-item lists of adjectives used as decoration.
