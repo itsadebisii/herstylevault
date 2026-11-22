@@ -3,6 +3,9 @@
    To turn one off, delete its line. To add more, add lines in the same format.
    Note: keys live in the page files, so someone technical could find them. That is fine for a perk. */
 window.STYLE11_KEYS = [
+  // Owner test key (yours, not for clients)
+  'SUITE-ELV2',
+  // Client keys
   'SUITE-9SXX',
   'SUITE-NLD8',
   'SUITE-Z2MP',

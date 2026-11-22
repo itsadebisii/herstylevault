@@ -27,7 +27,7 @@
 var DIGITALS = [
   {
     slug: 'signature-style-report',
-    seoName: 'Signature Style Report', seoTitle: 'Signature Style Report: Color & Body Shape | HerStyleVault', seoDesc: 'Get your color season, body shape and signature style in one custom Signature Style Report. Answer 26 questions, add a photo and get your PDF by email.',
+    seoName: 'Signature Style Report', seoTitle: 'Signature Style Report: Color & Body Shape | HerStyleVault', seoDesc: 'Get your color season, body shape and style persona in one detailed 21-page Signature Style Report: your palette around your face, outfit formulas, a 12-piece starter capsule and shop links. Answer 26 questions and get your PDF by email.',
     name: 'Signature Style Report',
     category: 'reports', status: 'live',
     coverSub: 'Color · Shape · Style',
@@ -35,16 +35,18 @@ var DIGITALS = [
     coverImage: 'images/digitals/report-cover.jpg',
     previews: [
       {src:'images/digitals/report-page-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
+      {src:'images/digitals/report-page-5.jpg', alt:'Sample report page: your color type, your coloring at a glance, and your face at the center of a color wheel built from your palette'},
+      {src:'images/digitals/report-page-6.jpg', alt:'Sample report page: your palette tuned across ten skin shades, with your own shade marked'},
       {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
       {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your starter capsule of 12 pieces with shop links', locked:true},
       {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: six complete outfit recipes', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
-    short: "26 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
+    short: "A detailed 21-page personal style report: your color season on a wheel around your face, your body shape, your style persona, and exactly what to wear and where to shop.",
     headline: 'Your <em>colors</em>, your <em>shape</em> and exactly what to wear, all in one detailed report',
-    lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
+    lead: "A 21-page personal style report built from your answers and your photo, using the same method I use with real clients. You get your color season and a palette arranged around your face, your body shape and what to wear for it, your style persona, outfit formulas, a 12-piece starter capsule with live shop links, six complete outfit recipes and a closet audit checklist. It is all in one place, saved to your phone, with no appointment and no waiting.",
     includes: [
       'Your color season, picked from 12 seasons, and why it is yours',
-      'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors, shown on a color wheel built around your face',
+      'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors, shown on a color wheel with your photo at the center',
       'Your palette tuned across the skin-shade range, with your shade marked',
       'How to put your colors to work: the 60-30-10 rule, color stories to wear and where each color goes',
       'Outfit searches on Pinterest in your colors',
@@ -67,7 +69,7 @@ var DIGITALS = [
     ],
     steps: [
       ['Answer 26 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess. A few optional questions about your life, like work, climate and comfort, make it fit even better."],
-      ['Add a Photo', "Optional, but it sharpens your color and shape read. Skip it if you'd rather not."],
+      ['Add a Photo', "Optional. Your photo sits in the center of your color wheel and helps us read your coloring. Skip it if you'd rather not, and a monogram takes its place."],
       ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear. Read it on screen, and we email you the PDF.']
     ],
     trustTitle: 'Not a generic <em>quiz result</em>',

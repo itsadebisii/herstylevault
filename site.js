@@ -218,7 +218,7 @@ document.addEventListener('click', function(e){
 
 /* ===== Style-11 =====
    Opens as a pop-up from anywhere. Its files load the first time someone asks for it (or hovers/touches a Style-11 link). */
-var S11_V = '20261122c', s11Loading = null;
+var S11_V = '20261122d', s11Loading = null;
 function loadStyle11(){
   if (window.Style11) return Promise.resolve();
   if (s11Loading) return s11Loading;
@@ -239,7 +239,7 @@ document.addEventListener('click', function(e){
   e.preventDefault();
   var nl = document.getElementById('navLinks'); if (nl) nl.classList.remove('open');
   if (t.classList.contains('lbk-s11')) t.classList.add('seen');
-  try { localStorage.setItem('hsv_s11_toast', String(Date.now())); } catch (x) {}
+  if (t.closest('#s11Toast')) { try { localStorage.setItem('hsv_s11_toast', String(Date.now())); } catch (x) {} }
   var tt = document.getElementById('s11Toast'); if (tt) tt.remove();
   window.openStyle11();
 });
@@ -256,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function(){
 (function(){
   if (!/^\/(index\.html)?$/.test(location.pathname)) return;
   var KEY = 'hsv_s11_toast', WEEK = 7 * 864e5;
+  if (/[?&]toast=1\b/.test(location.search)) { try { localStorage.removeItem(KEY); sessionStorage.removeItem(KEY); } catch (e) {} }
   try { var last = +localStorage.getItem(KEY) || 0; if (last && Date.now() - last < WEEK) return; if (sessionStorage.getItem(KEY)) return; } catch (e) {}
   var css = '#s11Toast{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:max(16px,calc(env(safe-area-inset-bottom,0px) + 16px));z-index:880;width:min(330px,calc(100vw - 28px));display:flex;align-items:stretch;background:rgba(255,253,251,.96);border:1px solid rgba(139,18,38,.28);border-radius:16px;box-shadow:0 10px 30px rgba(60,20,20,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transform:translateY(24px);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s;}'
     + '#s11Toast.in{transform:none;opacity:1;}#s11Toast.out{transform:translateY(24px);opacity:0;}'

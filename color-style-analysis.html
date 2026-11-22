@@ -576,12 +576,12 @@ function render() {
     html = `
       ${progressHtml()}
       <p class="meta">Optional. You can skip this step.</p>
-      <p class="meta" style="margin-top:-0.3rem;">We use your photo only to read your coloring: hair, skin tone and contrast.</p>
+      <p class="meta" style="margin-top:-0.3rem;"><b>Your photo goes in the center of your color wheel</b>, so your palette is arranged right around your face. We also use it to read your coloring: hair, skin tone and contrast.</p>
       <p class="qtext">Add a photo of yourself</p>
       <p class="why"><b>How this helps</b>A photo lets us check your hair, skin and eye colors against your answers. It shows your face in the color wheel of your report. It is used to build your report and we do not keep a copy.</p>
       <label class="upload-box" for="photo-field">
         <strong>${photoBase64 ? 'Photo added — tap to change' : 'Upload a photo'}</strong>
-        ${photoBase64 ? '' : 'Face the camera in natural light with no filter. A photo that shows your face and hair works best, and full-length is fine too. You do not need to upload one.'}
+        ${photoBase64 ? '' : 'This is the photo that sits in your color wheel. Face the camera in natural light with no filter. A photo that shows your face and hair works best, and full-length is fine too. You do not need to upload one.'}
         ${photoBase64 ? `<img src="data:${photoMediaType};base64,${photoBase64}" alt="Your uploaded photo">` : ''}
         <input type="file" accept="image/*" id="photo-field">
       </label>
