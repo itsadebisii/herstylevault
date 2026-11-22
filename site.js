@@ -120,13 +120,24 @@ window.openCalendlyPopup = function(e, url){
   else { window.location.href = url; }
   return false;
 };
+/* Calendly's pop-up script is only on the Book page, so load it on demand when a form is submitted elsewhere. */
+function hsvWithCalendly(cb){
+  if (window.Calendly && Calendly.initPopupWidget) { cb(); return; }
+  var done = false; function go(){ if (!done) { done = true; cb(); } }
+  try {
+    if (!document.getElementById('hsvCalCss')) { var l = document.createElement('link'); l.id = 'hsvCalCss'; l.rel = 'stylesheet'; l.href = 'https://assets.calendly.com/assets/external/widget.css'; document.head.appendChild(l); }
+    var sc = document.createElement('script'); sc.src = 'https://assets.calendly.com/assets/external/widget.js'; sc.async = true; sc.onload = go; sc.onerror = go; document.head.appendChild(sc);
+    setTimeout(go, 4000);
+  } catch (e) { go(); }
+}
 window.addEventListener('message', function(event){
   var data = event && event.data;
   if (!data || data.event !== 'Tally.FormSubmitted' || !data.payload) return;
   var next = { GxY5bk: 'https://calendly.com/herstylevault/book-session', yPeEjp: 'https://calendly.com/herstylevault/free-consultation' }[data.payload.formId];
   if (!next) return;
   if (window.Tally && Tally.closePopup) Tally.closePopup(data.payload.formId);
-  setTimeout(function(){ window.openCalendlyPopup(null, next); }, 350);
+  var fm = document.getElementById('hsvFormModal'); if (fm) { fm.remove(); document.body.style.overflow = ''; }
+  hsvWithCalendly(function(){ setTimeout(function(){ window.openCalendlyPopup(null, next); }, 350); });
 });
 
 /* Paste each Tally form ID (the part after tally.so/r/) to turn a service button into your pop-up form.
@@ -166,6 +177,17 @@ document.addEventListener('click', function(e){
   var hidden = { service: b.getAttribute('data-service') || '' };
   if (b.getAttribute('data-tier')) hidden.tier = b.getAttribute('data-tier');
   if (window.Tally && Tally.openPopup) Tally.openPopup(id, { layout: 'modal', width: parseInt(b.getAttribute('data-tally-width') || '700', 10), hiddenFields: hidden });
+  else hsvFormModal(id, hidden);
+}, true);
+
+/* Package "Book" / "Get Started" and "Book Your Free Consultation" buttons go straight to the free consultation form pop-up (not the Book page).
+   Services skip this on purpose: they are paid upfront and open their own form above. */
+document.addEventListener('click', function(e){
+  var b = e.target.closest && e.target.closest('a[data-consult]');
+  if (!b || e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  var id = 'yPeEjp', hidden = { source: (b.textContent || '').trim().slice(0, 60) };
+  if (window.Tally && Tally.openPopup) Tally.openPopup(id, { layout: 'modal', width: 700, hiddenFields: hidden });
   else hsvFormModal(id, hidden);
 }, true);
 

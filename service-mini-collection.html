@@ -34,9 +34,9 @@
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
 <main id="offerMain"><section class="band wrap offer-hero tone-sage" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="services.html">&Agrave; La Carte Services</a> / The Mini Collection</p><h1 class="page-title"><span class="h1-kw">The Mini Collection: À La Carte Service</span>A handful of pieces, <em>a full closet</em></h1><p class="sub">Everything mixes, nothing's wasted.</p><p class="price">From $240 <small>starting at</small></p><h2>What’s included</h2><ul><li>Every piece newly sourced for you and built to mix and match</li><li>A shopping list with links to every piece</li><li>Delivered by email as a finished PDF</li></ul><h2>How it works</h2><ol><li><b>Choose your tier.</b> Pick the number of pieces.</li><li><b>Fill out the form and pay.</b> Tell me where you will wear it, your colors, sizes and budget. Full payment is due before work begins.</li><li><b>Receive your PDF.</b> Your collection arrives by email within the lead time for your tier.</li></ol><h2>Good to know</h2><p><b>Does it use clothes I already own?</b><br>No. Every piece is new. To work with your existing closet, see The Wardrobe Detox or a Private Styling Package.</p><p><b>Do I need a consultation or a package?</b><br>No. Services book directly.</p><p><b>Do I buy the pieces myself?</b><br>Yes, from the links I send. I never purchase on your behalf.</p></section><section class="band stone dg-more wrap"><h2>You may also like</h2><ul><li><a href="service-occasion-edit.html">Occasion Edit</a></li><li><a href="service-ensemble.html">The Ensemble</a></li><li><a href="service-wardrobe-detox.html">The Wardrobe Detox</a></li></ul><p><a href="services.html">See all</a></p></section></main>
 <footer class="site"><div class="footer-mount"></div></footer>
-<script src="site.js?v=5a5eaf28"></script>
+<script src="site.js?v=64caa80a"></script>
 <script>window.HSV_SLUG = "the-mini-collection";</script>
-<script src="offers.js?v=2cf33b38"></script>
+<script src="offers.js?v=86246279"></script>
 <script src="offers-art.js?v=79fd4b76"></script>
 <script>
 (function(){
@@ -70,7 +70,7 @@
     var ti = tiers ? Math.min(tierIdx, tiers.length - 1) : 0, t = tiers ? tiers[ti] : null;
     var cta = isSvc
       ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '"' + (t ? ' data-tier="' + t[0] + '"' : '') + '>Book ' + o.name + '</a><p class="meta">Pay upfront \u00b7 No consultation needed \u00b7 <a href="policies.html">Terms &amp; Privacy</a></p>'
-      : '<a class="btn btn-primary" href="' + o.cta.href + '">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Terms &amp; Privacy</a></p>';
+      : '<a class="btn btn-primary" href="' + o.cta.href + '" data-consult="1">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Terms &amp; Privacy</a></p>';
     var picker = tiers ? '<div class="dg-opts" role="group" aria-label="Choose your tier">' + tiers.map(function(x, k){
         return '<button type="button" class="dg-opt' + (k === ti ? ' on' : '') + '" data-ti="' + k + '" aria-pressed="' + (k === ti) + '"><b>' + x[0] + '</b><span>' + x[1] + (o.slug === 'the-ensemble' ? ' per person' : '') + '</span></button>';
       }).join('') + '</div><p class="dg-soon"><b>' + t[0] + '</b> \u00b7 ' + t[2] + '<br>' + t[3] + '</p>' : '';

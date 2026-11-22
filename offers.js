@@ -172,7 +172,7 @@ function offerCard(o){
     '<p class="vd-prices"><span class="price">' + (pkg ? o.from + ' <small>/ package</small>' : 'From ' + o.from + (o.fromNote.indexOf('per person') > -1 ? ' <small>per person</small>' : '')) + '</span></p>' +
     (pkg ? '<p class="vd-desc">' + o.meta + '</p>' : '') +
     '<div class="vd-actions">' + (pkg
-      ? '<a class="btn ' + (o.slug === 'the-vault-edit' ? 'btn-primary' : 'btn-secondary') + ' vd-buy" href="book.html">Book ' + o.name + '</a>'
+      ? '<a class="btn ' + (o.slug === 'the-vault-edit' ? 'btn-primary' : 'btn-secondary') + ' vd-buy" href="book.html" data-consult="1">Book ' + o.name + '</a>'
       : '<a class="btn btn-primary vd-buy book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '">Book ' + o.name + '</a>') +
     '</div></div></div>';
 }
