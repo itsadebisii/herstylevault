@@ -319,7 +319,7 @@
         '<p class="s9-rsub">You have used your ' + FREE_ROLLS + ' free rolls today.</p>' +
         '<div class="s11-offers">' +
         (window.STYLE11_PAY_URL ? '<div class="s11-offer feat"><span class="tag">Quick</span><h3>Day pass</h3><p class="price">$3</p><p>Unlimited rolls, spins and picks for 24 hours.</p><button type="button" class="lbk-btn" data-act="pay">Get the day pass</button></div>' : '') +
-        '<div class="s11-offer"><span class="tag">Free, one time</span><h3>Earn ' + EARN + ' more rolls</h3><p>Take a look at my packages, then come back for ' + EARN + ' more.</p><a class="lbk-btn ghost" href="packages.html" target="_blank" rel="noopener" data-act="earn">See the packages</a></div>' +
+        '<div class="s11-offer"><span class="tag">Free, once a day</span><h3>Earn ' + EARN + ' more rolls</h3><p>Take a look at my packages, then come back for ' + EARN + ' more.</p><a class="lbk-btn ghost" href="packages.html" target="_blank" rel="noopener" data-act="earn">See the packages</a></div>' +
         wlCard +
         '</div><p class="s11-fine">Or come back tomorrow for ' + FREE_ROLLS + ' more free rolls.</p>' + back;
     }
@@ -367,13 +367,15 @@
       return '<section class="s9-quiz s11-how-card"><p class="s11-kicker">How it works</p><h2 class="s9-h2" data-title tabindex="-1">Three quick steps</h2>' +
         '<div class="s9-card s11-howtiles"><ol class="s9-tiles">' +
         '<li><b>1</b><strong>Tell me the plan</strong><span>Six quick questions: the occasion, the time, what you need, your vibe, the weather and your age range.</span></li>' +
-        '<li><b>2</b><strong>Roll, spin or pick</strong><span>Each one shuffles looks matched to your answers.</span></li>' +
-        '<li><b>3</b><strong>Shop it</strong><span>Tap a piece to get it, or get the whole look in one tap.</span></li></ol>' +
+        '<li><b>2</b><strong>Roll, spin or pick</strong><span>Tap the dice, spin the wheel, or pick the piece you would grab first. Each one lands on a look matched to your answers.</span></li>' +
+        '<li><b>3</b><strong>Shop it</strong><span>Tap any piece to get it, or get the whole look in one tap. Save the ones you love with the heart.</span></li></ol>' +
         '<details><summary>Good to know</summary><ul class="s9-tiles two">' +
-        '<li><strong>' + FREE_ROLLS + ' free rolls a day, ' + (FREE_ROLLS + EARN) + ' with a peek at the packages</strong><span>Look at the packages for 3 more. After that, book a package to unlock more rolls.</span></li>' +
+        '<li><strong>' + FREE_ROLLS + ' free rolls a day</strong><span>Look at the packages for ' + EARN + ' more. Your rolls reset every day.</span></li>' +
+        '<li><strong>Have a Suite Key?</strong><span>Every package comes with one. It unlocks unlimited rolls plus two bonus modes: Scratch to reveal and Gift box.</span></li>' +
         '<li><strong>Always fresh</strong><span>New looks and links are added all the time.</span></li>' +
         '<li><strong>Sizing</strong><span>Every shop sizes differently, so check each size chart.</span></li>' +
-        '<li><strong>Affiliate links*</strong><span>Some links earn me a small commission, at no cost to you.</span></li></ul></details></div>' +
+        '<li><strong>Affiliate links*</strong><span>Some links may earn me a small commission, at no cost to you.</span></li>' +
+        '<li><strong>Free and private</strong><span>No sign-up. Your answers and saved looks stay on your device.</span></li></ul></details></div>' +
         '<button type="button" class="s9-back-btn" data-act="backhow">‹ Back</button></section>';
     }
     function renderSaved(){
