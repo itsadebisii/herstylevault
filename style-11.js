@@ -192,8 +192,9 @@
       return '<div class="s9-hero s11-intro"><p class="s9-psst">Style-11, what’s your outfit emergency?</p>' +
         '<h' + hl + ' class="s9-title" data-title tabindex="-1"><span class="h1-kw">Style-11 outfit shuffle</span><span aria-hidden="true">Style-<em>11</em></span></h' + hl + '>' +
         '<p class="s9-sub">Nothing to wear? Roll for it.</p>' +
-        '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages">Skip</button>' +
+        '<div class="s11-toprow">' +
         '<button type="button" class="s11-snd" data-act="snd" aria-pressed="' + soundOn() + '" aria-label="Sound ' + (soundOn() ? 'on' : 'off') + '">' + (soundOn() ? SNDI.on : SNDI.off) + '</button>' +
+        '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages"><span>Skip</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>' +
         '<div class="s11-phonewrap">' + chatHtml() + bannerHtml() + '</div>' +
         '<div class="s11-slot"><button type="button" class="lbk-btn s9-start s11-pop" style="--d:3.9s" data-act="start">Help me out</button></div>' +
         '<button type="button" class="link-btn s11-howlink" data-act="how">How it works</button></div>';
