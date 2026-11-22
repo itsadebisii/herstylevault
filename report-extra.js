@@ -126,6 +126,10 @@
       puff: '<ellipse cx="22" cy="40" rx="20" ry="17" fill="' + f + '"/><ellipse cx="98" cy="40" rx="20" ry="17" fill="' + f + '"/><path d="M34 34 Q60 52 86 34 L90 118 Q60 130 30 118 Z" fill="' + f + '"/><path d="M42 36 Q60 56 78 36" fill="none" stroke="' + w + '" stroke-opacity=".5" stroke-width="3"/>',
       bardot: '<path d="M10 44 Q60 26 110 44 L100 108 Q60 122 20 108 Z" fill="' + f + '"/><path d="M12 46 Q60 30 108 46" fill="none" stroke="' + w + '" stroke-opacity=".45" stroke-width="4"/>',
       halter: '<path d="M40 8 L60 56 L80 8 L84 56 Q100 84 90 122 Q60 136 30 122 Q20 84 36 56 Z" fill="' + f + '"/><path d="M44 74 Q60 84 76 74 M40 92 Q60 102 80 92 M38 108 Q60 118 82 108" fill="none" stroke="' + w + '" stroke-opacity=".4" stroke-width="2.5"/>',
+      blouse: '<path d="M36 12 L50 12 L60 24 L70 12 L84 12 L110 36 L102 86 L88 82 L86 126 Q60 134 34 126 L32 82 L18 86 L10 36 Z" fill="' + f + '"/><path d="M60 24 L60 128 M50 12 L60 24 L54 36 L42 22 Z M70 12 L60 24 L66 36 L78 22 Z" fill="none" stroke="' + w + '" stroke-opacity=".55" stroke-width="2.6" stroke-linejoin="round"/><circle cx="64" cy="58" r="1.8" fill="' + w + '" fill-opacity=".7"/><circle cx="64" cy="82" r="1.8" fill="' + w + '" fill-opacity=".7"/><circle cx="64" cy="106" r="1.8" fill="' + w + '" fill-opacity=".7"/>',
+      blazer: '<path d="M34 10 L48 10 L60 46 L72 10 L86 10 L110 34 L106 134 L72 138 L72 72 L60 54 L48 72 L48 138 L14 134 L10 34 Z" fill="' + f + '"/><path d="M48 10 L60 46 L72 10 M48 72 L60 54 L72 72" fill="none" stroke="' + w + '" stroke-opacity=".55" stroke-width="2.6" stroke-linejoin="round"/><circle cx="66" cy="100" r="2.2" fill="' + w + '" fill-opacity=".7"/>',
+      pencil: '<path d="M36 10 L84 10 L88 22 L86 130 Q60 140 34 130 L32 22 Z" fill="' + f + '"/><rect x="36" y="10" width="48" height="12" fill="#000" fill-opacity=".18"/><path d="M60 104 L60 132" stroke="' + w + '" stroke-opacity=".55" stroke-width="2.4"/>',
+      sheath: '<path d="M42 8 L52 8 Q60 22 68 8 L78 8 L84 34 L80 72 L86 142 Q60 152 34 142 L40 72 L36 34 Z" fill="' + f + '"/><path d="M40 72 Q60 78 80 72" fill="none" stroke="' + w + '" stroke-opacity=".5" stroke-width="3"/>',
       vneck: '<path d="M36 14 L50 14 L60 42 L70 14 L84 14 L110 38 L98 58 L86 50 L86 126 Q60 132 34 126 L34 50 L22 58 L10 38 Z" fill="' + f + '"/><path d="M50 14 L60 42 L70 14" fill="none" stroke="' + w + '" stroke-opacity=".55" stroke-width="3"/>',
       wrap: '<path d="M38 20 L60 66 L82 20 L102 34 L106 120 L88 120 L86 70 L60 124 L34 70 L32 120 L14 120 L18 34 Z" fill="' + f + '"/><path d="M60 66 L86 70 L96 110" fill="none" stroke="' + w + '" stroke-opacity=".5" stroke-width="3"/>',
       peplum: '<path d="M40 16 Q60 28 80 16 L86 68 L108 116 Q60 134 12 116 L34 68 Z" fill="' + f + '"/><path d="M34 68 Q60 80 86 68" fill="none" stroke="' + w + '" stroke-opacity=".45" stroke-width="3"/>',
@@ -139,7 +143,7 @@
     }[k] || '';
     return '<svg viewBox="0 0 120 150" class="hx-gm">' + s + '</svg>';
   }
-  var NAMES = { puff: 'Puff sleeve', bardot: 'Off-shoulder', halter: 'Gathered halter', vneck: 'V-neck top', wrap: 'Wrap top', peplum: 'Peplum', corset: 'Corset', askirt: 'A-line or pleated skirt', wide: 'Wide-leg jeans', trouser: 'Trousers', flare: 'Fit and flare', aline: 'A-line', ruffle: 'Ruffle' };
+  var NAMES = { puff: 'Puff sleeve', bardot: 'Off-shoulder', halter: 'Gathered halter', vneck: 'V-neck top', blouse: 'Button-up blouse', blazer: 'Tailored blazer', pencil: 'Pencil skirt', sheath: 'Sheath', wrap: 'Wrap top', peplum: 'Peplum', corset: 'Corset', askirt: 'A-line or pleated skirt', wide: 'Wide-leg jeans', trouser: 'Trousers', flare: 'Fit and flare', aline: 'A-line', ruffle: 'Ruffle' };
   var DRESS_ROWS = {
     rectangle: { sub: 'Create curves: add some fullness up top and show your waist.', rows: [['Tops that add fullness up top', 'Gives your shoulders and bust more shape', ['puff', 'bardot', 'halter']], ['Tops that show your waist', 'Nips in at the waist so you get a waistline', ['vneck', 'peplum', 'corset']], ['Bottoms with some fullness', 'Adds shape to your lower half', ['askirt', 'wide', 'trouser']], ['Dresses that show your waist', 'Nip in at the waist and flare out below', ['flare', 'aline', 'ruffle']]] },
     hourglass: { sub: 'Follow your natural curves and keep your waist in view.', rows: [['Tops that follow your curves', 'Fit close at the bust and waist', ['vneck', 'corset', 'halter']], ['Tops that mark your waist', 'Fitted at the waist, or a shape that nips in', ['peplum', 'bardot']], ['Bottoms that skim your hips', 'Show your waist and skim over the hips', ['trouser', 'askirt']], ['Dresses that follow your waist', 'Belted or fitted at the waist', ['flare', 'aline']]] },
@@ -188,8 +192,9 @@
      leaning on the occasion, her style persona, how she likes to dress, and what she likes to show or keep quiet. */
   function pickGarments(r, D, occs) {
     var uniq = function (a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); };
-    var avail = { top: uniq(D.rows[0][2].concat(D.rows[1][2])), bot: D.rows[2][2].slice(), dr: D.rows[3][2].slice() };
-    var OP = { work: { top: ['peplum', 'vneck', 'puff'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, dates: { top: ['corset', 'halter', 'bardot', 'vneck'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] }, photos: { top: ['puff', 'bardot', 'halter', 'vneck'], bot: ['wide', 'askirt'], dr: ['ruffle', 'flare'] }, travel: { top: ['vneck', 'puff', 'peplum'], bot: ['wide', 'trouser'], dr: ['aline', 'flare'] }, everyday: { top: ['vneck', 'puff', 'peplum', 'bardot'], bot: ['wide', 'trouser', 'askirt'], dr: ['aline', 'flare'] }, special: { top: ['corset', 'halter', 'bardot', 'peplum'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] } };
+    var avail = { top: uniq(D.rows[0][2].concat(D.rows[1][2])).concat(['blouse']), bot: D.rows[2][2].slice(), dr: D.rows[3][2].slice() };
+    if (r.bodyShapeKey === 'hourglass' || r.bodyShapeKey === 'rectangle') { avail.bot.push('pencil'); avail.dr.push('sheath'); }
+    var OP = { work: { top: ['blouse', 'peplum', 'vneck'], bot: ['trouser', 'pencil', 'askirt'], dr: ['sheath', 'aline', 'flare'] }, dates: { top: ['corset', 'halter', 'bardot', 'vneck'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] }, photos: { top: ['puff', 'bardot', 'halter', 'vneck'], bot: ['wide', 'askirt'], dr: ['ruffle', 'flare'] }, travel: { top: ['vneck', 'puff', 'peplum'], bot: ['wide', 'trouser'], dr: ['aline', 'flare'] }, everyday: { top: ['vneck', 'puff', 'blouse', 'peplum', 'bardot'], bot: ['wide', 'trouser', 'askirt'], dr: ['aline', 'flare'] }, special: { top: ['corset', 'halter', 'bardot', 'peplum'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] } };
     var VP = { tailored: { top: ['peplum', 'vneck'], bot: ['trouser'], dr: ['aline'] }, classic: { top: ['peplum', 'vneck'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, feminine: { top: ['vneck', 'bardot'], bot: ['askirt'], dr: ['ruffle', 'flare'] }, bold: { top: ['halter', 'corset', 'bardot'], bot: ['wide'], dr: ['flare', 'ruffle'] }, casual: { top: ['puff', 'vneck'], bot: ['wide'], dr: ['aline'] }, sleek: { top: ['corset', 'halter'], bot: ['trouser'], dr: ['aline'] }, luxury: { top: ['vneck', 'bardot'], bot: ['trouser'], dr: ['aline'] }, sporty: { top: ['vneck', 'puff'], bot: ['wide'], dr: ['aline'] } };
     var GP = { flowy: { top: ['vneck', 'bardot'], bot: ['askirt', 'wide'], dr: ['aline', 'flare', 'ruffle'] }, fitted: { top: ['peplum', 'corset'], bot: ['trouser'], dr: ['flare'] }, waist: { top: ['corset', 'vneck', 'peplum'], bot: ['askirt'], dr: ['flare'] }, oversized: { top: ['puff'], bot: ['wide'], dr: ['aline'] }, bodyskim: { top: ['corset', 'vneck'], bot: ['trouser'], dr: ['flare'] }, cropped: { top: ['corset', 'halter'], bot: ['trouser', 'wide'], dr: [] }, layered: { top: ['vneck', 'puff'], bot: ['trouser'], dr: ['aline'] } };
     var SP = { shoulders: { top: ['bardot', 'halter'] }, neckline: { top: ['halter', 'vneck'] }, arms: { top: ['halter'] }, back: { top: ['halter'] }, waist: { top: ['corset', 'peplum', 'vneck'], dr: ['flare'] }, legs: { bot: ['askirt'], dr: ['flare', 'aline'] } };
@@ -199,7 +204,11 @@
       var out = {};
       ['top', 'bot', 'dr'].forEach(function (cat) {
         var best = null, bs = -99;
-        avail[cat].forEach(function (g, gi) {
+        /* work must read professional: only polished pieces are allowed there, whatever else she likes */
+        var WL = { work: { top: ['blouse', 'peplum'], bot: ['trouser', 'pencil'], dr: ['sheath', 'aline'] } };
+        var pool = avail[cat];
+        if (WL[occ]) { var f = pool.filter(function (x) { return WL[occ][cat].indexOf(x) > -1; }); if (f.length) pool = f; }
+        pool.forEach(function (g, gi) {
           var sc = 0, op = (OP[occ] || OP.everyday)[cat], ix = op.indexOf(g);
           sc += ix > -1 ? (op.length - ix) * 1.2 : 0;
           if ((VP[vibe] && VP[vibe][cat] || []).indexOf(g) > -1) sc += 1.6;
@@ -228,8 +237,8 @@
       var ico = '<svg viewBox="0 0 120 150" fill="#FAF9F6" stroke="#181716" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" width="46" height="58">' + OCC_ICON[o[1]] + '</svg>';
       return '<div class="hx-occ"><div class="hx-occh">' + ico + '<h4>' + o[0] + '</h4></div>'
         + '<div class="hx-fm"><span>' + chip(c[0]) + '<b>Base</b>' + E(c[0].n) + '</span><span>' + chip(c[1]) + '<b>Main</b>' + E(c[1].n) + '</span><span>' + chip(c[2]) + '<b>Pop</b>' + E(c[2].n) + '</span></div>'
-        + '<div class="hx-fg"><div>' + G(pk.top, c[1].h) + '<span>' + E(top) + '</span></div><div>' + G(pk.bot, c[0].h) + '<span>' + E(bot) + '</span></div><div>' + G(pk.dr, c[1].h) + '<span>' + E(dr) + ' dress</span></div></div>'
-        + '<p class="hx-try"><b>Try:</b> ' + (dsep === 'dresses' ? E(dr) + ' dress first, or ' + E(top) + ' + ' + E(bot) + '.' : sgrav === 'sets' ? 'a matching ' + E(top) + ' + ' + E(bot) + ' set, or ' + E(dr) + ' dress.' : E(top) + ' + ' + E(bot) + ', or ' + E(dr) + ' dress.') + '</p>'
+        + '<div class="hx-fg"><div>' + G(pk.top, c[1].h) + '<span>' + E(top) + '</span></div><div>' + G(pk.bot, c[0].h) + '<span>' + E(bot) + '</span></div><div>' + G(pk.dr, c[1].h) + '<span>' + E(dr) + ' dress</span></div>' + (k === 'work' ? '<div>' + G('blazer', c[0].h) + '<span>Tailored blazer</span></div>' : '') + '</div>'
+        + '<p class="hx-try"><b>Try:</b> ' + (dsep === 'dresses' ? E(dr) + ' dress first, or ' + E(top) + ' + ' + E(bot) + '.' : sgrav === 'sets' ? 'a matching ' + E(top) + ' + ' + E(bot) + ' set, or ' + E(dr) + ' dress.' : E(top) + ' + ' + E(bot) + ', or ' + E(dr) + ' dress.') + (k === 'work' ? ' Add a tailored blazer on top.' : '') + '</p>'
         + '<ul>' + o[2].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
     }).join('');
     return { key: 'formulas', label: 'Outfit Formulas', html: '<div class="hx-page">' + head('Outfit <em>formulas</em>', 'You asked for outfits that work best for ' + E(listW(d.slice(0, 3).map(function (w) { return OCCN[w]; }))) + '. Build each one from your own colors' + (dsep === 'dresses' ? ', and lead with dresses since they work best on you.' : dsep === 'separates' ? ', and lead with separates since they work best on you.' : '.')) + cards + '<div class="hx-tip" style="margin-top:8px;text-align:left">' + (pers && pers.formula ? '<b>Your ' + E(pers.name) + ' formula:</b> ' + E(pers.formula.join(' + ')) + '. ' + E(pers.rule) + ' ' : '') + 'Want these built into real outfits from your closet? That is what a styling session is for. Try Style-11 for a free outfit idea any time.</div></div>' };
@@ -315,7 +324,7 @@
       ['crepe', 'Crepe', 'A matte, fluid fabric that skims the body and holds a line.', ['tailored', 'classic', 'luxury'], ['work', 'dates'], 0, 'blended', /crepe|fluid|drap/i, ''],
       ['ponte', 'Ponte', 'A thick, stretchy knit with structure. Comfortable, polished and wrinkle-resistant.', ['tailored', 'classic', 'casual'], ['work', 'travel', 'everyday'], 0, '', /ponte|structured/i, 'budget'],
       ['denim', 'Denim', 'Sturdy and easy. Choose a dark wash or a weight that holds its shape.', ['casual', 'sporty', 'bold'], ['everyday', 'travel'], 0, '', /denim|cotton/i, 'budget'],
-      ['wool', 'Wool and wool blends', 'Rich and substantial. Beautiful in coats, blazers and trousers.', ['luxury', 'tailored', 'classic'], ['work'], 1, 'soft', /wool|structured/i, 'invest'],
+      ['wool', 'Wool blends', 'Rich and substantial. Beautiful in coats, blazers and trousers. Choose a soft blend if wool feels itchy.', ['luxury', 'tailored', 'classic'], ['work'], 1, 'soft', /wool|structured/i, 'invest'],
       ['knit', 'Soft knits and cashmere', 'Cozy, refined and easy to layer.', ['luxury', 'casual', 'feminine'], ['everyday', 'travel'], 1, 'soft', /knit|cashmere/i, 'invest'],
       ['linen', 'Linen and cotton-linen', 'Breathable and relaxed. Best for warm days and easy shapes.', ['casual', 'classic'], ['everyday'], -1, 'soft', /linen|cotton/i, ''],
       ['leather', 'Leather and faux leather', 'Sharp and grown-up. A jacket, skirt or boot changes any outfit.', ['sleek', 'bold', 'luxury'], ['dates', 'special'], 1, 'bright', /leather/i, ''],
@@ -333,7 +342,6 @@
       if (f[7].test(good)) parts.push([2.5, 'It is on the best-fabrics list for your ' + String(r.bodyShapeLabel || 'body shape').toLowerCase() + ' shape.']);
       var worksHit = f[4].filter(function (o) { return D.works.indexOf(o) > -1; });
       if (worksHit.length) parts.push([1.5 * worksHit.length, 'Works well for ' + listW(worksHit.map(function (o) { return OCCN[o]; })) + ', which you asked for.']);
-      if (f[5] !== 0) parts.push([(f[5] === 1) === heavy ? 0.8 : -0.8, heavy ? 'Rich, substantial fabrics suit your ' + season + ' coloring.' : 'Lighter fabrics suit your ' + season + ' coloring.']);
       if (f[6] && ch) parts.push([f[6] === ch ? 1 : (f[6] === 'blended' || ch === 'blended' ? 0 : -1), ch === 'bright' ? 'Crisp or sheen fabrics match your clear coloring.' : 'Matte, soft-textured fabrics match your blended coloring.']);
       if (invest && f[8] === 'invest') parts.push([1, 'Suits the investment range you chose.']);
       if (budget && f[8] === 'budget') parts.push([1, 'Easy to find at the everyday price range you chose.']);
