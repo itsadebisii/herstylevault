@@ -40,7 +40,7 @@ var DIGITALS = [
       {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: six complete outfit recipes', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "26 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
-    headline: 'Find your <em>colors</em> and your <em>shape</em> in about 5 minutes',
+    headline: 'Your <em>colors</em>, your <em>shape</em> and exactly what to wear, all in one detailed report',
     lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
     includes: [
       'Your color season, picked from 12 seasons, and why it is yours',
@@ -77,7 +77,7 @@ var DIGITALS = [
     ],
     faqs: [
       ['How do I get my report?', 'It opens on screen as soon as it is ready, and one tap sends the PDF to the email you checked out with, so you can keep it.'],
-      ['How long does it take?', 'About 5 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
+      ['How long does it take?', 'You answer the quiz at your own pace. Your full 21-page report is built for you right after, and it is yours to keep.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
       ['Is this the same report as The Full Reveal?', 'Yes. The Signature Style Report is the same report that comes with The Full Reveal package. If you book The Full Reveal, you receive this report as part of it, and your $40 is credited toward your package if you booked within 12 months.'],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],

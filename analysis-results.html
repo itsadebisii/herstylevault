@@ -636,7 +636,7 @@ async function showShared(token){
     const j=await res.json().catch(()=>({}));
     if(!res.ok||!j.report){
       if(tb)tb.style.display='none';
-      app.innerHTML='<div class="err-box"><h2>This shared report is not available</h2><p>The link may have been turned off by its owner. You can still get your own style report in about five minutes.</p><p><a class="retry-btn" href="'+QUIZ_URL+'" style="display:inline-block;text-decoration:none;">Get my own report</a></p></div>';
+      app.innerHTML='<div class="err-box"><h2>This shared report is not available</h2><p>The link may have been turned off by its owner. You can still get your own detailed style report.</p><p><a class="retry-btn" href="'+QUIZ_URL+'" style="display:inline-block;text-decoration:none;">Get my own report</a></p></div>';
       return;
     }
     SHARED_VIEW=true;AGE='';j.report.__shared=true;
@@ -666,7 +666,7 @@ function openSharePopup(first){
   if(document.getElementById('share-pop'))return;
   const prev=document.activeElement;
   const m=document.createElement('div');m.id='share-pop';m.className='share-pop';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-labelledby','share-pop-t');
-  m.innerHTML='<div class="share-pop-in"><button type="button" class="share-pop-x" aria-label="Close">&times;</button><p class="share-pop-k">'+first+' shared this with you</p><h2 id="share-pop-t">Want your own style report?</h2><p>Find your colors, your best silhouettes and where to shop them. It takes about five minutes.</p><a class="share-btn share-pop-go" href="'+QUIZ_URL+'">Take the 5-minute quiz</a><button type="button" class="link-btn share-pop-later">Keep reading</button></div>';
+  m.innerHTML='<div class="share-pop-in"><button type="button" class="share-pop-x" aria-label="Close">&times;</button><p class="share-pop-k">'+first+' shared this with you</p><h2 id="share-pop-t">Want your own style report?</h2><p>Find your colors, your best silhouettes and where to shop them, in one detailed report.</p><a class="share-btn share-pop-go" href="'+QUIZ_URL+'">Take the 5-minute quiz</a><button type="button" class="link-btn share-pop-later">Keep reading</button></div>';
   document.body.appendChild(m);
   try{sessionStorage.setItem('hsv_share_popup','1');}catch(e){}
   const close=()=>{document.removeEventListener('keydown',onKey);if(m.parentNode)m.parentNode.removeChild(m);if(prev&&prev.focus)try{prev.focus();}catch(e){}};
