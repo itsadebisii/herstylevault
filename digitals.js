@@ -44,17 +44,24 @@ var DIGITALS = [
     lead: "The Signature Style Report is a custom digital style blueprint built from my professional styling method, the same one I use with real clients. No appointment, no waiting.",
     includes: [
       'Your color season, picked from 12 seasons, and why it is yours',
-      'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors',
+      'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors, shown on a color wheel built around your face',
+      'Your palette tuned across the skin-shade range, with your shade marked',
+      'How to put your colors to work: the 60-30-10 rule, color stories to wear and where each color goes',
+      'Outfit searches on Pinterest in your colors',
+      'Hair, makeup and nail shades for your coloring',
       'The colors to avoid, shown as swatches',
       'Your body shape, picked from 5 shapes, with your styling goal',
-      'The silhouettes, bottoms and necklines that flatter you, plus what to step back from',
+      'Dress Your Shape: tops, bottoms and dresses for your shape, with fit notes for your height and proportions',
       'Your style persona, with a 3-piece signature formula and a rule you are allowed to break',
-      'The best fabrics for you, and an accessory styling guide',
+      'Outfit formulas for the occasions you chose',
+      'Fabrics and patterns picked from your answers, plus an accessory styling guide',
       'Live store links for your colors and cuts, matched to your price range',
+      'A table of contents with tap-to-jump page links',
+      'This is the same report that is included in The Full Reveal package',
       'A $40 credit toward any 1:1 package when you book within 12 months'
     ],
     steps: [
-      ['Answer 23 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
+      ['Answer 26 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess."],
       ['Add a Photo', "Optional, but it sharpens your color and shape read. Skip it if you'd rather not."],
       ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear. Read it on screen, and we email you the PDF.']
     ],
@@ -67,6 +74,7 @@ var DIGITALS = [
       ['How do I get my report?', 'It opens on screen as soon as it is ready, and one tap sends the PDF to the email you checked out with, so you can keep it.'],
       ['How long does it take?', 'About 5 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
+      ['Is this the same report as The Full Reveal?', 'Yes. The Signature Style Report is the same report that comes with The Full Reveal package. If you book The Full Reveal, you receive this report as part of it, and your $40 is credited toward your package if you booked within 12 months.'],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
       ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the $40 comes off your final payment.']
     ],

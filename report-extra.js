@@ -42,8 +42,7 @@
     return label('Your face, at the center of your colors')
       + '<div class="hx-wheel"><svg viewBox="0 0 380 380" width="330" height="330">' + s + '</svg><div class="hx-face" style="' + photo + '">' + mono + '</div></div>'
       + '<div class="hx-wleg"><span><i style="background:#C9A882"></i>Neutrals, closest to you</span><span><i style="background:' + E(P.sig[0].h) + '"></i>Signature colors</span><span><i style="background:' + E(P.acc[0].h) + '"></i>Accents</span></div>'
-      + '<p class="hx-cap">Your ' + E(String(r.seasonLabel || '').replace(/\s*✦/, '')) + ' palette, arranged as rings around you.</p>'
-      + '<div class="hx-disc"><b>About this analysis</b>This color type comes from your quiz answers' + (r.__photo || r.hadPhoto ? ' and your photo' : '') + '. It is a strong starting point, but it is not a full color analysis. The color analysis you receive in a full analysis session is the complete one, and it may refine or differ from this result. Lighting, screens and printing can also change how colors look.</div>';
+      + '<p class="hx-cap">Your ' + E(String(r.seasonLabel || '').replace(/\s*✦/, '')) + ' palette, arranged as rings around you.</p>';
   }
 
   /* ---------- 2. palette across the shade range ---------- */
@@ -76,7 +75,8 @@
     var stories = [['Clean + bold', [N[0], main, N[2]]], ['Polished', [N[3], S[3], A[0]]], ['Fresh', [N[1], S[1], A[1]]], ['Casual', [N[2], S[5], N[0]]]];
     var forOcc = {}; D.works.forEach(function (w) { var nm = STORY[w]; if (nm) (forOcc[nm] = forOcc[nm] || []).push(OCCN[w]); });
     stories.sort(function (x, y) { return (forOcc[y[0]] ? 1 : 0) - (forOcc[x[0]] ? 1 : 0); });
-    var st = stories.map(function (s2) { var c = s2[1], fo = forOcc[s2[0]]; return '<div class="hx-st">' + rsq(c[0], c[1], c[2]) + '<h6>' + s2[0] + '</h6>' + (fo ? '<p style="color:#7A1321;font-style:italic;margin-bottom:2px">For ' + E(listW(fo)) + '</p>' : '') + '<p><b>Base</b> ' + E(c[0].n) + '<br><b>Main</b> ' + E(c[1].n) + '<br><b>Pop</b> ' + E(c[2].n) + '</p></div>'; }).join('');
+    var pin = function (q) { var u = 'https://www.pinterest.com/search/pins/?q=' + encodeURIComponent('trending ' + q); return '<a class="hx-pin" href="' + u + '" target="_blank" rel="noopener" data-href="' + u + '">See outfits on Pinterest</a>'; };
+    var st = stories.map(function (s2) { var c = s2[1], fo = forOcc[s2[0]]; var occW = fo ? String(fo[0]).split(' and ')[0] + ' ' : ''; return '<div class="hx-st">' + rsq(c[0], c[1], c[2]) + '<h6>' + s2[0] + '</h6>' + (fo ? '<p style="color:#7A1321;font-style:italic;margin-bottom:2px">For ' + E(listW(fo)) + '</p>' : '') + '<p><b>Base</b> ' + E(c[0].n) + '<br><b>Main</b> ' + E(c[1].n) + '<br><b>Pop</b> ' + E(c[2].n) + '</p>' + pin(String(c[1].n).toLowerCase() + ' and ' + String(c[0].n).toLowerCase() + ' ' + occW + 'outfit ideas') + '</div>'; }).join('');
     var nearT = 'Signature colors: tops, scarves, earrings' + (D.show.some(function (z) { return z === 'shoulders' || z === 'neckline' || z === 'arms'; }) ? ', which also frames the upper body you like to show' : '');
     var awayT = (D.quiet.indexOf('hips') > -1 || D.quiet.indexOf('midsection') > -1) ? 'Neutrals on your lower half keep attention where you want it' : 'Neutrals: trousers, skirts, coats';
     var finT = D.show.indexOf('waist') > -1 ? 'Accents: a belt in an accent color shows off your waist' : D.show.indexOf('legs') > -1 ? 'Accents: shoes in an accent color draw the eye to your legs' : 'Accents: shoes, bags, belts, metals';
@@ -86,7 +86,7 @@
     var sub = 'Three simple rules turn your palette into outfits you can build without thinking.' + (D.works.length ? ' Your color stories lead with ' + E(listW(D.works.slice(0, 3).map(function (w) { return OCCN[w]; }))) + '.' : '');
     return { key: 'work', label: 'Wearing Your Colors', html: '<div class="hx-page">' + head('Put your colors to <em>work</em>', sub)
       + label('01 / The 60-30-10 outfit rule', true) + '<div class="hx-r6"><div style="flex:6;background:' + E(base.h) + '"><b>60%</b><span>Base</span><small>Your power neutrals</small></div><div style="flex:3;background:' + E(main.h) + '"><b>30%</b><span>Main</span><small>' + E(main.n) + '</small></div><div style="flex:1;background:' + E(A[0].h) + '"><b>10%</b></div></div><div class="hx-r6n"><span>Base: trousers, skirt, jacket</span><span>Main: top or dress</span><span>Pop: bag, shoes, jewelry</span></div>' + (mainWhy ? '<p class="hx-sub" style="margin:6px 0 0;font-size:0.9rem">Your main color is ' + E(main.n) + ', ' + E(mainWhy) + '.</p>' : '')
-      + label('02 / Color stories to wear') + '<div class="hx-4">' + st + '</div>' + label('03 / Where each color goes') + '<div class="hx-3">' + wh + '</div>' + label('04 / Before you leave the house') + '<div class="hx-2">' + chk + '</div></div>' };
+      + label('02 / Color stories to wear') + '<div class="hx-4">' + st + '</div><p class="hx-pinrow">More ideas: ' + pin(String(r.seasonLabel || 'color palette').replace(/\s*\u2726/, '').toLowerCase() + ' color palette outfits') + '</p>' + label('03 / Where each color goes') + '<div class="hx-3">' + wh + '</div>' + label('04 / Before you leave the house') + '<div class="hx-2">' + chk + '</div></div>' };
   }
 
   /* ---------- 4. hair, makeup & nails ---------- */
@@ -140,11 +140,11 @@
   }
   var NAMES = { puff: 'Puff sleeve', bardot: 'Off-shoulder', halter: 'Gathered halter', wrap: 'Wrap top', peplum: 'Peplum', corset: 'Corset', askirt: 'A-line or pleated skirt', wide: 'Wide-leg jeans', trouser: 'Trousers', flare: 'Fit and flare', aline: 'A-line', ruffle: 'Ruffle' };
   var DRESS_ROWS = {
-    rectangle: { sub: 'Add volume where you want it, and define your waistline.', rows: [['Tops', 'Add volume at the shoulder and bust', ['puff', 'bardot', 'halter']], ['Tops', 'Define the waistline', ['wrap', 'peplum', 'corset']], ['Bottoms', 'Add volume at the lower part', ['askirt', 'wide', 'trouser']], ['Dresses', 'Define the waist and add volume at the shoulders or hips', ['flare', 'aline', 'ruffle']]] },
-    hourglass: { sub: 'Follow your curves and keep your waist in view.', rows: [['Tops', 'Follow your curves at the bust and waist', ['wrap', 'corset', 'halter']], ['Tops', 'Fitted shapes that mark the waist', ['peplum', 'bardot']], ['Bottoms', 'Mark the waist and skim the hips', ['trouser', 'askirt']], ['Dresses', 'Wrap and belted shapes that follow your waist', ['flare', 'aline']]] },
-    pear: { sub: 'Add interest on top and keep the lower half clean.', rows: [['Tops', 'Add volume and interest at the shoulders and bust', ['puff', 'bardot', 'halter']], ['Tops', 'Fitted at the waist, simple at the hip', ['wrap', 'corset']], ['Bottoms', 'Clean A-line and straight shapes', ['askirt', 'trouser']], ['Dresses', 'Fit-and-flare shapes balance a fuller hip', ['flare', 'aline']]] },
-    apple: { sub: 'Draw the eye up and let fabric flow over the middle.', rows: [['Tops', 'Open necklines and soft volume on top', ['wrap', 'halter', 'puff']], ['Tops', 'Draw the eye up and out to the shoulders', ['wrap', 'bardot']], ['Bottoms', 'Comfortable, mid-rise shapes that skim', ['wide', 'trouser', 'askirt']], ['Dresses', 'Shapes that flow from under the bust', ['aline', 'flare', 'ruffle']]] },
-    inverted: { sub: 'Soften the shoulders and add volume at the hips.', rows: [['Tops', 'Simple, open necklines soften the shoulders', ['wrap', 'halter']], ['Tops', 'Add volume at the hip with a flared hem', ['peplum', 'corset']], ['Bottoms', 'Volume at the lower half balances your shoulders', ['wide', 'askirt', 'trouser']], ['Dresses', 'Flowing skirts add balance', ['aline', 'flare', 'ruffle']]] }
+    rectangle: { sub: 'Add volume where you want it, and define your waistline.', rows: [['Tops, for volume', 'Add volume at the shoulder and bust', ['puff', 'bardot', 'halter']], ['Tops, for the waist', 'Define the waistline', ['wrap', 'peplum', 'corset']], ['Bottoms', 'Add volume at the lower part', ['askirt', 'wide', 'trouser']], ['Dresses', 'Define the waist and add volume at the shoulders or hips', ['flare', 'aline', 'ruffle']]] },
+    hourglass: { sub: 'Follow your curves and keep your waist in view.', rows: [['Tops, for your curves', 'Follow your curves at the bust and waist', ['wrap', 'corset', 'halter']], ['Tops, to mark the waist', 'Fitted shapes that mark the waist', ['peplum', 'bardot']], ['Bottoms', 'Mark the waist and skim the hips', ['trouser', 'askirt']], ['Dresses', 'Wrap and belted shapes that follow your waist', ['flare', 'aline']]] },
+    pear: { sub: 'Add interest on top and keep the lower half clean.', rows: [['Tops, for interest', 'Add volume and interest at the shoulders and bust', ['puff', 'bardot', 'halter']], ['Tops, for the waist', 'Fitted at the waist, simple at the hip', ['wrap', 'corset']], ['Bottoms', 'Clean A-line and straight shapes', ['askirt', 'trouser']], ['Dresses', 'Fit-and-flare shapes balance a fuller hip', ['flare', 'aline']]] },
+    apple: { sub: 'Draw the eye up and let fabric flow over the middle.', rows: [['Tops, open and soft', 'Open necklines and soft volume on top', ['wrap', 'halter']], ['Tops, to draw the eye up', 'Draw the eye up and out to the shoulders', ['puff', 'bardot']], ['Bottoms', 'Comfortable, mid-rise shapes that skim', ['wide', 'trouser', 'askirt']], ['Dresses', 'Shapes that flow from under the bust', ['aline', 'flare', 'ruffle']]] },
+    inverted: { sub: 'Soften the shoulders and add volume at the hips.', rows: [['Tops, soft and open', 'Simple, open necklines soften the shoulders', ['wrap', 'halter']], ['Tops, with a flared hem', 'Add volume at the hip with a flared hem', ['peplum', 'corset']], ['Bottoms', 'Volume at the lower half balances your shoulders', ['wide', 'askirt', 'trouser']], ['Dresses', 'Flowing skirts add balance', ['aline', 'flare', 'ruffle']]] }
   };
   var FIT_NOTES = [['Mind the rise', 'Very high-waisted pants can look compressing if your legs are longer than your torso, or if you are petite. Try a mid or mid-high rise and see how it feels.'], ['Flares, with care', 'Flares can echo a straight waistline. Pair them with a fitted, belted or peplum top so your waist still reads.'], ['Height and torso matter', 'This is a starting point. Your height and torso length change how every cut sits, so trust the mirror over the rule.']];
   function dressBlock(r) {
@@ -183,18 +183,51 @@
     camera: '<rect x="20" y="46" width="80" height="54" rx="8" fill="#F7E4DD"/><circle cx="60" cy="73" r="15"/><path d="M42 46 L48 36 H72 L78 46"/>',
     ribbon: '<circle cx="60" cy="52" r="22" fill="#F7E4DD"/><path d="M48 70 L40 108 L60 96 L80 108 L72 70"/>'
   };
+  /* Picks a different top, bottom and dress for each occasion from the pieces that suit her shape,
+     leaning on the occasion, her style persona, how she likes to dress, and what she likes to show or keep quiet. */
+  function pickGarments(r, D, occs) {
+    var uniq = function (a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); };
+    var avail = { top: uniq(D.rows[0][2].concat(D.rows[1][2])), bot: D.rows[2][2].slice(), dr: D.rows[3][2].slice() };
+    var OP = { work: { top: ['peplum', 'wrap', 'puff'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, dates: { top: ['corset', 'halter', 'bardot', 'wrap'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] }, photos: { top: ['puff', 'bardot', 'halter', 'wrap'], bot: ['wide', 'askirt'], dr: ['ruffle', 'flare'] }, travel: { top: ['wrap', 'puff', 'peplum'], bot: ['wide', 'trouser'], dr: ['aline', 'flare'] }, everyday: { top: ['wrap', 'puff', 'peplum', 'bardot'], bot: ['wide', 'trouser', 'askirt'], dr: ['aline', 'flare'] }, special: { top: ['corset', 'halter', 'bardot', 'peplum'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] } };
+    var VP = { tailored: { top: ['peplum', 'wrap'], bot: ['trouser'], dr: ['aline'] }, classic: { top: ['peplum', 'wrap'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, feminine: { top: ['wrap', 'bardot'], bot: ['askirt'], dr: ['ruffle', 'flare'] }, bold: { top: ['halter', 'corset', 'bardot'], bot: ['wide'], dr: ['flare', 'ruffle'] }, casual: { top: ['puff', 'wrap'], bot: ['wide'], dr: ['aline'] }, sleek: { top: ['corset', 'halter'], bot: ['trouser'], dr: ['aline'] }, luxury: { top: ['wrap', 'bardot'], bot: ['trouser'], dr: ['aline'] }, sporty: { top: ['wrap', 'puff'], bot: ['wide'], dr: ['aline'] } };
+    var GP = { flowy: { top: ['wrap', 'bardot'], bot: ['askirt', 'wide'], dr: ['aline', 'flare', 'ruffle'] }, fitted: { top: ['peplum', 'corset'], bot: ['trouser'], dr: ['flare'] }, waist: { top: ['corset', 'wrap', 'peplum'], bot: ['askirt'], dr: ['flare'] }, oversized: { top: ['puff'], bot: ['wide'], dr: ['aline'] }, bodyskim: { top: ['corset', 'wrap'], bot: ['trouser'], dr: ['flare'] }, cropped: { top: ['corset', 'halter'], bot: ['trouser', 'wide'], dr: [] }, layered: { top: ['wrap', 'puff'], bot: ['trouser'], dr: ['aline'] } };
+    var SP = { shoulders: { top: ['bardot', 'halter'] }, neckline: { top: ['halter', 'wrap'] }, arms: { top: ['halter'] }, back: { top: ['halter'] }, waist: { top: ['corset', 'peplum', 'wrap'], dr: ['flare'] }, legs: { bot: ['askirt'], dr: ['flare', 'aline'] } };
+    var Dd = dirs(r), vibe = (r.persona && r.persona.vibe) || '', used = { top: {}, bot: {}, dr: {} };
+    var quietMid = Dd.quiet.indexOf('midsection') > -1, quietUp = Dd.quiet.indexOf('arms') > -1 || Dd.quiet.indexOf('shoulders') > -1;
+    return occs.map(function (occ) {
+      var out = {};
+      ['top', 'bot', 'dr'].forEach(function (cat) {
+        var best = null, bs = -99;
+        avail[cat].forEach(function (g, gi) {
+          var sc = 0, op = (OP[occ] || OP.everyday)[cat], ix = op.indexOf(g);
+          sc += ix > -1 ? (op.length - ix) * 1.2 : 0;
+          if ((VP[vibe] && VP[vibe][cat] || []).indexOf(g) > -1) sc += 1.6;
+          if ((GP[r.styleGrav] && GP[r.styleGrav][cat] || []).indexOf(g) > -1) sc += 1;
+          Dd.show.forEach(function (z) { if ((SP[z] && SP[z][cat] || []).indexOf(g) > -1) sc += 0.8; });
+          if (quietMid && g === 'corset') sc -= 1.5;
+          if (quietUp && (g === 'halter' || g === 'bardot')) sc -= 1;
+          sc -= 2.6 * (used[cat][g] || 0);
+          sc -= gi * 0.01;
+          if (sc > bs) { bs = sc; best = g; }
+        });
+        used[cat][best] = (used[cat][best] || 0) + 1; out[cat] = best;
+      });
+      return out;
+    });
+  }
   function formulasBlock(r) {
     var P = pal(r), d = (r.directions && r.directions.worksBest && r.directions.worksBest.length) ? r.directions.worksBest : ['everyday', 'work', 'dates'];
     var pers = r.persona || null, dsep = r.dressSep || '', sgrav = r.styleGrav || '';
     var key = DRESS_ROWS[r.bodyShapeKey] ? r.bodyShapeKey : 'rectangle', D = DRESS_ROWS[key];
-    var top = NAMES[D.rows[1][2][0]] || 'Wrap top', bot = NAMES[D.rows[2][2][0]] || 'Trousers', dr = NAMES[D.rows[3][2][0]] || 'A-line';
+    var picks = pickGarments(r, D, d.slice(0, 3));
     var combos = [[P.neu[1], P.sig[0], P.acc[0]], [P.neu[3], P.sig[2], P.acc[0]], [P.neu[0], P.sig[1], P.acc[1]]];
     var cards = d.slice(0, 3).map(function (k, i) {
-      var o = OCC[k]; if (!o) return ''; var c = combos[i % 3];
+      var o = OCC[k]; if (!o) return ''; var c = combos[i % 3], pk = picks[i];
+      var top = NAMES[pk.top] || 'Wrap top', bot = NAMES[pk.bot] || 'Trousers', dr = NAMES[pk.dr] || 'A-line';
       var ico = '<svg viewBox="0 0 120 150" fill="#FAF9F6" stroke="#181716" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" width="46" height="58">' + OCC_ICON[o[1]] + '</svg>';
       return '<div class="hx-occ"><div class="hx-occh">' + ico + '<h4>' + o[0] + '</h4></div>'
         + '<div class="hx-fm"><span>' + chip(c[0]) + '<b>Base</b>' + E(c[0].n) + '</span><span>' + chip(c[1]) + '<b>Main</b>' + E(c[1].n) + '</span><span>' + chip(c[2]) + '<b>Pop</b>' + E(c[2].n) + '</span></div>'
-        + '<div class="hx-fg"><div>' + G(D.rows[1][2][0], c[1].h) + '<span>' + E(top) + '</span></div><div>' + G(D.rows[2][2][0], c[0].h) + '<span>' + E(bot) + '</span></div><div>' + G(D.rows[3][2][0], c[1].h) + '<span>' + E(dr) + ' dress</span></div></div>'
+        + '<div class="hx-fg"><div>' + G(pk.top, c[1].h) + '<span>' + E(top) + '</span></div><div>' + G(pk.bot, c[0].h) + '<span>' + E(bot) + '</span></div><div>' + G(pk.dr, c[1].h) + '<span>' + E(dr) + ' dress</span></div></div>'
         + '<p class="hx-try"><b>Try:</b> ' + (dsep === 'dresses' ? E(dr) + ' dress first, or ' + E(top) + ' + ' + E(bot) + '.' : sgrav === 'sets' ? 'a matching ' + E(top) + ' + ' + E(bot) + ' set, or ' + E(dr) + ' dress.' : E(top) + ' + ' + E(bot) + ', or ' + E(dr) + ' dress.') + '</p>'
         + '<ul>' + o[2].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
     }).join('');
@@ -347,7 +380,7 @@
     return '<div class="hx-asked"><b>You asked us to start with</b> ' + out.join(' &middot; ') + '. Look for those pages first.</div>';
   }
 
-  var CSS = '.hx-page{min-height:880px;}.hx-1{display:grid;gap:6px;}.hx-goal{margin-top:14px;background:#4E0B14;color:#fff;border-radius:3px;padding:12px 18px;}.hx-goal h6{margin:0 0 4px;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:#E8D8D2;}.hx-goal p{margin:0;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.15rem;}.hx-tipc div{display:flex;align-items:center;gap:6px;font-size:0.72rem;line-height:1.35;color:#3F3C38;}.hx-fg{display:flex;gap:10px;margin:6px 0 2px;}.hx-fg>div{flex:1;text-align:center;}.hx-fg svg{width:100%;height:46px;display:block;}.hx-fg span{display:block;font-size:0.6rem;color:#3F3C38;}.hx-sub{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:#7A1321;margin:0 0 0.5rem;}'
+  var CSS = '.hx-pin{display:block;margin-top:5px;font-size:0.54rem;letter-spacing:0.08em;text-transform:uppercase;color:#7A1321;text-decoration:underline;font-weight:600;}.hx-pinrow{margin:6px 0 0;font-size:0.68rem;color:#3F3C38;}.hx-pinrow .hx-pin{display:inline;font-size:0.62rem;margin:0 0 0 4px;}.hx-page{min-height:880px;}.hx-1{display:grid;gap:6px;}.hx-goal{margin-top:14px;background:#4E0B14;color:#fff;border-radius:3px;padding:12px 18px;}.hx-goal h6{margin:0 0 4px;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:#E8D8D2;}.hx-goal p{margin:0;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.15rem;}.hx-tipc div{display:flex;align-items:center;gap:6px;font-size:0.72rem;line-height:1.35;color:#3F3C38;}.hx-fg{display:flex;gap:10px;margin:6px 0 2px;}.hx-fg>div{flex:1;text-align:center;}.hx-fg svg{width:100%;height:46px;display:block;}.hx-fg span{display:block;font-size:0.6rem;color:#3F3C38;}.hx-sub{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:#7A1321;margin:0 0 0.5rem;}'
     + '.hx-box{background:#ECE8E2;border-radius:12px;padding:0.75rem 0.95rem;}.hx-box h6{margin:0 0 5px;font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:#7A1321;font-weight:600;}.hx-box p{margin:0;font-size:0.74rem;line-height:1.55;color:#3F3C38;}.hx-box p b{font-weight:600;}'
     + '.hx-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}.hx-3b{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}.hx-2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;}.hx-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}'
     + '.hx-dot{display:inline-block;width:18px;height:18px;border-radius:50%;margin-right:6px;vertical-align:middle;}'
