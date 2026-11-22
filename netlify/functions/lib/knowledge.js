@@ -648,7 +648,7 @@ function computeIntensity(shape,a){
 /* ===== Style Persona (age-aware) =====
    Inputs on the answers object: ageBracket ('18-24'|'25-34'|'35-44'|'45+'), pq1, pq2, pq3.
    Output: { vibe, name, tagline, formula:[a,b,c], rule, fabricNote } */
-const PERSONA_VIBES = ['luxury','tailored','sleek','feminine','casual','bold','classic','sporty'];
+const PERSONA_VIBES = ['luxury','tailored','sleek','feminine','casual','bold','classic','sporty','alt'];
 const PERSONA_TABLE = {
   luxury:   { young:{name:'Rich Auntie in Training',tagline:'Never underdressed, always smells expensive, and already owns a trench coat you swear by.'},
               mature:{name:'Certified Rich Auntie',tagline:'Never underdressed, always has the best coat in the room, and knows your tailor by first name.'},
@@ -679,20 +679,25 @@ const PERSONA_TABLE = {
               mature:{name:'Polished Society',tagline:'You love a crisp matching set, structured leather, and classic silhouettes with a modern twist.'},
               formula:['Crisp Matching Set','Structured Bag','Polished Flat or Heel'],
               rule:'Permission granted to break up the set. Wear the blazer with jeans and the trousers with a tee, because matching is a starting point, not a rule.' },
+  alt:      { young:{name:'Alt Baddie',tagline:'Dark, dramatic and a little dangerous: you love black layers, leather, lace and boots, and you make every outfit feel like a mood.'},
+              mature:{name:'Dark Romance',tagline:'Rich and moody with a romantic edge: velvet, lace, leather and deep, dark color worn with total confidence.'},
+              formula:['Leather or Structured Jacket','Dark Layered Base: Lace, Mesh or Velvet','Boots & Statement Hardware'],
+              rule:'Permission granted to let one color break the black. Dark dressing looks best with one flash of your most flattering color near your face, so wear your signature shade at the neckline and let the black do the rest.' },
   sporty:   { young:{name:'Pilates Princess',tagline:'You live in matching sets, sleek sunglasses, and clean sneakers, and you always look put-together on the go.'},
               mature:{name:'Off-Duty Luxe',tagline:'You elevate everyday comfort with sleek matching sets, structured outerwear, and crisp sneakers.'},
               formula:['Sleek Matching Set','Structured Outerwear','Crisp Sneaker & Sleek Sunglasses'],
               rule:'Permission granted to wear the sneaker with something structured. Athleisure looks luxe when one piece is tailored.' }
 };
-const PERSONA_FABRIC = { tailored:'Structured wovens', feminine:'Fluid silk and jersey', luxury:'Luxe knits and wool', casual:'Breathable cotton and denim', bold:'Sculptural and textured fabrics' };
-const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', heels:'feminine', allblack:'sleek', bold:'bold', set:'classic', sporty:'sporty' };
-const PQ2_VIBE = { tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold', comfort:'casual', waist:'feminine', color:'bold', versatile:'classic' };
+const PERSONA_FABRIC = { alt:'Leather, velvet and lace', tailored:'Structured wovens', feminine:'Fluid silk and jersey', luxury:'Luxe knits and wool', casual:'Breathable cotton and denim', bold:'Sculptural and textured fabrics' };
+const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', heels:'feminine', allblack:'sleek', alt:'alt', bold:'bold', set:'classic', sporty:'sporty' };
+const PQ2_VIBE = { edge:'alt', tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold', comfort:'casual', waist:'feminine', color:'bold', versatile:'classic' };
 function computePersona(a){
   a = a || {};
   const score = {}; PERSONA_VIBES.forEach(v => score[v] = 0);
   const v1 = PQ1_VIBE[a.pq1], v2 = PQ2_VIBE[a.pq2];
   if (v1) score[v1] += 2;
   if (v2) score[v2] += 2;
+  if (v1 === 'sleek' && v2 === 'alt') score.alt += 1.5; // all black plus an edgy pull reads as alt, not minimal
   // Q3: monochrome -> sleek; matching set -> classic; outerwear -> luxury, or sporty when her default move is the athleisure set;
   // one standout piece -> bold when either earlier answer was bold, otherwise casual
   if (a.pq3 === 'mono') score.sleek += 1;
@@ -750,6 +755,9 @@ const S = {
   chicos: ["Chico's", 'https://www.chicos.com/store/search/?q='],
   eileenfisher: ['Eileen Fisher', 'https://www.eileenfisher.com/search?q='],
   fashionnova: ['Fashion Nova', 'https://www.fashionnova.com/search?q='],
+  hottopic: ['Hot Topic', 'https://www.hottopic.com/search?q='],
+  dollskill: ['Dolls Kill', 'https://www.dollskill.com/search?q='],
+  killstar: ['KILLSTAR', 'https://www.killstar.com/search?q='],
   musera: ['Musera', 'https://www.google.com/search?q=musera.com+'],
   cider: ['Cider', 'https://www.google.com/search?q=shopcider.com+'],
   finesse: ['Finesse', 'https://finesse.us/search?q='],
@@ -823,7 +831,15 @@ function buildShopLinks(a, signature, keywords, neutrals, shapeKey){
 function storeListFor(a) {
   const age = STORE_DIR[a && a.ageBracket] ? a.ageBracket : '25-34';
   const tier = shopTier(a).key;
-  const list = STORE_DIR[age][tier].map(k => ({ key: k, name: S[k][0], url: S[k][1], mode: k === 'coach' ? 'bag' : k === 'levi' ? 'denim' : '' }));
+  let keys = STORE_DIR[age][tier];
+  // Alt / dark-romance clients get the stores that actually sell their style first.
+  let isAlt = false;
+  try { isAlt = !!(a && a.ageBracket && a.pq1 && a.pq2 && a.pq3 && computePersona(a).vibe === 'alt'); } catch (e) {}
+  if (isAlt) {
+    const altKeys = (age === '35-44' || age === '45+') ? ['killstar', 'hottopic'] : ['dollskill', 'hottopic', 'killstar'];
+    keys = altKeys.concat(keys.filter(k => altKeys.indexOf(k) < 0)).slice(0, Math.max(keys.length, altKeys.length));
+  }
+  const list = keys.map(k => ({ key: k, name: S[k][0], url: S[k][1], mode: k === 'coach' ? 'bag' : k === 'levi' ? 'denim' : '' }));
   const sec = [{ key: 'poshmark', name: 'Poshmark', url: 'https://poshmark.com/search?query=', mode: '' }, { key: 'thredup', name: 'ThredUp', url: 'https://www.thredup.com/products?search_text=', mode: '' }, { key: 'therealreal', name: 'The RealReal', url: 'https://www.therealreal.com/products?keywords=', mode: '' }];
   return { list, secondhand: sec };
 }

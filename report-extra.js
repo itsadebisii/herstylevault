@@ -133,7 +133,7 @@
   }
   function beautyPersona(r) {
     var v = (r.persona && r.persona.vibe) || '', n = (r.persona && r.persona.name) || '', f = dirs(r).feel;
-    var T = { tailored: 'Polished and groomed: defined brows, a clean base and a satin lip.', luxury: 'Quiet and expensive: glowy skin, a soft neutral lip and neat, shiny hair.', sleek: 'Clean skin with one sharp feature: a deep lip or a crisp liner.', feminine: 'Soft and romantic: rosy cheeks, a glossy lip and soft waves or smooth hair.', casual: 'Skin first: a light base, tinted lip balm and easy, natural hair.', bold: 'Pick one statement feature, like a vivid lip or graphic liner, and keep the rest simple.', classic: 'Classic and balanced: groomed brows, a definite lip in your shades and neat hair.', sporty: 'Fresh and low-maintenance: tinted SPF, clear or tinted gloss and hair that stays put.' };
+    var T = { tailored: 'Polished and groomed: defined brows, a clean base and a satin lip.', luxury: 'Quiet and expensive: glowy skin, a soft neutral lip and neat, shiny hair.', sleek: 'Clean skin with one sharp feature: a deep lip or a crisp liner.', feminine: 'Soft and romantic: rosy cheeks, a glossy lip and soft waves or smooth hair.', casual: 'Skin first: a light base, tinted lip balm and easy, natural hair.', bold: 'Pick one statement feature, like a vivid lip or graphic liner, and keep the rest simple.', classic: 'Classic and balanced: groomed brows, a definite lip in your shades and neat hair.', sporty: 'Fresh and low-maintenance: tinted SPF, clear or tinted gloss and hair that stays put.', alt: 'Dark and dramatic: a deep lip or smoky liner in your shades, sharp brows and a matte or satin base.' };
     var t = T[v] || 'Start with your shades and keep the rest simple.';
     if (f.indexOf('confident') > -1 || f.indexOf('expressive') > -1) t += ' You want to feel confident, so do not be afraid to go one shade bolder.';
     else if (f.indexOf('comfy') > -1) t += ' You want to feel comfortable, so choose lightweight formulas.';
@@ -241,7 +241,7 @@
     var avail = { top: uniq(D.rows[0][2].concat(D.rows[1][2])).concat(['blouse']), bot: D.rows[2][2].slice(), dr: D.rows[3][2].slice() };
     if (r.bodyShapeKey === 'hourglass' || r.bodyShapeKey === 'rectangle') { avail.bot.push('pencil'); avail.dr.push('sheath'); }
     var OP = { work: { top: ['blouse', 'peplum', 'vneck'], bot: ['trouser', 'pencil', 'askirt'], dr: ['sheath', 'aline', 'flare'] }, dates: { top: ['corset', 'halter', 'bardot', 'vneck'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] }, photos: { top: ['puff', 'bardot', 'halter', 'vneck'], bot: ['wide', 'askirt'], dr: ['ruffle', 'flare'] }, travel: { top: ['vneck', 'puff', 'peplum'], bot: ['wide', 'trouser'], dr: ['aline', 'flare'] }, everyday: { top: ['vneck', 'puff', 'blouse', 'peplum', 'bardot'], bot: ['wide', 'trouser', 'askirt'], dr: ['aline', 'flare'] }, special: { top: ['corset', 'halter', 'bardot', 'peplum'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] } };
-    var VP = { tailored: { top: ['peplum', 'vneck'], bot: ['trouser'], dr: ['aline'] }, classic: { top: ['peplum', 'vneck'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, feminine: { top: ['vneck', 'bardot'], bot: ['askirt'], dr: ['ruffle', 'flare'] }, bold: { top: ['halter', 'corset', 'bardot'], bot: ['wide'], dr: ['flare', 'ruffle'] }, casual: { top: ['puff', 'vneck'], bot: ['wide'], dr: ['aline'] }, sleek: { top: ['corset', 'halter'], bot: ['trouser'], dr: ['aline'] }, luxury: { top: ['vneck', 'bardot'], bot: ['trouser'], dr: ['aline'] }, sporty: { top: ['vneck', 'puff'], bot: ['wide'], dr: ['aline'] } };
+    var VP = { tailored: { top: ['peplum', 'vneck'], bot: ['trouser'], dr: ['aline'] }, classic: { top: ['peplum', 'vneck'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, feminine: { top: ['vneck', 'bardot'], bot: ['askirt'], dr: ['ruffle', 'flare'] }, bold: { top: ['halter', 'corset', 'bardot'], bot: ['wide'], dr: ['flare', 'ruffle'] }, casual: { top: ['puff', 'vneck'], bot: ['wide'], dr: ['aline'] }, sleek: { top: ['corset', 'halter'], bot: ['trouser'], dr: ['aline'] }, alt: { top: ['corset', 'halter', 'puff'], bot: ['askirt', 'wide', 'trouser'], dr: ['flare', 'sheath', 'aline'] }, luxury: { top: ['vneck', 'bardot'], bot: ['trouser'], dr: ['aline'] }, sporty: { top: ['vneck', 'puff'], bot: ['wide'], dr: ['aline'] } };
     var GP = { flowy: { top: ['vneck', 'bardot'], bot: ['askirt', 'wide'], dr: ['aline', 'flare', 'ruffle'] }, fitted: { top: ['peplum', 'corset'], bot: ['trouser'], dr: ['flare'] }, waist: { top: ['corset', 'vneck', 'peplum'], bot: ['askirt'], dr: ['flare'] }, oversized: { top: ['puff'], bot: ['wide'], dr: ['aline'] }, bodyskim: { top: ['corset', 'vneck'], bot: ['trouser'], dr: ['flare'] }, cropped: { top: ['corset', 'halter'], bot: ['trouser', 'wide'], dr: [] }, layered: { top: ['vneck', 'puff'], bot: ['trouser'], dr: ['aline'] } };
     var SP = { shoulders: { top: ['bardot', 'halter'] }, neckline: { top: ['halter', 'vneck'] }, arms: { top: ['halter'] }, back: { top: ['halter'] }, waist: { top: ['corset', 'peplum', 'vneck'], dr: ['flare'] }, legs: { bot: ['askirt'], dr: ['flare', 'aline'] } };
     var Dd = dirs(r), vibe = (r.persona && r.persona.vibe) || '', used = { top: {}, bot: {}, dr: {} };
@@ -308,22 +308,22 @@
     var img = function (f) { return '<img src="' + PAT_IMG + f + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block">'; };
     /* id, name, colors, line, css background, art html, personas it suits, warm (1 warm, -1 cool), contrast (1 higher, -1 softer), chroma */
     var LIB = [
-      ['zebra', 'Zebra', 'Charcoal + white', 'Use it as an accent: a bag, scarf or shoe with solid neutrals.', '', img('zebra.jpg'), ['bold', 'sleek', 'tailored'], -1, 1, 'bright'],
-      ['leopard', 'Leopard', 'Camel + cognac', 'Pairs with ' + E(S[2].n) + '. Let it be the only pattern in the outfit.', '', img('leopard.jpg'), ['bold', 'luxury', 'casual'], 1, 0, ''],
-      ['crocred', 'Croc emboss, red', 'Cherry red', 'A texture, not a print. Perfect for bags, belts and shoes.', '', img('croc-red.jpg'), ['luxury', 'sleek', 'tailored'], 0, 1, 'bright'],
+      ['zebra', 'Zebra', 'Charcoal + white', 'Use it as an accent: a bag, scarf or shoe with solid neutrals.', '', img('zebra.jpg'), ['bold', 'sleek', 'alt', 'tailored'], -1, 1, 'bright'],
+      ['leopard', 'Leopard', 'Camel + cognac', 'Pairs with ' + E(S[2].n) + '. Let it be the only pattern in the outfit.', '', img('leopard.jpg'), ['bold', 'alt', 'luxury', 'casual'], 1, 0, ''],
+      ['crocred', 'Croc emboss, red', 'Cherry red', 'A texture, not a print. Perfect for bags, belts and shoes.', '', img('croc-red.jpg'), ['alt', 'luxury', 'sleek', 'tailored'], 0, 1, 'bright'],
       ['tortoise', 'Tortoiseshell', 'Antique gold + cognac', 'Warm and glossy. Ideal for sunglasses, hair clips and buttons.', '', img('tortoise.jpg'), ['luxury', 'feminine', 'classic'], 1, -1, 'blended'],
       ['crocog', 'Croc emboss, cognac', 'Cognac leather + camel', 'The warm version of croc. Beautiful on boots, belts and bags.', '', img('croc-cognac.jpg'), ['luxury', 'classic', 'tailored'], 1, -1, 'blended'],
       ['polka', 'Polka dot', warm ? 'Brown + cream' : 'Navy + white', 'Timeless. Works as a dress, blouse or scarf.', '', img(warm ? 'polka-warm.jpg' : 'polka-cool.jpg'), ['classic', 'feminine', 'tailored'], 0, 1, 'bright'],
       ['stripe', 'Breton stripe', warm ? 'Rust + cream' : 'Navy + white', 'Classic and easy. Great for tops, knits and scarves.', '', img(warm ? 'stripe-warm.jpg' : 'stripe-cool.jpg'), ['casual', 'sporty', 'classic'], 0, 1, ''],
       ['gingham', 'Gingham', 'Blue + white', 'Fresh and friendly. Keep the rest of the outfit solid.', '', img('gingham.jpg'), ['feminine', 'casual', 'sporty'], -1, 0, 'bright'],
-      ['plaid', 'Plaid', warm ? 'Olive + rust' : 'Navy + gray', 'Structured and polished. Choose one in your colors.', '', img(warm ? 'plaid-warm.jpg' : 'plaid-cool.jpg'), ['tailored', 'classic', 'luxury', 'sporty', 'casual'], 0, 0, 'blended'],
+      ['plaid', 'Plaid', warm ? 'Olive + rust' : 'Navy + gray', 'Structured and polished. Choose one in your colors.', '', img(warm ? 'plaid-warm.jpg' : 'plaid-cool.jpg'), ['alt', 'tailored', 'classic', 'luxury', 'sporty', 'casual'], 0, 0, 'blended'],
       ['floral', 'Ditsy floral', 'Blue + cream', 'Soft and feminine. Small flowers close together read as a quiet pattern.', '', img('floral-ditsy.jpg'), ['feminine', 'casual'], -1, -1, ''],
-      ['hound', 'Houndstooth', 'Black + white', 'A classic for blazers, skirts and coats. Wear it with solid black or white.', '', img('houndstooth.jpg'), ['tailored', 'classic', 'sleek'], 0, 1, 'bright'],
+      ['hound', 'Houndstooth', 'Black + white', 'A classic for blazers, skirts and coats. Wear it with solid black or white.', '', img('houndstooth.jpg'), ['tailored', 'alt', 'classic', 'sleek'], 0, 1, 'bright'],
       ['pinstripe', 'Pinstripe', 'Navy + white', 'Sharp and professional. Best in a suit, blazer or trouser.', '', img('pinstripe.jpg'), ['tailored', 'sleek', 'classic'], 0, 1, ''],
-      ['snake', 'Snake print', 'Tan + brown', 'A neutral that acts like a print. Great on boots, bags and blouses.', '', img('snake.jpg'), ['bold', 'luxury', 'casual'], 1, 0, 'blended'],
-      ['bigfloral', 'Large floral', 'Burgundy + blush', 'Big flowers make a statement. Wear on a dress or skirt and keep the top simple.', '', img('floral-large.jpg'), ['feminine', 'bold', 'luxury'], 1, 0, 'blended'],
+      ['snake', 'Snake print', 'Tan + brown', 'A neutral that acts like a print. Great on boots, bags and blouses.', '', img('snake.jpg'), ['alt', 'bold', 'luxury', 'casual'], 1, 0, 'blended'],
+      ['bigfloral', 'Large floral', 'Burgundy + blush', 'Big flowers make a statement. Wear on a dress or skirt and keep the top simple.', '', img('floral-large.jpg'), ['alt', 'feminine', 'bold', 'luxury'], 1, 0, 'blended'],
       ['watercolor', 'Watercolor print', 'Rose + dusty blue', 'Soft edges and blended color. Pretty on a scarf, blouse or flowy dress.', '', img('watercolor.jpg'), ['feminine', 'casual', 'luxury'], 0, -1, 'blended'],
-      ['paisley', 'Paisley', 'Rust + deep red', 'Rich and vintage. Try it as a scarf, blouse or lining.', '', img('paisley.jpg'), ['luxury', 'classic', 'casual'], 1, 0, 'blended']
+      ['paisley', 'Paisley', 'Rust + deep red', 'Rich and vintage. Try it as a scarf, blouse or lining.', '', img('paisley.jpg'), ['alt', 'luxury', 'classic', 'casual'], 1, 0, 'blended']
     ];
     var FEEL = { expressive: ['leopard', 'zebra', 'floral', 'crocred', 'paisley', 'bigfloral', 'snake'], trend: ['leopard', 'zebra', 'crocred', 'tortoise', 'snake', 'watercolor'], elegant: ['crocog', 'tortoise', 'polka', 'crocred', 'paisley', 'hound'], comfy: ['stripe', 'gingham', 'plaid'], feminine: ['floral', 'gingham', 'polka', 'tortoise', 'bigfloral', 'watercolor'], confident: ['leopard', 'zebra', 'crocred', 'snake', 'hound', 'pinstripe'] };
     var FEELW = { expressive: 'express yourself', trend: 'feel stylish and on-trend', elegant: 'feel elegant', comfy: 'feel comfortable', feminine: 'feel feminine', confident: 'feel confident' };
@@ -400,16 +400,16 @@
     };
     /* id, name, line, personas, occasions, season weight (1 heavier, -1 lighter), chroma, regex words in the shape's good / avoid lists, price lean */
     var LIB = [
-      ['satin', 'Satin and silk', 'A fluid sheen that dresses an outfit up. Best for tops, slip skirts and dresses.', ['feminine', 'luxury', 'sleek'], ['dates', 'special'], -1, 'bright', /satin|silk|sleek|shiny/i, 'invest'],
+      ['satin', 'Satin and silk', 'A fluid sheen that dresses an outfit up. Best for tops, slip skirts and dresses.', ['feminine', 'luxury', 'sleek', 'alt'], ['dates', 'special'], -1, 'bright', /satin|silk|sleek|shiny/i, 'invest'],
       ['crepe', 'Crepe', 'A matte, fluid fabric that skims the body and holds a line.', ['tailored', 'classic', 'luxury'], ['work', 'dates'], 0, 'blended', /crepe|fluid|drap/i, ''],
       ['ponte', 'Ponte', 'A thick, stretchy knit with structure. Comfortable, polished and wrinkle-resistant.', ['tailored', 'classic', 'casual'], ['work', 'travel', 'everyday'], 0, '', /ponte|structured/i, 'budget'],
       ['denim', 'Denim', 'Sturdy and easy. Choose a dark wash or a weight that holds its shape.', ['casual', 'sporty', 'bold'], ['everyday', 'travel'], 0, '', /denim|cotton/i, 'budget'],
       ['wool', 'Wool blends', 'Rich and substantial. Beautiful in coats, blazers and trousers. Choose a soft blend if wool feels itchy.', ['luxury', 'tailored', 'classic'], ['work'], 1, 'soft', /wool|structured/i, 'invest'],
       ['knit', 'Soft knits and cashmere', 'Cozy, refined and easy to layer.', ['luxury', 'casual', 'feminine'], ['everyday', 'travel'], 1, 'soft', /knit|cashmere/i, 'invest'],
       ['linen', 'Linen and cotton-linen', 'Breathable and relaxed. Best for warm days and easy shapes.', ['casual', 'classic'], ['everyday'], -1, 'soft', /linen|cotton/i, ''],
-      ['leather', 'Leather and faux leather', 'Sharp and grown-up. A jacket, skirt or boot changes any outfit.', ['sleek', 'bold', 'luxury'], ['dates', 'special'], 1, 'bright', /leather/i, ''],
-      ['velvet', 'Velvet', 'Deep and rich. A strong choice for evenings and special occasions.', ['bold', 'luxury', 'feminine'], ['special', 'dates'], 1, 'bright', /velvet/i, ''],
-      ['chiffon', 'Chiffon and georgette', 'Light and airy. Beautiful in tops, blouses and flowing skirts.', ['feminine', 'classic'], ['dates', 'special'], -1, 'soft', /chiffon|georgette|flow|drap/i, ''],
+      ['leather', 'Leather and faux leather', 'Sharp and grown-up. A jacket, skirt or boot changes any outfit.', ['alt', 'sleek', 'bold', 'luxury'], ['dates', 'special'], 1, 'bright', /leather/i, ''],
+      ['velvet', 'Velvet', 'Deep and rich. A strong choice for evenings and special occasions.', ['alt', 'bold', 'luxury', 'feminine'], ['special', 'dates'], 1, 'bright', /velvet/i, ''],
+      ['chiffon', 'Chiffon and georgette', 'Light and airy. Beautiful in tops, blouses and flowing skirts.', ['feminine', 'alt', 'classic'], ['dates', 'special'], -1, 'soft', /chiffon|georgette|flow|drap/i, ''],
       ['jersey', 'Stretch jersey', 'Soft and comfortable. Works best in a thicker weight that does not cling.', ['casual', 'sporty'], ['everyday', 'travel'], 0, '', /jersey|stretch/i, 'budget'],
       ['boucle', 'Bouclé and tweed', 'Textured and polished. A jacket or skirt in this fabric looks expensive.', ['luxury', 'classic', 'feminine'], ['work', 'special'], 1, 'soft', /textur|tweed|boucl/i, 'invest'],
       ['poplin', 'Cotton poplin', 'Crisp and clean. Perfect for shirts, shirt-dresses and structured pieces.', ['tailored', 'classic', 'casual'], ['work', 'everyday'], -1, 'bright', /cotton|poplin|structured/i, 'budget']
@@ -478,7 +478,7 @@
   var GOAL_TXT = { event: 'a wedding or special event', job: 'a new job or interview', change: 'a big life change', trip: 'a trip or vacation' };
   var GOAL_SEARCH = { event: 'wedding guest outfits', job: 'interview outfits', change: 'new chapter outfits', trip: 'vacation outfits' };
   function pinUrl(q) { return 'https://www.pinterest.com/search/pins/?q=' + encodeURIComponent('trending ' + q + (/\bwomen\b/i.test(q) ? '' : ' for women')); }
-  var VIBEW = { feminine: 'feminine', luxury: 'elevated', sleek: 'sleek', tailored: 'tailored', casual: 'casual chic', bold: 'statement', classic: 'classic', sporty: 'athleisure' };
+  var VIBEW = { feminine: 'feminine', luxury: 'elevated', sleek: 'sleek', tailored: 'tailored', casual: 'casual chic', bold: 'statement', classic: 'classic', sporty: 'athleisure', alt: 'dark romantic' };
   function vibeWord(r) { return (r.persona && VIBEW[r.persona.vibe]) || ''; }
 
   function glanceBlock(r) {
@@ -524,6 +524,16 @@
     ];
     return out;
   }
+  /* For alt / dark-romance clients: the darks that suit her coloring (jet black can wash some seasons out). */
+  function bestDarks(r) {
+    if (!(r.persona && r.persona.vibe === 'alt')) return '';
+    var P = pal(r), pool = P.neu.concat(P.sig), seen = {}, darks = [];
+    pool.slice().sort(function (a, b) { return lumH(a.h) - lumH(b.h); }).forEach(function (c) { if (!seen[c.n] && lumH(c.h) < 0.3 && darks.length < 4) { seen[c.n] = 1; darks.push(c); } });
+    if (!darks.length) return '';
+    var hasBlack = P.neu.some(function (c) { return /black/i.test(c.n) && lumH(c.h) < 0.12; });
+    var txt = hasBlack ? 'True black is in your palette, so wear it freely. Keep your signature color close to your face so the look stays alive.' : 'Jet black can look harsh on your coloring. These darks give the same mood and flatter you more. Keep true black below the waist, in boots, jackets and bags, away from your face.';
+    return '<div class="hx-box" style="margin-top:10px"><h6>Your best darks</h6><div class="hx-fm" style="flex-wrap:wrap">' + darks.map(function (c) { return '<span>' + chip(c) + E(c.n) + '</span>'; }).join('') + '</div><p style="margin:4px 0 0;font-size:0.72rem;line-height:1.45;color:#3F3C38">' + E(txt) + '</p></div>';
+  }
   function capsuleBlock(r) {
     var pcs = capsulePieces(r), L = r.life || {};
     var tiles = pcs.map(function (p, i) {
@@ -532,7 +542,7 @@
     }).join('');
     var sec = (L.shopHabits || []).some(function (x) { return x === 'secondhand' || x === 'resale'; }) && r.stores && r.stores.secondhand ? '<div class="hx-box" style="margin-top:10px"><h6>You shop secondhand, so look here too</h6><p>' + r.stores.secondhand.map(function (x, i) { var q = String(pcs[i * 4].c.n + ' ' + (i === 2 ? 'bag' : pcs[i * 4].n)).toLowerCase() + ' women'; var u = x.url + encodeURIComponent(q).replace(/%20/g, '+'); return '<a class="hx-sl" href="' + E(u) + '" target="_blank" rel="noopener" data-href="' + E(u) + '">' + E(x.name) + '</a>'; }).join(' ') + '</p></div>' : '';
     var sub = '12 pieces to buy first, in your colors and for your ' + E(shapeName(r)) + ' shape' + (L.dressCode === 'formal' ? ', with a formal work wardrobe in mind' : '') + '. Budget per piece: ' + E((r.shopTier && r.shopTier.label) || 'Mid-range ($75–$200)') + '.';
-    return { key: 'capsule', label: 'Starter Capsule', html: '<div class="hx-page">' + head('Your starter <em>capsule</em>', sub) + '<div class="hx-cap4">' + tiles + '</div>' + sec + '<div class="hx-tip" style="margin-top:12px">Every piece should work with at least three others. Buy the Start here pieces first, then fill in the rest over a few months.</div></div>' };
+    return { key: 'capsule', label: 'Starter Capsule', html: '<div class="hx-page">' + head('Your starter <em>capsule</em>', sub) + '<div class="hx-cap4">' + tiles + '</div>' + sec + bestDarks(r) + '<div class="hx-tip" style="margin-top:12px">Every piece should work with at least three others. Buy the Start here pieces first, then fill in the rest over a few months.</div></div>' };
   }
 
   function recipesBlock(r) {
