@@ -165,6 +165,7 @@ const A = {}; // answers
 let name = '';
 let email = '';
 let planToBook = ''; // 'yes' | 'no' | '' (not chosen yet)
+let marketing = ''; // 'yes' only if she ticks the optional box; never pre-ticked
 let freeText = '';
 let photoBase64 = null;
 let photoMediaType = null;
@@ -513,7 +514,7 @@ function render() {
         <p class="cover-sub">26 quick questions about your natural coloring, body and style, a few optional extras about your life, then an optional photo. Takes about 5 to 8 minutes — your personalized report is generated right after you check out.</p>
         <input type="text" class="nameinput" id="name-field" placeholder="First name" value="${name}" autocomplete="given-name">
         <input type="email" class="nameinput" id="email-field" placeholder="Email address" value="${email}" autocomplete="email">
-        <p class="field-note" style="font-size:12px;opacity:.7;margin:.2rem 0 .8rem;line-height:1.5;">By starting, you agree to receive your report and occasional style tips by email. Unsubscribe anytime.</p>
+        <label class="mkt-opt" style="display:flex;gap:10px;align-items:flex-start;text-align:left;font-size:13px;line-height:1.45;margin:.4rem 0 .9rem;cursor:pointer;"><input type="checkbox" id="mkt-box" ${marketing === 'yes' ? 'checked' : ''} style="margin-top:3px;flex:none;width:18px;height:18px;accent-color:#7A1321;"><span>Yes, send me occasional style tips and offers by email. <span style="opacity:.65">(Optional. You will still get your report either way, and you can unsubscribe any time.)</span></span></label>
         <p class="plan-q">Do you think you might book a styling session with us in the future?</p>
         <div class="returning-toggle" style="margin-top:0">
           <button type="button" class="returning-opt ${planToBook === 'yes' ? 'sel' : ''}" id="plan-yes-btn">Yes, I might</button>
@@ -1034,6 +1035,8 @@ function attachHandlers(f) {
   if (nameField) nameField.addEventListener('input', (e) => { name = e.target.value; });
   const emailField = document.getElementById('email-field');
   if (emailField) emailField.addEventListener('input', (e) => { email = e.target.value; });
+  const mktBox = document.getElementById('mkt-box');
+  if (mktBox) mktBox.addEventListener('change', (e) => { marketing = e.target.checked ? 'yes' : ''; });
   const planYes = document.getElementById('plan-yes-btn');
   if (planYes) planYes.addEventListener('click', () => { planToBook = 'yes'; render(); });
   const planNo = document.getElementById('plan-no-btn');
@@ -1087,7 +1090,7 @@ function onNext() {
 // No  -> name and email only (plus the choice itself). Answers and results are not sent to the sheet.
 // Yes -> also the answers and results, so we can offer to reuse them at the consultation or first session. The photo is never sent.
 function leadPayload(stage, p) {
-  const base = { stage: stage || 'payment', name, email, planToBook: planToBook || '', keepResults: planToBook === 'yes' ? 'yes' : 'no', createdAt: new Date().toISOString() };
+  const base = { stage: stage || 'payment', name, email, planToBook: planToBook || '', marketingOptIn: marketing === 'yes' ? 'yes' : 'no', keepResults: planToBook === 'yes' ? 'yes' : 'no', createdAt: new Date().toISOString() };
   if (planToBook !== 'yes') return base;
   return Object.assign(base, {
     ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name,
