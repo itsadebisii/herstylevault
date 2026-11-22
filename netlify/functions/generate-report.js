@@ -383,6 +383,8 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     ageBracket: answers.ageBracket || '',
     depthKey: DEPTH_KEYS.indexOf(answers.depth) > -1 ? answers.depth : '',
     directions: cleanDirections(answers),
+    contrastLevel: ['high','mediumHigh','medium','mediumLow','low'].indexOf(answers.contrast) > -1 ? answers.contrast : '',
+    chromaKey: axes.chroma || '',
     matureAge: isMatureAge(answers),
     archetype,
     personaAnswered: !!(answers.ageBracket && answers.pq1 && answers.pq2 && answers.pq3),

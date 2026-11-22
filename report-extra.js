@@ -34,7 +34,8 @@
     return label('Your face, at the center of your colors')
       + '<div class="hx-wheel"><svg viewBox="0 0 380 380" width="330" height="330">' + s + '</svg><div class="hx-face" style="' + photo + '">' + mono + '</div></div>'
       + '<div class="hx-wleg"><span><i style="background:#C9A882"></i>Neutrals, closest to you</span><span><i style="background:' + E(P.sig[0].h) + '"></i>Signature colors</span><span><i style="background:' + E(P.acc[0].h) + '"></i>Accents</span></div>'
-      + '<p class="hx-cap">Your ' + E(String(r.seasonLabel || '').replace(/\s*✦/, '')) + ' palette, arranged as rings around you.</p>';
+      + '<p class="hx-cap">Your ' + E(String(r.seasonLabel || '').replace(/\s*✦/, '')) + ' palette, arranged as rings around you.</p>'
+      + '<div class="hx-disc"><b>About this analysis</b>This color type comes from your quiz answers' + (r.__photo || r.hadPhoto ? ' and your photo' : '') + '. It is a strong starting point, but it is not a full color analysis. The color analysis you receive in a full analysis session is the complete one, and it may refine or differ from this result. Lighting, screens and printing can also change how colors look.</div>';
   }
 
   /* ---------- 2. palette across the shade range ---------- */
@@ -158,23 +159,56 @@
     return { key: 'formulas', label: 'Outfit Formulas', html: '<div class="hx-page">' + head('Outfit <em>formulas</em>', 'You asked for outfits that work best in these places. Build each one from your own colors.') + cards + '<div class="hx-tip">Want these built into real outfits from your closet? That is what a styling session is for. Try Style-11 for a free outfit idea any time.</div></div>' };
   }
 
-  /* ---------- 7. patterns ---------- */
+  /* ---------- 7. patterns (chosen from the client's own answers) ---------- */
+  var PAT_IMG = 'images/report/patterns/';
   function patternsBlock(r) {
-    var P = pal(r), N = P.neu, S = P.sig, A = P.acc;
-    var navy = N[3].h, cream = N[0].h, camel = N[2].h;
-    var scale = r.height === 'petite' ? 'small to medium scale' : r.height === 'tall' ? 'medium to large scale' : 'any scale you like';
-    var leo = (function () { var s = '', xs = [[20, 20], [62, 14], [104, 24], [40, 52], [86, 58], [14, 80], [58, 90], [112, 92], [30, 120], [90, 124]]; xs.forEach(function (p) { s += '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="13" ry="10" fill="' + E(A[2].h) + '" transform="rotate(' + ((p[0] * 7) % 60) + ' ' + p[0] + ' ' + p[1] + ')"/><path d="M' + (p[0] - 12) + ' ' + p[1] + ' Q' + p[0] + ' ' + (p[1] - 16) + ' ' + (p[0] + 12) + ' ' + (p[1] - 4) + '" stroke="#2b2220" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M' + (p[0] - 8) + ' ' + (p[1] + 8) + ' Q' + (p[0] + 4) + ' ' + (p[1] + 14) + ' ' + (p[0] + 12) + ' ' + (p[1] + 4) + '" stroke="#2b2220" stroke-width="3.5" fill="none" stroke-linecap="round"/>'; }); return '<svg viewBox="0 0 130 140" preserveAspectRatio="xMidYMid slice"><rect width="130" height="140" fill="' + E(camel) + '"/>' + s + '</svg>'; })();
-    var flo = (function () { var s = '', xs = [[18, 18], [56, 30], [94, 16], [30, 58], [72, 66], [108, 54], [16, 100], [56, 108], [96, 100], [36, 130], [80, 134]]; xs.forEach(function (p, i) { var c = S[i % 6].h; s += '<g transform="translate(' + p[0] + ' ' + p[1] + ')"><circle r="9" cx="0" cy="-8" fill="' + E(c) + '"/><circle r="9" cx="8" cy="0" fill="' + E(c) + '"/><circle r="9" cx="0" cy="8" fill="' + E(c) + '"/><circle r="9" cx="-8" cy="0" fill="' + E(c) + '"/><circle r="4" fill="' + E(A[0].h) + '"/></g>'; }); return '<svg viewBox="0 0 130 140" preserveAspectRatio="xMidYMid slice"><rect width="130" height="140" fill="' + E(cream) + '"/>' + s + '</svg>'; })();
-    var tiles = [
-      ['Breton stripe', navy + ' + ' + cream, 'repeating-linear-gradient(0deg,' + E(navy) + ' 0 10px,' + E(cream) + ' 10px 22px)', 'Classic and easy. Great for tops, knits and scarves.'],
-      ['Gingham', E(S[0].n) + ' + ' + E(N[0].n), 'linear-gradient(90deg,' + E(S[0].h) + '66 50%,transparent 50%),linear-gradient(0deg,' + E(S[0].h) + '66 50%,transparent 50%),' + E(cream) + ';background-size:22px 22px', 'Fresh and friendly. Keep the rest of the outfit solid.'],
-      ['Polka dot', E(N[3].n) + ' + ' + E(N[0].n), 'radial-gradient(circle,' + E(cream) + ' 5px,transparent 6px) 0 0/22px 22px,' + E(navy), 'Timeless. Works as a dress, blouse or scarf.'],
-      ['Leopard', E(N[2].n) + ' + ' + E(A[2].n), '', 'A neutral that goes with everything. Let it be the only pattern.', leo],
-      ['Plaid', E(S[2].n) + ' + ' + E(N[1].n), 'repeating-linear-gradient(90deg,' + E(S[2].h) + 'aa 0 8px,transparent 8px 28px),repeating-linear-gradient(0deg,' + E(N[1].h) + 'aa 0 8px,transparent 8px 28px),' + E(N[0].h), 'Structured and polished. Choose a plaid from your colors.'],
-      ['Ditsy floral', 'Your signature colors', '', 'Soft and feminine. Pick one with colors from your wheel.', flo]
+    var P = pal(r), N = P.neu, S = P.sig, A = P.acc, d = r.directions || {}, so = d.showOff || [], q = d.quiet || [], feel = d.feel || [];
+    var vibe = (r.persona && r.persona.vibe) || '', pname = (r.persona && r.persona.name) || '', season = r.seasonLabel || '';
+    var warm = /spring|autumn/i.test(r.seasonKey || ''), con = r.contrastLevel || '', chr = r.chromaKey || '';
+    var hi = con === 'high' || con === 'mediumHigh', lo = con === 'low' || con === 'mediumLow';
+    var lum = function (h) { var c = [1, 3, 5].map(function (i) { return parseInt(h.substr(i, 2), 16); }); return (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255; };
+    var byL = N.slice().sort(function (a, b) { return lum(a.h) - lum(b.h); }), darkN = byL[0], lightN = byL[byL.length - 1];
+    var navy = darkN.h, cream = lum(lightN.h) >= 0.62 ? lightN.h : '#F3EDE3', creamN = lum(lightN.h) >= 0.62 ? lightN.n : 'Cream';
+    var flo = (function () { var s2 = '', xs = [[18, 18], [56, 30], [94, 16], [30, 58], [72, 66], [108, 54], [16, 100], [56, 108], [96, 100], [36, 130], [80, 134]]; xs.forEach(function (p2, i) { var c = S[i % 6].h; s2 += '<g transform="translate(' + p2[0] + ' ' + p2[1] + ')"><circle r="9" cx="0" cy="-8" fill="' + E(c) + '"/><circle r="9" cx="8" cy="0" fill="' + E(c) + '"/><circle r="9" cx="0" cy="8" fill="' + E(c) + '"/><circle r="9" cx="-8" cy="0" fill="' + E(c) + '"/><circle r="4" fill="' + E(A[0].h) + '"/></g>'; }); return '<svg viewBox="0 0 130 140" preserveAspectRatio="xMidYMid slice"><rect width="130" height="140" fill="' + E(cream) + '"/>' + s2 + '</svg>'; })();
+    var img = function (f) { return '<img src="' + PAT_IMG + f + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block">'; };
+    /* id, name, colors, line, css background, art html, personas it suits, warm (1 warm, -1 cool), contrast (1 higher, -1 softer), chroma */
+    var LIB = [
+      ['zebra', 'Zebra', 'Charcoal + white', 'Use it as an accent: a bag, scarf or shoe with solid neutrals.', '', img('zebra.jpg'), ['bold', 'sleek', 'tailored'], -1, 1, 'bright'],
+      ['leopard', 'Leopard', 'Camel + cognac', 'Pairs with ' + E(S[2].n) + '. Let it be the only pattern in the outfit.', '', img('leopard.jpg'), ['bold', 'luxury', 'casual'], 1, 0, ''],
+      ['crocred', 'Croc emboss, red', 'Cherry red', 'A texture, not a print. Perfect for bags, belts and shoes.', '', img('croc-red.jpg'), ['luxury', 'sleek', 'tailored'], 0, 1, 'bright'],
+      ['tortoise', 'Tortoise', 'Antique gold + cognac', 'Warm and glossy. Ideal for sunglasses, hair clips and buttons.', '', img('tortoise.jpg'), ['luxury', 'feminine', 'classic'], 1, -1, 'blended'],
+      ['crocog', 'Croc emboss, cognac', 'Cognac leather + camel', 'The warm version of croc. Beautiful on boots, belts and bags.', '', img('croc-cognac.jpg'), ['luxury', 'classic', 'tailored'], 1, -1, 'blended'],
+      ['polka', 'Polka dot', E(darkN.n) + ' + ' + E(creamN), 'Timeless. Works as a dress, blouse or scarf.', 'radial-gradient(circle,' + E(cream) + ' 5px,transparent 6px) 0 0/22px 22px,' + E(navy), '', ['classic', 'feminine', 'tailored'], 0, 1, 'bright'],
+      ['stripe', 'Breton stripe', E(darkN.n) + ' + ' + E(creamN), 'Classic and easy. Great for tops, knits and scarves.', 'repeating-linear-gradient(0deg,' + E(navy) + ' 0 10px,' + E(cream) + ' 10px 22px)', '', ['casual', 'sporty', 'classic'], 0, 1, ''],
+      ['gingham', 'Gingham', E(S[0].n) + ' + ' + E(creamN), 'Fresh and friendly. Keep the rest of the outfit solid.', 'linear-gradient(90deg,' + E(S[0].h) + '66 50%,transparent 50%),linear-gradient(0deg,' + E(S[0].h) + '66 50%,transparent 50%),' + E(cream) + ';background-size:22px 22px', '', ['feminine', 'casual', 'sporty'], 0, 0, 'bright'],
+      ['plaid', 'Plaid', E(S[2].n) + ' + ' + E(N[1].n), 'Structured and polished. Choose one in your colors.', 'repeating-linear-gradient(90deg,' + E(S[2].h) + 'aa 0 8px,transparent 8px 28px),repeating-linear-gradient(0deg,' + E(N[1].h) + 'aa 0 8px,transparent 8px 28px),' + E(N[0].h), '', ['tailored', 'classic', 'luxury', 'sporty', 'casual'], 0, 0, 'blended'],
+      ['floral', 'Ditsy floral', 'Your signature colors', 'Soft and feminine. Pick one with colors from your wheel.', '', flo, ['feminine', 'bold', 'casual'], 0, -1, '']
     ];
-    var tl = tiles.map(function (t) { return '<div class="hx-pt"><div class="hx-pc" style="' + (t[2] ? 'background:' + t[2] + ';' : '') + '">' + (t[4] || '') + '</div><h5>' + t[0] + '</h5><small>' + t[1] + '</small><p>' + t[3] + '</p></div>'; }).join('');
-    return { key: 'patterns', label: 'Patterns', html: '<div class="hx-page">' + head('Patterns you <em>can wear</em>', 'Keep the colors inside your wheel and any pattern will look intentional.') + '<div class="hx-pgrid">' + tl + '</div><div class="hx-tip" style="margin-top:14px">Scale tip: choose ' + scale + '. One pattern per outfit. Let it be the star and keep everything else solid.</div></div>' };
+    var FEEL = { expressive: ['leopard', 'zebra', 'floral', 'crocred'], trend: ['leopard', 'zebra', 'crocred', 'tortoise'], elegant: ['crocog', 'tortoise', 'polka', 'crocred'], comfy: ['stripe', 'gingham', 'plaid'], feminine: ['floral', 'gingham', 'polka', 'tortoise'], confident: ['leopard', 'zebra', 'crocred'] };
+    var FEELW = { expressive: 'express yourself', trend: 'feel stylish and on-trend', elegant: 'feel elegant', comfy: 'feel comfortable', feminine: 'feel feminine', confident: 'feel confident' };
+    var scored = LIB.map(function (t, i) {
+      var parts = [], vi = t[6].indexOf(vibe);
+      if (vi > -1) parts.push([vi < 2 ? 3 : 2, pname ? 'Matches your ' + pname + ' style.' : 'Matches your style direction.']);
+      if (t[7] !== 0) parts.push([t[7] === (warm ? 1 : -1) ? 1.2 : -1, warm ? 'Warm tones like this sit well with your ' + season + ' coloring.' : 'Crisp, cooler tones like this suit your ' + season + ' coloring.']);
+      if (con && t[8] !== 0) parts.push([(t[8] === 1 && hi) || (t[8] === -1 && lo) ? 1.1 : ((t[8] === 1 && lo) || (t[8] === -1 && hi) ? -1 : 0), hi ? 'Your higher-contrast coloring can carry a bold print.' : 'Your softer, lower-contrast coloring suits a tonal pattern like this.']);
+      if (chr && t[9]) parts.push([t[9] === 'blended' ? (chr === 'bright' ? -1 : 1) : (t[9] === chr ? 1 : (chr === 'blended' ? 0 : -1)), chr === 'bright' ? 'Clear, vivid patterns match your bright coloring.' : 'Soft, muted patterns match your blended coloring.']);
+      feel.forEach(function (f) { if ((FEEL[f] || []).indexOf(t[0]) > -1) parts.push([1, 'You want to ' + FEELW[f] + ', and this pattern helps with that.']); });
+      var total = 0, best = [0, 'A dependable pattern that works with your palette.']; parts.forEach(function (x) { total += x[0]; if (x[0] > best[0]) best = x; });
+      return { t: t, total: total, why: best[1], i: i };
+    }).sort(function (a, b) { return b.total - a.total || a.i - b.i; }).slice(0, 6);
+    var tl = scored.map(function (o) { var t = o.t; return '<div class="hx-pt"><div class="hx-pc" style="' + (t[4] ? 'background:' + t[4] + ';' : '') + '">' + (t[5] || '') + '</div><h5>' + t[1] + '</h5><small>' + t[2] + '</small><p>' + t[3] + '</p><p class="hx-why">' + E(o.why) + '</p></div>'; }).join('');
+    var scale = r.height === 'petite' ? 'small to medium scale prints, so the pattern is not bigger than you' : r.height === 'tall' ? 'medium to large scale prints, which suit your height' : 'any scale you like';
+    var tips = [];
+    var quietLow = q.indexOf('midsection') > -1 || q.indexOf('hips') > -1, quietLegs = q.indexOf('legs') > -1;
+    if (quietLow) tips.push('You prefer less attention on your midsection or hips, so keep prints on your top half, a scarf or a bag, and wear a solid below.');
+    else if (quietLegs) tips.push('You prefer less attention on your legs, so keep prints above the waist and wear solid bottoms.');
+    else if (so.indexOf('legs') > -1) tips.push('You like to show off your legs, so try a printed midi skirt or a patterned wide-leg pant.');
+    if (so.indexOf('waist') > -1 && !quietLow) tips.push('You like to show your waist, so wear a printed dress with a belt to keep it in focus.');
+    if (['shoulders', 'neckline', 'arms', 'back'].some(function (x) { return so.indexOf(x) > -1; })) tips.push('You like to show off your upper body, so put the print in a top, a scarf or a detail near the neckline.');
+    tips.push('Scale: choose ' + scale + '.');
+    var tipHtml = '<div class="hx-box" style="margin-top:12px"><h6>Where to wear prints, for you</h6><ul class="hx-ul">' + tips.map(function (x) { return '<li>' + E(x) + '</li>'; }).join('') + '</ul></div>';
+    var sub = 'Picked for your ' + E(season || 'coloring') + (pname ? ' and your ' + E(pname) + ' style' : '') + '. Keep the colors inside your wheel and any pattern will look intentional.';
+    return { key: 'patterns', label: 'Patterns', html: '<div class="hx-page">' + head('Patterns you <em>can wear</em>', sub) + '<div class="hx-pgrid">' + tl + '</div>' + tipHtml + '<div class="hx-tip" style="margin-top:10px">One pattern per outfit. Let it be the star and keep everything else solid.</div></div>' };
   }
 
   function guidanceExtra(r) {
@@ -208,8 +242,8 @@
     + '.hx-tip{margin-top:16px;background:#7A1321;color:#fff;padding:11px 16px;border-radius:3px;text-align:center;font-size:0.7rem;line-height:1.5;letter-spacing:0.02em;}'
     + '.hx-grow{display:flex;gap:14px;align-items:center;margin:0 0 8px;}.hx-fig{flex:0 0 66px;width:66px;height:116px;background:#F7E4DD;border:1px solid rgba(122,19,33,.3);border-radius:4px;padding:3px;box-sizing:border-box;}.hx-fig svg{width:100%;height:100%;display:block;}.hx-gb{flex:1;}.hx-gb h5{margin:0;font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:600;}.hx-gis{display:flex;gap:10px;}.hx-gi{flex:1;text-align:center;}.hx-gm{width:100%;height:92px;display:block;margin:0 auto;}.hx-gi span{display:block;font-size:0.66rem;color:#3F3C38;margin-top:1px;}.hx-gb p{margin:3px 0 0;font-size:0.66rem;font-weight:600;color:#7A1321;}'
     + '.hx-occ{background:#ECE8E2;border-radius:14px;padding:10px 16px;margin:0 0 8px;}.hx-occh{display:flex;align-items:center;gap:12px;}.hx-occh h4{margin:0;font-family:"Cormorant Garamond",serif;font-size:1.4rem;font-weight:600;}.hx-fm{display:flex;gap:14px;margin:6px 0 4px;font-size:0.7rem;color:#3F3C38;}.hx-fm b{font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;margin-right:5px;}.hx-try{margin:2px 0 4px;font-size:0.72rem;color:#3F3C38;}.hx-try b{color:#7A1321;}.hx-occ ul{margin:0;padding-left:18px;font-size:0.7rem;line-height:1.5;color:#3F3C38;}'
-    + '.hx-pgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 12px;}.hx-pc{height:130px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 3px #fff,0 4px 8px -4px rgba(0,0,0,.3);}.hx-pc svg{width:100%;height:100%;display:block;}.hx-pt h5{margin:10px 0 0;font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:600;}.hx-pt small{display:block;font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;font-weight:600;}.hx-pt p{margin:3px 0 0;font-size:0.7rem;line-height:1.45;color:#3F3C38;}'
-    + '.hx-asked{margin:14px auto 0;max-width:520px;background:#fff;border:1px solid #E3D8D2;border-radius:10px;padding:10px 16px;font-size:0.74rem;line-height:1.5;color:#3F3C38;text-align:center;}.hx-asked b{color:#7A1321;}';
+    + '.hx-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;}.hx-why{color:#7A1321!important;font-style:italic;font-size:0.64rem!important;}.hx-ul{margin:0;padding-left:16px;font-size:0.7rem;line-height:1.5;color:#3F3C38;}.hx-pc{height:112px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 3px #fff,0 4px 8px -4px rgba(0,0,0,.3);}.hx-pc svg{width:100%;height:100%;display:block;}.hx-pt h5{margin:10px 0 0;font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:600;}.hx-pt small{display:block;font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:#7A1321;font-weight:600;}.hx-pt p{margin:3px 0 0;font-size:0.7rem;line-height:1.45;color:#3F3C38;}'
+    + '.hx-disc{margin:12px 0 0;border:1px solid #D9CFC8;border-radius:8px;padding:9px 14px;font-size:0.62rem;line-height:1.5;color:#5a5551;background:#fff;}.hx-disc b{display:block;font-size:0.54rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;margin-bottom:2px;}.hx-asked{margin:14px auto 0;max-width:520px;background:#fff;border:1px solid #E3D8D2;border-radius:10px;padding:10px 16px;font-size:0.74rem;line-height:1.5;color:#3F3C38;text-align:center;}.hx-asked b{color:#7A1321;}';
 
   function ensureCss() { if (document.getElementById('hx-css')) return; var s = document.createElement('style'); s.id = 'hx-css'; s.textContent = CSS; document.head.appendChild(s); }
   ensureCss();
