@@ -773,6 +773,7 @@ const S = {
   dollskill: ['Dolls Kill', 'https://www.dollskill.com/search?q='],
   killstar: ['KILLSTAR', 'https://www.killstar.com/search?q='],
   musera: ['Musera', 'https://www.google.com/search?q=musera.com+'],
+  shopakira: ['Shopakira', 'https://www.google.com/search?q=shopakira.com+'],
   cider: ['Cider', 'https://www.google.com/search?q=shopcider.com+'],
   finesse: ['Finesse', 'https://finesse.us/search?q='],
   marsthelabel: ['Mars the Label', 'https://www.google.com/search?q=Mars+the+Label+'],
@@ -787,10 +788,10 @@ const S = {
   bloomingdales: ["Bloomingdale's", 'https://www.bloomingdales.com/shop/search?keyword=']
 };
 const STORE_DIR = {
-  '18-24': { budget: ['oldnavy','asos','target','hm','fashionnova','cider','musera','boohoo','finesse','shein','ego','wildoak','levi'], mid: ['abercrombie','aritzia','madewell','mango','marsthelabel','finesse','wildoak','levi','coach','ego'], invest: ['reformation','nordstrom','saks','anthropologie','coach','revolve','shopbop','bloomingdales','marsthelabel'] },
-  '25-34': { budget: ['quince','gap','mango','uniqlo','fashionnova','cider','musera','boohoo','finesse','shein','ego','wildoak','levi'], mid: ['madewell','bananarepublic','abercrombie','jcrew','marsthelabel','finesse','wildoak','levi','coach','ego'], invest: ['nordstrom','reformation','mmlafleur','saks','coach','revolve','shopbop','bloomingdales','marsthelabel'] },
-  '35-44': { budget: ['quince','loft','gap','oldnavy','shein','ego','wildoak','levi'], mid: ['jcrew','bananarepublic','anntaylor','boden','wildoak','levi','coach','ego'], invest: ['nordstrom','universalstandard','mmlafleur','saks','coach','bloomingdales','shopbop'] },
-  '45+':   { budget: ['quince','landsend','loft','jjill','shein','ego','wildoak','levi'], mid: ['talbots','chicos','jcrew','bananarepublic','wildoak','levi','coach','ego'], invest: ['nordstrom','eileenfisher','universalstandard','saks','coach','bloomingdales','shopbop'] }
+  '18-24': { budget: ['oldnavy','asos','target','hm','fashionnova','cider','musera','boohoo','finesse','shein','ego','wildoak','levi','shopakira'], mid: ['abercrombie','aritzia','madewell','mango','marsthelabel','finesse','wildoak','levi','coach','ego','shopakira'], invest: ['reformation','nordstrom','saks','anthropologie','coach','revolve','shopbop','bloomingdales','marsthelabel'] },
+  '25-34': { budget: ['quince','gap','mango','uniqlo','fashionnova','cider','musera','boohoo','finesse','shein','ego','wildoak','levi','shopakira'], mid: ['madewell','bananarepublic','abercrombie','jcrew','marsthelabel','finesse','wildoak','levi','coach','ego','shopakira'], invest: ['nordstrom','reformation','mmlafleur','saks','coach','revolve','shopbop','bloomingdales','marsthelabel'] },
+  '35-44': { budget: ['quince','loft','gap','oldnavy','shein','ego','wildoak','levi','shopakira'], mid: ['jcrew','bananarepublic','anntaylor','boden','wildoak','levi','coach','ego','shopakira'], invest: ['nordstrom','universalstandard','mmlafleur','saks','coach','bloomingdales','shopbop'] },
+  '45+':   { budget: ['quince','landsend','loft','jjill','shein','ego','wildoak','levi','shopakira'], mid: ['talbots','chicos','jcrew','bananarepublic','wildoak','levi','coach','ego','shopakira'], invest: ['nordstrom','eileenfisher','universalstandard','saks','coach','bloomingdales','shopbop'] }
 };
 /* ---------- Age-tailored color + cut pairings for the shopping links ----------
    18-34: trend-forward cuts and shades (the shape's own shopKeywords, e.g. corset top, apple green).
