@@ -126,6 +126,11 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
 .vc-ic svg{width:100%;height:100%;}
 .vc-icons .vc-ic:only-child{max-width:210px;}
 .vc-croq{height:100%;display:flex;align-items:center;justify-content:center;}
+.shade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-bottom:1.4rem;}
+.shade{display:flex;flex-direction:column;align-items:center;gap:0.45rem;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:0.7rem 0.3rem 0.6rem;font:inherit;font-size:0.74rem;line-height:1.25;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.shade i{display:block;width:52px;height:64px;border-radius:26px 26px 4px 4px;border:3px solid #CDBBA8;background-clip:padding-box;}
+.shade.sel{border-color:var(--accent);background:#fff;box-shadow:0 0 0 2px var(--accent);font-weight:600;}
+.shade.sel i{border-color:var(--accent);}
 .preview-skip{display:block;width:100%;margin:0.8rem 0 0;padding:0.8rem;border:1px dashed #7A1321;background:#fff;color:#7A1321;font:inherit;font-size:0.78rem;border-radius:3px;cursor:pointer;}
 .why{font-size:0.78rem;line-height:1.5;color:var(--ink-soft);background:var(--surface);border-left:3px solid var(--accent);padding:0.55rem 0.8rem;margin:0 0 1.1rem;border-radius:0 3px 3px 0;}
 .why b{font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-size:0.68rem;color:var(--ink);margin-right:0.4rem;}
@@ -632,14 +637,14 @@ const CHROMA_SW = {
   muted: ['#b87c7a', '#7d8fa0', '#b8a56a', '#7f9a88', '#a58aa5', '#c19a7e', '#8c8f7a', '#9fb0c0'],
   both: ['#e8283a', '#b87c7a', '#1e6fe0', '#7d8fa0', '#f2c200', '#b8a56a', '#12a86b', '#7f9a88'] };
 const DEPTH_ITEMS = [
-  { value: 'porcelain', label: 'Porcelain: very fair', hex: '#f7e1d3' }, { value: 'ivory', label: 'Ivory', hex: '#f3d6c0' },
+  { value: 'porcelain', label: 'Porcelain', hex: '#f7e1d3' }, { value: 'ivory', label: 'Ivory', hex: '#f3d6c0' },
   { value: 'fair', label: 'Fair', hex: '#f0cdb0' }, { value: 'light', label: 'Light', hex: '#e8c29d' },
   { value: 'beige', label: 'Light-medium / Beige', hex: '#deb38a' }, { value: 'sand', label: 'Sand', hex: '#d6a97c' },
   { value: 'medium', label: 'Medium', hex: '#cc9d6e' }, { value: 'olive', label: 'Olive', hex: '#bb985f' },
-  { value: 'honey', label: 'Honey / Golden', hex: '#b4844e' }, { value: 'tan', label: 'Tan', hex: '#a9713f' },
-  { value: 'caramel', label: 'Caramel / Golden brown', hex: '#94603a' }, { value: 'bronze', label: 'Bronze', hex: '#85532f' },
+  { value: 'honey', label: 'Honey', hex: '#b4844e' }, { value: 'tan', label: 'Tan', hex: '#a9713f' },
+  { value: 'caramel', label: 'Caramel', hex: '#94603a' }, { value: 'bronze', label: 'Bronze', hex: '#85532f' },
   { value: 'brown', label: 'Brown', hex: '#78492a' }, { value: 'deep', label: 'Deep', hex: '#5c3b23' },
-  { value: 'rich', label: 'Rich / Espresso', hex: '#3d2314' }];
+  { value: 'rich', label: 'Deep rich', hex: '#3d2314' }];
 const DEPTH_LIGHT = ['porcelain', 'ivory', 'fair', 'light', 'beige', 'sand', 'medium', 'olive']; // which skin-tone group the contrast and vein pictures use
 const CONTRAST_SETS = {
   deep: { label: 'Deeper skin tones', items: [
@@ -794,7 +799,9 @@ function renderQuestion(q) {
   const sectionLabel = q.label || (q.section === 'color' ? 'Color' : q.section === 'persona' ? 'Style Persona' : 'Body & Style');
   let body = '';
 
-  if (VISUAL[q.key]) {
+  if (q.key === 'depth') {
+    body = '<div class="shade-grid" role="radiogroup" aria-label="Skin shade">' + DEPTH_ITEMS.map(o => '<button type="button" class="shade ' + (A.depth === o.value ? 'sel' : '') + '" data-key="depth" data-val="' + o.value + '" role="radio" aria-checked="' + (A.depth === o.value) + '"><i style="background:' + o.hex + '"></i><span>' + o.label + '</span></button>').join('') + '</div>';
+  } else if (VISUAL[q.key]) {
     body = carouselHtml(q);
   } else if (q.swatches) {
     const sel = Array.isArray(A[q.key]) ? A[q.key] : [];
@@ -887,7 +894,7 @@ function renderQuestion(q) {
 }
 
 function questionTextForType(type) {
-  if (type === 'depth') return 'Which shade is closest to your natural skin tone?';
+  if (type === 'depth') return 'Tap the shade closest to your natural skin tone.';
   if (type === 'contrast') return 'How different are your hair, skin and eye colors from one another?';
   if (type === 'veins') return 'Look at the inside of your wrist in natural light. Do your veins look more blue or purple, or more green?';
   if (type === 'shape') return 'Which body shape best describes you?';

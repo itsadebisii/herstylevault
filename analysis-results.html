@@ -189,6 +189,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 <div id="pdf-root"></div>
 <script>
 const STORAGE_KEY = 'hsv_analysis_data';
+const SAMPLE_DATA = { name: 'Ada', answers: { ageBracket: '25-34', jewelry: 'gold', sun: 'tan', veins: 'green', depth: 'caramel', contrast: 'mediumHigh', chroma: 'bright', comp: 'warm', wash: 'cool', fit: 'both', styleGrav: 'waist', dressSep: 'both', shoulderHip: 'equal', waistDef: 'barelyDefined', bustHip: 'roughlyEqual', height: 'average', proportion: 'longLegs', showOff: ['waist', 'legs'], quiet: ['none'], feel: ['confident', 'feminine'], worksBest: ['work', 'dates', 'photos'], guideFirst: ['colors', 'formulas'], pq1: 'heels', pq2: 'waist', pq3: 'occasion', budget: 'mid' }, freeText: '', photoBase64: null, photoMediaType: null };
 function getSessionId(){return new URLSearchParams(window.location.search).get('session_id');}
 function showError(title, message, allowRetry) {
   const app = document.getElementById('app');
@@ -645,6 +646,7 @@ async function init() {
   } catch (e) { data = null; }
 
   AGE = (data && data.answers && data.answers.ageBracket) || '';
+  if (PREVIEW && (!data || !data.answers || new URLSearchParams(window.location.search).get('sample') === '1')) { data = SAMPLE_DATA; AGE = '25-34'; }
   if (!data || !data.answers) {
     // Opened on a different phone or browser: the saved copy opens with the email used at checkout.
     showGate(sessionId);
