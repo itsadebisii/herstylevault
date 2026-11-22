@@ -82,7 +82,7 @@ function fallbackNarrative(answers, axes, colorFacts, bodyFacts) {
 function silhouetteReasons(sil, answers, bodyFacts) {
   // Returns candidate reasons, most specific first. The caller picks the first one not already used.
   const s = sil.toLowerCase();
-  const grav = answers.styleGrav;
+  const grav = ({ bodyskim: 'fitted', cropped: 'waist' })[answers.styleGrav] || answers.styleGrav;
   const height = answers.height;
   const goal = lcFirst(stripEnd(bodyFacts.goal));
   const out = [];
@@ -103,7 +103,7 @@ function silhouetteReasons(sil, answers, bodyFacts) {
 function fallbackSilhouettes(answers, bodyFacts) {
   const list = (bodyFacts.sils || []).slice();
   // prefer silhouettes that match her stated preference, then fill in order
-  const grav = answers.styleGrav;
+  const grav = ({ bodyskim: 'fitted', cropped: 'waist' })[answers.styleGrav] || answers.styleGrav;
   const prefers = (s) => {
     const t = s.toLowerCase();
     if (grav === 'flowy') return /flow|a-line|maxi|wrap/.test(t) ? 1 : 0;
@@ -238,17 +238,22 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing quiz answers' }) };
   }
 
+  // Preview test: only honored on Netlify deploy-preview / branch-deploy hosts (never herstylevault.com), so the new report can be tested without paying. Nothing is saved.
+  const hostHdr = String((event.headers && (event.headers['x-forwarded-host'] || event.headers.host)) || '');
+  const previewTest = !!payload.previewTest && /--herstylevault\.netlify\.app$/i.test(hostHdr);
+  ['pq1Other', 'pq2Other', 'pq3Other'].forEach((k) => { if (answers[k] != null) answers[k] = String(answers[k]).replace(/[^A-Za-z0-9 ,.'&-]/g, '').slice(0, 90); });
+
   // --- Step 1: verify payment server-side, every time. Never trust the client. ---
   // STRIPE_SECRET_KEY_TEST, when set, always wins — lets us safely test with
   // Stripe test-mode data without ever touching the live key. Delete it (or
   // leave it unset) and this automatically falls back to the live key.
   const stripeKey = process.env.STRIPE_SECRET_KEY_TEST || process.env.STRIPE_SECRET_KEY;
-  if (!stripeKey) {
+  if (!stripeKey && !previewTest) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Server not configured (missing STRIPE_SECRET_KEY)' }) };
   }
 
-  let session;
-  try {
+  let session = {};
+  if (!previewTest) try {
     const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
       headers: { Authorization: `Bearer ${stripeKey}` }
     });
@@ -261,7 +266,7 @@ exports.handler = async (event) => {
   }
 
   // A 100%-off code (e.g. a free report for a client) completes with a $0 total and status 'no_payment_required'; that counts as settled.
-  const settled = session.payment_status === 'paid' || (session.status === 'complete' && session.amount_total === 0 && session.payment_status === 'no_payment_required');
+  const settled = previewTest || session.payment_status === 'paid' || (session.status === 'complete' && session.amount_total === 0 && session.payment_status === 'no_payment_required');
   if (!settled) {
     return { statusCode: 402, body: JSON.stringify({ error: 'Payment not completed' }) };
   }
@@ -271,7 +276,7 @@ exports.handler = async (event) => {
   const payerEmail = (session.customer_details && session.customer_details.email) || session.customer_email || '';
   const answersFingerprint = reportStore.answersHash(answers); // taken before the code below adds fields to answers
   const store = reportStore.openStore(event);
-  const existing = await reportStore.read(store, sessionId);
+  const existing = previewTest ? null : await reportStore.read(store, sessionId);
   if (existing) {
     // Only hand it back to someone who also holds the original quiz answers (the person who took the quiz).
     // Anyone else opens it through the email check on the saved-report page.

@@ -634,7 +634,9 @@ async function init() {
     return;
   }
 
-  const cached = readCache(sessionId);
+  const PREVIEW = new URLSearchParams(window.location.search).get('preview') === '1';
+  if (PREVIEW) { const nb = document.createElement('div'); nb.style.cssText = 'background:#7A1321;color:#fff;font:600 12px/1.4 sans-serif;text-align:center;padding:8px 12px;position:sticky;top:0;z-index:50'; nb.textContent = 'PREVIEW TEST: not a real purchase. Nothing is saved or emailed.'; document.body.prepend(nb); }
+  const cached = PREVIEW ? null : readCache(sessionId);
   if (cached) { REPORT_SAVED = true; SHARE_TOKEN = cached.share || null; await renderReport(cached.report); showSavedNote(); return; }
 
   let data;
@@ -660,7 +662,8 @@ async function init() {
         answers: data.answers,
         freeText: data.freeText,
         photoBase64: data.photoBase64,
-        photoMediaType: data.photoMediaType
+        photoMediaType: data.photoMediaType,
+        previewTest: PREVIEW
       })
     });
 

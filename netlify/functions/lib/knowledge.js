@@ -24,7 +24,7 @@ function computeColorAxes(a){
   const value=depthScore===0?'light':depthScore>=2?'deep':'medium';
   let chromaScore=0;
   if(a.chroma==='bright')chromaScore+=2;if(a.chroma==='muted')chromaScore-=2;
-  if(a.contrast==='high')chromaScore+=1;if(a.contrast==='low')chromaScore-=1;
+  chromaScore+=({high:1,mediumHigh:0.5,mediumLow:-0.5,low:-1})[a.contrast]||0;
   const chroma=chromaScore>=1?'bright':chromaScore<=-1?'soft':'blended';
   return{undertone,value,chroma};
 }
@@ -35,6 +35,7 @@ const SEASON_TABLE = {
   neutral: { bright: { light: 'brightSpring', medium: 'brightSpring', deep: 'brightWinter' }, soft: { light: 'softSummer', medium: 'softSummer', deep: 'softAutumn' }, blended: { light: 'softSummer', medium: 'softAutumn', deep: 'softAutumn' } }
 };
 
+function contrastBucket(c){return c==='mediumHigh'?'high':c==='mediumLow'?'low':c;}
 function getSeason(a) {
   const axes = computeColorAxes(a);
   return { key: SEASON_TABLE[axes.undertone][axes.chroma][axes.value], axes };
@@ -74,7 +75,7 @@ function bodyMarkerMatch(shape,a){
 function buildColorNarrative(a,axes,season){
   const sig=colorSignals(a);const u=axes.undertone;
   const chromaText={bright:'you come alive in bright, saturated colors',muted:'you look best in soft, muted colors',both:'you responded well to both bright and muted colors'}[a.chroma]||'';
-  const contrastText={high:'there is noticeable contrast between your hair, skin and eyes',low:'your hair, skin and eyes blend softly into one another',medium:'your coloring has a balanced, moderate level of contrast'}[a.contrast]||'';
+  const contrastText={high:'there is noticeable contrast between your hair, skin and eyes',low:'your hair, skin and eyes blend softly into one another',medium:'your coloring has a balanced, moderate level of contrast'}[contrastBucket(a.contrast)]||'';
   const undertoneWord=u==='neutral'?'a true in-between (neutral) undertone':`a clearly ${u} undertone`;
   let out='';
   if(u==='neutral'){
@@ -129,7 +130,7 @@ function buildColorBullets(a,axes,season){
     if(support.length)support.forEach(t=>items.push(t));else items.push('Weighing all your answers together, your skin reads '+u);
     if(against.length)note='A couple of quiz answers leaned the other way. That is normal, so the metals and colors you know flatter you count most.';
   }
-  const contrast={high:'Your hair, skin and eyes have clear contrast',low:'Your hair, skin and eyes blend softly together',medium:'Your coloring has a balanced, medium contrast'}[a.contrast];
+  const contrast={high:'Your hair, skin and eyes have clear contrast',low:'Your hair, skin and eyes blend softly together',medium:'Your coloring has a balanced, medium contrast'}[contrastBucket(a.contrast)];
   const chroma={bright:'You come alive in bright, saturated colors',muted:'You look best in soft, muted colors',both:'Bright and muted colors both work on you'}[a.chroma];
   if(contrast)items.push(contrast);if(chroma)items.push(chroma);
   // Her own chosen colors always get a line, so the answer clearly shows up in her report.
@@ -685,7 +686,7 @@ const PERSONA_TABLE = {
 };
 const PERSONA_FABRIC = { tailored:'Structured wovens', feminine:'Fluid silk and jersey', luxury:'Luxe knits and wool', casual:'Breathable cotton and denim', bold:'Sculptural and textured fabrics' };
 const PQ1_VIBE = { blazer:'tailored', casual:'casual', feminine:'feminine', heels:'feminine', allblack:'sleek', bold:'bold', set:'classic', sporty:'sporty' };
-const PQ2_VIBE = { tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold' };
+const PQ2_VIBE = { tailored:'tailored', drape:'feminine', quality:'luxury', effortless:'casual', drama:'bold', comfort:'casual', waist:'feminine', color:'bold', versatile:'classic' };
 function computePersona(a){
   a = a || {};
   const score = {}; PERSONA_VIBES.forEach(v => score[v] = 0);
@@ -698,10 +699,14 @@ function computePersona(a){
   else if (a.pq3 === 'set') score.classic += 1;
   else if (a.pq3 === 'outerwear') score[v1 === 'sporty' ? 'sporty' : 'luxury'] += 1;
   else if (a.pq3 === 'standout') score[(v1 === 'bold' || v2 === 'bold') ? 'bold' : 'casual'] += 1;
+  else if (a.pq3 === 'bottoms') score.casual += 1;
+  else if (a.pq3 === 'dress') score.feminine += 1;
+  else if (a.pq3 === 'color') score.bold += 1;
+  else if (a.pq3 === 'occasion') score.classic += 1;
   let best = null;
   const order = [v1, v2].concat(PERSONA_VIBES); // ties: default move first, then what sold her, then list order
   order.forEach(v => { if (v && (best === null || score[v] > score[best])) best = v; });
-  if (!best) best = 'tailored';
+  if (!best || !PERSONA_VIBES.some(v => score[v] > 0)) best = 'tailored';
   const t = PERSONA_TABLE[best];
   const mature = a.ageBracket === '35-44' || a.ageBracket === '45+';
   const who = mature ? t.mature : t.young;
