@@ -194,7 +194,7 @@ function proportionTipFor(shapeKey,height,proportion){
 const colorData = {
   lightSpring: { undertone: 'Light Spring', label: 'Light Spring', desc: 'A warm undertone with light, delicate coloring. You glow in warm colors kept light and clear — not deep, not muted.', metal: 'Light Gold / Champagne — brighter gold reads better than antique or deep gold', neutrals:[{n:'Ivory',h:'#f5efe0'},{n:'Camel',h:'#d4b896'},{n:'Light Warm Gray',h:'#c9c0b3'},{n:'Soft Peach Beige',h:'#e8d4bc'}], signature:[{n:'Peach',h:'#f4a97f'},{n:'Coral',h:'#ef8354'},{n:'Light Aqua',h:'#8fd3c8'},{n:'Warm Yellow',h:'#f2c14e'},{n:'Apple Green',h:'#9bc25c'},{n:'Light Turquoise',h:'#6fc7c0'}], accents:[{n:'Champagne Gold',h:'#d9c48a'},{n:'Soft Pink Nude',h:'#f1c4bd'},{n:'Honey Tan',h:'#c99a6a'}], accessory: 'Bags — camel, ivory, light tan. Shoes — warm nude, light tan, coral. Jewelry — light/champagne gold always. Belts — light tan leather.', patterns: ['Light warm florals and watercolor prints', 'Small-to-medium scale prints in warm, clear colors', 'Soft tropical or botanical prints', 'Avoid heavy, dark, or busy large-scale prints'], avoid: 'Black, deep burgundy, icy pastels, and gray — all too heavy or cool for this light warm palette.',avoidSwatches:[{n:'Black',h:'#141414'},{n:'Deep Burgundy',h:'#5e1526'},{n:'Icy Lilac',h:'#d9d8f0'},{n:'Cool Gray',h:'#8e959c'}] },
   trueSpring: { undertone: 'True Spring', label: 'True Spring', desc: 'A classic warm undertone with clear, medium-depth coloring. You thrive in vivid, golden-based warm colors.', metal: 'Gold — bright, warm gold is the most flattering metal', neutrals:[{n:'Camel',h:'#c8a882'},{n:'Warm Ivory',h:'#f2ead8'},{n:'Golden Brown',h:'#8a6240'},{n:'Warm Khaki',h:'#b9a978'}], signature:[{n:'Coral',h:'#f2704b'},{n:'Golden Yellow',h:'#f0b429'},{n:'Kelly Green',h:'#6fae44'},{n:'Turquoise',h:'#29a89a'},{n:'Warm Red',h:'#e0472b'},{n:'Tangerine',h:'#f2884b'}], accents:[{n:'Warm Gold',h:'#d4a94c'},{n:'Cognac',h:'#a65a2e'},{n:'Peach Nude',h:'#e9a787'}], accessory: 'Bags — camel, cognac, warm brown. Shoes — warm-toned nude, tan, coral. Jewelry — gold always. Belts — cognac leather.', patterns: ['Bold warm florals and tropical prints', 'Medium-to-large scale prints', 'Tortoiseshell and warm animal prints'], avoid: 'Black, icy pastels, cool gray, mauve, and silver-based tones.',avoidSwatches:[{n:'Black',h:'#141414'},{n:'Icy Lavender',h:'#dcd9f0'},{n:'Cool Gray',h:'#9aa0a6'},{n:'Muted Mauve',h:'#a98995'}] },
-  brightSpring: { undertone: 'Bright Spring', label: 'Bright Spring', desc: 'Vivid, high-clarity coloring that sits between spring warmth and winter brightness. You glow in saturated, clean colors — never muted or faded.', metal: 'Gold or Bright Silver — either works as long as it is bright, not antiqued', neutrals:[{n:'Bright White',h:'#fbfbfb'},{n:'Warm Charcoal',h:'#3f3a38'},{n:'Camel',h:'#c9a882'},{n:'True Navy',h:'#223350'}], signature:[{n:'Magenta',h:'#ec1f6a'},{n:'Turquoise',h:'#14b8a6'},{n:'Bright Coral',h:'#f2543d'},{n:'Butter Yellow',h:'#f2d13f'},{n:'Kelly Green',h:'#55b02e'},{n:'Cobalt Blue',h:'#4d6fe0'}], accents:[{n:'Antique Gold',h:'#b8923a'},{n:'Cherry Red',h:'#c9283a'},{n:'Cognac Leather',h:'#a85f2b'}], accessory: 'Bags — bright white, camel, true navy, statement color. Shoes — white, bright color, warm nude. Jewelry — bright gold or bright silver. Belts — camel or navy.', patterns: ['Bold graphic prints and color-blocking', 'High-contrast patterns', 'Clean geometric prints'], avoid: 'Muted or muted tones, beige-on-beige, and anything pastel-soft or washed out.',avoidSwatches:[{n:'Muted Taupe',h:'#a89c90'},{n:'Soft Greige',h:'#d0c8bc'},{n:'Washed Pink',h:'#e8d5d8'},{n:'Faded Sage',h:'#a9b5a2'}] },
+  brightSpring: { undertone: 'Bright Spring', label: 'Bright Spring', desc: 'Vivid, high-clarity coloring that sits between spring warmth and winter brightness. You glow in saturated, clean colors — never muted or faded.', metal: 'Gold or Bright Silver — either works as long as it is bright, not antiqued', neutrals:[{n:'Bright White',h:'#fbfbfb'},{n:'Warm Charcoal',h:'#3f3a38'},{n:'Camel',h:'#c9a882'},{n:'True Navy',h:'#223350'}], signature:[{n:'Magenta',h:'#ec1f6a'},{n:'Turquoise',h:'#14b8a6'},{n:'Bright Coral',h:'#f2543d'},{n:'Butter Yellow',h:'#f2d13f'},{n:'Kelly Green',h:'#55b02e'},{n:'Cobalt Blue',h:'#4d6fe0'}], accents:[{n:'Antique Gold',h:'#b8923a'},{n:'Cherry Red',h:'#c9283a'},{n:'Cognac Leather',h:'#a85f2b'}], accessory: 'Bags — bright white, camel, true navy, statement color. Shoes — white, bright color, warm nude. Jewelry — bright gold or bright silver. Belts — camel or navy.', patterns: ['Bold graphic prints and color-blocking', 'High-contrast patterns', 'Clean geometric prints'], avoid: 'Muted or faded tones, beige-on-beige, and anything pastel-soft or washed out.',avoidSwatches:[{n:'Muted Taupe',h:'#a89c90'},{n:'Soft Greige',h:'#d0c8bc'},{n:'Washed Pink',h:'#e8d5d8'},{n:'Faded Sage',h:'#a9b5a2'}] },
   lightSummer: { undertone: 'Light Summer', label: 'Light Summer', desc: 'A cool undertone with a delicate, airy quality. You are flattered by soft, light cool colors — never deep or vivid ones.', metal: 'Silver or Rose Gold — soft, light metals only', neutrals:[{n:'Soft White',h:'#f4f2ee'},{n:'Light Gray',h:'#b9bdc4'},{n:'Slate Blue',h:'#a9b8c4'},{n:'Taupe',h:'#b7ada3'}], signature:[{n:'Powder Pink',h:'#eab8bf'},{n:'Periwinkle',h:'#9aa8d8'},{n:'Soft Lavender',h:'#b6a3cf'},{n:'Soft Aqua',h:'#9fcfd0'},{n:'Muted Rose',h:'#c98fa0'},{n:'Sky Blue',h:'#a7cbe0'}], accents:[{n:'Pearl Silver',h:'#d0d3d8'},{n:'Brushed Rose Gold',h:'#a67b74'},{n:'Berry Sheer',h:'#b9607d'}], accessory: 'Bags — soft gray, blush, soft white. Shoes — cool nude, soft gray, blush. Jewelry — silver or soft rose gold. Belts — soft taupe or gray.', patterns: ['Soft watercolor florals', 'Delicate small-scale prints', 'Low-contrast tone-on-tone patterns'], avoid: 'Black, orange, mustard, and deep rich tones — all too heavy for this light cool palette.',avoidSwatches:[{n:'Black',h:'#141414'},{n:'Orange',h:'#e8762b'},{n:'Mustard Yellow',h:'#c99a2e'},{n:'Deep Chocolate',h:'#3a2418'}] },
   trueSummer: { undertone: 'True Summer', label: 'True Summer', desc: 'A classic cool undertone with soft, muted, medium-depth coloring. You are flattered by muted, blue-based colors rather than warm or high-contrast ones.', metal: 'Silver — the most flattering metal for this palette', neutrals:[{n:'Cool Gray',h:'#9aa0a6'},{n:'Navy',h:'#33465e'},{n:'Soft White',h:'#f0f0ee'},{n:'Rosewood',h:'#baa3a0'}], signature:[{n:'Muted Rose',h:'#c98a91'},{n:'Soft Burgundy',h:'#8f4a56'},{n:'Lavender',h:'#9c88c4'},{n:'Powder Blue',h:'#9bb8d3'},{n:'Sage',h:'#93a68c'},{n:'Mauve',h:'#a97c8a'}], accents:[{n:'Polished Silver',h:'#c3c6cb'},{n:'Black Plum',h:'#5e2a4a'},{n:'Warm Taupe Suede',h:'#7a6f66'}], accessory: 'Bags — navy, gray, soft rose. Shoes — cool-toned nude, navy, gray. Jewelry — silver always. Belts — navy or gray.', patterns: ['Soft muted florals', 'Tone-on-tone patterns', 'Gentle geometric prints'], avoid: 'Orange, warm gold, black, and bright neon — too warm or too harsh.',avoidSwatches:[{n:'Orange',h:'#e8762b'},{n:'Warm Gold',h:'#c9a24a'},{n:'Black',h:'#141414'},{n:'Neon Lime',h:'#b6f03c'}] },
   softSummer: { undertone: 'Soft Summer', label: 'Soft Summer', desc: 'A cool-neutral undertone with a soft, muted quality. You glow in muted, blended colors — best avoiding both very bright and very warm tones.', metal: 'Silver or Pewter — brushed, not shiny', neutrals:[{n:'Taupe',h:'#a99e93'},{n:'Soft Gray',h:'#9b9691'},{n:'Muted Navy',h:'#3e4a5c'},{n:'Greige',h:'#b0a89c'}], signature:[{n:'Muted Teal',h:'#5b8a86'},{n:'Mauve',h:'#9a6b73'},{n:'Soft Plum',h:'#77566e'},{n:'Muted Rose',h:'#bd8b8f'},{n:'Sage Green',h:'#8a9a7e'},{n:'Slate Blue',h:'#6e7f96'}], accents:[{n:'Smoked Gray',h:'#9a9a9a'},{n:'Deep Raspberry',h:'#8c2f55'},{n:'Espresso Taupe',h:'#5f5650'}], accessory: 'Bags — taupe, muted navy, greige. Shoes — muted rose, taupe, gray. Jewelry — brushed silver or smoked gray. Belts — taupe leather.', patterns: ['Muted tone-on-tone prints', 'Soft blended florals'], avoid: 'Bright neon, pure black, orange, and high-contrast color blocking.',avoidSwatches:[{n:'Neon Pink',h:'#ff2d95'},{n:'Pure Black',h:'#0a0a0a'},{n:'Orange',h:'#e8762b'},{n:'Electric Blue',h:'#0f4cff'}] },
@@ -721,6 +721,20 @@ function computePersona(a){
 
 
 
+/* Store keys for this client's age and price range. Alt / dark-romance clients get the stores that actually sell their style first. */
+function storeKeysFor(a) {
+  const age = STORE_DIR[a && a.ageBracket] ? a.ageBracket : '25-34';
+  const tier = shopTier(a).key;
+  let keys = STORE_DIR[age][tier];
+  let isAlt = false;
+  try { isAlt = !!(a && a.ageBracket && a.pq1 && a.pq2 && a.pq3 && computePersona(a).vibe === 'alt'); } catch (e) {}
+  if (isAlt) {
+    const altKeys = (age === '35-44' || age === '45+') ? ['killstar', 'hottopic'] : ['dollskill', 'hottopic', 'killstar'];
+    keys = altKeys.concat(keys.filter(k => altKeys.indexOf(k) < 0)).slice(0, Math.max(keys.length, altKeys.length));
+  }
+  return keys;
+}
+
 /* ---------- Shopping links: stores by age bracket and price comfort ----------
    Every store carries wide size ranges. Each chip in the report opens a live search at one of these.
    NOTE: search URL formats are set by the retailers and can change. Open /shop-link-test (preview) or click
@@ -798,8 +812,7 @@ function shopTier(a){ return SHOP_TIERS[a && a.budget] || SHOP_TIERS.mid; }
 function isMatureAge(a){ return !!a && (a.ageBracket === '35-44' || a.ageBracket === '45+'); }
 function buildShopLinks(a, signature, keywords, neutrals, shapeKey){
   const age = STORE_DIR[a && a.ageBracket] ? a.ageBracket : '25-34';
-  const tier = shopTier(a).key;
-  const stores = STORE_DIR[age][tier].map(k => S[k]);
+  const stores = storeKeysFor(a).map(k => S[k]);
   const mature = isMatureAge(a);
   const cutSrc = mature && SHOP_CUTS_CLASSIC[shapeKey] ? SHOP_CUTS_CLASSIC[shapeKey] : keywords;
   const kws = String(cutSrc || '').split(',').map(t => t.trim()).filter(Boolean).slice(0, 6);
@@ -829,16 +842,7 @@ function buildShopLinks(a, signature, keywords, neutrals, shapeKey){
 
 /* Stores for this client's age and price range, for the capsule and outfit-recipe shop links (the browser builds the searches). */
 function storeListFor(a) {
-  const age = STORE_DIR[a && a.ageBracket] ? a.ageBracket : '25-34';
-  const tier = shopTier(a).key;
-  let keys = STORE_DIR[age][tier];
-  // Alt / dark-romance clients get the stores that actually sell their style first.
-  let isAlt = false;
-  try { isAlt = !!(a && a.ageBracket && a.pq1 && a.pq2 && a.pq3 && computePersona(a).vibe === 'alt'); } catch (e) {}
-  if (isAlt) {
-    const altKeys = (age === '35-44' || age === '45+') ? ['killstar', 'hottopic'] : ['dollskill', 'hottopic', 'killstar'];
-    keys = altKeys.concat(keys.filter(k => altKeys.indexOf(k) < 0)).slice(0, Math.max(keys.length, altKeys.length));
-  }
+  const keys = storeKeysFor(a);
   const list = keys.map(k => ({ key: k, name: S[k][0], url: S[k][1], mode: k === 'coach' ? 'bag' : k === 'levi' ? 'denim' : '' }));
   const sec = [{ key: 'poshmark', name: 'Poshmark', url: 'https://poshmark.com/search?query=', mode: '' }, { key: 'thredup', name: 'ThredUp', url: 'https://www.thredup.com/products?search_text=', mode: '' }, { key: 'therealreal', name: 'The RealReal', url: 'https://www.therealreal.com/products?keywords=', mode: '' }];
   return { list, secondhand: sec };
