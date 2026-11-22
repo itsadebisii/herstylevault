@@ -498,12 +498,37 @@
   }
 
   /* ---------- new pages: at a glance, capsule, outfit recipes, shopping & fit guide, closet audit, session ---------- */
+  /* Store searches work best with plain words ("navy block heel pumps"), not palette names ("True Navy low block heel"). */
+  function basicColor(hex) {
+    var c = [1, 3, 5].map(function (i) { return parseInt(hex.substr(i, 2), 16) / 255; }), mx = Math.max.apply(null, c), mn = Math.min.apply(null, c), l = (mx + mn) / 2, d = mx - mn, h = 0, sat = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+    if (d) { h = mx === c[0] ? ((c[1] - c[2]) / d) % 6 : mx === c[1] ? (c[2] - c[0]) / d + 2 : (c[0] - c[1]) / d + 4; h = (h * 60 + 360) % 360; }
+    if (l < 0.13) return 'black'; if (l > 0.93) return 'white';
+    if (sat < 0.12) return l < 0.35 ? 'charcoal' : l > 0.8 ? 'white' : 'gray';
+    if (h < 15 || h >= 345) return l > 0.72 ? 'pink' : l < 0.3 ? 'burgundy' : 'red';
+    if (h < 45) return sat < 0.6 ? (l < 0.3 ? 'brown' : l < 0.65 ? 'tan' : 'cream') : (l < 0.35 ? 'brown' : 'orange');
+    if (h < 70) return l > 0.8 ? 'cream' : sat > 0.6 && l > 0.4 ? 'gold' : 'olive';
+    if (h < 165) return l < 0.25 ? 'green' : 'green';
+    if (h < 195) return 'teal';
+    if (h < 250) return l < 0.3 ? 'navy' : 'blue';
+    if (h < 290) return l < 0.3 ? 'navy' : 'purple';
+    return l > 0.72 ? 'pink' : 'pink';
+  }
+  function shopTerm(name) {
+    var t = String(name || '').toLowerCase().replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    var M = [[/block heel/, 'block heel pumps'], [/mid heel/, 'heeled pumps'], [/statement heel/, 'high heel sandals'], [/flats or loafers|loafer/, 'loafers'], [/^flats/, 'flats'], [/^shoes/, 'flats'],
+      [/puff sleeve/, 'puff sleeve top'], [/off-shoulder/, 'off the shoulder top'], [/halter/, 'halter top'], [/v-neck/, 'v neck top'], [/^peplum$/, 'peplum top'], [/^corset$/, 'corset top'],
+      [/pleated skirt/, 'pleated skirt'], [/^trousers$|tailored trousers/, 'trousers'], [/wide-leg/, 'wide leg jeans'], [/^sheath/, 'sheath dress'], [/fit and flare/, 'fit and flare dress'], [/^a-line dress|^a-line$/, 'a-line dress'], [/^ruffle/, 'ruffle dress'], [/^bag$/, 'handbag'], [/^coat$/, 'coat'], [/light trench/, 'trench coat']];
+    for (var i = 0; i < M.length; i++) if (M[i][0].test(t)) return M[i][1];
+    return t.replace(/ for (work|dates)$/, '');
+  }
+  function shopQuery(name, color, hex) { var cw = hex ? basicColor(hex) : String(color || '').toLowerCase(), t = shopTerm(name); return (cw + ' ' + t).replace(/\bwomen'?s?\b/g, '').replace(/\s+/g, ' ').trim(); }
   function shopLink(r, name, color, kind, idx) {
     var st = r.stores && r.stores.list; if (!st || !st.length) return '';
     var pool = st.filter(function (x) { return !x.mode || (x.mode === 'bag' && kind === 'bag') || (x.mode === 'denim' && kind === 'jeans'); });
     if (!pool.length) return '';
     var x = pool[idx % pool.length];
-    var q = ((x.mode === 'bag' ? color + ' leather bag' : x.mode === 'denim' ? color + ' denim jacket' : color + ' ' + name).trim().toLowerCase()) + ' women';
+    var hex = color && color.h, cn = color && color.n ? color.n : color, cw = hex ? basicColor(hex) : String(cn || '').toLowerCase();
+    var q = (x.mode === 'bag' ? cw + ' leather handbag' : x.mode === 'denim' ? cw + ' denim jacket' : kind === 'jeans' ? 'dark wash straight leg jeans' : shopQuery(name, cn, hex)).trim() + ' women';
     var url = x.url + encodeURIComponent(q).replace(/%20/g, '+');
     return '<a class="hx-sl" href="' + E(url) + '" target="_blank" rel="noopener" data-href="' + E(url) + '">' + E(x.name) + '</a>';
   }
@@ -577,10 +602,10 @@
   function capsuleBlock(r) {
     var pcs = capsulePieces(r), L = r.life || {};
     var tiles = pcs.map(function (p, i) {
-      var link = shopLink(r, p.n.replace(/ for (work|dates)$/, '').replace(/^Dark /, ''), p.c.n, p.kind || '', i);
+      var link = shopLink(r, p.n.replace(/ for (work|dates)$/, '').replace(/^Dark /, ''), p.c, p.kind || '', i);
       return '<div class="hx-cp">' + (p.start ? '<em>Start here</em>' : '') + G(p.k, p.c.h) + '<h6>' + E(p.n) + '</h6><small>' + E(p.c.n) + '</small>' + (link ? '<div class="hx-sls">' + link + '</div>' : '') + '</div>';
     }).join('');
-    var sec = (L.shopHabits || []).some(function (x) { return x === 'secondhand' || x === 'resale'; }) && r.stores && r.stores.secondhand ? '<div class="hx-box" style="margin-top:10px"><h6>You shop secondhand, so look here too</h6><p>' + r.stores.secondhand.map(function (x, i) { var q = String(pcs[i * 4].c.n + ' ' + (i === 2 ? 'bag' : pcs[i * 4].n)).toLowerCase() + ' women'; var u = x.url + encodeURIComponent(q).replace(/%20/g, '+'); return '<a class="hx-sl" href="' + E(u) + '" target="_blank" rel="noopener" data-href="' + E(u) + '">' + E(x.name) + '</a>'; }).join(' ') + '</p></div>' : '';
+    var sec = (L.shopHabits || []).some(function (x) { return x === 'secondhand' || x === 'resale'; }) && r.stores && r.stores.secondhand ? '<div class="hx-box" style="margin-top:10px"><h6>You shop secondhand, so look here too</h6><p>' + r.stores.secondhand.map(function (x, i) { var q = (i === 2 ? basicColor(pcs[i * 4].c.h) + ' leather handbag' : shopQuery(pcs[i * 4].n.replace(/ for (work|dates)$/, ''), pcs[i * 4].c.n, pcs[i * 4].c.h)) + ' women'; var u = x.url + encodeURIComponent(q).replace(/%20/g, '+'); return '<a class="hx-sl" href="' + E(u) + '" target="_blank" rel="noopener" data-href="' + E(u) + '">' + E(x.name) + '</a>'; }).join(' ') + '</p></div>' : '';
     var sub = '12 pieces to buy first, in your colors and for your ' + E(shapeName(r)) + ' shape' + (L.dressCode === 'formal' ? ', with a formal work wardrobe in mind' : '') + '. Budget per piece: ' + E((r.shopTier && r.shopTier.label) || 'Mid-range ($75–$200)') + '.';
     return { key: 'capsule', label: 'Starter Capsule', html: '<div class="hx-page">' + head('Your starter <em>capsule</em>', sub) + '<div class="hx-cap4">' + tiles + '</div>' + sec + bestDarks(r) + '<div class="hx-tip" style="margin-top:12px">Every piece should work with at least three others. Buy the Start here pieces first, then fill in the rest over a few months.</div></div>' };
   }
@@ -597,7 +622,7 @@
       var c = combos[i], o = OCC[oc[Math.floor(i / 2)]] || OCC.everyday, a = i % 2 === 0;
       var items = a ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], ['shoe', c[2], heelN]] : (r.dressSep === 'separates' ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], [layerK, c[2], layerN]] : [[pk.dr, c[1], (NAMES[pk.dr] || 'A-line') + ' dress'], [layerK, c[0], layerN], ['bag', c[2], 'Bag']]);
       var fg = items.map(function (it) { return '<div>' + G(it[0], it[1].h) + '<span>' + E(it[2]) + '<br><i>' + E(it[1].n) + '</i></span></div>'; }).join('');
-      var l1 = shopLink(r, items[0][2], items[0][1].n, '', i), l2 = shopLink(r, items[1][2], items[1][1].n, items[1][0] === 'bag' ? 'bag' : '', i + 1);
+      var l1 = shopLink(r, items[0][2], items[0][1], '', i), l2 = shopLink(r, items[1][2], items[1][1], items[1][0] === 'bag' ? 'bag' : '', i + 1);
       return '<div class="hx-rc"><h5>' + o[0] + ' look ' + (a ? 1 : 2) + '</h5><div class="hx-rfg">' + fg + '</div><div class="hx-rls">Shop: ' + l1 + ' ' + l2 + '</div></div>';
     }).join('');
     return { key: 'recipes', label: 'Outfit Recipes', html: '<div class="hx-page">' + head('Outfit <em>recipes</em>', 'Six complete outfits for ' + E(listW(oc.map(function (w) { return OCCN[w]; }))) + ', built from your colors. Each one is a starting point to remix.') + '<div class="hx-rgrid">' + cards + '</div><div class="hx-tip" style="margin-top:12px">Want these styled from your own closet? Try Style-11 for a free outfit idea any time, or book a session.</div></div>' };
