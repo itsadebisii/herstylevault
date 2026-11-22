@@ -93,7 +93,7 @@
     hero.hidden = false;
     var list = LOOKBOOK.filter(function(i){ return filter === 'All' || i.tag === filter; });
     grid.className = 'lbk-looks is-grid';
-    grid.innerHTML = '<div class="lbk-bar"><h2 class="lbk-cat">Concierge <em>Catalog</em></h2><p class="lbk-cat-sub">Every look Style-11 can pick for you. Tap one to see the pieces.</p>' +
+    grid.innerHTML = '<div class="lbk-bar"><h2 class="lbk-cat">Concierge <em>Catalog</em></h2><p class="lbk-cat-sub">Every look Style-11 can pick for you. Tap one to see the pieces. Next theme coming soon, stay tuned.</p>' +
       '<div class="lbk-chips" role="group" aria-label="Filter by occasion">' + tags().map(function(t){ return '<button type="button" class="lbk-chip' + (t === filter ? ' on' : '') + '" data-tag="' + esc(t) + '" aria-pressed="' + (t === filter) + '">' + esc(t) + '</button>'; }).join('') + '</div></div>' +
       '<div class="lbk-grid">' + list.map(function(i){
         return '<a class="lbk-card" href="#' + i.slug + '" aria-label="' + esc(i.title) + ', ' + esc(tagOf(i)) + '">' + art(i, false) +
