@@ -1,0 +1,7 @@
+Fabric swatch photos: FixThePhoto "Free Fabric Texture Pictures" (https://fixthephoto.com/fabric-textures).
+Owner Adebisi confirmed on 2026-11-22 that FixThePhoto approved commercial use (keep their written reply on file).
+Files: crepe=#26 Neutral Beige, ponte=#16 Dark Grey, denim=#13 Denim, wool=#7 Grey, knit=#15 Grape,
+linen=#2 Linen, leather=#42 Chocolate Brown, jersey=#20 Royal Blue, boucle=#8 Textile, poplin=#9 Clear Pattern.
+Satin, velvet and chiffon are still drawn swatches.
+
+satin.jpg, velvet.jpg, chiffon.jpg, images/report/patterns/* added after the first batch, and images/report/clothes/*.png (cutouts of the 24 garment photos): supplied by the site owner, generated with an AI image tool at her request for use in the report.

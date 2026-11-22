@@ -47,7 +47,7 @@ var OFFERS = [
   },
   {
     slug: 'the-full-reveal', sessions: [['Session 1','Up to 2 hours · in person · the breakdown, closet audit &amp; planning'],['Sessions 2-4','Up to 2-3 hours each · in-person shopping trips'],['Session 5','Up to 1 hour · in person · The Reveal: trying on every final look together']], best: 'Best if you want a full closet overhaul with in-person shopping trips (in person only).', tone: 'wine', coverImage: 'images/offers/the-full-reveal.jpg', art: ['dressBelted','heel','bag'], kind: 'package', name: 'The Full Reveal', tag: 'Private Styling Package · Premium',
-    from: '$725', fromNote: '/ package', meta: '5 sessions + free first-time consultation',
+    from: '$950', fromNote: '/ package · founding client rate', meta: '5 sessions + free first-time consultation',
     short: '5 sessions, 10 outfits, in-person shopping trips',
     headline: 'The full overhaul, <em>in person</em>',
     lead: 'A closet audit, three real shopping trips together, and ten complete outfit builds, ending in a try-on reveal of every final look.',

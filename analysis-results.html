@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="report-extra.js?v=fd079c4e"></script>
 <style>
 :root{--bg:#FAF9F6;--surface:#EFECE6;--ink:#181716;--ink-soft:#6B6862;--line:#DCD8D0;--accent:#7A1321;--accent-deep:#4E0B14;--accent-ink:#FAF9F6;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -79,6 +80,21 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-client-name{font-family:'Cormorant Garamond',serif;font-size:2.7rem;font-style:italic;font-weight:500;color:#7A1321;margin-top:1.4rem;}
 .pdf-date{font-size:0.8rem;color:#6B6862;margin-top:0.7rem;letter-spacing:0.04em;}
 .pdf-head{position:absolute;top:20px;left:64px;right:64px;text-align:center;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:#6B6862;padding-bottom:9px;border-bottom:1px solid #7A1321;}
+.toc-wrap{padding-top:8px}.toc-h{font-family:'Cormorant Garamond',serif;font-size:2.1rem;margin:0 0 4px;color:#181716}.toc-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:#7A1321;margin:0 0 16px}.toc-ask{background:#fff;border:1px solid #E3D8D2;border-radius:10px;padding:12px 16px;margin:0 0 16px}.toc-ask b{display:block;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#7A1321;margin-bottom:6px}.toc-ask a{display:inline-block;margin:2px 14px 2px 0;font-size:0.82rem;color:#181716;text-decoration:underline;text-decoration-color:#7A1321}.toc-ask a em{font-style:normal;color:#7A1321;font-weight:600}.toc-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:6px 2px;border-bottom:1px solid #E3D8D2;text-decoration:none;color:#181716}.toc-t{font-family:'Cormorant Garamond',serif;font-size:1.16rem}.toc-n{font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;font-weight:600;white-space:nowrap}.prev-slot{scroll-margin-top:72px}
+.pdf-foot span::before{content:'';display:inline-block;width:20px;height:15px;margin-right:9px;vertical-align:-3px;background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2226%22 height=%2220%22 viewBox=%220 0 40 30%22%3E%3Cpath d=%22M20 12 L20 9 C20 6 24 6 24 3.5 C24 1.6 22.4 .6 21 .6%22 fill=%22none%22 stroke=%22%237A1321%22 stroke-width=%221.8%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M20 12 L37 25 Q38.5 27 36 27 L4 27 Q1.5 27 3 25 Z%22 fill=%22none%22 stroke=%22%237A1321%22 stroke-width=%221.8%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M20 24 c-3-2-5-3.6-5-5.6 0-1.6 1.2-2.6 2.6-2.6 1 0 1.9.5 2.4 1.4.5-.9 1.4-1.4 2.4-1.4 1.4 0 2.6 1 2.6 2.6 0 2-2 3.6-5 5.6z%22 fill=%22%237A1321%22/%3E%3C/svg%3E") center/contain no-repeat}
+/* Age looks: same brand, same layout. A polka-dot band (like the Style-11 wall) and softer boxes. */
+.pdf-page.th-18::before,.pdf-page.th-25::before,.pdf-page.th-35::before{content:'';position:absolute;left:0;top:0;right:0;pointer-events:none;background-color:#F3D8D0;background-image:radial-gradient(circle at center,rgba(255,255,255,.75) 0 3px,transparent 3.5px);background-size:16px 16px;background-position:4px 3px}
+.pdf-page.th-18::before{height:16px}.pdf-page.th-25::before{height:12px}.pdf-page.th-35::before{height:7px;background-size:14px 14px;background-image:radial-gradient(circle at center,rgba(255,255,255,.7) 0 2px,transparent 2.5px)}
+.pdf-page.th-45::before{content:'';position:absolute;left:0;top:0;right:0;height:5px;background:#8B1226;pointer-events:none}
+.pdf-page.th-18,.pdf-page.th-25{background:#FCF6F3}.pdf-page.th-35,.pdf-page.th-45{background:#FAF7F4}
+.th-18 .hx-box,.th-18 .pdf-box,.th-18 .pdf-tile,.th-18 .pdf-bub,.th-18 .pdf-lu,.th-18 .hx-occ,.th-18 .hx-chk,.th-18 .pdf-arches,.th-18 .pdf-croq,.th-18 .pdf-tip,.th-18 .pdf-fbox,.th-18 .pdf-rulebox,.th-18 .pdf-linkrow{background:#F8E6E1}
+.th-25 .hx-box,.th-25 .pdf-box,.th-25 .pdf-tile,.th-25 .pdf-bub,.th-25 .pdf-lu,.th-25 .hx-occ,.th-25 .hx-chk,.th-25 .pdf-arches,.th-25 .pdf-croq,.th-25 .pdf-tip,.th-25 .pdf-fbox,.th-25 .pdf-rulebox,.th-25 .pdf-linkrow{background:#F5EAE5}
+.th-18 .hx-box,.th-18 .pdf-box,.th-18 .hx-occ{border-radius:20px}.th-25 .hx-box,.th-25 .pdf-box,.th-25 .hx-occ{border-radius:16px}
+.th-18 .toc-ask,.th-25 .toc-ask{background:#F4B3BB;border:none;border-radius:22px 22px 22px 6px;color:#2A1814}
+.th-18 .toc-ask a,.th-25 .toc-ask a{color:#2A1814;text-decoration-color:#8B1226}.th-18 .toc-ask b,.th-25 .toc-ask b{color:#8B1226}
+.th-18 .toc-sub,.th-25 .toc-sub{display:inline-block;background:#fff;border-radius:999px;padding:3px 14px;color:#8B1226}
+.th-35 .toc-ask,.th-45 .toc-ask{border-color:#EADBD5;border-radius:14px}
+
 .pdf-foot{position:absolute;bottom:40px;left:64px;right:64px;display:flex;justify-content:center;font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:#6B6862;border-top:1px solid #7A1321;padding-top:10px;}
 .pdf-h1{font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:#181716;margin-bottom:0.5rem;font-weight:500;line-height:1.08;}
 .pdf-h1 em{color:#7A1321;font-style:normal;font-weight:600;}
@@ -119,6 +135,8 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-croq{background:#ECE8E2;border-radius:110px 110px 14px 14px;padding:22px 0 10px;align-self:stretch;display:flex;flex-direction:column;justify-content:center;}.pdf-croq-in{position:relative;}
 .pdf-tiles{display:grid;grid-template-columns:1fr;gap:6px;margin-bottom:0;}
 .pdf-tile{display:flex;align-items:center;gap:0.8rem;background:#ECE8E2;border-radius:16px;padding:0.38rem 1rem 0.38rem 0.6rem;font-size:0.78rem;line-height:1.35;color:#3F3C38;}
+.pdf-backtoc{position:absolute;left:64px;bottom:12px;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:#7A1321;text-decoration:underline;font-weight:600;z-index:3}
+.pdf-tpin{font-size:0.54rem;letter-spacing:0.08em;text-transform:uppercase;color:#7A1321;text-decoration:underline;margin-left:6px;font-weight:600;white-space:nowrap}.toc-home{margin-top:14px;font-size:0.74rem}.toc-home a{color:#7A1321;text-decoration:underline}
 .pdf-tile-ic{flex:0 0 42px;height:42px;border-radius:50%;background:#FAF9F6;display:grid;place-items:center;position:relative;}
 .pdf-tile-ic svg{width:28px;height:23px;}
 .pdf-tile-n{position:absolute;top:-4px;left:-4px;width:16px;height:16px;border-radius:50%;background:#7A1321;color:#FAF9F6;font-size:0.55rem;display:grid;place-items:center;letter-spacing:0;}
@@ -180,7 +198,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 </head>
 <body>
 <div class="wrap" id="wrap">
-  <div class="topbar"><span class="brand">HerStyleVault</span><span class="top-actions"><button class="dl-btn" id="email-btn" disabled>Email me my PDF</button></span></div>
+  <div class="topbar"><a class="brand" href="index.html" style="text-decoration:none;color:inherit" title="Back to HerStyleVault">HerStyleVault</a><span class="top-actions"><button class="dl-btn" id="email-btn" disabled>Email me my PDF</button></span></div>
   <div class="dl-ready" id="dl-ready" hidden></div>
   <p class="save-note" id="save-note" hidden></p>
   <div id="app"><div class="loader"><div class="spinner"></div><p>Generating your report...</p><p class="sub">This takes about 20 to 30 seconds. We're building your personalized color and style analysis now.</p></div></div>
@@ -188,6 +206,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 <div id="pdf-root"></div>
 <script>
 const STORAGE_KEY = 'hsv_analysis_data';
+const SAMPLE_DATA = { name: 'Ada', answers: { ageBracket: '25-34', jewelry: 'gold', sun: 'tan', veins: 'green', depth: 'caramel', contrast: 'mediumHigh', chroma: 'bright', comp: 'warm', wash: 'cool', fit: 'both', styleGrav: 'waist', dressSep: 'both', shoulderHip: 'equal', waistDef: 'barelyDefined', bustHip: 'roughlyEqual', height: 'average', proportion: 'longLegs', showOff: ['waist', 'legs'], quiet: ['none'], feel: ['confident', 'feminine'], worksBest: ['work', 'dates', 'photos'], guideFirst: ['colors', 'formulas'], pq1: 'heels', pq2: 'waist', pq3: 'occasion', budget: 'mid', dressCode: 'businessCasual', climate: 'mixed', temp: 'cold', comfortFab: ['itchy'], heel: 'low', goal: 'event', goalDate: 'June 12', sizeTop: 'M', sizeBottom: '8', sizeShoe: '9.5', shopHabits: ['online', 'secondhand'], hairType: 'curly', hairLen: 'medium', inspo: 'Zendaya, Michelle Obama' }, freeText: '', photoBase64: null, photoMediaType: null };
 function getSessionId(){return new URLSearchParams(window.location.search).get('session_id');}
 function showError(title, message, allowRetry) {
   const app = document.getElementById('app');
@@ -238,6 +257,34 @@ function croqPath(P){
   const L=croqRuns(P);const R=L.slice().reverse().map(croqMirror);
   return L.concat(R).map(r=>croqCR(r)).map((d,i)=>i===0?d:d.replace(/^M/,'L')).join(' ');
 }
+/* Shape outline: a thin gold line around the torso that follows the named shape (pear, hourglass, apple, rectangle, inverted triangle),
+   built from the same measurements as the drawing and kept wider than the body so the figure stays visible. */
+function croqOutline(P,key,d){
+  d=d||0;const yT=32,Y=[yT,46,72,98,129,152];
+  /* half-widths at neck, shoulders, bust, waist, hips and upper thigh: the classic outline of each shape, drawn wider than the body */
+  const T={
+    pear:[6,15,17,17-2.4*d,31,21],
+    hourglass:[6,24,25,16-2.4*d,25,18],
+    apple:[6,20,27,28+2*d,24,16],
+    inverted:[8,31+2*d,27,20,16,10],
+    rectangle:[8,25,25,25,25,20]
+  }[key]||[6,24,25,16,25,18];
+  const pts=Y.map((y,i)=>[y,T[i]]);
+  const mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  const P2=[pts[0],mid(pts[0],pts[1]),pts[1],mid(pts[1],pts[2]),pts[2],mid(pts[2],pts[3]),pts[3],mid(pts[3],pts[4]),pts[4],mid(pts[4],pts[5]),pts[5]];
+  const wAt=y=>{let i=0;while(i<P2.length-2&&y>P2[i+1][0])i++;const p0=P2[Math.max(0,i-1)],p1=P2[i],p2=P2[i+1],p3=P2[Math.min(P2.length-1,i+2)];
+    const t=Math.max(0,Math.min(1,(y-p1[0])/(p2[0]-p1[0]))),t2=t*t,t3=t2*t,dy=p2[0]-p1[0];
+    const m1=(p2[1]-p0[1])/(p2[0]-p0[0])*dy,m2=(p3[1]-p1[1])/(p3[0]-p1[0])*dy;
+    return (2*t3-3*t2+1)*p1[1]+(t3-2*t2+t)*m1+(-2*t3+3*t2)*p2[1]+(t3-t2)*m2;};
+  const yB=Y[5],R=[],L=[],n=44;
+  for(let i=0;i<=n;i++){const y=yT+(yB-yT)*i/n,w=Math.max(1,wAt(y));R.push([50+w,y]);L.push([50-w,y]);}
+  const wt=R[0][0]-50,wb=R[n][0]-50,capT=[],capB=[];
+  for(let q=1;q<12;q++){const th=Math.PI-Math.PI*q/12;capT.push([50+wt*Math.cos(th),yT-3*Math.sin(th)]);}
+  for(let q=1;q<12;q++){const th=Math.PI*q/12;capB.push([50+wb*Math.cos(th),yB+5*Math.sin(th)]);}
+  const pts2=[L[0]].concat(capT,R,capB,L.slice().reverse());
+  const dd=pts2.map((p,i)=>(i?'L':'M')+p[0].toFixed(2)+' '+p[1].toFixed(2)).join(' ')+' Z';
+  return `<path d="${dd}" fill="none" stroke="#B8864B" stroke-width="1.25" stroke-linejoin="round" stroke-linecap="round"/>`;
+}
 // opt: stroke, sw, arrows (proportion guides), k (height scale), d (intensity -1..1)
 function croquisSVG(key,opt){
   opt=opt||{};const P=Object.assign({},CROQ_SHAPES[key]||CROQ_SHAPES.hourglass);const k=opt.k||1,d=opt.d||0;
@@ -246,7 +293,8 @@ function croquisSVG(key,opt){
   const guides=opt.arrows?[[CROQ_Y.sh,P.s],[CROQ_Y.waist,P.w],[CROQ_Y.hip,P.h]].map(([y,hw])=>{
     const x1=50-hw,x2=50+hw;
     return `<line x1="3" x2="97" y1="${y}" y2="${y}" stroke="#CDBBA8" stroke-width=".4" stroke-dasharray="1.4 1.4"/><path d="M${x1+.8} ${y}H${x2-.8}M${x1+.8} ${y}l2.2-1.3M${x1+.8} ${y}l2.2 1.3M${x2-.8} ${y}l-2.2-1.3M${x2-.8} ${y}l-2.2 1.3" stroke="#8C7A5E" stroke-width=".7" fill="none" stroke-linecap="round"/>`;}).join(''):'';
-  const body=`<g transform="translate(50 256) scale(${k}) translate(-50 -256)"><ellipse cx="50" cy="17.5" rx="8.6" ry="11" fill="none" stroke="${stroke}" stroke-width="${sw}"/><path d="${croqPath(P)}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>${guides}</g>`;
+  const outline=opt.outline?croqOutline(P,key,d):'';
+  const body=`<g transform="translate(50 256) scale(${k}) translate(-50 -256)"><ellipse cx="50" cy="17.5" rx="8.6" ry="11" fill="none" stroke="${stroke}" stroke-width="${sw}"/><path d="${croqPath(P)}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>${outline}${guides}</g>`;
   return `<svg viewBox="0 -24 100 284" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
 }
 function croqOpts(BAx){const k={petite:0.92,tall:1.08}[BAx&&BAx.height]||1;const d={defined:1,soft:0,plain:-1}[BAx&&BAx.intensity];return{k,d:d===undefined?0:d};}
@@ -265,15 +313,15 @@ function croqPng(shape,BAx,w,h,stroke,extra){
 
 const CROQ_CACHE={};
 function croqKey(shape,b){return shape+'|'+(b.height||'')+'|'+(b.intensity||'');}
-async function prepCroq(r){const b={height:r.height,intensity:r.intensity};CROQ_CACHE[croqKey(r.bodyShapeKey,b)]=await croqPng(r.bodyShapeKey,b,600,1704,'#4B1515',{arrows:true,sw:1.0});return b;}
+async function prepCroq(r){const b={height:r.height,intensity:r.intensity};CROQ_CACHE[croqKey(r.bodyShapeKey,b)]=await croqPng(r.bodyShapeKey,b,600,1704,'#4B1515',{arrows:true,outline:true,sw:1.0});return b;}
 const SHAPE_WORD={hourglass:'Hourglass',pear:'Pear',apple:'Apple',rectangle:'Rectangle',inverted:'Inverted Triangle'};
 function shapeTitle(r){const w=SHAPE_WORD[r.bodyShapeKey]||'';return r.intensity==='defined'?'Defined '+w:r.intensity==='soft'?'Soft '+w:w;}
 function pdfList(arr){return '<ul class="pdf-list">'+(arr||[]).map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul>';}
 const TEE='M14 6 L4 12 L8 20 L13 17 L13 34 L35 34 L35 17 L40 20 L44 12 L34 6';
 const NECK=[[/v-?neck|deep v|plunge/i,'M18 6 L24 17 L30 6'],[/scoop/i,'M17 6 Q24 18 31 6'],[/square/i,'M18 6 L18 13 L30 13 L30 6'],[/boat|bateau|off[- ]the[- ]shoulder|off[- ]shoulder/i,'M13 7 Q24 12 35 7'],[/sweetheart|corset|bustier/i,'M16 6 L16 11 Q20 15 24 11 Q28 15 32 11 L32 6 M20 14 L20 33 M28 14 L28 33'],[/wrap|surplice|faux wrap/i,'M18 6 L30 22 M30 6 L18 22'],[/turtle|mock|funnel|high neck|cowl/i,'M19 6 L19 2 L29 2 L29 6'],[/button|collar|shirt|tied/i,'M18 6 L24 14 L30 6 M24 14 L24 34 M17 6 L21 11 M31 6 L27 11'],[/crew|round|jewel/i,'M18 6 Q24 12 30 6']];
 function neckIcon(t){const m=NECK.find(n=>n[0].test(t));const d=m?m[1]:'M18 6 Q24 12 30 6';return '<svg viewBox="0 0 48 38" fill="none" stroke="#7A1321" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="'+TEE+'"/><path d="'+d+'"/></svg>';}
-function topTiles(arr){return '<div class="pdf-tiles">'+(arr||[]).map((t,i)=>'<div class="pdf-tile"><div class="pdf-tile-ic">'+neckIcon(t)+'<span class="pdf-tile-n">'+(i+1)+'</span></div><div>'+esc(t)+'</div></div>').join('')+'</div>';}
-function pdfFoot(label){return '<div class="pdf-head">Signature Style Report \u00b7 '+esc((REPORT&&REPORT.clientName)||'HerStyleVault')+'</div><div class="pdf-foot"><span>For personal use only \u00b7 \u00a9 2026 HerStyleVault</span></div>';}
+function topTiles(arr){const vw={feminine:'feminine',luxury:'elevated',sleek:'sleek',tailored:'tailored',casual:'casual chic',bold:'statement',classic:'classic',sporty:'athleisure',alt:'dark romantic'}[(REPORT&&REPORT.persona&&REPORT.persona.vibe)||'']||'';return '<div class="pdf-tiles">'+(arr||[]).map((t,i)=>{const u='https://www.pinterest.com/search/pins/?q='+encodeURIComponent(('trending '+vw+' '+String(t).toLowerCase()+' outfit ideas for women').replace(/\s+/g,' '));return '<div class="pdf-tile"><div class="pdf-tile-ic">'+neckIcon(t)+'<span class="pdf-tile-n">'+(i+1)+'</span></div><div>'+esc(t)+' <a class="pdf-tpin" href="'+u+'" target="_blank" rel="noopener" data-href="'+u+'">Pinterest</a></div></div>';}).join('')+'</div>';}
+function pdfFoot(label,n){return (n&&n>2?'<a class="pdf-backtoc" href="#rp-2" data-page="2">\u2190 Contents</a>':'')+'<div class="pdf-head">Signature Style Report \u00b7 '+esc((REPORT&&REPORT.clientName)||'HerStyleVault')+'</div><div class="pdf-foot"><span>For personal use only \u00b7 \u00a9 2026 HerStyleVault'+(n?' \u00b7 Page '+n:'')+'</span></div>';}
 function coverNameSize(n){n=String(n||'');const l=n.length;return l<=9?54:l<=13?46:l<=18?38:l<=26?30:24;}
 function pdfPage(cls,inner){return '<div class="pdf-page '+(cls||'')+'">'+inner+'</div>';}
 function arches(arr){return '<div class="pdf-swatches">'+arr.map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+esc(String(c.h||'').toUpperCase())+'</div></div>').join('')+'</div>';}
@@ -323,6 +371,7 @@ function makeBlocks(r){
   const img=CROQ_CACHE[croqKey(r.bodyShapeKey,b)]||'';const CL=croqLabelPos(b);
   const L=[];
   const curated=('Curated for '+((r.personaAnswered&&r.persona)?r.persona.name+' \u00b7 ':'')+((r.shopTier&&r.shopTier.label)||'Mid-range ($75\u2013$200)')).toUpperCase();
+  if(window.HX&&HX.glance)L.push(HX.glance(r));
   if(r.personaAnswered&&r.persona){const ps=r.persona;L.push({key:'persona',label:'Style Persona',html:'<p class="pdf-section-label" style="margin-top:0;">Your Style Persona</p><div class="pdf-persona-name">'+esc(ps.name)+'</div><p class="pdf-persona-tag">'+esc(ps.tagline)+'</p><p class="pdf-section-label">Your 3-Piece Signature Formula</p><div class="pdf-formula">'+ps.formula.map((f,i)=>(i?'<span class="pdf-plus">+</span>':'')+'<div class="pdf-fbox"><span class="pdf-fnum">0'+(i+1)+'</span>'+esc(f)+'</div>').join('')+'</div><div class="pdf-rulebox"><p class="pdf-section-label" style="margin-top:0;">The Styling Rule You Can Break</p><p>'+esc(ps.rule)+'</p></div>'});}
   const hexOf=c=>esc(String(c.h||'').toUpperCase());
   const neuRow='<div class="pdf-neu">'+r.neutrals.slice(0,4).map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+hexOf(c)+'</div></div>').join('')+'</div>';
@@ -331,17 +380,20 @@ function makeBlocks(r){
   L.push({key:'palette',label:'Color Palette',html:'<div class="pdf-pal-head"><h1 class="pdf-h1" style="margin:0;">Your <em>Palette</em></h1><span class="pdf-pal-tag">'+esc(season)+'</span></div><p class="pdf-section-label" style="margin-top:0;">Power Neutrals</p>'+neuRow+'<p class="pdf-section-label">Signature Colors</p>'+sigGrid+'<div class="pdf-metalrow"><div class="pdf-metalc"><p class="pdf-mini-label">Metal tone</p><p>'+esc(r.metal)+'</p></div>'+accStrip+'</div>'+(X.ribbon?ribbonHtml(r):'')});
   L.push({key:'colortype',label:'Color Analysis',html:'<div class="pdf-colorband"><p class="pdf-section-label">Color Type</p><h1>You\'re a <em>'+esc(season)+'</em></h1></div>'
     +'<div class="pdf-box">'+esc(r.seasonDesc)+'</div>'
-    +'<p class="pdf-section-label">Why This Is You</p>'+(r.whyColor?bubbles(r.whyColor):'<div class="pdf-box">'+esc(r.narrative)+'</div>')+profileHtml(r)});
+    +'<p class="pdf-section-label">Why This Is You</p>'+(r.whyColor?bubbles(r.whyColor):'<div class="pdf-box">'+esc(r.narrative)+'</div>')+profileHtml(r)+(window.HX?HX.wheelHtml(r):'')});
+  if(window.HX){L.push(HX.shades(r));L.push(HX.work(r));L.push(HX.beauty(r));}
   const avSw=(r.avoidSwatches&&r.avoidSwatches.length)?'<div class="pdf-avsw">'+r.avoidSwatches.slice(0,4).map(c=>'<div><i style="background:'+esc(c.h)+'"></i><span>'+esc(c.n)+'</span><em>'+hexOf(c)+'</em></div>').join('')+'</div>':'';
   const matureTip=(r.ageBracket==='45+')?'<div class="pdf-tip"><strong>Near your face:</strong> choose softer, light-reflecting shades, like champagne, pearl or a soft version of your signature colors. They bounce light back onto your skin and keep your face bright.</div>':'';
-  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'+matureTip+(X.glance?glanceHtml(r):'')});
+  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'+matureTip+(X.glance?glanceHtml(r):'')+(window.HX?HX.guidanceExtra(r):'')});
   L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><div class="pdf-croq-in"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div></div>'
     +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p>'+(r.whyBody?bubbles(r.whyBody,true)+'<p class="pdf-section-label">Tops &amp; Necklines</p>'+topTiles((r.bodyGuide.tops||[]).slice(0,4)):'<div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div>')+'</div></div>'
     +(r.whyBody?'':'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4)))+(r.whyBody&&r.bodyGoal?'<div class="pdf-goalband"><p class="pdf-section-label">Your Styling Goal</p><p>'+esc(r.bodyGoal)+'</p></div>':'')+(X.lineup?lineupHtml(r):'')});
+  if(window.HX)L.push(HX.dress(r));
   L.push({key:'silh',label:'Silhouettes & Shopping',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Silhouettes &amp; <em>Shopping</em></h1><p class="pdf-curated">'+esc(curated)+'</p><p class="pdf-section-label" style="margin-top:0;">Best Silhouettes For Your Shape</p>'+'<div class="pdf-three">'+(r.silhouettes||[]).map(s=>'<div class="pdf-box"><strong>'+esc(s.text)+'</strong><br>'+esc(s.reason)+'</div>').join('')+'</div>'
     +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live search at a store in your price range, so results stay current.</p>'+shopChips(r)+'</div></div>'});
   L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
     +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
+  if(window.HX){L.push(HX.formulas(r));if(HX.fabrics)L.push(HX.fabrics(r));L.push(HX.patterns(r));if(HX.capsule){L.push(HX.capsule(r));L.push(HX.recipes(r));L.push(HX.fitguide(r));L.push(HX.audit(r));if(!r.__shared)L.push(HX.session(r));}}
   return L;
 }
 /* Make sure the web fonts are really loaded before anything is measured or photographed.
@@ -378,7 +430,7 @@ async function layoutPages(r){
     const pgOf=k=>pages.findIndex(pg=>pg.some(b=>b.key===k));
     let changed=false;
     /* First try tighter spacing so the extras still fit; only then give an extra up */
-    const wantTight=(r.__x.glance&&H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP)||(r.__x.ribbon&&blocks.some(b=>b.key==='persona')&&pgOf('persona')!==pgOf('palette'));
+    const wantTight=(r.__x.glance&&pgOf('colortype')===pgOf('guidance')&&H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP)||(r.__x.ribbon&&blocks.some(b=>b.key==='persona')&&pgOf('persona')!==pgOf('palette'));
     if(!r.__tight&&wantTight){r.__tight=true;changed=true;}
     else{
       if(r.__x.glance&&H('colortype')+BLK_GAP+H('guidance')>PAGE_CAP&&pgOf('colortype')===pgOf('guidance')){r.__x.glance=false;changed=true;}
@@ -390,6 +442,17 @@ async function layoutPages(r){
   window.__BLOCK_H=blocks.map(b=>b.key+':'+b.h).join(' ')+' | extras:'+JSON.stringify(r.__x)+' tight:'+r.__tight;
   LAYOUT=pages.map(pg=>pg.map(b=>b.key));
 }
+const TOC_TITLES={persona:'Your Style Persona',palette:'Your Palette',colortype:'Your Color Type',shades:'Your Palette Across Skin Shades',work:'Put Your Colors to Work',beauty:'Hair, Makeup & Nails',guidance:'Accessories & Avoid',body:'Your Body Shape',dress:'Dress Your Shape',silh:'Silhouettes & Shopping',fab:'Fabric Guide',formulas:'Outfit Formulas',fabrics:'Fabrics That Work for You',patterns:'Patterns You Can Wear',glance:'Your Style at a Glance',capsule:'Your Starter Capsule',recipes:'Outfit Recipes',fitguide:'Shopping & Fit Guide',audit:'Closet Audit Checklist',session:'Bring to Your Session'};
+const ASKED_KEYS={colors:['palette','work'],cuts:['silh','dress'],formulas:['formulas','recipes'],shopping:['silh','fitguide','capsule'],avoid:['guidance'],tips:['work']};
+function tocPage(r,layout,byKey,th){
+  const pageOf={};layout.forEach((keys,i)=>keys.forEach(k=>{pageOf[k]=i+3;}));
+  const link=(n,inner,cls)=>'<a class="'+(cls||'')+'" href="#rp-'+n+'" data-page="'+n+'">'+inner+'</a>';
+  const rows=layout.map((keys,i)=>link(i+3,'<span class="toc-t">'+esc(keys.map(k=>TOC_TITLES[k]||(byKey[k]&&byKey[k].label)||k).join(' & '))+'</span><span class="toc-n">Page '+(i+3)+'</span>','toc-row')).join('');
+  const g=(r.directions&&r.directions.guideFirst)||[];const seen={};const asks=[];
+  g.forEach(k=>(ASKED_KEYS[k]||[]).forEach(bk=>{if(pageOf[bk]&&!seen[bk]){seen[bk]=1;asks.push(link(pageOf[bk],esc(TOC_TITLES[bk]||bk)+' <em>page '+pageOf[bk]+'</em>'));}}));
+  const ask=(!r.__shared&&asks.length)?'<div class="toc-ask"><b>You asked us to start with</b>'+asks.join('')+'</div>':'';
+  return pdfPage(th||'','<div class="toc-wrap"><h1 class="toc-h">Your report, <em style="color:#7A1321">page by page</em></h1><p class="toc-sub">Psst, tap a title to jump to that page.</p>'+ask+rows+'<p class="toc-home"><a href="https://herstylevault.com" target="_blank" rel="noopener" data-href="https://herstylevault.com">Back to herstylevault.com</a></p></div>'+pdfFoot('Contents',2));
+}
 function buildPages(r){
   const label='Signature Style Report';
   const today=new Date();const date=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
@@ -397,12 +460,16 @@ function buildPages(r){
   const blocks=makeBlocks(r),byKey={};blocks.forEach(b=>{byKey[b.key]=b;});
   const pages=[];
   pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="images/report-cover-sig.jpg" alt="">'));
-  (LAYOUT||blocks.map(b=>[b.key])).forEach(keys=>{
+  const th='th-'+({'18-24':'18','25-34':'25','35-44':'35','45+':'45'}[r.ageBracket]||'25');
+  const layout=(LAYOUT||blocks.map(b=>[b.key]));
+  pages.push(tocPage(r,layout,byKey,th));
+  layout.forEach((keys,pi)=>{
     const bs=keys.map(k=>byKey[k]);
-    pages.push(pdfPage(r.__tight?'pdf-tight':'',bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '))));
+    pages.push(pdfPage((r.__tight?'pdf-tight ':'')+th,bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '),pi+3)));
   });
-  pages.push(pdfPage('pdf-closing','<div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
+  pages.push(pdfPage('pdf-closing '+th,'<a class="pdf-backtoc" href="#rp-2" data-page="2">\u2190 Contents</a><div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
     +(r.__shared?'':'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 12 months (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>')
+    +'<p style="font-size:0.72rem;color:#6b625c;max-width:560px;line-height:1.5;margin:0.8rem 0 0;">About your results: this report gives personalized recommendations based on your answers and optional photo. It cannot see you in person, so it is not a substitute for an in-person color analysis, which is more precise.</p>'
     +'<p style="font-size:0.9rem;color:#3F3C38;margin-top:0.4rem;">With love,<br><strong>HerStyleVault</strong></p>'
     +'<p class="pdf-more-top">Ready for your next step?</p><a class="pdf-pill" data-href="https://herstylevault.com/shop.html" href="https://herstylevault.com/shop.html" target="_blank" rel="noopener"><span>Explore What Else We Offer</span><i><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></i></a>'));
   return pages;
@@ -413,18 +480,19 @@ function fitPreviews(){
   document.querySelectorAll('.prev-slot').forEach(el=>{el.style.width=(816*s)+'px';el.style.height=(1056*s)+'px';el.firstElementChild.style.transform='scale('+s+')';});
 }
 async function renderReport(r){
-  REPORT=r;await prepCroq(r);await layoutPages(r);
+  REPORT=r;await prepCroq(r);if(window.HX&&HX.prep){try{await HX.prep(r);}catch(e){}}await layoutPages(r);
   const pages=buildPages(r);
-  document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map(p=>'<div class="prev-slot">'+p+'</div>').join('')
-    +(r.__shared?'':'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a></div>');
+  document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map((p,i)=>'<div class="prev-slot" id="rp-'+(i+1)+'">'+p+'</div>').join('')
+    +(r.__shared?'':'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a> <button type="button" class="dl-btn alt" id="email-btn-2" style="margin:0.4rem 0 0 0.4rem;padding:0.85rem 1.5rem;font-size:0.85rem">Email me my PDF</button><div class="dl-ready" id="dl-ready-2" hidden></div></div>');
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
   const eb=document.getElementById('email-btn');eb.style.display='';eb.disabled=false;eb.onclick=()=>emailPdf(eb);
+  const eb2=document.getElementById('email-btn-2');if(eb2){eb2.onclick=()=>emailPdf(eb2);}
   const hl=document.getElementById('hint-email');if(hl)hl.onclick=ev=>{ev.preventDefault();window.scrollTo({top:0,behavior:'smooth'});eb.click();};
   if(r.__shared)return;
   eb.classList.add('nudge');setTimeout(()=>eb.classList.remove('nudge'),9000);
   fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok))useDownload();}).catch(()=>useDownload());
-  function useDownload(){eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+'<b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
+  function useDownload(){if(eb2){eb2.textContent='Get my PDF';eb2.onclick=()=>downloadPdf(eb2);}eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+'<b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
 }
 async function buildPdf(){
   const root=document.getElementById('pdf-root');
@@ -436,11 +504,12 @@ async function buildPdf(){
     const pdf=new jsPDF({unit:'px',format:[816,1056],compress:true});
     pdf.setProperties({title:'Signature Style Report',subject:'Your personalized color and body style report',author:'HerStyleVault',creator:'HerStyleVault'});
     for(let i=0;i<els.length;i++){
-      const canvas=await html2canvas(els[i],{scale:2,backgroundColor:'#ffffff',useCORS:true});
+      const canvas=await html2canvas(els[i],{scale:(/iP(hone|ad|od)|Android/.test(navigator.userAgent)?1.5:2),backgroundColor:'#ffffff',useCORS:true});
       if(i>0)pdf.addPage([816,1056],'portrait');
       pdf.addImage(canvas.toDataURL('image/jpeg',0.92),'JPEG',0,0,816,1056);
       canvas.width=canvas.height=0; /* free memory as we go (helps on phones) */
       const pr=els[i].getBoundingClientRect();
+      els[i].querySelectorAll('[data-page]').forEach(el=>{const q=el.getBoundingClientRect();pdf.link(q.left-pr.left,q.top-pr.top,q.width,q.height,{pageNumber:parseInt(el.getAttribute('data-page'),10)});});
       els[i].querySelectorAll('[data-href]').forEach(el=>{const q=el.getBoundingClientRect();pdf.link(q.left-pr.left,q.top-pr.top,q.width,q.height,{url:el.getAttribute('data-href')});});
     }
     const safe=String(REPORT.clientName||'Client').replace(/[\\/:*?"<>|]/g,'').trim()||'Client';
@@ -457,7 +526,7 @@ async function downloadPdf(btn){
     const blob=new Blob([pdf.output('arraybuffer')],{type:isSafari?'application/octet-stream':'application/pdf'});
     const url=URL.createObjectURL(blob);
     const box=document.getElementById('dl-ready');
-    box.innerHTML='Your PDF is ready. <a href="'+url+'" download="'+fname.replace(/"/g,'')+'">Tap here to download it</a>'+'';box.hidden=false;
+    box.innerHTML='Your PDF is ready. <a href="'+url+'" download="'+fname.replace(/"/g,'')+'">Tap here to download it</a>'+'';box.hidden=false;const b2=document.getElementById('dl-ready-2');if(b2){b2.innerHTML=box.innerHTML;b2.hidden=false;}
     if(!isSafari)pdf.save(fname);
   }catch(e){console.error(e);alert('Something went wrong building the PDF. Please try again.');}
   finally{btn.disabled=false;btn.textContent=label;}
@@ -465,7 +534,7 @@ async function downloadPdf(btn){
 /* Emails the PDF to the address on the Stripe payment (the server decides the address, never the browser). */
 async function emailPdf(btn){
   const label=btn.textContent,box=document.getElementById('dl-ready');btn.disabled=true;btn.textContent='Building your PDF…';
-  const say=t=>{box.innerHTML=t;box.hidden=false;};
+  const say=t=>{box.innerHTML=t;box.hidden=false;const b2=document.getElementById('dl-ready-2');if(b2){b2.innerHTML=t;b2.hidden=false;}};
   try{
     const {pdf}=await buildPdf();
     btn.textContent='Sending…';
@@ -567,7 +636,7 @@ async function showShared(token){
     const j=await res.json().catch(()=>({}));
     if(!res.ok||!j.report){
       if(tb)tb.style.display='none';
-      app.innerHTML='<div class="err-box"><h2>This shared report is not available</h2><p>The link may have been turned off by its owner. You can still get your own style report in about five minutes.</p><p><a class="retry-btn" href="'+QUIZ_URL+'" style="display:inline-block;text-decoration:none;">Get my own report</a></p></div>';
+      app.innerHTML='<div class="err-box"><h2>This shared report is not available</h2><p>The link may have been turned off by its owner. You can still get your own detailed style report.</p><p><a class="retry-btn" href="'+QUIZ_URL+'" style="display:inline-block;text-decoration:none;">Get my own report</a></p></div>';
       return;
     }
     SHARED_VIEW=true;AGE='';j.report.__shared=true;
@@ -597,7 +666,7 @@ function openSharePopup(first){
   if(document.getElementById('share-pop'))return;
   const prev=document.activeElement;
   const m=document.createElement('div');m.id='share-pop';m.className='share-pop';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-labelledby','share-pop-t');
-  m.innerHTML='<div class="share-pop-in"><button type="button" class="share-pop-x" aria-label="Close">&times;</button><p class="share-pop-k">'+first+' shared this with you</p><h2 id="share-pop-t">Want your own style report?</h2><p>Find your colors, your best silhouettes and where to shop them. It takes about five minutes.</p><a class="share-btn share-pop-go" href="'+QUIZ_URL+'">Take the 5-minute quiz</a><button type="button" class="link-btn share-pop-later">Keep reading</button></div>';
+  m.innerHTML='<div class="share-pop-in"><button type="button" class="share-pop-x" aria-label="Close">&times;</button><p class="share-pop-k">'+first+' shared this with you</p><h2 id="share-pop-t">Want your own style report?</h2><p>Find your colors, your best silhouettes and where to shop them, in one detailed report.</p><a class="share-btn share-pop-go" href="'+QUIZ_URL+'">Take the 5-minute quiz</a><button type="button" class="link-btn share-pop-later">Keep reading</button></div>';
   document.body.appendChild(m);
   try{sessionStorage.setItem('hsv_share_popup','1');}catch(e){}
   const close=()=>{document.removeEventListener('keydown',onKey);if(m.parentNode)m.parentNode.removeChild(m);if(prev&&prev.focus)try{prev.focus();}catch(e){}};
@@ -630,7 +699,9 @@ async function init() {
     return;
   }
 
-  const cached = readCache(sessionId);
+  const PREVIEW = new URLSearchParams(window.location.search).get('preview') === '1';
+  if (PREVIEW && !document.getElementById('prev-banner')) { const nb = document.createElement('div'); nb.id = 'prev-banner'; nb.style.cssText = 'background:#7A1321;color:#fff;font:600 12px/1.4 sans-serif;text-align:center;padding:8px 12px;position:sticky;top:0;z-index:50'; nb.textContent = 'PREVIEW TEST: not a real purchase. Nothing is saved or emailed.'; document.body.prepend(nb); }
+  const cached = PREVIEW ? null : readCache(sessionId);
   if (cached) { REPORT_SAVED = true; SHARE_TOKEN = cached.share || null; await renderReport(cached.report); showSavedNote(); return; }
 
   let data;
@@ -639,6 +710,20 @@ async function init() {
   } catch (e) { data = null; }
 
   AGE = (data && data.answers && data.answers.ageBracket) || '';
+  /* Preview-only sample clients. ?sample=1 is the default one; the others open a different kind of client so each can be checked quickly. */
+  const SAMPLE_KIND = new URLSearchParams(window.location.search).get('sample');
+  const SAMPLE_VARIANTS = {
+    cool: { jewelry: 'silver', veins: 'blue', depth: 'fair', contrast: 'high', comp: 'cool', wash: 'warm', ageBracket: '35-44', shoulderHip: 'hipsWider', bustHip: 'hipsLarger', waistDef: 'defined', heel: 'flats', climate: 'cold' },
+    alt: { ageBracket: '18-24', pq1: 'alt', pq2: 'edge', pq3: 'mono', feel: ['edgy', 'confident'] },
+    darkromance: { ageBracket: '45+', jewelry: 'silver', veins: 'blue', depth: 'fair', contrast: 'high', comp: 'cool', wash: 'warm', pq1: 'allblack', pq2: 'edge', pq3: 'mono' },
+    nodress: { ageBracket: '35-44', dressSep: 'separates', styleGrav: 'fitted' },
+    mature: { ageBracket: '45+', heel: 'flats', dressCode: 'formal' },
+    petite: { height: 'petite', proportion: 'longTorso', quiet: ['hips', 'midsection'], ageBracket: '25-34' }
+  };
+  if (PREVIEW && (!data || !data.answers || SAMPLE_KIND === '1' || SAMPLE_VARIANTS[SAMPLE_KIND])) {
+    data = SAMPLE_VARIANTS[SAMPLE_KIND] ? Object.assign({}, SAMPLE_DATA, { answers: Object.assign({}, SAMPLE_DATA.answers, SAMPLE_VARIANTS[SAMPLE_KIND]) }) : SAMPLE_DATA;
+    AGE = data.answers.ageBracket || '25-34';
+  }
   if (!data || !data.answers) {
     // Opened on a different phone or browser: the saved copy opens with the email used at checkout.
     showGate(sessionId);
@@ -656,7 +741,8 @@ async function init() {
         answers: data.answers,
         freeText: data.freeText,
         photoBase64: data.photoBase64,
-        photoMediaType: data.photoMediaType
+        photoMediaType: data.photoMediaType,
+        previewTest: PREVIEW
       })
     });
 
@@ -666,7 +752,7 @@ async function init() {
       if (res.status === 402) {
         showError('Payment not confirmed yet', 'Give it a moment and try again — if this keeps happening, email us and we\'ll take care of it.', true);
       } else {
-        showError('Something went wrong generating your report', errBody.error || 'Please try again in a moment.', true);
+        showError('Something went wrong generating your report', (PREVIEW ? '[preview detail: HTTP ' + res.status + '] ' : '') + (errBody.error || 'Please try again in a moment.'), true);
       }
       return;
     }
@@ -674,10 +760,14 @@ async function init() {
     const report = await res.json();
     report.hadPhoto = !!data.photoBase64;
     SHARE_TOKEN = report.shareToken || null; delete report.shareToken;
+    if (PREVIEW) { const g = report.generatedBy || {}, ok = g.narrative === 'ai' && g.silhouettes === 'ai' && g.avoidText === 'ai'; const w = document.createElement('div'); w.id = 'prev-writer'; w.style.cssText = 'font:700 13px/1.4 sans-serif;text-align:center;padding:9px 12px;position:sticky;top:34px;z-index:49;color:#fff;background:' + (ok ? '#1F7A3A' : '#B26A00'); w.textContent = ok ? 'REPORT WRITER: AI IS WORKING (all 3 sections written by AI)' : 'REPORT WRITER: AI DID NOT RUN, pre-written backup text is showing. Reason: ' + (g.why || 'unknown') + ' (sections: ' + [g.narrative, g.silhouettes, g.avoidText].join(' / ') + ')'; const pb = document.getElementById('prev-banner'); if (pb && pb.parentNode) pb.parentNode.insertBefore(w, pb.nextSibling); }
     if (res.headers.get('x-hsv-saved') === '1') { REPORT_SAVED = true; writeCache(sessionId, report, SHARE_TOKEN); showSavedNote(); }
+    if (data.photoBase64) report.__photo = 'data:' + (data.photoMediaType || 'image/jpeg') + ';base64,' + data.photoBase64;
     await renderReport(report);
+    /* the photo was only needed to build this report: once it is on screen, take it out of this browser's storage */
+    if (!PREVIEW) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(Object.assign({}, data, { photoBase64: null, photoMediaType: null }))); } catch (e2) {} }
   } catch (e) {
-    showError('Something went wrong generating your report', 'Please try again in a moment.', true);
+    showError('Something went wrong generating your report', (PREVIEW ? '[preview detail: ' + String((e && e.stack) || e).slice(0, 500) + '] ' : '') + 'Please try again in a moment.', true);
   }
 }
 

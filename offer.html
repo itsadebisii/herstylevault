@@ -57,8 +57,8 @@
     var isSvc = o.kind === 'service', tiers = o.tiers && o.tiers.length ? o.tiers : null;
     var ti = tiers ? Math.min(tierIdx, tiers.length - 1) : 0, t = tiers ? tiers[ti] : null;
     var cta = isSvc
-      ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '"' + (t ? ' data-tier="' + t[0] + '"' : '') + '>Book ' + o.name + '</a><p class="meta">Pay upfront \u00b7 No consultation needed \u00b7 <a href="policies.html">Read our policies</a></p>'
-      : '<a class="btn btn-primary" href="' + o.cta.href + '">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Read our policies</a></p>';
+      ? '<a class="btn btn-primary book-btn" href="mailto:hello@herstylevault.com?subject=Book%20' + encodeURIComponent(o.name) + '" data-service="' + o.name + '" data-form="' + o.formKey + '"' + (t ? ' data-tier="' + t[0] + '"' : '') + '>Book ' + o.name + '</a><p class="meta">Pay upfront \u00b7 No consultation needed \u00b7 <a href="policies.html">Terms &amp; Privacy</a></p>'
+      : '<a class="btn btn-primary" href="' + o.cta.href + '">' + o.cta.label + '</a><p class="meta">' + o.ctaNote + ' <a href="policies.html">Terms &amp; Privacy</a></p>';
     var picker = tiers ? '<div class="dg-opts" role="group" aria-label="Choose your tier">' + tiers.map(function(x, k){
         return '<button type="button" class="dg-opt' + (k === ti ? ' on' : '') + '" data-ti="' + k + '" aria-pressed="' + (k === ti) + '"><b>' + x[0] + '</b><span>' + x[1] + (o.slug === 'the-ensemble' ? ' per person' : '') + '</span></button>';
       }).join('') + '</div><p class="dg-soon"><b>' + t[0] + '</b> \u00b7 ' + t[2] + '<br>' + t[3] + '</p>' : '';
