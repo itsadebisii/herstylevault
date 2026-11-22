@@ -833,5 +833,5 @@
 
   function ensureCss() { if (document.getElementById('hx-css')) return; var s = document.createElement('style'); s.id = 'hx-css'; s.textContent = CSS; document.head.appendChild(s); }
   ensureCss();
-  window.HX = { prep: prep, glance: glanceBlock, capsule: capsuleBlock, recipes: recipesBlock, fitguide: fitGuideBlock, audit: auditBlock, session: sessionBlock, fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock };
+  window.HX = { shapeFig: shapeFig, prep: prep, glance: glanceBlock, capsule: capsuleBlock, recipes: recipesBlock, fitguide: fitGuideBlock, audit: auditBlock, session: sessionBlock, fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock };
 })();
