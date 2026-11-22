@@ -449,7 +449,7 @@
     for (var q = 1; q < 12; q++) { var th = Math.PI - Math.PI * q / 12; capT.push([cx + wt * Math.cos(th), yT - 12 * Math.sin(th)]); }
     for (var q2 = 1; q2 < 12; q2++) { var th2 = Math.PI * q2 / 12; capB.push([cx + wb * Math.cos(th2), yB + 18 * Math.sin(th2)]); }
     var path = [left[0]].concat(capT, right, capB, left.slice().reverse()).map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(' ') + ' Z';
-    return '<path d="' + path + '" fill="none" stroke="#BC8E62" stroke-width="1.4" stroke-linejoin="round" opacity=".95"/>';
+    return '<path d="' + path + '" fill="none" stroke="#FFFFFF" stroke-width="3.8" stroke-linejoin="round" opacity=".65"/><path d="' + path + '" fill="none" stroke="#A8692F" stroke-width="1.9" stroke-linejoin="round"/>';
   }
   function shapeFig(r) {
     var key = shapeKey(r);
