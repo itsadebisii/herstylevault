@@ -180,7 +180,7 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
   var R = {
     unlock:   {n:'The Unlock', p:'$225', u:'package-unlock.html', t:'3 sessions and 5 complete outfits. A great place to start: you learn your colors and shape and leave with a plan.'},
     vault:    {n:'The Vault Edit', p:'$400', u:'package-vault-edit.html', t:'4 sessions and 7 outfits, plus the Wardrobe Detox Checklist. Our most popular package.'},
-    reveal:   {n:'The Full Reveal', p:'$725', u:'package-full-reveal.html', t:'5 in-person sessions: a closet audit, three shopping trips and 10 outfits, plus the full Wardrobe Detox Bundle and a try-on reveal.'},
+    reveal:   {n:'The Full Reveal', p:'$950', u:'package-full-reveal.html', t:'5 in-person sessions: a closet audit, three shopping trips and 10 outfits, plus the full Wardrobe Detox Bundle and a try-on reveal.'},
     occasion: {n:'Occasion Edit', p:'From $55', u:'service-occasion-edit.html', t:'Outfits for one event or trip, built around your style and emailed to you as a finished PDF.'},
     ensemble: {n:'The Ensemble', p:'From $95 per person', u:'service-ensemble.html', t:'Everyone in your group gets their own outfits, pulled around one shared vibe.'},
     mini:     {n:'The Mini Collection', p:'From $240', u:'service-mini-collection.html', t:'A small set of new pieces that all mix and match, sourced for you with shopping links.'},
@@ -211,7 +211,7 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
     focus: {q:'What should we focus on?', o:[
       ['Outfits from what I already own', {set:['focus','own'], next:'budget'}], ['Shopping for new pieces', {set:['focus','shop'], next:'budget'}], ['Both', {set:['focus','both'], next:'budget'}]]},
     budget: {q:'What feels right for your budget?', o:[
-      ['About $225', {set:['budget','low'], rec:true}], ['About $400', {set:['budget','mid'], rec:true}], ['$725, the full experience', {set:['budget','high'], rec:true}]]},
+      ['About $225', {set:['budget','low'], rec:true}], ['About $400', {set:['budget','mid'], rec:true}], ['$950, the full experience', {set:['budget','high'], rec:true}]]},
     closet: {q:'How would you like to do it?', o:[
       ['In person, with you helping', {r:'detox'}], ['On my own, with a guide', {r:'guide'}]]}
   };

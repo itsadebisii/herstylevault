@@ -18,7 +18,7 @@ const today = new Date().toISOString().slice(0, 10);
 const SEO = {
   'the-unlock': ['The Unlock: 3-Session Styling Package | HerStyleVault', 'The Unlock is a 3-session personal styling package with a color and body analysis, 5 outfit builds and a shopping list. $225, in person or virtual.'],
   'the-vault-edit': ['The Vault Edit: 4-Session Styling Package | HerStyleVault', 'The Vault Edit is a 4-session personal styling package with 7 outfit builds, a shopping list and the Wardrobe Detox Checklist. $400, in person or virtual.'],
-  'the-full-reveal': ['The Full Reveal: In-Person Styling Package | HerStyleVault', 'The Full Reveal is a 5-session in-person styling package: closet audit, 3 shopping trips and 10 outfit builds near Boston and Southern NH. $725.'],
+  'the-full-reveal': ['The Full Reveal: In-Person Styling Package | HerStyleVault', 'The Full Reveal is a 5-session in-person styling package: closet audit, 3 shopping trips and 10 outfit builds near Boston and Southern NH. $950.'],
   'occasion-edit': ['Occasion Edit: Outfits for Your Event | HerStyleVault', 'Occasion Edit gives you 1 to 7 complete outfits for a wedding, trip or event, built around your style and emailed as a finished PDF. From $55.'],
   'the-ensemble': ['The Ensemble: Group Styling Service | HerStyleVault', 'The Ensemble styles a group for one trip or event: everyone gets their own outfits around one shared vibe, delivered as a PDF. From $95 per person.'],
   'the-mini-collection': ['The Mini Collection: Capsule Wardrobe | HerStyleVault', 'The Mini Collection is a custom capsule of 6 to 12 new pieces that mix and match, sourced for you and sent as a PDF with shopping links. From $240.'],

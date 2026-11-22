@@ -9,8 +9,23 @@ const base = { jewelry: 'gold', sun: 'tan', veins: 'green', depth: 'caramel', co
 const profiles = {
   'warm 18-24 no extras': Object.assign({}, base, { ageBracket: '18-24' }),
   'cool petite 35-44 formal': Object.assign({}, base, { ageBracket: '35-44', jewelry: 'silver', veins: 'blue', depth: 'fair', contrast: 'high', comp: 'cool', wash: 'warm', shoulderHip: 'shouldersMuchWider', bustHip: 'bustSlightlyLarger', height: 'petite', proportion: 'longTorso', quiet: ['hips', 'midsection'], worksBest: ['work', 'travel', 'special'], dressCode: 'formal', climate: 'cold', temp: 'cold', comfortFab: ['itchy', 'clingy'], budget: 'invest' }),
+  'separates only (no dresses)': Object.assign({}, base, { ageBracket: '35-44', dressSep: 'separates', styleGrav: 'fitted' }),
   '45+ with every extra': Object.assign({}, base, { ageBracket: '45+', dressCode: 'businessCasual', climate: 'warm', heel: 'flats', goal: 'trip', goalDate: 'May', sizeTop: 'L', sizeBottom: '12', sizeShoe: '8', shopHabits: ['store', 'resale'], hairType: ['curly', 'varies'], hairLen: 'long', inspo: 'Michelle Obama', pq1: 'other', pq1Other: 'Dress and flats' })
 };
+/* Pretend to be Claude with the longest answers the rules allow, to prove the pages still fit. */
+const realFetch = global.fetch;
+function mockClaude() {
+  process.env.ANTHROPIC_API_KEY = 'test';
+  global.fetch = async (url, opt) => {
+    if (!String(url).includes('api.anthropic.com')) return realFetch(url, opt);
+    const text = JSON.parse(opt.body).messages[0].content[0].text;
+    const list = JSON.parse(text.split('(copy the text exactly):')[1].split('\n')[1]);
+    const w = (n) => Array.from({ length: n }, (_, i) => 'word' + i).join(' ');
+    const body = { narrative: 'Your coloring points one way. ' + w(158), silhouettes: list.slice(0, 3).map((t) => ({ text: t, reason: 'Gives shape. ' + w(22) })), avoidText: 'Skip ' + w(43) };
+    return { ok: true, status: 200, json: async () => ({ content: [{ type: 'text', text: JSON.stringify(body) }], stop_reason: 'end_turn' }) };
+  };
+}
+function unmockClaude() { global.fetch = realFetch; delete process.env.ANTHROPIC_API_KEY; }
 const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml' };
 const server = http.createServer((q, r) => { const f = path.join(root, decodeURIComponent(q.url.split('?')[0]).replace(/^\//, '') || 'index.html'); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); } else { r.writeHead(200, { 'content-type': mime[path.extname(f)] || 'application/octet-stream' }); r.end(d); } }); });
 (async () => {
@@ -31,5 +46,9 @@ const server = http.createServer((q, r) => { const f = path.join(root, decodeURI
   };
   for (const [n, a] of Object.entries(profiles)) await run(n, a, false);
   await run('old-format saved report', profiles['warm 18-24 no extras'], true);
+  mockClaude();
+  await run('longest AI text, 45+', profiles['45+ with every extra'], false);
+  await run('longest AI text, petite 35-44', profiles['cool petite 35-44 formal'], false);
+  unmockClaude();
   await browser.close(); server.close(); process.exit(bad ? 1 : 0);
 })();

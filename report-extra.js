@@ -287,8 +287,8 @@
       var ico = '<svg viewBox="0 0 120 150" fill="#FAF9F6" stroke="#181716" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" width="46" height="58">' + OCC_ICON[o[1]] + '</svg>';
       return '<div class="hx-occ"><div class="hx-occh">' + ico + '<h4>' + o[0] + '</h4></div>'
         + '<div class="hx-fm"><span>' + chip(c[0]) + '<b>Base</b>' + E(c[0].n) + '</span><span>' + chip(c[1]) + '<b>Main</b>' + E(c[1].n) + '</span><span>' + chip(c[2]) + '<b>Pop</b>' + E(c[2].n) + '</span></div>'
-        + '<div class="hx-fg"><div>' + G(pk.top, c[1].h) + '<span>' + E(top) + '</span></div><div>' + G(pk.bot, c[0].h) + '<span>' + E(bot) + '</span></div><div>' + G(pk.dr, c[1].h) + '<span>' + E(dr) + ' dress</span></div>' + (k === 'work' ? '<div>' + G('blazer', c[0].h) + '<span>Tailored blazer</span></div>' : '') + '</div>'
-        + '<p class="hx-try"><b>Try:</b> ' + (dsep === 'dresses' ? E(dr) + ' dress first, or ' + E(top) + ' + ' + E(bot) + '.' : sgrav === 'sets' ? 'a matching ' + E(top) + ' + ' + E(bot) + ' set, or ' + E(dr) + ' dress.' : E(top) + ' + ' + E(bot) + ', or ' + E(dr) + ' dress.') + (k === 'work' ? ' Add a tailored blazer on top.' : '') + '</p>'
+        + '<div class="hx-fg"><div>' + G(pk.top, c[1].h) + '<span>' + E(top) + '</span></div><div>' + G(pk.bot, c[0].h) + '<span>' + E(bot) + '</span></div>' + (r.dressSep === 'separates' ? '<div>' + G('shoe', c[2].h) + '<span>Shoes</span></div>' : '<div>' + G(pk.dr, c[1].h) + '<span>' + E(dr) + ' dress</span></div>') + (k === 'work' ? '<div>' + G('blazer', c[0].h) + '<span>Tailored blazer</span></div>' : '') + '</div>'
+        + '<p class="hx-try"><b>Try:</b> ' + (dsep === 'separates' ? E(top) + ' + ' + E(bot) + (k === 'work' ? ', then a tailored blazer on top.' : '.') : dsep === 'dresses' ? E(dr) + ' dress first, or ' + E(top) + ' + ' + E(bot) + '.' : sgrav === 'sets' ? 'a matching ' + E(top) + ' + ' + E(bot) + ' set, or ' + E(dr) + ' dress.' : E(top) + ' + ' + E(bot) + ', or ' + E(dr) + ' dress.') + (k === 'work' && dsep !== 'separates' ? ' Add a tailored blazer on top.' : '') + '</p>'
         + '<ul>' + o[2].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
     }).join('');
     return { key: 'formulas', label: 'Outfit Formulas', html: '<div class="hx-page">' + head('Outfit <em>formulas</em>', 'You asked for outfits that work best for ' + E(listW(d.slice(0, 3).map(function (w) { return OCCN[w]; }))) + '. Build each one from your own colors' + (dsep === 'dresses' ? ', and lead with dresses since they work best on you.' : dsep === 'separates' ? ', and lead with separates since they work best on you.' : '.')) + cards + '<div class="hx-tip" style="margin-top:8px;text-align:left">' + (pers && pers.formula ? '<b>Your ' + E(pers.name) + ' formula:</b> ' + E(pers.formula.join(' + ')) + '. ' : '') + 'Want these built into real outfits from your closet? That is what a styling session is for. Try Style-11 for a free outfit idea any time.</div></div>' };
@@ -311,7 +311,7 @@
       ['zebra', 'Zebra', 'Charcoal + white', 'Use it as an accent: a bag, scarf or shoe with solid neutrals.', '', img('zebra.jpg'), ['bold', 'sleek', 'tailored'], -1, 1, 'bright'],
       ['leopard', 'Leopard', 'Camel + cognac', 'Pairs with ' + E(S[2].n) + '. Let it be the only pattern in the outfit.', '', img('leopard.jpg'), ['bold', 'luxury', 'casual'], 1, 0, ''],
       ['crocred', 'Croc emboss, red', 'Cherry red', 'A texture, not a print. Perfect for bags, belts and shoes.', '', img('croc-red.jpg'), ['luxury', 'sleek', 'tailored'], 0, 1, 'bright'],
-      ['tortoise', 'Tortoise', 'Antique gold + cognac', 'Warm and glossy. Ideal for sunglasses, hair clips and buttons.', '', img('tortoise.jpg'), ['luxury', 'feminine', 'classic'], 1, -1, 'blended'],
+      ['tortoise', 'Tortoiseshell', 'Antique gold + cognac', 'Warm and glossy. Ideal for sunglasses, hair clips and buttons.', '', img('tortoise.jpg'), ['luxury', 'feminine', 'classic'], 1, -1, 'blended'],
       ['crocog', 'Croc emboss, cognac', 'Cognac leather + camel', 'The warm version of croc. Beautiful on boots, belts and bags.', '', img('croc-cognac.jpg'), ['luxury', 'classic', 'tailored'], 1, -1, 'blended'],
       ['polka', 'Polka dot', warm ? 'Brown + cream' : 'Navy + white', 'Timeless. Works as a dress, blouse or scarf.', '', img(warm ? 'polka-warm.jpg' : 'polka-cool.jpg'), ['classic', 'feminine', 'tailored'], 0, 1, 'bright'],
       ['stripe', 'Breton stripe', warm ? 'Rust + cream' : 'Navy + white', 'Classic and easy. Great for tops, knits and scarves.', '', img(warm ? 'stripe-warm.jpg' : 'stripe-cool.jpg'), ['casual', 'sporty', 'classic'], 0, 1, ''],
@@ -332,7 +332,7 @@
       if (vi > -1) parts.push([vi < 2 ? 3 : 2, pname ? 'Matches your ' + pname + ' style.' : 'Matches your style direction.']);
       if (t[7] !== 0) parts.push([t[7] === (warm ? 1 : -1) ? 1.2 : -1, warm ? 'Warm tones like this sit well with your ' + season + ' coloring.' : 'Crisp, cooler tones like this suit your ' + season + ' coloring.']);
       if (con && t[8] !== 0) parts.push([(t[8] === 1 && hi) || (t[8] === -1 && lo) ? 1.1 : ((t[8] === 1 && lo) || (t[8] === -1 && hi) ? -1 : 0), hi ? 'Your higher-contrast coloring can carry a bold print.' : 'Your softer, lower-contrast coloring suits a tonal pattern like this.']);
-      if (chr && t[9]) parts.push([t[9] === 'blended' ? (chr === 'bright' ? -1 : 1) : (t[9] === chr ? 1 : (chr === 'blended' ? 0 : -1)), chr === 'bright' ? 'Clear, vivid patterns match your bright coloring.' : 'Soft, muted patterns match your blended coloring.']);
+      if (chr && t[9]) parts.push([t[9] === 'blended' ? (chr === 'bright' ? -4 : 1.5) : (t[9] === chr ? 1.5 : (chr === 'blended' ? 0 : -4)), chr === 'bright' ? 'Clear, vivid patterns match your bright coloring.' : 'Soft, muted patterns match your blended coloring.']);
       feel.forEach(function (f) { if ((FEEL[f] || []).indexOf(t[0]) > -1) parts.push([1, 'You want to ' + FEELW[f] + ', and this pattern helps with that.']); });
       var total = 0, best = [0, 'A dependable pattern that works with your palette.']; parts.forEach(function (x) { total += x[0]; if (x[0] > best[0]) best = x; });
       return { t: t, total: total, why: best[1], i: i };
@@ -504,7 +504,7 @@
     var pro = key === 'hourglass' || key === 'rectangle';
     var skirt = pro && L.dressCode === 'formal' ? 'pencil' : (D.rows[2][2].indexOf('askirt') > -1 ? 'askirt' : 'trouser');
     var dr = D.rows[3][2], dress1 = pro ? 'sheath' : dr[0], dress2 = dr.filter(function (g) { return g !== dress1; })[0] || 'flare';
-    var statement = pickGarments(r, D, ['dates'])[0].top;
+    var statement = pickGarments(r, D, ['dates'])[0].top, sep = r.dressSep === 'separates';
     var lightN = N.slice().sort(function (a, b) { return lumH(b.h) - lumH(a.h); })[0];
     var heelN = { flats: 'Flats or loafers', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes you can walk in';
     var cold = L.climate === 'cold' || L.climate === 'mixed', coatN = cold ? 'Long coat' : 'Light trench or jacket';
@@ -516,8 +516,8 @@
       { k: statement, n: NAMES[statement] || 'Statement top', c: S[2] },
       { k: skirt, n: NAMES[skirt] || 'Skirt', c: N[3] },
       { k: 'trouser', n: 'Dark jeans', c: N[2], kind: 'jeans' },
-      { k: dress1, n: (NAMES[dress1] || 'A-line') + ' dress for work', c: S[3], dressy: false },
-      { k: dress2, n: (NAMES[dress2] || 'Fit and flare') + ' dress for dates', c: S[1], start: L.goal === 'event' },
+      sep ? { k: 'wide', n: 'Wide-leg trousers for work', c: S[3] } : { k: dress1, n: (NAMES[dress1] || 'A-line') + ' dress for work', c: S[3], dressy: false },
+      sep ? { k: 'vneck', n: 'Dressy top for dates', c: S[1], start: L.goal === 'event' } : { k: dress2, n: (NAMES[dress2] || 'Fit and flare') + ' dress for dates', c: S[1], start: L.goal === 'event' },
       { k: 'coat', n: coatN, c: N[2] },
       { k: 'bag', n: 'Structured bag', c: A[0], kind: 'bag' },
       { k: 'shoe', n: heelN, c: N[3], kind: 'shoe' }
@@ -545,7 +545,7 @@
     var heelN = { flats: 'Flats', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes';
     var cards = picks.map(function (pk, i) {
       var c = combos[i], o = OCC[oc[Math.floor(i / 2)]] || OCC.everyday, a = i % 2 === 0;
-      var items = a ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], ['shoe', c[2], heelN]] : [[pk.dr, c[1], (NAMES[pk.dr] || 'A-line') + ' dress'], [layerK, c[0], layerN], ['bag', c[2], 'Bag']];
+      var items = a ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], ['shoe', c[2], heelN]] : (r.dressSep === 'separates' ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], [layerK, c[2], layerN]] : [[pk.dr, c[1], (NAMES[pk.dr] || 'A-line') + ' dress'], [layerK, c[0], layerN], ['bag', c[2], 'Bag']]);
       var fg = items.map(function (it) { return '<div>' + G(it[0], it[1].h) + '<span>' + E(it[2]) + '<br><i>' + E(it[1].n) + '</i></span></div>'; }).join('');
       var l1 = shopLink(r, items[0][2], items[0][1].n, '', i), l2 = shopLink(r, items[1][2], items[1][1].n, items[1][0] === 'bag' ? 'bag' : '', i + 1);
       return '<div class="hx-rc"><h5>' + o[0] + ' look ' + (a ? 1 : 2) + '</h5><div class="hx-rfg">' + fg + '</div><div class="hx-rls">Shop: ' + l1 + ' ' + l2 + '</div></div>';

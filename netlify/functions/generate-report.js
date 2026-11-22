@@ -37,13 +37,14 @@ const cap = (t) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
 const COLOR_WORDS = /\b(black|white|navy|gr[ae]y|pastels?|neon|orange|burgundy|beige|camel|taupe|mauve|fuchsia|pink|red|blue|green|yellow|purple|brown|gold|silver|cream|ivory|rust|olive|teal|coral|peach|lavender|colors?)\b/i;
 const stripEnd = (t) => String(t || '').trim().replace(/[.\s]+$/, '');
 
-const SYSTEM_PROMPT = `You are writing the personal section of a HerStyleVault Style Analysis. HerStyleVault is a personal styling business run by its founder in Boston, and this report is written as if the founder sat down and studied this one client.
+const SYSTEM_PROMPT = `You are writing the personal section of a HerStyleVault Style Analysis. HerStyleVault is a personal styling business run by its founder in Boston, and this report is generated instantly from the client's own quiz answers using HerStyleVault's styling method. Write it in the founder's warm editorial voice, but it is NOT an in-person color draping or fitting, so never say or imply that anyone saw, draped, measured or tried clothes on her.
 
 You are given the client's quiz answers and FIXED facts about her color season and body shape. The facts were produced by a tested classification system and are final. You never change them, add to them, or argue with them.
 
 Write ONLY these three things:
 1. "narrative": 110 to 160 words, plain text, no bullets, two short paragraphs at most. Explain why this color type (her season) belongs to this woman, covering her coloring only. Do not mention her body shape, proportions or fit; a separate page covers that. Explain it the way a stylist would: by drawing a conclusion from the whole picture, not by reading her answers back to her. Name at most two small, specific details from her answers, woven in naturally (for example the metal she reaches for, or where she feels most confident), never as a list.
-2. "silhouettes": exactly 3 items copied EXACTLY, word for word, from the provided silhouette list. Each has a "reason": one sentence, 12 to 28 words, tied to something specific about her (a quiz answer, her height, her proportions, her free-text note).
+2. "silhouettes": exactly 3 items copied EXACTLY, word for word, from the provided silhouette list, all different. Each has a "reason": one sentence, 14 to 24 words. The reason must say what this cut physically does (where it fits close, where it flares, where it adds or skims fabric) and why that serves her styling goal, tied to something specific about her (her proportions, height, what she likes to show or keep quiet, her free-text note). Level of detail to aim for, written for a different client: "A peplum adds a small flare at the waist, which creates definition where your shoulders and hips are close in width." Never write vague lines such as "it works with your proportions" or "it keeps attention where you want it."
+   If she prefers separates (dressSep is "separates"), choose silhouettes that are not dresses wherever the list allows. If she prefers dresses, lead with dress silhouettes.
 3. "avoidText": one sentence, 15 to 45 words, naming the silhouettes, cuts and styles for her shape to step back from, based only on the body-avoid facts. Do not mention any colors; a separate card covers colors.
 
 VOICE
@@ -58,6 +59,10 @@ NEVER WRITE
 - The "it's not X, it's Y" construction, or three-item lists of adjectives used as decoration.
 - Horoscope language. You are explaining a result, not predicting one.
 
+EVIDENCE
+- Stay inside the evidence you were given. If her answers and optional photo do not give you enough to explain a result in a personal way, describe the established characteristics of the result in plain terms. Do not invent physical observations, preferences, habits or experiences she did not give.
+- A quiz cannot prove undertone or season. Explain the result clearly as the result this method reached from her answers, and never claim you visually confirmed anything.
+
 CONFLICTING ANSWERS
 - If some of her answers point a different way from the result, do not apologize or hedge. Say plainly which signals carry the most weight (the metals that flatter her and the colors that wash her out, for color; her overall shoulder-to-hip and waist proportions, for shape) and move on with confidence.
 - Never call a quiz answer a "classic marker" of the shape unless it genuinely is one for that shape. Where weight sits and which pieces fit off the rack vary by person, so treat them as secondary to proportion.
@@ -65,7 +70,7 @@ CONFLICTING ANSWERS
 FACTS AND SAFETY
 - Never invent colors, hex codes, shade names, brands, measurements or styling rules. Use only the season and body data you are given.
 - Never assume her skin tone, body size, age or income. Do not describe her body in terms of weight.
-- If a photo is provided, you may mention visible color details (hair, skin undertone, contrast) to support the color reasoning. Do not comment on weight or age.
+- If a photo is provided, you may mention visible color details (hair, skin, contrast) as supporting the result, and say what the photo suggests rather than claiming certainty. Do not comment on weight or age.
 - Respect any free-text note from her and answer it if it matters to the silhouettes or the avoid advice.
 
 OUTPUT
@@ -81,13 +86,34 @@ function fallbackNarrative(answers, axes, colorFacts, bodyFacts) {
   return buildColorNarrative(answers, axes, colorFacts);
 }
 
+// What each kind of cut physically does, so even the backup text explains the reason.
+const CUT_DOES = [
+  [/empire/, 'This cut sits the waistline just under the bust and lets fabric fall softly over the middle.'],
+  [/fit and flare/, 'This cut fits close through the waist, then flares out to balance the hips.'],
+  [/a-line/, 'This cut flares gently from the waist and skims the hips instead of clinging.'],
+  [/peplum/, 'This cut adds a small flare at the waist to create curve where the body runs straight.'],
+  [/corset/, 'This cut uses structured seams to shape a waistline.'],
+  [/bodycon/, 'This cut follows your curves closely from bust to hip.'],
+  [/pencil/, 'This cut is fitted through the hip and keeps your waist in view.'],
+  [/belt/, 'A belt marks the waistline, so your waist shows even in a simple piece.'],
+  [/shirt dress/, 'This cut falls straight from the shoulder with a soft sash, so it skims the body and still shows a shape.'],
+  [/wide leg/, 'This cut adds fullness from the hip down to balance the upper body and lengthen the leg.'],
+  [/maxi/, 'This cut falls in one long line from the waist, which lengthens the body and adds movement.'],
+  [/skirt/, 'This cut adds movement and shape below the waist.'],
+  [/dress/, 'This cut gives one continuous line from shoulder to hem, with the waist doing the shaping.']
+];
+function cutDoes(sil) { const t = String(sil).toLowerCase(); for (const [re, txt] of CUT_DOES) if (re.test(t)) return txt; return ''; }
+function shortGoal(goal) { return lcFirst(stripEnd(String(goal || ''))).split(/ while | through | by /)[0].split(/\s+/).slice(0, 8).join(' '); }
+
 function silhouetteReasons(sil, answers, bodyFacts) {
   // Returns candidate reasons, most specific first. The caller picks the first one not already used.
   const s = sil.toLowerCase();
+  const does = cutDoes(sil), g = shortGoal(bodyFacts.goal);
   const grav = ({ bodyskim: 'fitted', cropped: 'waist' })[answers.styleGrav] || answers.styleGrav;
   const height = answers.height;
   const goal = lcFirst(stripEnd(bodyFacts.goal));
   const out = [];
+  if (does && g) out.push(does + ' ' + [`That supports your goal to ${g}.`, `It helps you ${g}.`, `Good for your goal to ${g}.`][sil.length % 3]);
   if (grav === 'flowy' && /flow|a-line|maxi|wrap|fit and flare/.test(s)) out.push('You lean toward pieces with movement, and this one gives that ease a clear shape that suits your proportions.');
   if (grav === 'fitted' && /fit|structured|wrap|belt|corset|bodycon|pencil/.test(s)) out.push('You like clothes that fit with intention, and this silhouette gives you structure exactly where it helps.');
   if (grav === 'waist' && /waist|belt|wrap|fit and flare|peplum|corset/.test(s)) out.push('You reach for anything that defines the waist, and this silhouette does that in a way that works for your shape.');
@@ -115,7 +141,8 @@ function fallbackSilhouettes(answers, bodyFacts) {
     if (answers.dressSep === 'separates') return /trouser|pant|skirt|top|jean/.test(t) ? 1 : 0;
     return 0;
   };
-  const ranked = list.map((s, idx) => ({ s, idx, p: prefers(s) })).sort((a, b) => b.p - a.p || a.idx - b.idx).slice(0, 3);
+  const dressBias = (t) => { const d = /dress/i.test(t), mixed = /top|skirt/i.test(t); if (answers.dressSep === 'separates') return d ? (mixed ? 0.5 : -2) : 2; if (answers.dressSep === 'dresses') return d ? 2 : 0; return 0; };
+  const ranked = list.map((s, idx) => ({ s, idx, p: prefers(s) + dressBias(s) })).sort((a, b) => b.p - a.p || a.idx - b.idx).slice(0, 3);
   const used = new Set();
   return ranked.map((r) => {
     const reason = silhouetteReasons(r.s, answers, bodyFacts).find((x) => !used.has(x));
@@ -132,7 +159,7 @@ function fallbackAvoid(colorFacts, bodyFacts) {
 
 // ---------- Validation of the AI response ----------
 
-function cleanSilhouettes(ai, bodyFacts) {
+function cleanSilhouettes(ai, bodyFacts, answers) {
   if (!Array.isArray(ai) || ai.length !== 3) return null;
   const list = bodyFacts.sils || [];
   const norm = (t) => String(t || '').trim().toLowerCase();
@@ -142,10 +169,16 @@ function cleanSilhouettes(ai, bodyFacts) {
     const match = list.find((s) => norm(s) === norm(item.text)) || list.find((s) => norm(item.text).startsWith(norm(s)) || norm(s).startsWith(norm(item.text)));
     if (!match) return null;
     const w = wordCount(item.reason);
-    if (w < 6 || w > 45 || BANNED.test(item.reason)) return null;
+    if (w < 10 || w > 40 || BANNED.test(item.reason)) return null;
     out.push({ text: match, reason: item.reason.trim() });
   }
   if (new Set(out.map((o) => o.text)).size !== 3) return null;
+  // A client who prefers separates should not be handed three dress styles when other options exist.
+  if (answers && answers.dressSep === 'separates') {
+    const nonDress = list.filter((x) => !/dress/i.test(x)).length;
+    const dressPicked = out.filter((o) => /dress/i.test(o.text)).length;
+    if (dressPicked > Math.max(0, 3 - nonDress)) return null;
+  }
   return out;
 }
 
@@ -356,7 +389,7 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
   }
 
   const narrative = cleanNarrative(ai && ai.narrative);
-  const silhouettes = cleanSilhouettes(ai && ai.silhouettes, bodyFacts);
+  const silhouettes = cleanSilhouettes(ai && ai.silhouettes, bodyFacts, answers);
   const avoidText = cleanAvoid(ai && ai.avoidText);
 
   // --- Step 5: merge with fixed factual data and return. ---
