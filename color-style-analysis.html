@@ -668,53 +668,69 @@ function mixHex(a, b, t) {
 function faceChips(o) {
   return '<div class="vc-chips"><span><i class="c-hair" style="background:' + o.hair + '"></i>Hair</span><span><i class="c-skin" style="background:' + o.skin + '"></i>Skin</span><span><i class="c-eye" style="background:' + o.eye + '"></i>Eyes</span></div>';
 }
-// Flat-vector portrait, deeper skin group: full curly hair, bold brows, glossy lip. Colors come from the option.
-function faceDeep(o) {
-  const hair = o.hair, skin = o.skin, shade = mixHex(skin, '#000000', 0.2), top = '#e9dfcf';
-  const brow = mixHex(hair, '#000000', 0.5), lip = mixHex(skin, '#b3302a', 0.55), spk = mixHex(hair, '#ffffff', 0.34);
-  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
-  let blobs = '<circle cx="100" cy="92" r="74" fill="' + hair + '"/>';
-  for (let i = 0; i < 20; i++) { const a = i / 20 * Math.PI * 2; blobs += '<circle cx="' + (100 + 80 * Math.cos(a)).toFixed(1) + '" cy="' + (90 + 76 * Math.sin(a)).toFixed(1) + '" r="19" fill="' + hair + '"/>'; }
-  let dots = '';
-  for (let i = 0; i < 70; i++) { const a = rnd() * Math.PI * 2, r = 40 + rnd() * 52, x = 100 + r * Math.cos(a), y = 90 + r * 0.95 * Math.sin(a); if (y > 118 && x > 58 && x < 142) continue; dots += '<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="' + (1.6 + rnd() * 2.2).toFixed(1) + '" ry="' + (1.2 + rnd() * 1.8).toFixed(1) + '" fill="' + spk + '" opacity=".75"/>'; }
-  const svg = '<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + blobs + dots
-    + '<rect x="82" y="150" width="36" height="40" fill="' + shade + '"/>'
-    + '<path d="M16 240 C16 200 46 188 82 182 L118 182 C154 188 184 200 184 240Z" fill="' + top + '"/>'
-    + '<path d="M82 182 L100 206 L118 182Z" fill="' + shade + '"/>'
-    + '<g transform="translate(100 124) scale(1.2) translate(-100 -124)">'
-    + '<circle cx="60" cy="128" r="7.5" fill="' + mixHex(skin, '#000000', 0.08) + '"/><circle cx="140" cy="128" r="7.5" fill="' + mixHex(skin, '#000000', 0.08) + '"/>'
-    + '<path d="M62 118 C62 88 80 76 100 76 C120 76 138 88 138 118 C138 146 122 170 100 170 C78 170 62 146 62 118Z" fill="' + skin + '"/>'
-    + '<path d="M58 96 Q66 74 80 84 Q90 70 100 82 Q110 70 120 84 Q134 74 142 96 L142 64 L58 64Z" fill="' + hair + '"/>'
-    + '<path d="M70 103 Q82 95 95 101 M105 101 Q118 95 130 103" stroke="' + brow + '" stroke-width="5" fill="none" stroke-linecap="round"/>'
-    + '<path d="M69 116 Q82 107 95 116 Q82 123 69 116Z M105 116 Q118 107 131 116 Q118 123 105 116Z" fill="#fff"/>'
-    + '<circle cx="82" cy="115.6" r="4.6" fill="' + o.eye + '"/><circle cx="118" cy="115.6" r="4.6" fill="' + o.eye + '"/><circle cx="82" cy="115.6" r="2" fill="#16100d"/><circle cx="118" cy="115.6" r="2" fill="#16100d"/>'
-    + '<path d="M67 116 Q82 105 97 116 M103 116 Q118 105 133 116" stroke="#16100d" stroke-width="2" fill="none" stroke-linecap="round"/>'
-    + '<path d="M66 113 L61 109 M69 110 L65 105 M134 113 L139 109 M131 110 L135 105" stroke="#16100d" stroke-width="1.4" stroke-linecap="round"/>'
-    + '<ellipse cx="94.5" cy="138" rx="3.2" ry="2.3" fill="' + shade + '"/><ellipse cx="105.5" cy="138" rx="3.2" ry="2.3" fill="' + shade + '"/><ellipse cx="100" cy="135" rx="3.6" ry="2.2" fill="' + mixHex(skin, '#ffffff', 0.18) + '"/>'
-    + '<path d="M85 153 Q93 147 100 150 Q107 147 115 153 Q100 168 85 153Z" fill="' + lip + '"/><ellipse cx="100" cy="157" rx="7" ry="2.2" fill="#fff" opacity=".35"/></g></svg>';
-  return svg;
+// One almond eye: white, clipped iris with a catch-light, soft lid shadow, lash line with a small flick and lashes.
+function faceEye(id, cx, cy, w, iris, lash, lid, flip) {
+  const d = flip ? -1 : 1, x0 = cx - w, x1 = cx + w;
+  const top = 'M' + x0 + ' ' + cy + ' Q' + cx + ' ' + (cy - w * 0.95) + ' ' + x1 + ' ' + cy;
+  const shape = top + ' Q' + cx + ' ' + (cy + w * 0.62) + ' ' + x0 + ' ' + cy + 'Z';
+  const outer = flip ? x0 : x1, inner = flip ? x1 : x0;
+  return '<clipPath id="' + id + '"><path d="' + shape + '"/></clipPath>'
+    + '<path d="M' + (x0 - 1) + ' ' + (cy - 2.5) + ' Q' + cx + ' ' + (cy - w * 1.25) + ' ' + (x1 + 1) + ' ' + (cy - 2.5) + ' Q' + cx + ' ' + (cy - w * 0.9) + ' ' + (x0 - 1) + ' ' + (cy - 2.5) + 'Z" fill="' + lid + '" opacity=".5"/>'
+    + '<path d="' + shape + '" fill="#fff"/>'
+    + '<g clip-path="url(#' + id + ')"><circle cx="' + cx + '" cy="' + (cy - 0.6) + '" r="' + (w * 0.56).toFixed(1) + '" fill="' + iris + '"/><circle cx="' + cx + '" cy="' + (cy - 0.6) + '" r="' + (w * 0.26).toFixed(1) + '" fill="#120c0a"/><circle cx="' + (cx + w * 0.2) + '" cy="' + (cy - w * 0.28) + '" r="' + (w * 0.12).toFixed(1) + '" fill="#fff"/></g>'
+    + '<path d="' + top + '" fill="none" stroke="' + lash + '" stroke-width="3.2" stroke-linecap="round"/>'
+    + '<path d="M' + outer + ' ' + cy + ' L' + (outer + d * 6) + ' ' + (cy - 4.2) + '" stroke="' + lash + '" stroke-width="2.6" stroke-linecap="round"/>'
+    + '<path d="M' + (x0 + 2) + ' ' + (cy + 1.6) + ' Q' + cx + ' ' + (cy + w * 0.55) + ' ' + (x1 - 2) + ' ' + (cy + 1.6) + '" fill="none" stroke="' + lash + '" stroke-width=".7" opacity=".35"/>';
 }
-// Flat-vector portrait, lighter skin group: straight hair, soft blush, easy smile.
+// Flat-vector portrait, deeper skin group: full curly hair, arched brows, big lashed eyes, glossy lip.
+function faceDeep(o) {
+  const hair = o.hair, skin = o.skin, shade = mixHex(skin, '#000000', 0.22), top = '#e9dfcf';
+  const brow = mixHex(hair, '#000000', 0.45), lipD = mixHex(skin, '#8f2a2a', 0.6), lip = mixHex(skin, '#c4473a', 0.58), spk = mixHex(hair, '#ffffff', 0.34);
+  const lash = '#140d0b', lid = mixHex(skin, '#a4523a', 0.55), blush = mixHex(skin, '#c8553f', 0.35);
+  let seed = 11; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  let blobs = '<circle cx="100" cy="88" r="70" fill="' + hair + '"/>';
+  for (let i = 0; i < 22; i++) { const a = i / 22 * Math.PI * 2; blobs += '<circle cx="' + (100 + 74 * Math.cos(a)).toFixed(1) + '" cy="' + (88 + 70 * Math.sin(a)).toFixed(1) + '" r="18" fill="' + hair + '"/>'; }
+  let dots = '';
+  for (let i = 0; i < 80; i++) { const a = rnd() * Math.PI * 2, r = 36 + rnd() * 56, x = 100 + r * Math.cos(a), y = 88 + r * 0.93 * Math.sin(a); if (y > 108 && x > 56 && x < 144) continue; dots += '<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="' + (1.5 + rnd() * 2).toFixed(1) + '" ry="' + (1.1 + rnd() * 1.6).toFixed(1) + '" fill="' + spk + '" opacity=".7"/>'; }
+  return '<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + blobs + dots
+    + '<rect x="84" y="156" width="32" height="36" fill="' + shade + '"/>'
+    + '<path d="M14 240 C14 204 46 192 84 186 L116 186 C154 192 186 204 186 240Z" fill="' + top + '"/>'
+    + '<path d="M84 186 Q100 214 116 186Z" fill="' + shade + '"/>'
+    + '<ellipse cx="100" cy="180" rx="15" ry="6" fill="' + mixHex(skin, '#000000', 0.34) + '" opacity=".55"/>'
+    + '<ellipse cx="57" cy="126" rx="6.5" ry="9" fill="' + mixHex(skin, '#000000', 0.1) + '"/><ellipse cx="143" cy="126" rx="6.5" ry="9" fill="' + mixHex(skin, '#000000', 0.1) + '"/>'
+    + '<path d="M59 112 C59 84 78 76 100 76 C122 76 141 84 141 112 C141 142 124 178 100 180 C76 178 59 142 59 112Z" fill="' + skin + '"/>'
+    + '<path d="M54 104 Q58 78 76 86 Q88 70 100 84 Q112 70 124 86 Q142 78 146 104 L146 56 L54 56Z" fill="' + hair + '"/>'
+    + '<ellipse cx="72" cy="146" rx="10" ry="6.5" fill="' + blush + '" opacity=".42"/><ellipse cx="128" cy="146" rx="10" ry="6.5" fill="' + blush + '" opacity=".42"/>'
+    + '<path d="M66 106 Q80 92 96 100 M104 100 Q120 92 134 106" stroke="' + brow + '" stroke-width="3.6" fill="none" stroke-linecap="round"/>'
+    + faceEye('fdl', 80, 119, 15, o.eye, lash, lid, true) + faceEye('fdr', 120, 119, 15, o.eye, lash, lid, false)
+    + '<path d="M97.5 126 Q95 140 96.5 145" stroke="' + shade + '" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".5"/>'
+    + '<path d="M93 146 Q100 151 107 146" stroke="' + shade + '" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="100" cy="141" rx="3.4" ry="2.2" fill="' + mixHex(skin, '#ffffff', 0.22) + '" opacity=".8"/>'
+    + '<path d="M82 160 Q90 150 100 154 Q110 150 118 160 Q100 164 82 160Z" fill="' + lipD + '"/>'
+    + '<path d="M82 160 Q100 164 118 160 Q112 177 100 178 Q88 177 82 160Z" fill="' + lip + '"/>'
+    + '<ellipse cx="100" cy="170" rx="8" ry="2.4" fill="#fff" opacity=".42"/><path d="M84 160 Q100 163 116 160" stroke="' + mixHex(lipD, '#000000', 0.25) + '" stroke-width=".9" fill="none"/>'
+    + '</svg>';
+}
+// Flat-vector portrait, lighter skin group: smooth straight hair with shine, soft blush, easy smile.
 function faceLight(o) {
-  const hair = o.hair, skin = o.skin, shade = mixHex(skin, '#a05a40', 0.22), top = '#e9dfcf';
-  const brow = mixHex(hair, '#000000', 0.25), blush = mixHex(skin, '#e0705f', 0.4), lip = mixHex(skin, '#c4553f', 0.6);
+  const hair = o.hair, skin = o.skin, shade = mixHex(skin, '#a05a40', 0.24), top = '#e9dfcf';
+  const brow = mixHex(hair, '#000000', 0.22), blush = mixHex(skin, '#e2675a', 0.42), lip = mixHex(skin, '#c4503f', 0.62);
+  const lash = '#1f1a1a', lid = mixHex(skin, '#c9806a', 0.5), shine = mixHex(hair, '#ffffff', 0.38);
   return '<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
-    + '<path d="M50 112 C46 54 70 26 100 26 C132 26 154 54 150 112 C152 150 150 172 154 190 L46 190 C50 172 48 150 50 112Z" fill="' + hair + '"/>'
-    + '<rect x="84" y="148" width="32" height="40" fill="' + shade + '"/>'
-    + '<path d="M16 240 C16 202 48 190 84 184 L116 184 C152 190 184 202 184 240Z" fill="' + top + '"/>'
-    + '<path d="M84 184 L100 206 L116 184Z" fill="' + shade + '"/>'
-    + '<g transform="translate(100 112) scale(1.14) translate(-100 -112)">'
-    + '<circle cx="64" cy="118" r="7" fill="' + mixHex(skin, '#a05a40', 0.12) + '"/><circle cx="136" cy="118" r="7" fill="' + mixHex(skin, '#a05a40', 0.12) + '"/>'
-    + '<path d="M65 104 C65 76 82 62 100 62 C118 62 135 76 135 104 C135 138 120 160 100 160 C80 160 65 138 65 104Z" fill="' + skin + '"/>'
-    + '<path d="M60 112 C56 70 76 44 100 44 C126 44 146 70 140 112 C138 90 128 74 112 64 C98 80 76 88 60 112Z" fill="' + hair + '"/>'
-    + '<ellipse cx="78" cy="132" rx="9" ry="6.5" fill="' + blush + '" opacity=".6"/><ellipse cx="122" cy="132" rx="9" ry="6.5" fill="' + blush + '" opacity=".6"/>'
-    + '<path d="M73 104 Q82 99 91 103 M109 103 Q118 99 127 104" stroke="' + brow + '" stroke-width="3" fill="none" stroke-linecap="round"/>'
-    + '<path d="M72 114 Q82 107 92 114 Q82 120 72 114Z M108 114 Q118 107 128 114 Q118 120 108 114Z" fill="#fff"/>'
-    + '<circle cx="82" cy="113.8" r="4.3" fill="' + o.eye + '"/><circle cx="118" cy="113.8" r="4.3" fill="' + o.eye + '"/><circle cx="82" cy="113.8" r="1.9" fill="#16100d"/><circle cx="118" cy="113.8" r="1.9" fill="#16100d"/>'
-    + '<path d="M70 114 Q82 106 94 114 M106 114 Q118 106 130 114" stroke="#1d2f3a" stroke-width="1.8" fill="none" stroke-linecap="round"/>'
-    + '<path d="M70 114 L65 111 M130 114 L135 111" stroke="#1d2f3a" stroke-width="1.6" stroke-linecap="round"/>'
-    + '<path d="M97 132 Q100 136 103 132" stroke="' + shade + '" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
-    + '<path d="M86 143 Q100 153 114 143 Q100 147 86 143Z" fill="' + lip + '"/><path d="M88 144 Q100 151 112 144 Q100 146 88 144Z" fill="#fff"/></g></svg>';
+    + '<path d="M48 112 C44 50 70 24 100 24 C132 24 156 50 152 112 C154 146 150 172 158 192 Q100 202 42 192 C50 172 46 146 48 112Z" fill="' + hair + '"/>'
+    + '<rect x="85" y="150" width="30" height="40" fill="' + shade + '"/>'
+    + '<path d="M14 240 C14 204 46 192 84 186 L116 186 C154 192 186 204 186 240Z" fill="' + top + '"/>'
+    + '<path d="M84 186 Q100 210 116 186Z" fill="' + shade + '"/>'
+    + '<ellipse cx="100" cy="168" rx="14" ry="6" fill="' + mixHex(skin, '#a05a40', 0.45) + '" opacity=".5"/>'
+    + '<ellipse cx="61" cy="118" rx="6" ry="8" fill="' + mixHex(skin, '#a05a40', 0.1) + '"/><ellipse cx="139" cy="118" rx="6" ry="8" fill="' + mixHex(skin, '#a05a40', 0.1) + '"/>'
+    + '<path d="M63 104 C63 76 80 62 100 62 C120 62 137 76 137 104 C137 140 121 166 100 166 C79 166 63 140 63 104Z" fill="' + skin + '"/>'
+    + '<path d="M56 114 C50 70 74 42 102 42 C130 42 150 70 144 114 C142 92 132 76 116 66 C100 86 78 92 56 114Z" fill="' + hair + '"/>'
+    + '<path d="M68 66 Q84 50 106 50 M122 56 Q138 66 142 88" stroke="' + shine + '" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".55"/>'
+    + '<ellipse cx="77" cy="136" rx="10" ry="7" fill="' + blush + '" opacity=".55"/><ellipse cx="123" cy="136" rx="10" ry="7" fill="' + blush + '" opacity=".55"/>'
+    + '<path d="M70 102 Q82 94 95 100 M105 100 Q118 94 130 102" stroke="' + brow + '" stroke-width="2.8" fill="none" stroke-linecap="round"/>'
+    + faceEye('fll', 81, 116, 13.5, o.eye, lash, lid, true) + faceEye('flr', 119, 116, 13.5, o.eye, lash, lid, false)
+    + '<path d="M97.5 126 Q95 134 97 138 Q100 141 103 138" stroke="' + shade + '" stroke-width="1.5" fill="none" stroke-linecap="round"/>'
+    + '<path d="M85 146 Q100 162 115 146 Q100 152 85 146Z" fill="' + lip + '"/><path d="M87.5 147 Q100 158 112.5 147 Q100 151 87.5 147Z" fill="#fff"/>'
+    + '</svg>';
 }
 function faceArt(o, group) {
   return '<div class="vc-face">' + (group === 'deep' ? faceDeep(o) : faceLight(o)) + faceChips(o) + '</div>';
