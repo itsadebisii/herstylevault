@@ -364,7 +364,7 @@ function makeBlocks(r){
     +'<div class="pdf-two"><div><p class="pdf-section-label">Bottoms</p>'+pdfList((r.bodyGuide.bots||[]).slice(0,4))+'</div><div><p class="pdf-section-label">Shop Your Colors &amp; Cuts</p><p style="font-size:0.74rem;color:#8A8378;margin:0 0 0.4rem;">Each link opens a live search at a store in your price range, so results stay current.</p>'+shopChips(r)+'</div></div>'});
   L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
     +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
-  if(window.HX){L.push(HX.formulas(r));if(HX.fabrics)L.push(HX.fabrics(r));L.push(HX.patterns(r));if(HX.capsule){L.push(HX.capsule(r));L.push(HX.recipes(r));L.push(HX.fitguide(r));L.push(HX.audit(r));L.push(HX.session(r));}}
+  if(window.HX){L.push(HX.formulas(r));if(HX.fabrics)L.push(HX.fabrics(r));L.push(HX.patterns(r));if(HX.capsule){L.push(HX.capsule(r));L.push(HX.recipes(r));L.push(HX.fitguide(r));L.push(HX.audit(r));if(!r.__shared)L.push(HX.session(r));}}
   return L;
 }
 /* Make sure the web fonts are really loaded before anything is measured or photographed.
@@ -721,6 +721,8 @@ async function init() {
     if (res.headers.get('x-hsv-saved') === '1') { REPORT_SAVED = true; writeCache(sessionId, report, SHARE_TOKEN); showSavedNote(); }
     if (data.photoBase64) report.__photo = 'data:' + (data.photoMediaType || 'image/jpeg') + ';base64,' + data.photoBase64;
     await renderReport(report);
+    /* the photo was only needed to build this report: once it is on screen, take it out of this browser's storage */
+    if (!PREVIEW) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(Object.assign({}, data, { photoBase64: null, photoMediaType: null }))); } catch (e2) {} }
   } catch (e) {
     showError('Something went wrong generating your report', (PREVIEW ? '[preview detail: ' + String((e && e.stack) || e).slice(0, 500) + '] ' : '') + 'Please try again in a moment.', true);
   }
