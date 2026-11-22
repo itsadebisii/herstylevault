@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="report-extra.js?v=68155010"></script>
+<script src="report-extra.js?v=9c4e4d63"></script>
 <style>
 :root{--bg:#FAF9F6;--surface:#EFECE6;--ink:#181716;--ink-soft:#6B6862;--line:#DCD8D0;--accent:#7A1321;--accent-deep:#4E0B14;--accent-ink:#FAF9F6;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -474,7 +474,7 @@ async function buildPdf(){
     const pdf=new jsPDF({unit:'px',format:[816,1056],compress:true});
     pdf.setProperties({title:'Signature Style Report',subject:'Your personalized color and body style report',author:'HerStyleVault',creator:'HerStyleVault'});
     for(let i=0;i<els.length;i++){
-      const canvas=await html2canvas(els[i],{scale:2,backgroundColor:'#ffffff',useCORS:true});
+      const canvas=await html2canvas(els[i],{scale:(/iP(hone|ad|od)|Android/.test(navigator.userAgent)?1.5:2),backgroundColor:'#ffffff',useCORS:true});
       if(i>0)pdf.addPage([816,1056],'portrait');
       pdf.addImage(canvas.toDataURL('image/jpeg',0.92),'JPEG',0,0,816,1056);
       canvas.width=canvas.height=0; /* free memory as we go (helps on phones) */
@@ -717,6 +717,7 @@ async function init() {
     const report = await res.json();
     report.hadPhoto = !!data.photoBase64;
     SHARE_TOKEN = report.shareToken || null; delete report.shareToken;
+    if (PREVIEW) { const nb2 = document.getElementById('prev-banner'); if (nb2) nb2.textContent += ' Report writer: ' + ((report.generatedBy && report.generatedBy.narrative === 'ai') ? 'AI is working.' : 'AI did NOT run (using the pre-written fallback).'); }
     if (res.headers.get('x-hsv-saved') === '1') { REPORT_SAVED = true; writeCache(sessionId, report, SHARE_TOKEN); showSavedNote(); }
     if (data.photoBase64) report.__photo = 'data:' + (data.photoMediaType || 'image/jpeg') + ';base64,' + data.photoBase64;
     await renderReport(report);

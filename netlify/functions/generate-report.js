@@ -432,7 +432,8 @@ function cleanLife(a) {
   out.goalDate = plainText(a.goalDate, 30);
   out.sizes = { top: plainText(a.sizeTop, 8), bottom: plainText(a.sizeBottom, 8), shoe: plainText(a.sizeShoe, 8) };
   out.inspo = plainText(a.inspo, 140);
-  out.any = !!(Object.keys(LIFE_OPTS).some(k => out[k]) || out.comfortFab.length || out.shopHabits.length || out.hairType.length || out.goalDate || out.inspo || out.sizes.top || out.sizes.bottom || out.sizes.shoe);
+  out.words = { go: plainText(a.pq1Other, 90), sold: plainText(a.pq2Other, 90), start: plainText(a.pq3Other, 90) };
+  out.any = !!(Object.keys(LIFE_OPTS).some(k => out[k]) || out.comfortFab.length || out.shopHabits.length || out.hairType.length || out.goalDate || out.inspo || out.words.go || out.words.sold || out.words.start || out.sizes.top || out.sizes.bottom || out.sizes.shoe);
   return out;
 }
 

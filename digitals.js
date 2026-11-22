@@ -36,8 +36,8 @@ var DIGITALS = [
     previews: [
       {src:'images/digitals/report-page-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
       {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
-      {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your color type and accessory guide', locked:true},
-      {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: silhouettes, shopping links and fabrics', locked:true}
+      {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your starter capsule of 12 pieces with shop links', locked:true},
+      {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: six complete outfit recipes', locked:true}
     ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
     short: "26 quick questions and an optional photo give you a custom style blueprint: your color season, body shape, and what to wear.",
     headline: 'Find your <em>colors</em> and your <em>shape</em> in about 5 minutes',
