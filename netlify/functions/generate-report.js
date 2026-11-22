@@ -217,7 +217,7 @@ function cleanDirections(answers) {
   return out;
 }
 
-exports.handler = async (event) => {
+async function run(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
@@ -409,4 +409,15 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     headers: Object.assign({ 'content-type': 'application/json' }, saved ? { 'x-hsv-saved': '1' } : {}),
     body: JSON.stringify(saved ? Object.assign({}, report, { shareToken: saved }) : report)
   };
+}
+
+exports.handler = async (event) => {
+  try {
+    return await run(event);
+  } catch (e) {
+    // On Netlify preview hosts only, say what broke so it can be fixed. Live visitors only ever see a generic message.
+    const host = String((event.headers && (event.headers['x-forwarded-host'] || event.headers.host)) || '');
+    const preview = /--herstylevault\.netlify\.app$/i.test(host);
+    return { statusCode: 500, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ error: preview ? 'Server error: ' + String((e && e.stack) || e).slice(0, 600) : 'Something went wrong' }) };
+  }
 };

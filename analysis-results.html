@@ -636,7 +636,7 @@ async function init() {
   }
 
   const PREVIEW = new URLSearchParams(window.location.search).get('preview') === '1';
-  if (PREVIEW) { const nb = document.createElement('div'); nb.style.cssText = 'background:#7A1321;color:#fff;font:600 12px/1.4 sans-serif;text-align:center;padding:8px 12px;position:sticky;top:0;z-index:50'; nb.textContent = 'PREVIEW TEST: not a real purchase. Nothing is saved or emailed.'; document.body.prepend(nb); }
+  if (PREVIEW && !document.getElementById('prev-banner')) { const nb = document.createElement('div'); nb.id = 'prev-banner'; nb.style.cssText = 'background:#7A1321;color:#fff;font:600 12px/1.4 sans-serif;text-align:center;padding:8px 12px;position:sticky;top:0;z-index:50'; nb.textContent = 'PREVIEW TEST: not a real purchase. Nothing is saved or emailed.'; document.body.prepend(nb); }
   const cached = PREVIEW ? null : readCache(sessionId);
   if (cached) { REPORT_SAVED = true; SHARE_TOKEN = cached.share || null; await renderReport(cached.report); showSavedNote(); return; }
 
@@ -675,7 +675,7 @@ async function init() {
       if (res.status === 402) {
         showError('Payment not confirmed yet', 'Give it a moment and try again — if this keeps happening, email us and we\'ll take care of it.', true);
       } else {
-        showError('Something went wrong generating your report', errBody.error || 'Please try again in a moment.', true);
+        showError('Something went wrong generating your report', (PREVIEW ? '[preview detail: HTTP ' + res.status + '] ' : '') + (errBody.error || 'Please try again in a moment.'), true);
       }
       return;
     }
@@ -687,7 +687,7 @@ async function init() {
     if (data.photoBase64) report.__photo = 'data:' + (data.photoMediaType || 'image/jpeg') + ';base64,' + data.photoBase64;
     await renderReport(report);
   } catch (e) {
-    showError('Something went wrong generating your report', 'Please try again in a moment.', true);
+    showError('Something went wrong generating your report', (PREVIEW ? '[preview detail: ' + String((e && e.stack) || e).slice(0, 500) + '] ' : '') + 'Please try again in a moment.', true);
   }
 }
 
