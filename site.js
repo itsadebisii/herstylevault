@@ -216,6 +216,86 @@ document.addEventListener('click', function(e){
   else hsvOpenForm('yPeEjp', { source: (b.textContent || '').trim().slice(0, 60) });
 }, true);
 
+/* ===== Style-11 =====
+   Opens as a pop-up from anywhere. Its files load the first time someone asks for it (or hovers/touches a Style-11 link). */
+var S11_V = '20261122a', s11Loading = null;
+function loadStyle11(){
+  if (window.Style11) return Promise.resolve();
+  if (s11Loading) return s11Loading;
+  s11Loading = new Promise(function(resolve, reject){
+    var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'style-11.css?v=' + S11_V; document.head.appendChild(l);
+    function add(src, next){ var t = document.createElement('script'); t.src = src + '?v=' + S11_V; t.onload = next; t.onerror = reject; document.head.appendChild(t); }
+    add('style-11-looks.js', function(){ add('style-11.js', resolve); });
+  });
+  s11Loading.catch(function(){ s11Loading = null; });
+  return s11Loading;
+}
+window.openStyle11 = function(look){
+  loadStyle11().then(function(){ Style11.open({look: look || null}); }).catch(function(){ window.location.href = 'style11.html'; });
+};
+document.addEventListener('click', function(e){
+  var t = e.target.closest ? e.target.closest('[data-style11]') : null;
+  if (!t || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  e.preventDefault();
+  var nl = document.getElementById('navLinks'); if (nl) nl.classList.remove('open');
+  if (t.classList.contains('lbk-s11')) t.classList.add('seen');
+  try { localStorage.setItem('hsv_s11_toast', String(Date.now())); } catch (x) {}
+  var tt = document.getElementById('s11Toast'); if (tt) tt.remove();
+  window.openStyle11();
+});
+['pointerenter', 'focusin', 'touchstart'].forEach(function(ev){
+  document.addEventListener(ev, function(e){ if (e.target.closest && e.target.closest('[data-style11]')) loadStyle11().catch(function(){}); }, {passive: true});
+});
+document.addEventListener('DOMContentLoaded', function(){
+  var h = window.location.hash || '', m = /^#look-(.+)$/.exec(h);
+  if (m) window.openStyle11(m[1]); else if (h === '#style-11') window.openStyle11();
+});
+
+/* Home page only: a small, quiet notification slides in at the bottom left after a few seconds, then tucks itself away.
+   It never covers content, is easy to dismiss, and stays away for a week once dismissed or used. */
+(function(){
+  if (!/^\/(index\.html)?$/.test(location.pathname)) return;
+  var KEY = 'hsv_s11_toast', WEEK = 7 * 864e5;
+  try { var last = +localStorage.getItem(KEY) || 0; if (last && Date.now() - last < WEEK) return; if (sessionStorage.getItem(KEY)) return; } catch (e) {}
+  var css = '#s11Toast{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:max(16px,calc(env(safe-area-inset-bottom,0px) + 16px));z-index:880;width:min(330px,calc(100vw - 28px));display:flex;align-items:stretch;background:rgba(255,253,251,.96);border:1px solid rgba(139,18,38,.28);border-radius:16px;box-shadow:0 10px 30px rgba(60,20,20,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transform:translateY(24px);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s;}'
+    + '#s11Toast.in{transform:none;opacity:1;}#s11Toast.out{transform:translateY(24px);opacity:0;}'
+    + '#s11Toast .t-main{flex:1;display:flex;align-items:center;gap:11px;min-width:0;padding:11px 8px 11px 12px;border:0;background:none;text-align:left;cursor:pointer;font-family:var(--font-body,sans-serif);color:#2A1814;}'
+    + '#s11Toast .t-ico{flex:none;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:#fff;border:1px solid rgba(139,18,38,.25);position:relative;}#s11Toast .t-ico img{width:26px;height:auto;display:block;}'
+    + '#s11Toast .t-ico i{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:99px;background:#8B1226;color:#fff;font:700 10px/17px var(--font-body,sans-serif);font-style:normal;text-align:center;box-shadow:0 0 0 2px #fff;}'
+    + '#s11Toast .t-txt{display:flex;flex-direction:column;min-width:0;}#s11Toast .t-top{font:600 11px/1.2 var(--font-body,sans-serif);color:#7A5A56;letter-spacing:.02em;}#s11Toast .t-top b{color:#2A1814;font-weight:600;}'
+    + '#s11Toast .t-msg{margin-top:2px;font:500 14px/1.3 var(--font-body,sans-serif);color:#2A1814;}#s11Toast .t-tap{margin-top:1px;font:600 11.5px/1.2 var(--font-body,sans-serif);color:#8B1226;}'
+    + '#s11Toast .t-x{flex:none;align-self:flex-start;width:32px;height:32px;margin:4px 4px 0 0;border:0;border-radius:50%;background:none;color:#7A5A56;font-size:20px;line-height:1;cursor:pointer;}#s11Toast .t-x:hover{background:#F7E4DD;}'
+    + '#s11Toast .t-main:focus-visible,#s11Toast .t-x:focus-visible{outline:2px solid #8B1226;outline-offset:2px;}'
+    + '@media (max-width:620px){#s11Toast{bottom:max(68px,calc(env(safe-area-inset-bottom,0px) + 68px));}}'
+    + '@media (prefers-reduced-motion:reduce){#s11Toast{transition:opacity .2s;transform:none;}#s11Toast.out{transform:none;}}';
+  function busy(){ return !!document.querySelector('#hsvChooser,#hsvFormModal,#s11Modal,#lookBox') || (document.getElementById('hsvHelper') && !document.getElementById('hsvHelper').hidden); }
+  function show(){
+    if (document.getElementById('s11Toast')) return;
+    if (busy()) { setTimeout(show, 4000); return; }
+    var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+    var t = document.createElement('div'); t.id = 's11Toast'; t.setAttribute('role', 'status');
+    t.innerHTML = '<button type="button" class="t-main" data-style11 aria-label="New message from HerStyleVault: Outfit emergency? Style-11 finds you a look. Tap to open.">' +
+      '<span class="t-ico"><img src="images/brand/icon-header.png" alt="" width="58" height="33"><i aria-hidden="true">1</i></span>' +
+      '<span class="t-txt"><span class="t-top"><b>HerStyleVault</b> &middot; now</span><span class="t-msg">Outfit emergency? 🚨 Style-11 finds you a look.</span><span class="t-tap">Tap to open</span></span></button>' +
+      '<button type="button" class="t-x" aria-label="Dismiss">×</button>';
+    document.body.appendChild(t);
+    var timer = null;
+    function hide(remember){
+      clearTimeout(timer); t.classList.remove('in'); t.classList.add('out');
+      try { sessionStorage.setItem(KEY, '1'); if (remember) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+      setTimeout(function(){ if (t.parentNode) t.remove(); }, 500);
+    }
+    function arm(){ clearTimeout(timer); timer = setTimeout(function(){ hide(false); }, 14000); }
+    t.querySelector('.t-x').addEventListener('click', function(){ hide(true); });
+    t.addEventListener('mouseenter', function(){ clearTimeout(timer); });
+    t.addEventListener('mouseleave', arm);
+    t.addEventListener('focusin', function(){ clearTimeout(timer); });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ t.classList.add('in'); }); });
+    arm();
+  }
+  window.addEventListener('load', function(){ setTimeout(show, 6000); });
+})();
+
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 function hsvScrollTop(){ var h = location.hash.replace('#',''); if (!h || !document.getElementById(h)) window.scrollTo(0, 0); }
 window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScrollTop, 120); });

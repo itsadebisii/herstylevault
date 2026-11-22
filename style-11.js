@@ -4,11 +4,12 @@
    Optional settings (set before this file loads):
      window.STYLE11_PAY_URL       Stripe link for the day pass
      window.STYLE11_WAITLIST_URL  Google Apps Script URL that receives waitlist emails
-     window.STYLE11_FREE_ROLLS    free rolls per day (default 3) */
+     window.STYLE11_FREE_ROLLS    free rolls per day (default 3)
+     window.STYLE11_CLIENT_CODES  array of codes you give booked clients; a valid code unlocks unlimited rolls on that device */
 (function(){
   var LOOKS = window.STYLE11_LOOKS || [];
   var FREE_ROLLS = window.STYLE11_FREE_ROLLS || 3;
-  var RKEY = 'hsv_s11_rolls', SKEY = 'hsv_s11_saved';
+  var RKEY = 'hsv_s11_rolls', SKEY = 'hsv_s11_saved', CKEY = 'hsv_s11_client', EARN = 3;
   var ICON = 'images/brand/icon-header.png';
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var noHover = window.matchMedia && matchMedia('(hover: none)').matches;
@@ -45,9 +46,11 @@
     return r;
   }
   function saveRolls(r){ try { localStorage.setItem(RKEY, JSON.stringify(r)); } catch (e) {} }
-  function rollsLeft(){ var r = rolls(); return Math.max(0, FREE_ROLLS + (r.bonus || 0) - r.used); }
-  function useRoll(){ var r = rolls(); if (FREE_ROLLS + (r.bonus || 0) - r.used <= 0) return false; r.used += 1; saveRolls(r); return true; }
-  function addBonus(n){ var r = rolls(); r.bonus = (r.bonus || 0) + n; saveRolls(r); }
+  function isClient(){ try { return localStorage.getItem(CKEY) === '1'; } catch (e) { return false; } }
+  function canEarn(){ return (rolls().bonus || 0) < EARN; }
+  function rollsLeft(){ if (isClient()) return 99; var r = rolls(); return Math.max(0, FREE_ROLLS + (r.bonus || 0) - r.used); }
+  function useRoll(){ if (isClient()) return true; var r = rolls(); if (FREE_ROLLS + (r.bonus || 0) - r.used <= 0) return false; r.used += 1; saveRolls(r); return true; }
+  function addBonus(n){ var r = rolls(); if ((r.bonus || 0) >= EARN) return false; r.bonus = (r.bonus || 0) + n; saveRolls(r); return true; }
 
   /* ---------- saved looks ---------- */
   function savedList(){ try { var s = JSON.parse(localStorage.getItem(SKEY) || '[]'); return Array.isArray(s) ? s : []; } catch (e) { return []; } }
@@ -135,8 +138,9 @@
     function renderIntro(){
       return '<div class="s9-hero s11-intro"><p class="s9-psst">Style-11, what’s your outfit emergency?</p>' +
         '<h' + hl + ' class="s9-title" data-title tabindex="-1"><span class="h1-kw">Style-11 outfit shuffle</span><span aria-hidden="true">Style-<em>11</em></span></h' + hl + '>' +
-        '<p class="s9-sub">Nothing to wear? Roll for it.</p>' + chatHtml() +
-        '<div class="s11-slot"><button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages">Skip</button><button type="button" class="lbk-btn s9-start s11-pop" style="--d:3.4s" data-act="start">Help me out</button></div></div>';
+        '<p class="s9-sub">Nothing to wear? Roll for it.</p>' +
+        '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages">Skip</button>' + chatHtml() +
+        '<div class="s11-slot"><button type="button" class="lbk-btn s9-start s11-pop" style="--d:3.4s" data-act="start">Help me out</button></div><button type="button" class="link-btn s11-howlink" data-act="how">How it works</button></div>';
     }
     function renderBrief(){
       var s = STEPS[st.step], b = st.brief, list = s.list(b), total = STEPS.length;
@@ -150,10 +154,11 @@
         '<p class="s9-qn">Step ' + (st.step + 1) + ' of ' + total + '</p>' +
         '<div class="s9-step in"><h2 class="s11-q" id="s11q" data-title tabindex="-1">' + s.title + '</h2>' + (s.note ? '<p class="s11-note">' + s.note + '</p>' : '') +
         '<div class="s9-opts' + cols + '" role="group" aria-labelledby="s11q">' + opts + '</div></div>' +
-        '<button type="button" class="s9-back-btn" data-act="back">‹ Back</button></section>';
+        '<button type="button" class="s9-back-btn" data-act="back">‹ Back</button> <button type="button" class="link-btn" data-act="how">How it works</button></section>';
     }
     function meterHtml(){
       var left = rollsLeft(), pips = '';
+      if (isClient()) return '<div class="s11-meter" role="status"><span>Rolls today</span><b>Unlimited</b></div>';
       for (var i = 0; i < FREE_ROLLS + (rolls().bonus || 0); i++) pips += '<i class="' + (i < left ? 'on' : '') + '"></i>';
       return '<div class="s11-meter" role="status"><span>Rolls today</span><span class="pips" aria-hidden="true">' + pips + '</span><b>' + left + ' left</b></div>';
     }
@@ -209,19 +214,30 @@
         (n ? '<button type="button" class="link-btn" data-act="saved">Saved (' + n + ')</button>' : '') + '</div>' +
         meterHtml() + methodsHtml() + '<p class="s11-how">' + howText() + '</p>' +
         (left ? stageHtml() : '<div class="s11-out"><p>You have used today’s rolls.</p><button type="button" class="lbk-btn s9-rollbtn" data-act="locked">Get more rolls</button></div>') +
-        '<button type="button" class="s9-back-btn" data-act="back">‹ Back</button><p class="s9-hint" role="status" aria-live="polite"></p></section>';
+        '<button type="button" class="s9-back-btn" data-act="back">‹ Back</button> <button type="button" class="link-btn" data-act="how">How it works</button><p class="s9-hint" role="status" aria-live="polite"></p></section>';
     }
     function renderLocked(){
-      var wl = '';
+      var total = FREE_ROLLS + EARN, back = '<button type="button" class="s9-back-btn" data-act="toplay">‹ Back</button></section>';
+      var wlCard = !window.STYLE11_WAITLIST_URL ? '' : '<div class="s11-offer"><span class="tag">Coming soon</span><h3>Membership waitlist</h3><p>Unlimited rolls, new flat lays first and member-only looks. Join the waitlist and you are enrolled the day it opens.</p>' +
+        '<form class="s11-wl" id="wl" novalidate><label class="s11-vh" for="wlEmail">Email</label><input id="wlEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button type="submit" class="lbk-btn ghost">Join the waitlist</button></form><p class="s9-hint" id="wlMsg" role="status" aria-live="polite"></p></div>';
+      if (!canEarn()) {
+        /* all rolls used (free + earned): the only way forward is a package */
+        return '<section class="s9-quiz s11-locked"><p class="s11-kicker">All ' + total + ' rolls used</p><h2 class="s9-h2" data-title tabindex="-1">Want more rolls?</h2>' +
+          '<p class="s9-rsub">You have used all ' + total + ' of today’s free rolls. Book a package to keep going.</p>' +
+          '<div class="s11-offers">' +
+          '<div class="s11-offer feat"><span class="tag">Best way to unlock</span><h3>Book a package</h3><p>Every package unlocks more Style-11 rolls, plus you get me styling you for real.</p><a class="lbk-btn" href="packages.html" data-act="book">See the packages</a></div>' +
+          ((window.STYLE11_CLIENT_CODES || []).length ? '<div class="s11-offer"><span class="tag">Already booked?</span><h3>Enter your client code</h3><p>Your code is in your booking confirmation.</p>' +
+          '<form class="s11-wl" id="cc" novalidate><label class="s11-vh" for="ccCode">Client code</label><input id="ccCode" type="text" autocomplete="off" autocapitalize="characters" placeholder="Your code" required><button type="submit" class="lbk-btn ghost">Unlock my rolls</button></form><p class="s9-hint" id="ccMsg" role="status" aria-live="polite"></p></div>' : '') +
+          wlCard +
+          '</div><p class="s11-fine">Free rolls reset tomorrow.</p>' + back;
+      }
       return '<section class="s9-quiz s11-locked"><p class="s11-kicker">Today’s rolls are used</p><h2 class="s9-h2" data-title tabindex="-1">Keep rolling</h2>' +
         '<p class="s9-rsub">You have used your ' + FREE_ROLLS + ' free rolls today.</p>' +
         '<div class="s11-offers">' +
         (window.STYLE11_PAY_URL ? '<div class="s11-offer feat"><span class="tag">Quick</span><h3>Day pass</h3><p class="price">$3</p><p>Unlimited rolls, spins and picks for 24 hours.</p><button type="button" class="lbk-btn" data-act="pay">Get the day pass</button></div>' : '') +
-        '<div class="s11-offer"><span class="tag">Free</span><h3>Earn 3 more rolls</h3><p>Take a look at my packages, then come back for 3 more.</p><a class="lbk-btn ghost" href="packages.html" target="_blank" rel="noopener" data-act="earn">See the packages</a></div>' +
-        (window.STYLE11_WAITLIST_URL ? '<div class="s11-offer"><span class="tag">Coming soon</span><h3>Membership waitlist</h3><p>Unlimited rolls, new flat lays first and member-only looks. Join the waitlist and you are enrolled the day it opens.</p>' +
-        '<form class="s11-wl" id="wl" novalidate><label class="s11-vh" for="wlEmail">Email</label><input id="wlEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button type="submit" class="lbk-btn ghost">Join the waitlist</button></form><p class="s9-hint" id="wlMsg" role="status" aria-live="polite"></p></div>' : '') +
-        '</div><p class="s11-fine">Or come back tomorrow for ' + FREE_ROLLS + ' more free rolls.</p>' +
-        '<button type="button" class="s9-back-btn" data-act="toplay">‹ Back</button></section>';
+        '<div class="s11-offer"><span class="tag">Free, one time</span><h3>Earn ' + EARN + ' more rolls</h3><p>Take a look at my packages, then come back for ' + EARN + ' more.</p><a class="lbk-btn ghost" href="packages.html" target="_blank" rel="noopener" data-act="earn">See the packages</a></div>' +
+        wlCard +
+        '</div><p class="s11-fine">Or come back tomorrow for ' + FREE_ROLLS + ' more free rolls.</p>' + back;
     }
     function hotspots(look, flagTypes){
       return look.pieces.map(function(p){
@@ -248,8 +264,8 @@
         '<button type="button" class="s11-heart" data-act="save" aria-pressed="' + saved + '" aria-label="' + (saved ? 'Remove from saved looks' : 'Save this look') + '">' + IC.heart + '</button>' +
         '<p class="s9-rk">Your Style-11 pick</p>' + match +
         (l.wearing ? '<p class="s9-wear"><img src="' + ICON + '" alt="" width="58" height="33"> I’m wearing this</p>' : '') +
-        '<div class="s9-board"><img src="' + esc(l.art) + '" alt="' + esc(l.alt) + '">' + hotspots(l, flagTypes) + '</div>' +
-        '<p class="s9-boardhint">' + (noHover ? 'Tap a piece to shop it.' : 'Hover a piece to shop it.') + '</p>' + credit +
+        '<div class="s9-board pre"><img src="' + esc(l.art) + '" alt="' + esc(l.alt) + '">' + hotspots(l, flagTypes) + '</div>' +
+        '<p class="s9-boardhint"><svg class="bh-ic" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 14a8 8 0 0 1-8 8"/><path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1"/><path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span>' + (noHover ? 'Tap any piece to shop it' : 'Hover any piece to shop it') + '</span></p>' + credit +
         (focusPiece ? '<a class="s11-focus" href="' + esc(focusPiece.url) + '" target="_blank" rel="noopener noreferrer' + (focusPiece.affiliate ? ' sponsored' : '') + '"><small>' + focusLabel + '</small><strong>' + esc(focusPiece.name) + '</strong><span>Get this piece' + star(focusPiece.affiliate) + ' &rarr;</span></a>' : '') +
         '<h3 data-title tabindex="-1">' + esc(l.title) + '</h3>' + tags +
         '<span class="lbk-dots" aria-hidden="true">' + (l.colors || []).map(function(c){ return '<b style="background:' + c[1] + '"></b>'; }).join('') + '</span>' +
@@ -262,6 +278,19 @@
         '<button type="button" class="lbk-btn ghost" data-act="copy">Copy link to this look</button>' +
         '<a class="lbk-btn ghost" href="' + pinUrl(st.fromBrief ? b : null) + '" target="_blank" rel="noopener noreferrer">More ideas on Pinterest</a>' +
         '<a class="s9-down" href="services.html"' + (modal ? ' target="_top"' : '') + '>Want it styled just for you? See my services</a></div></section>';
+    }
+    function renderHow(){
+      return '<section class="s9-quiz s11-how-card"><p class="s11-kicker">How it works</p><h2 class="s9-h2" data-title tabindex="-1">Three quick steps</h2>' +
+        '<div class="s9-card s11-howtiles"><ol class="s9-tiles">' +
+        '<li><b>1</b><strong>Tell me the plan</strong><span>Six quick questions: the occasion, the time, what you need, your vibe, the weather and your age range.</span></li>' +
+        '<li><b>2</b><strong>Roll, spin or pick</strong><span>Each one shuffles looks matched to your answers.</span></li>' +
+        '<li><b>3</b><strong>Shop it</strong><span>Tap a piece to get it, or get the whole look in one tap.</span></li></ol>' +
+        '<details><summary>Good to know</summary><ul class="s9-tiles two">' +
+        '<li><strong>' + FREE_ROLLS + ' free rolls a day, ' + (FREE_ROLLS + EARN) + ' with a peek at the packages</strong><span>Look at the packages for 3 more. After that, book a package to unlock more rolls.</span></li>' +
+        '<li><strong>Always fresh</strong><span>New looks and links are added all the time.</span></li>' +
+        '<li><strong>Sizing</strong><span>Every shop sizes differently, so check each size chart.</span></li>' +
+        '<li><strong>Affiliate links*</strong><span>Some links earn me a small commission, at no cost to you.</span></li></ul></details></div>' +
+        '<button type="button" class="s9-back-btn" data-act="backhow">‹ Back</button></section>';
     }
     function renderSaved(){
       var ids = savedList(), items = ids.map(function(id){ return LOOKS.filter(function(l){ return l.slug === id; })[0]; }).filter(Boolean);
@@ -277,10 +306,39 @@
       else if (s === 'play') view.innerHTML = renderPlay();
       else if (s === 'locked') view.innerHTML = renderLocked();
       else if (s === 'saved') view.innerHTML = renderSaved();
+      else if (s === 'how') view.innerHTML = renderHow();
       else if (s === 'result') view.innerHTML = renderResult(st.result);
+      if (s === 'result') { clearTimeout(st.spreadT); st.spreadT = setTimeout(spreadTags, reduce ? 80 : (view.querySelectorAll('.hs').length * 160 + 1500)); }
       if (focus) focusTitle();
       if (modal) { var body = root.closest('.s11-body'); if (body && s !== 'result') body.scrollTop = 0; }
     }
+
+    /* keep the "Get this piece" tags from stacking on each other: nudge any that overlap */
+    function spreadTags(){
+      var board = view.querySelector('.s9-board.pre'); if (!board) return;
+      var br = board.getBoundingClientRect(), items = [];
+      Array.prototype.forEach.call(board.querySelectorAll('.hs'), function(h){ h.style.removeProperty('--dy'); });
+      Array.prototype.forEach.call(board.querySelectorAll('.hs:not(.tapped)'), function(h){
+        var t = h.querySelector('.tg'); if (!t || getComputedStyle(t).display === 'none') return;
+        var r = t.getBoundingClientRect(); items.push({h:h, top:r.top, bottom:r.bottom, left:r.left, right:r.right});
+      });
+      items.sort(function(a, b){ return a.top - b.top; });
+      var placed = [];
+      items.forEach(function(it){
+        var dy = 0, tries = 0, hit;
+        do {
+          hit = null;
+          for (var k = 0; k < placed.length; k++) { var p = placed[k];
+            if (it.left < p.right + 4 && p.left < it.right + 4 && it.top + dy < p.bottom + 4 && p.top < it.bottom + dy + 4) { hit = p; break; } }
+          if (hit) dy = hit.bottom + 5 - it.top;
+        } while (hit && ++tries < 10);
+        if (it.bottom + dy > br.bottom - 4) dy = Math.min(dy, br.bottom - 4 - it.bottom);
+        if (it.top + dy < br.top + 4) dy = br.top + 4 - it.top;
+        it.h.style.setProperty('--dy', Math.round(dy) + 'px');
+        placed.push({left:it.left, right:it.right, top:it.top + dy, bottom:it.bottom + dy});
+      });
+    }
+    window.addEventListener('resize', function(){ clearTimeout(st.spreadT); st.spreadT = setTimeout(spreadTags, 150); });
 
     /* ---------- choosing a look ---------- */
     function candidates(){ return ranked(st.brief).slice(0, 6); }
@@ -367,8 +425,10 @@
     }
 
     /* ---------- events ---------- */
+    root.addEventListener('mouseover', function(e){ var h = e.target.closest ? e.target.closest('.hs') : null; if (h) { h.classList.add('tapped'); var bd = h.closest('.s9-board'); if (bd) bd.classList.add('learned'); } });
     root.addEventListener('click', function(e){
       var hs = e.target.closest('.hs');
+      if (hs) { hs.classList.add('tapped'); var bd = hs.closest('.s9-board'); if (bd) bd.classList.add('learned'); }
       Array.prototype.forEach.call(root.querySelectorAll('.hs.active'), function(x){ if (x !== hs) x.classList.remove('active'); });
       if (hs && noHover && !hs.classList.contains('active')) { e.preventDefault(); hs.classList.add('active'); return; }
       var mb = e.target.closest('[data-method]'); if (mb) { if (!st.busy) { st.method = mb.getAttribute('data-method'); go('play'); } return; }
@@ -398,6 +458,8 @@
         else go('intro');
       }
       else if (what === 'toplay') go('play');
+      else if (what === 'how') { st.from = st.screen; go('how'); }
+      else if (what === 'backhow') go(st.from || 'intro');
       else if (what === 'edit') { st.step = 0; go('brief'); }
       else if (what === 'saved') go('saved');
       else if (what === 'roll') roll();
@@ -412,15 +474,22 @@
       }
       else if (what === 'links') { var ul = view.querySelector('#s11links'), open = ul.hidden; ul.hidden = !open; act.setAttribute('aria-expanded', open); act.textContent = open ? 'Hide the links' : 'Get all the links'; }
       else if (what === 'copy') {
-        var url = new URL('style11.html#look-' + st.result.look.slug, location.href).href;
+        var url = new URL('index.html#look-' + st.result.look.slug, location.href).href;
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function(){ say('Link copied'); }, function(){ say(url); }); else say(url);
       }
       else if (what === 'pay') {
         if (window.STYLE11_PAY_URL) window.open(window.STYLE11_PAY_URL, '_blank', 'noopener'); else say('Preview: your Stripe link goes here');
       }
-      else if (what === 'earn') { addBonus(3); say('3 more rolls added. Come back after you look around.'); }
+      else if (what === 'earn') { if (addBonus(EARN)) { say(EARN + ' more rolls added. Come back after you look around.'); setTimeout(function(){ st.picks = null; go('play'); }, 500); } }
     });
     root.addEventListener('submit', function(e){
+      if (e.target.id === 'cc') {
+        e.preventDefault();
+        var code = view.querySelector('#ccCode').value.trim().toUpperCase(), cm = view.querySelector('#ccMsg'), codes = (window.STYLE11_CLIENT_CODES || []).map(function(x){ return String(x).trim().toUpperCase(); });
+        if (code && codes.indexOf(code) > -1) { try { localStorage.setItem(CKEY, '1'); } catch (x) {} cm.textContent = 'Unlocked. Roll away!'; setTimeout(function(){ st.picks = null; go('play'); }, 700); }
+        else cm.textContent = codes.length ? 'That code did not work. Check your booking confirmation.' : 'Preview: your client codes go in STYLE11_CLIENT_CODES.';
+        return;
+      }
       if (e.target.id !== 'wl') return; e.preventDefault();
       var email = view.querySelector('#wlEmail').value.trim(), msg = view.querySelector('#wlMsg');
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'Please enter a valid email address.'; return; }
@@ -430,8 +499,7 @@
     });
 
     /* open a look straight from a shared link: style-11.html#look-champagne-nights */
-    var m = (opts.hash !== false) && /^#look-(.+)$/.exec(location.hash || '');
-    var direct = m && LOOKS.filter(function(l){ return l.slug === m[1]; })[0];
+    var direct = opts.look && LOOKS.filter(function(l){ return l.slug === opts.look; })[0];
     if (direct) { st.result = {look:direct, s:0}; st.fromBrief = false; st.screen = 'result'; }
     render(false);
     return {root: root};
@@ -439,15 +507,15 @@
 
   /* ---------- pop-up ---------- */
   var openEl = null, lastFocus = null;
-  function open(){
+  function open(o){
     if (openEl) return;
     lastFocus = document.activeElement;
     var m = document.createElement('div');
     m.className = 's11-modal'; m.id = 's11Modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', 'Style-11 outfit shuffle');
-    m.innerHTML = '<div class="s11-dlg"><button type="button" class="s11-x" aria-label="Close">×</button><div class="s11-body s9-wall"></div></div>';
+    m.innerHTML = '<div class="s11-dlg"><button type="button" class="s11-x" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><div class="s11-body s9-wall"></div></div>';
     document.body.appendChild(m); openEl = m;
     document.documentElement.style.overflow = 'hidden';
-    mount(m.querySelector('.s11-body'), {modal:true, heading:2, hash:false});
+    mount(m.querySelector('.s11-body'), {modal:true, heading:2, look:(o && o.look) || null});
     m.addEventListener('click', function(e){ if (e.target === m || e.target.closest('.s11-x')) close(); });
     document.addEventListener('keydown', onKey);
     m.querySelector('.s11-x').focus();

@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css?v=31df6b11">
+<link rel="stylesheet" href="theme.css?v=50d177fc">
 </head>
 <body class="lbk-page">
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
@@ -38,6 +38,11 @@
 </section>
 
 <section class="lbk-looks" id="lookGrid" aria-label="The looks"><noscript><p class="lbk-count">Turn on JavaScript to browse the looks, or <a href="book.html">book a free consultation</a>.</p></noscript></section>
+<a class="lbk-notif" href="style11.html" data-style11 aria-label="New message from HerStyleVault: Nothing to wear? Style-11 can help. Tap to open.">
+<span class="ln-ico"><img src="images/brand/icon-header.png" alt="" width="58" height="33"></span>
+<span class="ln-body"><span class="ln-top"><b>HerStyleVault</b><i>now</i></span><span class="ln-msg">Nothing to wear? &#x1F6A8; Style-11 can help.</span><span class="ln-tap">Tap to open</span></span>
+<span class="ln-dot" aria-hidden="true">1</span>
+</a>
 </div>
 
 <section class="lbk-end">
@@ -48,7 +53,7 @@
 </section>
 
 <footer class="site"><div class="footer-mount"></div></footer>
-<script src="site.js?v=37de4a42"></script>
+<script src="site.js?v=f1bbce1c"></script>
 <script src="lookbook.js"></script>
 <script>
 (function(){
@@ -73,7 +78,7 @@
   function dots(cols){ return '<span class="lbk-dots" aria-hidden="true">' + cols.map(function(c){ return '<b style="background:' + c[1] + '"></b>'; }).join('') + '</span>'; }
   function tagOf(i){ return i.tag; }
   function art(i, big){ return '<span class="lbk-pic' + (big ? ' big' : '') + '">' + plate() + '<img class="lbk-art' + (i.fit ? ' contain' : '') + '" src="' + i.art + '" alt="' + esc(i.alt) + '" loading="' + (big ? 'eager' : 'lazy') + '"></span>'; }
-  me.innerHTML = '<div class="lbk-pl">' + plate() + '<img class="lbk-photo" src="images/brand/photo-cover.jpg" alt="Adebisi, the stylist behind HerStyleVault, seated on a burgundy velvet sofa" loading="eager"><span class="lbk-sticker"><img src="images/brand/icon-header.png" alt="" width="58" height="33"></span></div>';
+  me.innerHTML = '<div class="lbk-pl">' + plate() + '<img class="lbk-photo" src="images/brand/photo-cover.jpg" alt="Adebisi, the stylist behind HerStyleVault, seated on a burgundy velvet sofa" loading="eager"><a class="lbk-sticker lbk-s11" id="lbkHanger" href="style11.html" data-style11 aria-label="Style-11, 1 new message" title="Style-11"><img src="images/brand/icon-header.png" alt="" width="58" height="33"><i class="lbk-badge" aria-hidden="true">1</i></a></div>';
 
   function tags(){
     var seen = ['All'];
