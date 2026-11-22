@@ -135,7 +135,8 @@
     var v = (r.persona && r.persona.vibe) || '', n = (r.persona && r.persona.name) || '', f = dirs(r).feel;
     var T = { tailored: 'Polished and groomed: defined brows, a clean base and a satin lip.', luxury: 'Quiet and expensive: glowy skin, a soft neutral lip and neat, shiny hair.', sleek: 'Clean skin with one sharp feature: a deep lip or a crisp liner.', feminine: 'Soft and romantic: rosy cheeks, a glossy lip and soft waves or smooth hair.', casual: 'Skin first: a light base, tinted lip balm and easy, natural hair.', bold: 'Pick one statement feature, like a vivid lip or graphic liner, and keep the rest simple.', classic: 'Classic and balanced: groomed brows, a definite lip in your shades and neat hair.', sporty: 'Fresh and low-maintenance: tinted SPF, clear or tinted gloss and hair that stays put.', alt: 'Dark and dramatic: a deep lip or smoky liner in your shades, sharp brows and a matte or satin base.' };
     var t = T[v] || 'Start with your shades and keep the rest simple.';
-    if (f.indexOf('confident') > -1 || f.indexOf('expressive') > -1) t += ' You want to feel confident, so do not be afraid to go one shade bolder.';
+    if (f.indexOf('edgy') > -1) t += ' You want an edge, so a deep lip or smoky liner from your own shades suits you.';
+    else if (f.indexOf('confident') > -1 || f.indexOf('expressive') > -1) t += ' You want to feel confident, so do not be afraid to go one shade bolder.';
     else if (f.indexOf('comfy') > -1) t += ' You want to feel comfortable, so choose lightweight formulas.';
     return (n ? E(n) + ': ' : '') + E(t);
   }
@@ -361,8 +362,8 @@
       ['watercolor', 'Watercolor print', warm ? 'Terracotta + ochre' : 'Rose + dusty blue', 'Soft edges and blended color. Pretty on a scarf, blouse or flowy dress.', '', img(warm ? 'watercolor-warm.jpg' : 'watercolor.jpg'), ['feminine', 'casual', 'luxury'], 0, -1, 'blended'],
       ['paisley', 'Paisley', warm ? 'Rust + deep red' : 'Teal + navy', 'Rich and vintage. Try it as a scarf, blouse or lining.', '', img(warm ? 'paisley.jpg' : 'paisley-cool.jpg'), ['alt', 'luxury', 'classic', 'casual'], 0, 0, 'blended']
     ];
-    var FEEL = { expressive: ['leopard', 'zebra', 'floral', 'crocred', 'paisley', 'bigfloral', 'snake'], trend: ['leopard', 'zebra', 'crocred', 'tortoise', 'snake', 'watercolor'], elegant: ['crocog', 'tortoise', 'polka', 'crocred', 'paisley', 'hound'], comfy: ['stripe', 'gingham', 'plaid'], feminine: ['floral', 'gingham', 'polka', 'tortoise', 'bigfloral', 'watercolor'], confident: ['leopard', 'zebra', 'crocred', 'snake', 'hound', 'pinstripe'] };
-    var FEELW = { expressive: 'express yourself', trend: 'feel stylish and on-trend', elegant: 'feel elegant', comfy: 'feel comfortable', feminine: 'feel feminine', confident: 'feel confident' };
+    var FEEL = { expressive: ['leopard', 'zebra', 'floral', 'crocred', 'paisley', 'bigfloral', 'snake'], trend: ['leopard', 'zebra', 'crocred', 'tortoise', 'snake', 'watercolor'], elegant: ['crocog', 'tortoise', 'polka', 'crocred', 'paisley', 'hound'], comfy: ['stripe', 'gingham', 'plaid'], feminine: ['floral', 'gingham', 'polka', 'tortoise', 'bigfloral', 'watercolor'], confident: ['leopard', 'zebra', 'crocred', 'snake', 'hound', 'pinstripe'], edgy: ['plaid', 'zebra', 'leopard', 'snake', 'hound', 'crocred', 'paisley'] };
+    var FEELW = { expressive: 'express yourself', trend: 'feel stylish and on-trend', elegant: 'feel elegant', comfy: 'feel comfortable', feminine: 'feel feminine', confident: 'feel confident', edgy: 'feel edgy and a little dark' };
     var scored = LIB.map(function (t, i) {
       var parts = [], vi = t[6].indexOf(vibe);
       if (vi > -1) parts.push([vi < 2 ? 3 : 2, pname ? 'Matches your ' + pname + ' style.' : 'Matches your style direction.']);

@@ -245,7 +245,7 @@ const DEPTH_KEYS = ['porcelain','ivory','fair','light','beige','sand','medium','
 const DIRECTION_OPTS = {
   showOff: ['arms','shoulders','neckline','back','waist','legs','other'],
   quiet: ['arms','shoulders','neckline','back','midsection','hips','legs','none'],
-  feel: ['confident','elegant','comfy','trend','expressive','feminine'],
+  feel: ['confident','elegant','comfy','trend','expressive','feminine','edgy'],
   worksBest: ['everyday','work','dates','travel','photos','special'],
   guideFirst: ['colors','cuts','formulas','shopping','avoid','tips']
 };

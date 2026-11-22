@@ -234,7 +234,7 @@ const QUESTIONS = [
   { section: 'about', label: 'About you', noCount: true, n: 1, of: 1, key: 'ageBracket', text: 'Which age range are you in?', hint: 'We use this to match the examples in your questions to your life.', options: [opt('18–24','18-24'), opt('25–34','25-34'), opt('35–44','35-44'), opt('45+','45+')] },
   { section: 'persona', label: 'Style Direction', n: 1, of: 9, key: 'showOff', multi: true, max: 3, text: "What do you like to show off?", hint: "Choose 1-3.", options: [opt('Arms','arms','zone:arms'), opt('Shoulders','shoulders','zone:shoulders'), opt('Neckline','neckline','zone:neckline'), opt('Back','back','zone:back'), opt('Waist','waist','zone:waist'), opt('Legs','legs','zone:legs'), opt('Other','other','ico:pencil')] },
   { section: 'persona', label: 'Style Direction', n: 2, of: 9, key: 'quiet', multi: true, max: 3, text: "What do you prefer to keep less attention on?", hint: "Choose 1-3. Skip any you like. This helps us pick cuts and layers that feel good to you.", options: [opt('Arms','arms','zone:arms'), opt('Shoulders','shoulders','zone:shoulders'), opt('Neckline','neckline','zone:neckline'), opt('Back','back','zone:back'), opt('Midsection (stomach and waist)','midsection','zone:mid'), opt('Hips and thighs','hips','zone:hips'), opt('Legs','legs','zone:legs'), opt('Nothing, I love it all','none','ico:flower')] },
-  { section: 'persona', label: 'Style Direction', n: 3, of: 9, key: 'feel', multi: true, max: 3, text: "How do you want to feel in your outfits?", hint: "Choose 1-3.", options: [opt('Confident and empowered','confident','ico:star'), opt('Sophisticated and elegant','elegant','ico:gem'), opt('Comfortable and at ease','comfy','ico:sofa'), opt('Stylish and on-trend','trend','ico:trend'), opt('Unique and expressive','expressive','ico:palette'), opt('Feminine and attractive','feminine','ico:flower')] },
+  { section: 'persona', label: 'Style Direction', n: 3, of: 9, key: 'feel', multi: true, max: 3, text: "How do you want to feel in your outfits?", hint: "Choose 1-3.", options: [opt('Confident and empowered','confident','ico:star'), opt('Sophisticated and elegant','elegant','ico:gem'), opt('Comfortable and at ease','comfy','ico:sofa'), opt('Stylish and on-trend','trend','ico:trend'), opt('Unique and expressive','expressive','ico:palette'), opt('Feminine and attractive','feminine','ico:flower'), opt('Edgy, dark and a little rebellious','edgy','ico:star')] },
   { section: 'persona', label: 'Style Direction', n: 4, of: 9, key: 'worksBest', multi: true, max: 3, text: "Where do you want your outfits to work best?", hint: "Choose 1-3. This decides which outfit ideas we put first.", options: [opt('Everyday outfits','everyday','ico:sun'), opt('Work or professional looks','work','ico:brief'), opt('Dates and events','dates','ico:wine'), opt('Travel','travel','ico:case'), opt('Photos and social','photos','ico:camera'), opt('Special occasions','special','ico:ribbon')] },
   { section: 'persona', label: 'Style Direction', n: 5, of: 9, key: 'guideFirst', multi: true, max: 3, text: "What should your report help you with first?", hint: "Choose 1-3.", options: [opt('My color palette and how to wear it','colors','ico:palette'), opt('Best cuts and silhouettes','cuts','ico:gem'), opt('Outfit formulas for my shape','formulas','ico:star'), opt("Shopping dos and don'ts",'shopping','ico:case'), opt('What to avoid and why','avoid','ico:sofa'), opt('Styling tips for real-life outfits','tips','ico:sun')] },
   { section: 'persona', n: 6, of: 9, key: 'pq1', text: 'You have 10 minutes to get ready for dinner. What do you usually put on?', dynamic: true },
@@ -847,7 +847,7 @@ const WHY = {
   compColors: 'Your picks help us decide if your palette leans warm, cool or neutral.',
   wash: 'Colors that wash you out go straight into the Avoid list in your report.',
   depth: 'Your skin depth decides how light or deep your palette should be, and it sets the shade range we show you.',
-  contrast: 'Contrast is how much your hair, skin and eyes stand apart from each other. It tells us if you suit crisp, high-contrast outfits or softer blends.',
+  contrast: 'Contrast is how much your natural hair, skin and eyes stand apart from each other, so use your natural hair color even if you dye it. It tells us if you suit crisp, high-contrast outfits or softer blends.',
   chroma: 'Bright or soft decides how saturated your colors should be, so they look rich and never loud or dull on you.',
   fit: 'Where clothes fit you easily tells us which proportions to build your outfits around.',
   styleGrav: 'This shows the cuts you already feel good in, so your outfit ideas feel like you and not a template.',
@@ -985,7 +985,7 @@ function renderQuestion(q) {
 
 function questionTextForType(type) {
   if (type === 'depth') return 'Tap the shade closest to your natural skin tone.';
-  if (type === 'contrast') return 'How different are your hair, skin and eye colors from one another?';
+  if (type === 'contrast') return 'How different are your natural hair, skin and eye colors from one another? Use your natural hair color, even if you dye it.';
   if (type === 'veins') return 'Look at the inside of your wrist in natural light. Do your veins look more blue or purple, or more green?';
   if (type === 'shape') return 'Which body shape best describes you?';
   return '';

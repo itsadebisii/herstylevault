@@ -10,7 +10,7 @@ const profiles = {
   'warm 18-24 no extras': Object.assign({}, base, { ageBracket: '18-24' }),
   'cool petite 35-44 formal': Object.assign({}, base, { ageBracket: '35-44', jewelry: 'silver', veins: 'blue', depth: 'fair', contrast: 'high', comp: 'cool', wash: 'warm', shoulderHip: 'shouldersMuchWider', bustHip: 'bustSlightlyLarger', height: 'petite', proportion: 'longTorso', quiet: ['hips', 'midsection'], worksBest: ['work', 'travel', 'special'], dressCode: 'formal', climate: 'cold', temp: 'cold', comfortFab: ['itchy', 'clingy'], budget: 'invest' }),
   'separates only (no dresses)': Object.assign({}, base, { ageBracket: '35-44', dressSep: 'separates', styleGrav: 'fitted' }),
-  'alt baddie, warm 18-24': Object.assign({}, base, { ageBracket: '18-24', pq1: 'alt', pq2: 'edge', pq3: 'mono' }),
+  'alt baddie, warm 18-24': Object.assign({}, base, { ageBracket: '18-24', pq1: 'alt', pq2: 'edge', pq3: 'mono', feel: ['edgy', 'confident'] }),
   'dark romance, cool 45+': Object.assign({}, base, { ageBracket: '45+', jewelry: 'silver', veins: 'blue', depth: 'fair', contrast: 'high', comp: 'cool', wash: 'warm', pq1: 'allblack', pq2: 'edge', pq3: 'mono' }),
   '45+ with every extra': Object.assign({}, base, { ageBracket: '45+', dressCode: 'businessCasual', climate: 'warm', heel: 'flats', goal: 'trip', goalDate: 'May', sizeTop: 'L', sizeBottom: '12', sizeShoe: '8', shopHabits: ['store', 'resale'], hairType: ['curly', 'varies'], hairLen: 'long', inspo: 'Michelle Obama', pq1: 'other', pq1Other: 'Dress and flats' })
 };
