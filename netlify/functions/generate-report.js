@@ -23,7 +23,7 @@ const {
 
 const reportStore = require('./lib/report-store');
 
-const ANTHROPIC_MODEL = 'claude-opus-5';
+const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5';
 const AI_TIMEOUT_MS = 20000;
 
 // Phrases that make a report sound machine-written, plus any echo of the quiz wording.
@@ -164,7 +164,9 @@ function cleanAvoid(t) {
   return t.trim();
 }
 
+let LAST_AI_ERR = '';
 async function askClaude(anthropicKey, userContent) {
+  LAST_AI_ERR = '';
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
   try {
@@ -184,15 +186,18 @@ async function askClaude(anthropicKey, userContent) {
       signal: controller.signal
     });
     if (!res.ok) {
-      console.error('Claude API error:', res.status, await res.text());
+      const et = await res.text();
+      LAST_AI_ERR = 'Claude API said HTTP ' + res.status + ': ' + String(et).slice(0, 140);
+      console.error('Claude API error:', res.status, et);
       return null;
     }
     const data = await res.json();
     const rawText = (data.content || []).map((b) => b.text || '').join('');
     const m = rawText.match(/\{[\s\S]*\}/);
-    if (!m) return null;
+    if (!m) { LAST_AI_ERR = 'Claude replied but not in the expected format'; return null; }
     return JSON.parse(m[0]);
   } catch (e) {
+    LAST_AI_ERR = (e && e.name === 'AbortError') ? 'Claude took longer than ' + (AI_TIMEOUT_MS / 1000) + ' seconds' : 'Error: ' + (e && e.message);
     console.error('Report generation error:', e && e.message);
     return null;
   } finally {
@@ -400,7 +405,8 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     generatedBy: {
       narrative: narrative ? 'ai' : 'template',
       silhouettes: silhouettes ? 'ai' : 'template',
-      avoidText: avoidText ? 'ai' : 'template'
+      avoidText: avoidText ? 'ai' : 'template',
+      why: (previewTest && !(narrative && silhouettes && avoidText)) ? (anthropicKey ? (LAST_AI_ERR || 'Claude answered, but the wording did not pass my safety checks') : 'ANTHROPIC_API_KEY is not set on this site') : undefined
     }
   };
 

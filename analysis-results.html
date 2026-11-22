@@ -717,7 +717,7 @@ async function init() {
     const report = await res.json();
     report.hadPhoto = !!data.photoBase64;
     SHARE_TOKEN = report.shareToken || null; delete report.shareToken;
-    if (PREVIEW) { const nb2 = document.getElementById('prev-banner'); if (nb2) nb2.textContent += ' Report writer: ' + ((report.generatedBy && report.generatedBy.narrative === 'ai') ? 'AI is working.' : 'AI did NOT run (using the pre-written fallback).'); }
+    if (PREVIEW) { const g = report.generatedBy || {}, ok = g.narrative === 'ai' && g.silhouettes === 'ai' && g.avoidText === 'ai'; const w = document.createElement('div'); w.id = 'prev-writer'; w.style.cssText = 'font:700 13px/1.4 sans-serif;text-align:center;padding:9px 12px;position:sticky;top:34px;z-index:49;color:#fff;background:' + (ok ? '#1F7A3A' : '#B26A00'); w.textContent = ok ? 'REPORT WRITER: AI IS WORKING (all 3 sections written by AI)' : 'REPORT WRITER: AI DID NOT RUN, pre-written backup text is showing. Reason: ' + (g.why || 'unknown') + ' (sections: ' + [g.narrative, g.silhouettes, g.avoidText].join(' / ') + ')'; const pb = document.getElementById('prev-banner'); if (pb && pb.parentNode) pb.parentNode.insertBefore(w, pb.nextSibling); }
     if (res.headers.get('x-hsv-saved') === '1') { REPORT_SAVED = true; writeCache(sessionId, report, SHARE_TOKEN); showSavedNote(); }
     if (data.photoBase64) report.__photo = 'data:' + (data.photoMediaType || 'image/jpeg') + ';base64,' + data.photoBase64;
     await renderReport(report);
