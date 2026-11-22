@@ -164,8 +164,8 @@
   /* ---------- 5. dress your shape ---------- */
   /* Real garment photos (plain gray on transparent), recolored to the client's own palette on the fly.
      Falls back to the drawn shape if a photo fails to load. */
-  var GKEYS = { puff: 1, bardot: 1, halter: 1, vneck: 1, blouse: 1, peplum: 1, corset: 1, askirt: 1, pencil: 1, wide: 1, trouser: 1, jeans: 1, flare: 1, aline: 1, ruffle: 1, sheath: 1, blazer: 1, coat: 1, trench: 1, bag: 1, loafer: 1, lowheel: 1, midheel: 1, highheel: 1 };
-  var GA = { img: {}, mean: {}, cache: {} }, curHeel = '';
+  var GKEYS = { puff: 1, bardot: 1, halter: 1, vneck: 1, blouse: 1, peplum: 1, corset: 1, askirt: 1, pencil: 1, wide: 1, trouser: 1, jeans: 1, boot: 1, leather: 1, meshtop: 1, bandtee: 1, tieredskirt: 1, flare: 1, aline: 1, ruffle: 1, sheath: 1, blazer: 1, coat: 1, trench: 1, bag: 1, loafer: 1, lowheel: 1, midheel: 1, highheel: 1 };
+  var GA = { img: {}, mean: {}, cache: {} }, curHeel = '', curAlt = false;
   function loadGarment(k) {
     return new Promise(function (res) {
       var im = new Image();
@@ -197,6 +197,7 @@
     return (GA.cache[key] = '<img class="hx-gm" alt="" src="' + c.toDataURL('image/png') + '">');
   }
   function G(k, col) {
+    if (k === 'shoe' && curAlt) k = 'boot';
     if (k === 'shoe') k = { flats: 'loafer', low: 'lowheel', mid: 'midheel', high: 'highheel' }[curHeel] || 'lowheel';
     if (GA.img[k]) { try { var gi = garmentImg(k, col); if (gi) return gi; } catch (e) {} }
     var f = col, w = '#fff';
@@ -224,7 +225,7 @@
     }[k] || '';
     return '<svg viewBox="0 0 120 150" class="hx-gm">' + s + '</svg>';
   }
-  var NAMES = { puff: 'Puff sleeve', bardot: 'Off-shoulder', halter: 'Gathered halter', vneck: 'V-neck top', blouse: 'Button-up blouse', blazer: 'Tailored blazer', pencil: 'Pencil skirt', sheath: 'Sheath', bag: 'Bag', shoe: 'Shoes', coat: 'Coat', wrap: 'Wrap top', peplum: 'Peplum', corset: 'Corset', askirt: 'A-line or pleated skirt', wide: 'Wide-leg jeans', trouser: 'Trousers', flare: 'Fit and flare', aline: 'A-line', ruffle: 'Ruffle' };
+  var NAMES = { puff: 'Puff sleeve', bardot: 'Off-shoulder', halter: 'Gathered halter', vneck: 'V-neck top', blouse: 'Button-up blouse', blazer: 'Tailored blazer', pencil: 'Pencil skirt', sheath: 'Sheath', bag: 'Bag', shoe: 'Shoes', coat: 'Coat', wrap: 'Wrap top', peplum: 'Peplum', corset: 'Corset', askirt: 'A-line or pleated skirt', wide: 'Wide-leg jeans', trouser: 'Trousers', flare: 'Fit and flare', aline: 'A-line', ruffle: 'Ruffle', meshtop: 'Mesh or lace top', bandtee: 'Band tee', leather: 'Leather jacket', tieredskirt: 'Tiered maxi skirt', boot: 'Boots' };
   var DRESS_ROWS = {
     rectangle: { sub: 'Create curves: add some fullness up top and show your waist.', rows: [['Tops that add fullness up top', 'Gives your shoulders and bust more shape', ['puff', 'bardot', 'halter']], ['Tops that show your waist', 'Nips in at the waist so you get a waistline', ['vneck', 'peplum', 'corset']], ['Bottoms with some fullness', 'Adds shape to your lower half', ['askirt', 'wide', 'trouser']], ['Dresses that show your waist', 'Nip in at the waist and flare out below', ['flare', 'aline', 'ruffle']]] },
     hourglass: { sub: 'Follow your natural curves and keep your waist in view.', rows: [['Tops that follow your curves', 'Fit close at the bust and waist', ['vneck', 'corset', 'halter']], ['Tops that mark your waist', 'Fitted at the waist, or a shape that nips in', ['peplum', 'bardot']], ['Bottoms that skim your hips', 'Show your waist and skim over the hips', ['trouser', 'askirt']], ['Dresses that follow your waist', 'Belted or fitted at the waist', ['flare', 'aline']]] },
@@ -277,8 +278,9 @@
     var uniq = function (a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); };
     var avail = { top: uniq(D.rows[0][2].concat(D.rows[1][2])).concat(['blouse']), bot: D.rows[2][2].slice(), dr: D.rows[3][2].slice() };
     if (r.bodyShapeKey === 'hourglass' || r.bodyShapeKey === 'rectangle') { avail.bot.push('pencil'); avail.dr.push('sheath'); }
+    if (r.persona && r.persona.vibe === 'alt') { avail.top = avail.top.concat(['meshtop', 'bandtee']); avail.bot.push('tieredskirt'); }
     var OP = { work: { top: ['blouse', 'peplum', 'vneck'], bot: ['trouser', 'pencil', 'askirt'], dr: ['sheath', 'aline', 'flare'] }, dates: { top: ['corset', 'halter', 'bardot', 'vneck'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] }, photos: { top: ['puff', 'bardot', 'halter', 'vneck'], bot: ['wide', 'askirt'], dr: ['ruffle', 'flare'] }, travel: { top: ['vneck', 'puff', 'peplum'], bot: ['wide', 'trouser'], dr: ['aline', 'flare'] }, everyday: { top: ['vneck', 'puff', 'blouse', 'peplum', 'bardot'], bot: ['wide', 'trouser', 'askirt'], dr: ['aline', 'flare'] }, special: { top: ['corset', 'halter', 'bardot', 'peplum'], bot: ['askirt', 'trouser'], dr: ['flare', 'ruffle', 'aline'] } };
-    var VP = { tailored: { top: ['peplum', 'vneck'], bot: ['trouser'], dr: ['aline'] }, classic: { top: ['peplum', 'vneck'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, feminine: { top: ['vneck', 'bardot'], bot: ['askirt'], dr: ['ruffle', 'flare'] }, bold: { top: ['halter', 'corset', 'bardot'], bot: ['wide'], dr: ['flare', 'ruffle'] }, casual: { top: ['puff', 'vneck'], bot: ['wide'], dr: ['aline'] }, sleek: { top: ['corset', 'halter'], bot: ['trouser'], dr: ['aline'] }, alt: { top: ['corset', 'halter', 'puff'], bot: ['askirt', 'wide', 'trouser'], dr: ['flare', 'sheath', 'aline'] }, luxury: { top: ['vneck', 'bardot'], bot: ['trouser'], dr: ['aline'] }, sporty: { top: ['vneck', 'puff'], bot: ['wide'], dr: ['aline'] } };
+    var VP = { tailored: { top: ['peplum', 'vneck'], bot: ['trouser'], dr: ['aline'] }, classic: { top: ['peplum', 'vneck'], bot: ['trouser', 'askirt'], dr: ['aline', 'flare'] }, feminine: { top: ['vneck', 'bardot'], bot: ['askirt'], dr: ['ruffle', 'flare'] }, bold: { top: ['halter', 'corset', 'bardot'], bot: ['wide'], dr: ['flare', 'ruffle'] }, casual: { top: ['puff', 'vneck'], bot: ['wide'], dr: ['aline'] }, sleek: { top: ['corset', 'halter'], bot: ['trouser'], dr: ['aline'] }, alt: { top: ['meshtop', 'corset', 'halter', 'bandtee'], bot: ['tieredskirt', 'askirt', 'wide', 'trouser'], dr: ['flare', 'sheath', 'aline'] }, luxury: { top: ['vneck', 'bardot'], bot: ['trouser'], dr: ['aline'] }, sporty: { top: ['vneck', 'puff'], bot: ['wide'], dr: ['aline'] } };
     var GP = { flowy: { top: ['vneck', 'bardot'], bot: ['askirt', 'wide'], dr: ['aline', 'flare', 'ruffle'] }, fitted: { top: ['peplum', 'corset'], bot: ['trouser'], dr: ['flare'] }, waist: { top: ['corset', 'vneck', 'peplum'], bot: ['askirt'], dr: ['flare'] }, oversized: { top: ['puff'], bot: ['wide'], dr: ['aline'] }, bodyskim: { top: ['corset', 'vneck'], bot: ['trouser'], dr: ['flare'] }, cropped: { top: ['corset', 'halter'], bot: ['trouser', 'wide'], dr: [] }, layered: { top: ['vneck', 'puff'], bot: ['trouser'], dr: ['aline'] } };
     var SP = { shoulders: { top: ['bardot', 'halter'] }, neckline: { top: ['halter', 'vneck'] }, arms: { top: ['halter'] }, back: { top: ['halter'] }, waist: { top: ['corset', 'peplum', 'vneck'], dr: ['flare'] }, legs: { bot: ['askirt'], dr: ['flare', 'aline'] } };
     var Dd = dirs(r), vibe = (r.persona && r.persona.vibe) || '', used = { top: {}, bot: {}, dr: {} };
@@ -360,9 +362,11 @@
       ['snake', 'Snake print', warm ? 'Tan + brown' : 'Gray + charcoal', 'A neutral that acts like a print. Great on boots, bags and blouses.', '', img(warm ? 'snake.jpg' : 'snake-cool.jpg'), ['alt', 'bold', 'luxury', 'casual'], 0, 0, 'blended'],
       ['bigfloral', 'Large floral', warm ? 'Burgundy + blush' : 'Navy + pink', 'Big flowers make a statement. Wear on a dress or skirt and keep the top simple.', '', img(warm ? 'floral-large.jpg' : 'floral-large-cool.jpg'), ['alt', 'feminine', 'bold', 'luxury'], 0, 0, 'blended'],
       ['watercolor', 'Watercolor print', warm ? 'Terracotta + ochre' : 'Rose + dusty blue', 'Soft edges and blended color. Pretty on a scarf, blouse or flowy dress.', '', img(warm ? 'watercolor-warm.jpg' : 'watercolor.jpg'), ['feminine', 'casual', 'luxury'], 0, -1, 'blended'],
+      ['tartan', 'Tartan', 'Red + black', 'Punk-meets-prep. Wear it as a skirt, scarf or lining with black pieces.', '', img('tartan.jpg'), ['alt'], 0, 1, 'bright'],
+      ['darkfloral', 'Dark floral', 'Burgundy + plum on black', 'Moody and romantic. Try a dress or skirt, with a black jacket on top.', '', img('floral-dark.jpg'), ['alt', 'feminine'], 0, 1, 'blended'],
       ['paisley', 'Paisley', warm ? 'Rust + deep red' : 'Teal + navy', 'Rich and vintage. Try it as a scarf, blouse or lining.', '', img(warm ? 'paisley.jpg' : 'paisley-cool.jpg'), ['alt', 'luxury', 'classic', 'casual'], 0, 0, 'blended']
     ];
-    var FEEL = { expressive: ['leopard', 'zebra', 'floral', 'crocred', 'paisley', 'bigfloral', 'snake'], trend: ['leopard', 'zebra', 'crocred', 'tortoise', 'snake', 'watercolor'], elegant: ['crocog', 'tortoise', 'polka', 'crocred', 'paisley', 'hound'], comfy: ['stripe', 'gingham', 'plaid'], feminine: ['floral', 'gingham', 'polka', 'tortoise', 'bigfloral', 'watercolor'], confident: ['leopard', 'zebra', 'crocred', 'snake', 'hound', 'pinstripe'], edgy: ['plaid', 'zebra', 'leopard', 'snake', 'hound', 'crocred', 'paisley'] };
+    var FEEL = { expressive: ['leopard', 'zebra', 'floral', 'crocred', 'paisley', 'bigfloral', 'snake'], trend: ['leopard', 'zebra', 'crocred', 'tortoise', 'snake', 'watercolor'], elegant: ['crocog', 'tortoise', 'polka', 'crocred', 'paisley', 'hound'], comfy: ['stripe', 'gingham', 'plaid'], feminine: ['floral', 'gingham', 'polka', 'tortoise', 'bigfloral', 'watercolor'], confident: ['leopard', 'zebra', 'crocred', 'snake', 'hound', 'pinstripe'], edgy: ['tartan', 'darkfloral', 'plaid', 'zebra', 'leopard', 'snake', 'hound', 'crocred', 'paisley'] };
     var FEELW = { expressive: 'express yourself', trend: 'feel stylish and on-trend', elegant: 'feel elegant', comfy: 'feel comfortable', feminine: 'feel feminine', confident: 'feel confident', edgy: 'feel edgy and a little dark' };
     var scored = LIB.map(function (t, i) {
       var parts = [], vi = t[6].indexOf(vibe);
@@ -372,6 +376,7 @@
       if (chr && t[9]) parts.push([t[9] === 'blended' ? (chr === 'bright' ? -4 : 1.5) : (t[9] === chr ? 1.5 : (chr === 'blended' ? 0 : -4)), chr === 'bright' ? 'Clear, vivid patterns match your bright coloring.' : 'Soft, muted patterns match your blended coloring.']);
       feel.forEach(function (f) { if ((FEEL[f] || []).indexOf(t[0]) > -1) parts.push([1, 'You want to ' + FEELW[f] + ', and this pattern helps with that.']); });
       var total = 0, best = [0, 'A dependable pattern that works with your palette.']; parts.forEach(function (x) { total += x[0]; if (x[0] > best[0]) best = x; });
+      if ((t[0] === 'tartan' || t[0] === 'darkfloral') && vibe !== 'alt' && feel.indexOf('edgy') < 0) total -= 10; /* alt-only prints */
       return { t: t, total: total, why: best[1], i: i };
     }).sort(function (a, b) { return b.total - a.total || a.i - b.i; }).slice(0, 6);
     var tl = scored.map(function (o) { var t = o.t; return '<div class="hx-pt"><div class="hx-pc" style="' + (t[4] ? 'background:' + t[4] + ';' : '') + '">' + (t[5] || '') + '</div><h5>' + t[1] + '</h5><small>' + t[2] + '</small><p>' + t[3] + '</p><p class="hx-why">' + E(o.why) + '</p></div>'; }).join('');
@@ -390,7 +395,7 @@
   }
 
   /* real fabric photos, tinted to the client's own colors (denim and leather stay natural) */
-  var FABP = { crepe: ['crepe.jpg', 'n1'], ponte: ['ponte.jpg', 'n3'], denim: ['denim.jpg', null], wool: ['wool.jpg', 'n2'], knit: ['knit.jpg', 's2'], linen: ['linen.jpg', 'n0'], leather: ['leather.jpg', null], jersey: ['jersey.jpg', 'n2'], boucle: ['boucle.jpg', 'n0'], poplin: ['poplin.jpg', 'n0'], satin: ['satin.jpg', 's0'], velvet: ['velvet.jpg', 's3'], chiffon: ['chiffon.jpg', 's4'] };
+  var FABP = { crepe: ['crepe.jpg', 'n1'], ponte: ['ponte.jpg', 'n3'], denim: ['denim.jpg', null], wool: ['wool.jpg', 'n2'], knit: ['knit.jpg', 's2'], linen: ['linen.jpg', 'n0'], leather: ['leather.jpg', null], jersey: ['jersey.jpg', 'n2'], boucle: ['boucle.jpg', 'n0'], poplin: ['poplin.jpg', 'n0'], lace: ['lace.jpg', 'dk'], mesh: ['mesh.jpg', 'dk'], satin: ['satin.jpg', 's0'], velvet: ['velvet.jpg', 's3'], chiffon: ['chiffon.jpg', 's4'] };
   /* chiffon should read light and airy, so its color is blended toward white */
   function airy(hex) { var c = [1, 3, 5].map(function (i) { return Math.round(parseInt(hex.substr(i, 2), 16) * 0.55 + 255 * 0.45); }); return '#' + c.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join(''); }
   function tintImage(im, hex) {
@@ -405,12 +410,12 @@
     x.putImageData(d, 0, 0); return c.toDataURL('image/jpeg', 0.86);
   }
   function prep(r) {
-    var P = pal(r), pick = { n0: P.neu[0], n1: P.neu[1], n2: P.neu[2], n3: P.neu[3], s0: P.sig[0], s2: P.sig[2], s3: P.sig[3] || P.sig[0], s4: P.sig[4] || P.sig[1] }; r.__fab = {};
-    curHeel = (r.life && r.life.heel) || '';
+    var P = pal(r), pick = { n0: P.neu[0], n1: P.neu[1], n2: P.neu[2], n3: P.neu[3], dk: P.neu.slice().sort(function (a, b) { return lumH(a.h) - lumH(b.h); }).filter(function (c) { return lumH(c.h) > 0.05; })[0] || P.neu[3], s0: P.sig[0], s2: P.sig[2], s3: P.sig[3] || P.sig[0], s4: P.sig[4] || P.sig[1] }; r.__fab = {};
+    curHeel = (r.life && r.life.heel) || ''; curAlt = !!(r.persona && r.persona.vibe === 'alt');
     return Promise.all(Object.keys(GKEYS).map(loadGarment).concat(Object.keys(FABP).map(function (id) {
       return new Promise(function (res) {
         var im = new Image();
-        im.onload = function () { try { r.__fab[id] = FABP[id][1] ? tintImage(im, id === 'chiffon' ? airy(pick[FABP[id][1]].h) : pick[FABP[id][1]].h) : 'images/report/fabrics/' + FABP[id][0]; } catch (e) {} res(); };
+        im.onload = function () { try { r.__fab[id] = FABP[id][1] ? tintImage(im, id === 'chiffon' ? airy(pick[FABP[id][1]].h) : ((curAlt && (id === 'velvet' || id === 'satin')) ? pick.dk : pick[FABP[id][1]]).h) : 'images/report/fabrics/' + FABP[id][0]; } catch (e) {} res(); };
         im.onerror = function () { res(); };
         im.src = 'images/report/fabrics/' + FABP[id][0];
       });
@@ -435,6 +440,8 @@
       velvet: function () { return 'background:radial-gradient(circle at 30% 30%,' + E(mixc(S[3].h, 0.3, 'w')) + ',' + sh(S[3]) + ' 55%,' + E(mixc(S[3].h, 0.35, 'k')) + ')'; },
       chiffon: function () { return 'background:repeating-linear-gradient(100deg,' + E(mixc(S[1].h, 0.35, 'w')) + ' 0 14px,' + E(mixc(S[1].h, 0.55, 'w')) + ' 14px 26px)'; },
       jersey: function () { return 'background:repeating-linear-gradient(90deg,' + sh(N[2]) + ' 0 3px,' + E(mixc(N[2].h, 0.12, 'k')) + ' 3px 4px)'; },
+      lace: function () { return 'background:radial-gradient(circle,rgba(255,255,255,.5) 2px,transparent 3px) 0 0/10px 10px,' + sh(N[0]); },
+      mesh: function () { return 'background:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 1px,transparent 1px 4px),repeating-linear-gradient(-45deg,rgba(255,255,255,.35) 0 1px,transparent 1px 4px),' + sh(N[0]); },
       boucle: function () { return 'background:radial-gradient(circle,' + E(mixc(N[0].h, 0.2, 'k')) + ' 2px,transparent 3px) 0 0/9px 9px,radial-gradient(circle,rgba(255,255,255,.7) 2px,transparent 3px) 4px 4px/9px 9px,' + sh(N[0]); },
       poplin: function () { return 'background:repeating-linear-gradient(0deg,rgba(255,255,255,.5) 0 1px,transparent 1px 3px),' + E(mixc(N[0].h, 0.04, 'k')); }
     };
@@ -452,11 +459,13 @@
       ['chiffon', 'Chiffon and georgette', 'Light and airy. Beautiful in tops, blouses and flowing skirts.', ['feminine', 'alt', 'classic'], ['dates', 'special'], -1, 'soft', /chiffon|georgette|flow|drap/i, ''],
       ['jersey', 'Stretch jersey', 'Soft and comfortable. Works best in a thicker weight that does not cling.', ['casual', 'sporty'], ['everyday', 'travel'], 0, '', /jersey|stretch/i, 'budget'],
       ['boucle', 'Bouclé and tweed', 'Textured and polished. A jacket or skirt in this fabric looks expensive.', ['luxury', 'classic', 'feminine'], ['work', 'special'], 1, 'soft', /textur|tweed|boucl/i, 'invest'],
+      ['lace', 'Lace', 'Delicate and romantic. Best as an overlay, a sleeve or trim, layered over a solid base.', ['alt', 'feminine'], ['dates', 'special'], -1, 'soft', /lace|sheer|chiffon/i, ''],
+      ['mesh', 'Mesh and sheer knit', 'Sheer and layered. Wear a fine mesh top over a camisole or under a jacket for an edgy, light layer.', ['alt', 'sleek', 'bold'], ['dates', 'everyday'], -1, 'bright', /mesh|sheer|jersey|stretch/i, ''],
       ['poplin', 'Cotton poplin', 'Crisp and clean. Perfect for shirts, shirt-dresses and structured pieces.', ['tailored', 'classic', 'casual'], ['work', 'everyday'], -1, 'bright', /cotton|poplin|structured/i, 'budget']
     ];
     var L0 = r.life || {};
     var LF = { cold: L0.climate === 'cold', hot: L0.climate === 'warm', runsHot: L0.temp === 'hot', runsCold: L0.temp === 'cold', avoid: (L0.comfortFab || []).filter(function (x) { return x !== 'none'; }), formal: L0.dressCode === 'formal' };
-    var CLIM_HOT = { linen: 2, poplin: 1.5, chiffon: 1.5, satin: 1, jersey: 0.5, wool: -3, velvet: -3, knit: -2, boucle: -2, leather: -1 };
+    var CLIM_HOT = { lace: 1, mesh: 1, linen: 2, poplin: 1.5, chiffon: 1.5, satin: 1, jersey: 0.5, wool: -3, velvet: -3, knit: -2, boucle: -2, leather: -1 };
     var CLIM_COLD = { wool: 2, knit: 2, velvet: 1.5, boucle: 1.5, leather: 1, ponte: 1, linen: -2, chiffon: -1 };
     var AVOID_MAP = { itchy: { wool: -6, boucle: -2 }, clingy: { jersey: -3, satin: -2, knit: -1 }, stiff: { denim: -2, leather: -2, ponte: -1, poplin: -1, boucle: -1 }, sheer: { chiffon: -4 }, shiny: { satin: -4, leather: -2, velvet: -1 } };
     var clingy = D.quiet.indexOf('midsection') > -1 || D.quiet.indexOf('hips') > -1;
@@ -515,7 +524,7 @@
   }
   function shopTerm(name) {
     var t = String(name || '').toLowerCase().replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-    var M = [[/block heel/, 'block heel pumps'], [/mid heel/, 'heeled pumps'], [/statement heel/, 'high heel sandals'], [/flats or loafers|loafer/, 'loafers'], [/^flats/, 'flats'], [/^shoes/, 'flats'],
+    var M = [[/mesh or lace/, 'mesh long sleeve top'], [/band tee/, 'oversized band tee'], [/leather (moto )?jacket/, 'leather moto jacket'], [/tiered maxi/, 'tiered maxi skirt'], [/boots/, 'combat boots'], [/block heel/, 'block heel pumps'], [/mid heel/, 'heeled pumps'], [/statement heel/, 'high heel sandals'], [/flats or loafers|loafer/, 'loafers'], [/^flats/, 'flats'], [/^shoes/, 'flats'],
       [/puff sleeve/, 'puff sleeve top'], [/off-shoulder/, 'off the shoulder top'], [/halter/, 'halter top'], [/v-neck/, 'v neck top'], [/^peplum$/, 'peplum top'], [/^corset$/, 'corset top'],
       [/pleated skirt/, 'pleated skirt'], [/^trousers$|tailored trousers/, 'trousers'], [/wide-leg/, 'wide leg jeans'], [/^sheath/, 'sheath dress'], [/fit and flare/, 'fit and flare dress'], [/^a-line dress|^a-line$/, 'a-line dress'], [/^ruffle/, 'ruffle dress'], [/^bag$/, 'handbag'], [/^coat$/, 'coat'], [/light trench/, 'trench coat']];
     for (var i = 0; i < M.length; i++) if (M[i][0].test(t)) return M[i][1];
@@ -571,13 +580,15 @@
     var dr = D.rows[3][2], dress1 = pro ? 'sheath' : dr[0], dress2 = dr.filter(function (g) { return g !== dress1; })[0] || 'flare';
     var statement = pickGarments(r, D, ['dates'])[0].top, sep = r.dressSep === 'separates';
     var lightN = N.slice().sort(function (a, b) { return lumH(b.h) - lumH(a.h); })[0];
-    var heelN = { flats: 'Flats or loafers', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes you can walk in';
+    var alt = !!(r.persona && r.persona.vibe === 'alt');
+    var heelN = alt ? 'Platform or combat boots' : ({ flats: 'Flats or loafers', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes you can walk in');
+    if (alt && skirt === 'askirt') skirt = 'tieredskirt';
     var cold = L.climate === 'cold' || L.climate === 'mixed', coatN = cold ? 'Long coat' : 'Light trench or jacket';
     var out = [
-      { k: 'blazer', n: 'Tailored blazer', c: N[3], start: true },
+      alt ? { k: 'leather', n: 'Leather moto jacket', c: darksOf(r)[0], start: true } : { k: 'blazer', n: 'Tailored blazer', c: N[3], start: true },
       { k: 'trouser', n: 'Tailored trousers', c: N[1], start: true },
       { k: 'blouse', n: 'Button-up blouse', c: lightN, start: true },
-      { k: 'vneck', n: 'V-neck top', c: S[0], start: true },
+      alt ? { k: 'meshtop', n: 'Mesh or lace layering top', c: S[0], start: true } : { k: 'vneck', n: 'V-neck top', c: S[0], start: true },
       { k: statement, n: NAMES[statement] || 'Statement top', c: S[2] },
       { k: skirt, n: NAMES[skirt] || 'Skirt', c: N[3] },
       { k: 'jeans', n: 'Dark jeans', c: N.slice().sort(function (a, b) { return lumH(a.h) - lumH(b.h); }).filter(function (c) { return lumH(c.h) > 0.05; })[0] || N[2], kind: 'jeans' },
@@ -585,9 +596,15 @@
       sep ? { k: 'vneck', n: 'Dressy top for dates', c: S[1], start: L.goal === 'event' } : { k: dress2, n: (NAMES[dress2] || 'Fit and flare') + ' dress for dates', c: S[1], start: L.goal === 'event' },
       { k: cold ? 'coat' : 'trench', n: coatN, c: N[2] },
       { k: 'bag', n: 'Structured bag', c: A[0], kind: 'bag' },
-      { k: 'shoe', n: heelN, c: N[3], kind: 'shoe' }
+      { k: 'shoe', n: heelN, c: alt ? darksOf(r)[0] : N[3], kind: 'shoe' }
     ];
     return out;
+  }
+  /* the darkest colors in her palette, used for an alt client's jackets, boots and skirts */
+  function darksOf(r) {
+    var P = pal(r), pool = P.neu.concat(P.sig), seen = {}, out = [];
+    pool.slice().sort(function (a, b) { return lumH(a.h) - lumH(b.h); }).forEach(function (c) { if (!seen[c.n] && lumH(c.h) < 0.3) { seen[c.n] = 1; out.push(c); } });
+    return out.length ? out : [P.neu.slice().sort(function (a, b) { return lumH(a.h) - lumH(b.h); })[0]];
   }
   /* For alt / dark-romance clients: the darks that suit her coloring (jet black can wash some seasons out). */
   function bestDarks(r) {
@@ -616,11 +633,13 @@
     var oc = (D0.works.length ? D0.works : ['everyday', 'work', 'dates']).slice(0, 3); while (oc.length < 3) { var extra = ['everyday', 'work', 'dates', 'photos'].filter(function (x) { return oc.indexOf(x) < 0; })[0]; oc.push(extra); }
     var picks = pickGarments(r, D, [oc[0], oc[0], oc[1], oc[1], oc[2], oc[2]]);
     var combos = [[N[1], S[0], A[0]], [N[3], S[2], A[0]], [N[0], S[1], A[1]], [N[2], S[3], A[0]], [N[3], S[4], A[2]], [N[1], S[5], A[1]]];
-    var cold = L.climate === 'cold', layerK = cold ? 'coat' : 'blazer', layerN = cold ? 'Coat' : 'Tailored blazer';
-    var heelN = { flats: 'Flats', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes';
+    var altR = !!(r.persona && r.persona.vibe === 'alt');
+    var cold = L.climate === 'cold', layerK = cold ? 'coat' : (altR ? 'leather' : 'blazer'), layerN = cold ? 'Coat' : (altR ? 'Leather jacket' : 'Tailored blazer');
+    var heelN = altR ? 'Combat boots' : ({ flats: 'Flats', low: 'Low block heel', mid: 'Mid heel', high: 'Statement heel' }[L.heel] || 'Shoes');
     var cards = picks.map(function (pk, i) {
       var c = combos[i], o = OCC[oc[Math.floor(i / 2)]] || OCC.everyday, a = i % 2 === 0;
       var items = a ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], ['shoe', c[2], heelN]] : (r.dressSep === 'separates' ? [[pk.top, c[1], NAMES[pk.top]], [pk.bot, c[0], NAMES[pk.bot]], [layerK, c[2], layerN]] : [[pk.dr, c[1], (NAMES[pk.dr] || 'A-line') + ' dress'], [layerK, c[0], layerN], ['bag', c[2], 'Bag']]);
+      if (altR) items = items.map(function (it) { return (it[0] === 'leather' || it[0] === 'shoe') ? [it[0], darksOf(r)[0], it[2]] : it; });
       var fg = items.map(function (it) { return '<div>' + G(it[0], it[1].h) + '<span>' + E(it[2]) + '<br><i>' + E(it[1].n) + '</i></span></div>'; }).join('');
       var l1 = shopLink(r, items[0][2], items[0][1], '', i), l2 = shopLink(r, items[1][2], items[1][1], items[1][0] === 'bag' ? 'bag' : '', i + 1);
       return '<div class="hx-rc"><h5>' + o[0] + ' look ' + (a ? 1 : 2) + '</h5><div class="hx-rfg">' + fg + '</div><div class="hx-rls">Shop: ' + l1 + ' ' + l2 + '</div></div>';
