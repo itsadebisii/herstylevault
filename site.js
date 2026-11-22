@@ -25,10 +25,9 @@ const NAV_HTML = `${TICKER_HTML}
 <li><a href="locations.html">Locations</a></li>
 <li><a href="about.html">About</a></li>
 <li><a href="contact.html">Contact</a></li>
-<li class="has-dropdown"><a class="dd-label" href="faq.html">FAQ &amp; Policies</a><div class="dropdown">
-<a href="how-it-works.html">How It Works</a>
+<li class="has-dropdown"><a class="dd-label" href="faq.html">FAQ</a><div class="dropdown">
 <a href="faq.html">FAQ</a>
-<a href="policies.html">Policies</a>
+<a href="how-it-works.html">How It Works</a>
 </div></li>
 </ul>
 <div class="nav-right">
@@ -55,13 +54,13 @@ const FOOTER_HTML = `<div class="wrap">
 </ul>
 </div>
 <div class="footer-col">
-<p class="fh">Studio &amp; Policies</p>
+<p class="fh">Studio</p>
 <ul>
 <li><a href="about.html">About</a></li>
 <li><a href="locations.html">Locations</a></li>
 <li><a href="how-it-works.html">How It Works</a></li>
 <li><a href="faq.html">FAQ</a></li>
-<li><a href="policies.html">Policies</a></li>
+<li><a href="policies.html">Terms &amp; Privacy</a></li>
 <li><a href="contact.html">Contact</a></li>
 </ul>
 </div>
