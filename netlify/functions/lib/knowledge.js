@@ -737,7 +737,7 @@ function storeKeysFor(a) {
 
 /* ---------- Shopping links: stores by age bracket and price comfort ----------
    Every store carries wide size ranges. Each chip in the report opens a live search at one of these.
-   NOTE: search URL formats are set by the retailers and can change. Open /shop-link-test (preview) or click
+   NOTE: search URL formats are set by the retailers and can change. Spot-check the links by hand or click
    each store once after any change. Stores avoided on purpose: Zara, Lululemon, SSENSE, Net-a-Porter,
    Farfetch, Everlane, Eloquii (their search links are unreliable). */
 const S = {
