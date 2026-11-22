@@ -192,9 +192,11 @@
       return '<div class="s9-hero s11-intro"><p class="s9-psst">Style-11, what’s your outfit emergency?</p>' +
         '<h' + hl + ' class="s9-title" data-title tabindex="-1"><span class="h1-kw">Style-11 outfit shuffle</span><span aria-hidden="true">Style-<em>11</em></span></h' + hl + '>' +
         '<p class="s9-sub">Nothing to wear? Roll for it.</p>' +
-        '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages">Skip</button>' +
+        '<div class="s11-toprow">' +
         '<button type="button" class="s11-snd" data-act="snd" aria-pressed="' + soundOn() + '" aria-label="Sound ' + (soundOn() ? 'on' : 'off') + '">' + (soundOn() ? SNDI.on : SNDI.off) + '</button>' +
+        '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages"><span>Skip</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>' +
         '<div class="s11-phonewrap">' + chatHtml() + bannerHtml() + '</div>' +
+        '<div class="s11-slot"><button type="button" class="lbk-btn s9-start s11-pop" style="--d:3.9s" data-act="start">Help me out</button></div>' +
         '<button type="button" class="link-btn s11-howlink" data-act="how">How it works</button></div>';
     }
     function renderBrief(){
@@ -339,7 +341,7 @@
       var focusPiece = flagTypes ? l.pieces.filter(function(p){ return flagTypes.indexOf(p.type) > -1; })[0] : null;
       var focusLabel = (b.looking === 'shoes') ? 'Your shoes' : (b.looking === 'dress' ? 'Your dress' : (b.looking === 'accessories' ? 'Your accessories' : 'Your pieces'));
       var tags = st.fromBrief ? '<p class="s9-tagsline">' + [by(OCC, b.occ).t, by(VIBES, b.vibe).t, by(WX, b.wx).t].map(esc).join(' &middot; ') + '</p>' : '';
-      var match = st.fromBrief ? '<p class="s9-match">' + (r.s >= 8 ? 'Matched to your brief' : 'Closest look for now. More coming soon.') + '</p>' : '';
+      var match = st.fromBrief ? '<p class="s9-match">' + (r.s >= 8 ? (r.look.theme ? 'From the Concierge Catalog \u00b7 ' + esc(r.look.theme) : 'Matched to your brief') : 'Closest look for now. More coming soon.') + '</p>' : '';
       var all = (l.outfit ? '<li class="whole"><span>The whole look</span><a href="' + esc(l.outfit.url) + '" target="_blank" rel="noopener noreferrer' + (l.outfit.affiliate ? ' sponsored' : '') + '">Get it' + star(l.outfit.affiliate) + '</a></li>' : '') +
         l.pieces.map(function(p){ return '<li><span>' + esc(p.name) + '</span><a href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer' + (p.affiliate ? ' sponsored' : '') + '">Get it' + star(p.affiliate) + '</a></li>'; }).join('');
       var credit = l.credit ? '<p class="s9-credit">' + (l.credit.url ? '<a href="' + esc(l.credit.url) + '" target="_blank" rel="noopener noreferrer">' + esc(l.credit.text) + '</a>' : esc(l.credit.text)) + '</p>' : '';

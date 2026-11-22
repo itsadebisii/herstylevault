@@ -4,8 +4,8 @@ var HSV_ICONS = {
   bag: '<path d="M5.2 9h13.6l1 11.5H4.2L5.2 9Z"/><path d="M8.6 9V7.2a3.4 3.4 0 0 1 6.8 0V9"/>'
 };
 function hsvIcon(name, size){ return HSV_ICON_BASE.replace(/SIZE/g, size || 14) + HSV_ICONS[name] + '</svg>'; }
-var TICKER_ITEMS = ['Color Analysis','Wardrobe Detox','One-Time Services, No Subscriptions','Wardrobe Consulting','Personal Shopping','Now Booking'];
-var TICKER_MARKS = ['hanger','bag','hanger','bag','hanger','bag'];
+var TICKER_ITEMS = ['Color Analysis','Wardrobe Detox','Wardrobe Consulting','Personal Shopping','Now Booking'];
+var TICKER_MARKS = ['hanger','bag','hanger','bag','hanger'];
 function tickerSet(hidden){
   return '<div class="ticker-set"' + (hidden ? ' aria-hidden="true"' : '') + '>' + TICKER_ITEMS.map(function(t,i){ return '<span class="ticker-item">' + t + '</span><span class="ticker-sep">' + hsvIcon(TICKER_MARKS[i], 15) + '</span>'; }).join('') + '</div>';
 }
@@ -218,7 +218,7 @@ document.addEventListener('click', function(e){
 
 /* ===== Style-11 =====
    Opens as a pop-up from anywhere. Its files load the first time someone asks for it (or hovers/touches a Style-11 link). */
-var S11_V = '20261122i', s11Loading = null;
+var S11_V = '20261122m', s11Loading = null;
 function loadStyle11(){
   if (window.Style11) return Promise.resolve();
   if (s11Loading) return s11Loading;
