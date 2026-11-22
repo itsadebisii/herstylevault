@@ -488,3 +488,24 @@
 .s11-gift .g-spk b:nth-child(4){--x:-100px;--y:-20px}.s11-gift .g-spk b:nth-child(5){--x:100px;--y:-20px}.s11-gift .g-spk b:nth-child(6){--x:0;--y:-50px}
 @keyframes s11giftSpk{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(.3)}}
 @media (prefers-reduced-motion:no-preference){.s11-gift:not(.open){animation:s11giftBob 2.8s ease-in-out infinite;} @keyframes s11giftBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}}
+
+/* ===== "Help me out" as an iPhone notification banner ===== */
+.s11-phonewrap{position:relative; max-width:340px; margin:0 auto;}
+.s11-banner{position:absolute; z-index:6; top:42px; left:17px; right:17px; display:flex; align-items:center; gap:10px; padding:10px 12px; border:0; border-radius:22px; background:rgba(250,248,247,.92); -webkit-backdrop-filter:blur(18px) saturate(1.4); backdrop-filter:blur(18px) saturate(1.4); box-shadow:0 10px 28px rgba(30,10,10,.28), 0 0 0 .5px rgba(0,0,0,.08); text-align:left; cursor:pointer; font-family:var(--font-body); color:#1b1210; opacity:0; transform:translateY(-170%) scale(.95); visibility:hidden; animation:s11bnIn .8s cubic-bezier(.2,.95,.3,1.15) var(--d,3.6s) both; -webkit-tap-highlight-color:transparent;}
+.s11-banner .bn-ic{flex:none; display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:9px; background:#fff; border:1px solid rgba(139,18,38,.28);}
+.s11-banner .bn-ic img{width:25px; height:auto; display:block;}
+.s11-banner .bn-tx{display:flex; flex-direction:column; min-width:0; flex:1; line-height:1.25;}
+.s11-banner .bn-top{display:flex; justify-content:space-between; align-items:baseline; gap:8px; font:600 9.5px var(--font-body); letter-spacing:.06em; color:#6B5A57;}
+.s11-banner .bn-top i{font-style:normal; font-weight:500; letter-spacing:0; font-size:10.5px;}
+.s11-banner .bn-t{font:700 14px var(--font-body); margin-top:1px;}
+.s11-banner .bn-m{font:400 12.5px var(--font-body); color:#2A1814;}
+.s11-banner:active{transform:scale(.985);}
+.s11-banner:focus-visible{outline:2px solid #8B1226; outline-offset:2px;}
+@keyframes s11bnIn{0%{opacity:0; visibility:hidden; transform:translateY(-170%) scale(.95)}1%{visibility:visible}55%{opacity:1; transform:translateY(5px) scale(1.01)}78%{transform:translateY(-2px) scale(1)}100%{opacity:1; visibility:visible; transform:none}}
+.s11-intro.done .s11-banner{animation:none; opacity:1; visibility:visible; transform:none;}
+@media (prefers-reduced-motion:reduce){.s11-banner{animation:none; opacity:1; visibility:visible; transform:none;}}
+.s11-intro{position:relative;}
+.s11-snd{position:absolute; top:0; right:0; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border:0; border-radius:50%; background:rgba(255,255,255,.7); color:#8B1226; cursor:pointer; box-shadow:0 1px 4px rgba(60,20,20,.18);}
+.s11-snd:hover{background:#fff;}
+.s11-snd:focus-visible{outline:2px solid #8B1226; outline-offset:2px;}
+

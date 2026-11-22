@@ -86,6 +86,36 @@
     return 'https://www.pinterest.com/search/pins/?q=' + encodeURIComponent(q);
   }
 
+  /* ---------- sounds (synthesized in the browser: no audio files) ---------- */
+  var AC = null, SNDKEY = 'hsv_s11_sound';
+  function soundOn(){ try { return localStorage.getItem(SNDKEY) !== '0'; } catch (e) { return true; } }
+  function ac(){
+    if (!AC) { try { var C = window.AudioContext || window.webkitAudioContext; if (C) AC = new C(); } catch (e) {} }
+    if (AC && AC.state === 'suspended') { try { AC.resume(); } catch (e) {} }
+    return AC;
+  }
+  function note(f, t, d, g, type){
+    var o = AC.createOscillator(), o2 = AC.createOscillator(), v = AC.createGain(), v2 = AC.createGain();
+    o.type = type || 'sine'; o.frequency.value = f; o2.type = 'sine'; o2.frequency.value = f * 2.76; v2.gain.value = .16;
+    o.connect(v); o2.connect(v2); v2.connect(v); v.connect(AC.destination);
+    v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(g, t + .012); v.gain.exponentialRampToValueAtTime(.0001, t + d);
+    o.start(t); o2.start(t); o.stop(t + d + .05); o2.stop(t + d + .05);
+  }
+  /* a bright three-note notification chime */
+  function chime(){
+    if (!soundOn()) return; var c = ac(); if (!c || c.state !== 'running') return; var t = c.currentTime + .03;
+    note(1174.66, t, .9, .2); note(1567.98, t + .13, .9, .18); note(1318.51, t + .27, 1.2, .18);
+  }
+  /* soft message sounds: a pop for a message that arrives, a swoosh for one that is sent */
+  function blip(sent){
+    if (!soundOn()) return; var c = ac(); if (!c || c.state !== 'running') return; var t = c.currentTime + .02;
+    var o = c.createOscillator(), v = c.createGain(); o.type = sent ? 'triangle' : 'sine';
+    o.frequency.setValueAtTime(sent ? 520 : 880, t); o.frequency.exponentialRampToValueAtTime(sent ? 980 : 1240, t + .09);
+    v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(sent ? .07 : .09, t + .01); v.gain.exponentialRampToValueAtTime(.0001, t + (sent ? .16 : .12));
+    o.connect(v); v.connect(c.destination); o.start(t); o.stop(t + .2);
+  }
+  var SNDI = {on: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2H4.5L6 16zM10 20.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>', off: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2H4.5L6 16zM10 20.5a2 2 0 0 0 4 0M4 4l16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
+
   /* ---------- chat (intro) ---------- */
   function chatHtml(){
     return '<div class="s9-phone" role="img" aria-label="A text conversation. A client writes: Help, I’m stressed, I need an outfit for dinner this weekend. Style-11 please. The stylist replies: I got you girlala. What are we doing this weekend? What are your vibes?">' +
@@ -146,12 +176,26 @@
         '<div class="s11-lock-bot" aria-hidden="true"><span class="lb"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M9 2h6l-1 5h-4zM8 9h8v3l-2 2v7a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-7l-2-2z"/></svg></span><span class="lb"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M9 4l-1.5 2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2.5L15 4zm3 4.5a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg></span></div>' +
         '<i class="s11-home" aria-hidden="true"></i></div></div></div>';
     }
+    /* the "Help me out" button is an iPhone-style notification banner that drops in after the texts */
+    function bannerHtml(){
+      return '<button type="button" class="s11-banner" style="--d:3.6s" data-act="start" aria-label="Help me out. New message from HerStyleVault: Style-11. Tap to start.">' +
+        '<span class="bn-ic"><img src="' + ICON + '" alt="" width="58" height="33"></span>' +
+        '<span class="bn-tx"><span class="bn-top"><b>HERSTYLEVAULT</b><i>now</i></span><span class="bn-t">Style-11 \uD83D\uDEA8</span><span class="bn-m">Ready when you are. Tap to help me out.</span></span></button>';
+    }
+    function clearCues(){ (st.cues || []).forEach(clearTimeout); st.cues = []; }
+    function startCues(){
+      clearCues();
+      [[400, false], [1200, false], [2100, true], [2900, true]].forEach(function(c){ st.cues.push(setTimeout(function(){ blip(c[1]); }, c[0])); });
+      st.cues.push(setTimeout(chime, 3650));
+    }
     function renderIntro(){
       return '<div class="s9-hero s11-intro"><p class="s9-psst">Style-11, what’s your outfit emergency?</p>' +
         '<h' + hl + ' class="s9-title" data-title tabindex="-1"><span class="h1-kw">Style-11 outfit shuffle</span><span aria-hidden="true">Style-<em>11</em></span></h' + hl + '>' +
         '<p class="s9-sub">Nothing to wear? Roll for it.</p>' +
-        '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages">Skip</button>' + chatHtml() +
-        '<div class="s11-slot"><button type="button" class="lbk-btn s9-start s11-pop" style="--d:3.4s" data-act="start">Help me out</button></div><button type="button" class="link-btn s11-howlink" data-act="how">How it works</button></div>';
+        '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages">Skip</button>' +
+        '<button type="button" class="s11-snd" data-act="snd" aria-pressed="' + soundOn() + '" aria-label="Sound ' + (soundOn() ? 'on' : 'off') + '">' + (soundOn() ? SNDI.on : SNDI.off) + '</button>' +
+        '<div class="s11-phonewrap">' + chatHtml() + bannerHtml() + '</div>' +
+        '<button type="button" class="link-btn s11-howlink" data-act="how">How it works</button></div>';
     }
     function renderBrief(){
       var s = STEPS[st.step], b = st.brief, list = s.list(b), total = STEPS.length;
@@ -340,8 +384,9 @@
     }
     function render(focus){
       var s = st.screen;
+      if (s !== 'intro') clearCues();
       if (s === 'ring') view.innerHTML = renderRing();
-      else if (s === 'intro') view.innerHTML = renderIntro();
+      else if (s === 'intro') { view.innerHTML = renderIntro(); startCues(); }
       else if (s === 'brief') view.innerHTML = renderBrief();
       else if (s === 'play') view.innerHTML = renderPlay();
       else if (s === 'locked') view.innerHTML = renderLocked();
@@ -511,6 +556,7 @@
     /* ---------- events ---------- */
     root.addEventListener('mouseover', function(e){ var h = e.target.closest ? e.target.closest('.hs') : null; if (h) { h.classList.add('tapped'); var bd = h.closest('.s9-board'); if (bd) bd.classList.add('learned'); } });
     root.addEventListener('click', function(e){
+      ac();
       var hs = e.target.closest('.hs');
       if (hs) { hs.classList.add('tapped'); var bd = hs.closest('.s9-board'); if (bd) bd.classList.add('learned'); }
       Array.prototype.forEach.call(root.querySelectorAll('.hs.active'), function(x){ if (x !== hs) x.classList.remove('active'); });
@@ -533,7 +579,8 @@
       }
       var act = e.target.closest('[data-act]'); if (!act) return;
       var what = act.getAttribute('data-act');
-      if (what === 'ff') { var ig = view.querySelector('.s11-intro'); if (ig) { ig.classList.add('done'); var sb = ig.querySelector('.s9-start'); if (sb) sb.focus({preventScroll:true}); } }
+      if (what === 'ff') { var ig = view.querySelector('.s11-intro'); if (ig) { clearCues(); chime(); ig.classList.add('done'); var sb = ig.querySelector('.s9-start'); if (sb) sb.focus({preventScroll:true}); } }
+      else if (what === 'snd') { var on = !soundOn(); try { localStorage.setItem(SNDKEY, on ? '1' : '0'); } catch (x) {} act.setAttribute('aria-pressed', on); act.setAttribute('aria-label', 'Sound ' + (on ? 'on' : 'off')); act.innerHTML = on ? SNDI.on : SNDI.off; if (on) chime(); }
       else if (what === 'answer') go('intro');
       else if (what === 'start') { st.step = 0; go(briefDone() ? 'play' : 'brief'); }
       else if (what === 'back') {

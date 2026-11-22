@@ -218,7 +218,7 @@ document.addEventListener('click', function(e){
 
 /* ===== Style-11 =====
    Opens as a pop-up from anywhere. Its files load the first time someone asks for it (or hovers/touches a Style-11 link). */
-var S11_V = '20261122d', s11Loading = null;
+var S11_V = '20261122g', s11Loading = null;
 function loadStyle11(){
   if (window.Style11) return Promise.resolve();
   if (s11Loading) return s11Loading;
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function(){
       try { sessionStorage.setItem(KEY, '1'); if (remember) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
       setTimeout(function(){ if (t.parentNode) t.remove(); }, 500);
     }
-    function arm(){ clearTimeout(timer); timer = setTimeout(function(){ hide(false); }, 14000); }
+    function arm(){ clearTimeout(timer); timer = setTimeout(function(){ hide(false); }, 20000); }
     t.querySelector('.t-x').addEventListener('click', function(){ hide(true); });
     t.addEventListener('mouseenter', function(){ clearTimeout(timer); });
     t.addEventListener('mouseleave', arm);
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function(){
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ t.classList.add('in'); }); });
     arm();
   }
-  window.addEventListener('load', function(){ setTimeout(show, 6000); });
+  window.addEventListener('load', function(){ setTimeout(show, 4000); });
 })();
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
