@@ -449,7 +449,7 @@
     for (var q = 1; q < 12; q++) { var th = Math.PI - Math.PI * q / 12; capT.push([cx + wt * Math.cos(th), yT - 12 * Math.sin(th)]); }
     for (var q2 = 1; q2 < 12; q2++) { var th2 = Math.PI * q2 / 12; capB.push([cx + wb * Math.cos(th2), yB + 18 * Math.sin(th2)]); }
     var path = [left[0]].concat(capT, right, capB, left.slice().reverse()).map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(' ') + ' Z';
-    return '<path d="' + path + '" fill="none" stroke="#FFFFFF" stroke-width="3.8" stroke-linejoin="round" opacity=".65"/><path d="' + path + '" fill="none" stroke="#A8692F" stroke-width="1.9" stroke-linejoin="round"/>';
+    return '<path d="' + path + '" fill="none" stroke="#FFFFFF" stroke-width="4.2" stroke-linejoin="round" opacity=".7"/><path d="' + path + '" fill="none" stroke="#7E4318" stroke-width="2.6" stroke-linejoin="round"/>';
   }
   function shapeFig(r) {
     var key = shapeKey(r);
@@ -462,10 +462,11 @@
         if (hex && mask) {
           var d = x.getImageData(0, 0, c.width, c.height), px = d.data, mc = document.createElement('canvas'); mc.width = c.width; mc.height = c.height; var mx = mc.getContext('2d'); mx.drawImage(mask, 0, 0, c.width, c.height);
           var md = mx.getImageData(0, 0, c.width, c.height).data, T = [1, 3, 5].map(function (i) { return parseInt(hex.substr(i, 2), 16); });
+          var TL = (0.299 * T[0] + 0.587 * T[1] + 0.114 * T[2]) / 255;
           for (var i = 0; i < px.length; i += 4) {
             var m = md[i] / 255; if (m <= 0.01) continue;
-            var f = Math.max(0.35, Math.min(1.15, (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 220));
-            for (var q = 0; q < 3; q++) px[i + q] = px[i + q] * (1 - m) + Math.min(255, T[q] * f) * m;
+            var rr = Math.max(0.3, Math.min(1.12, (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 220)), K = 130 * (0.3 + 0.7 * TL);
+            for (var q = 0; q < 3; q++) { var nv = Math.max(0, Math.min(255, T[q] * (0.55 + 0.45 * rr) + (rr - 1) * K * 0.6 + (rr - 1) * T[q] * 0.35)); px[i + q] = px[i + q] * (1 - m) + nv * m; }
           }
           x.putImageData(d, 0, 0);
         }
