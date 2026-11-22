@@ -814,7 +814,7 @@ function buildShopLinks(a, signature, keywords, neutrals, shapeKey){
     const q0 = (colors[i] + ' ' + k).trim();
     const st = stores[(offset + i) % stores.length];
     const q = st[2] ? st[2](q0, colors[i]) : q0;
-    return { q, store: st[0], url: st[1] + encodeURIComponent(q).replace(/%20/g, '+') };
+    return { q, store: st[0], url: st[1] + encodeURIComponent(q + ' women').replace(/%20/g, '+') };
   });
 }
 

@@ -421,10 +421,9 @@ const LIFE_OPTS = {
   temp: ['hot','cold','between'],
   heel: ['flats','low','mid','high'],
   goal: ['none','event','job','change','trip'],
-  hairType: ['straight','wavy','curly','coily','protective','wig'],
   hairLen: ['short','medium','long']
 };
-const LIFE_MULTI = { comfortFab: ['itchy','clingy','stiff','sheer','shiny','none'], shopHabits: ['store','online','secondhand','resale'] };
+const LIFE_MULTI = { hairType: ['straight','wavy','curly','coily','protective','wig','varies'], comfortFab: ['itchy','clingy','stiff','sheer','shiny','none'], shopHabits: ['store','online','secondhand','resale'] };
 const plainText = (v, n) => String(v == null ? '' : v).replace(/[^A-Za-z0-9 ,.'&:\/\-_?=#@]/g, '').slice(0, n).trim();
 function cleanLife(a) {
   const out = {};
@@ -433,7 +432,7 @@ function cleanLife(a) {
   out.goalDate = plainText(a.goalDate, 30);
   out.sizes = { top: plainText(a.sizeTop, 8), bottom: plainText(a.sizeBottom, 8), shoe: plainText(a.sizeShoe, 8) };
   out.inspo = plainText(a.inspo, 140);
-  out.any = !!(Object.keys(LIFE_OPTS).some(k => out[k]) || out.comfortFab.length || out.shopHabits.length || out.goalDate || out.inspo || out.sizes.top || out.sizes.bottom || out.sizes.shoe);
+  out.any = !!(Object.keys(LIFE_OPTS).some(k => out[k]) || out.comfortFab.length || out.shopHabits.length || out.hairType.length || out.goalDate || out.inspo || out.sizes.top || out.sizes.bottom || out.sizes.shoe);
   return out;
 }
 
