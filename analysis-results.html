@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="report-extra.js?v=d1c15c2f"></script>
+<script src="report-extra.js?v=e91af0c4"></script>
 <style>
 :root{--bg:#FAF9F6;--surface:#EFECE6;--ink:#181716;--ink-soft:#6B6862;--line:#DCD8D0;--accent:#7A1321;--accent-deep:#4E0B14;--accent-ink:#FAF9F6;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -160,7 +160,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font-body);pad
 .pdf-colorband h1{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#FAF9F6;font-weight:500;margin:0;}
 .pdf-colorband h1 em{color:#EFECE6;font-style:italic;}
 .pdf-shaperow{display:flex;align-items:center;gap:0.9rem;}
-.pdf-bodyrow{display:flex;gap:28px;align-items:stretch;margin-bottom:0.4rem;}.pdf-croq{position:relative;width:236px;flex-shrink:0;}.pdf-croq img{width:236px;display:block;}.pdf-croq img.pdf-fig{width:190px;margin:0 auto;display:block}.pdf-fig-ov{position:absolute;left:0;top:0;pointer-events:none}.pdf-croq-lbl{position:absolute;right:0;transform:translateY(-120%);font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;color:#6B6862;}.pdf-bodycol{flex:1;min-width:0;}
+.pdf-bodyrow{display:flex;gap:28px;align-items:stretch;margin-bottom:0.4rem;}.pdf-croq{position:relative;width:236px;flex-shrink:0;}.pdf-croq img{width:236px;display:block;}.pdf-croq-lbl{position:absolute;right:0;transform:translateY(-120%);font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;color:#6B6862;}.pdf-bodycol{flex:1;min-width:0;}
 .pdf-shaperow img{width:64px;height:64px;object-fit:contain;border-radius:2px;background:#fff;border:1px solid #DCD8D0;flex-shrink:0;}
 .pdf-log-meta{font-size:0.82rem;color:#6B6862;margin:0 0 0.4rem;line-height:1.6;}
 .pdf-log-row{display:flex;gap:1.2rem;padding:0.55rem 0;border-bottom:1px solid #DCD8D0;}
@@ -257,6 +257,34 @@ function croqPath(P){
   const L=croqRuns(P);const R=L.slice().reverse().map(croqMirror);
   return L.concat(R).map(r=>croqCR(r)).map((d,i)=>i===0?d:d.replace(/^M/,'L')).join(' ');
 }
+/* Shape outline: a thin gold line around the torso that follows the named shape (pear, hourglass, apple, rectangle, inverted triangle),
+   built from the same measurements as the drawing and kept wider than the body so the figure stays visible. */
+function croqOutline(P,key,d){
+  d=d||0;const yT=32,Y=[yT,46,72,98,129,152];
+  /* half-widths at neck, shoulders, bust, waist, hips and upper thigh: the classic outline of each shape, drawn wider than the body */
+  const T={
+    pear:[6,15,17,17-2.4*d,31,21],
+    hourglass:[6,24,25,16-2.4*d,25,18],
+    apple:[6,20,27,28+2*d,24,16],
+    inverted:[8,31+2*d,27,20,16,10],
+    rectangle:[8,25,25,25,25,20]
+  }[key]||[6,24,25,16,25,18];
+  const pts=Y.map((y,i)=>[y,T[i]]);
+  const mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  const P2=[pts[0],mid(pts[0],pts[1]),pts[1],mid(pts[1],pts[2]),pts[2],mid(pts[2],pts[3]),pts[3],mid(pts[3],pts[4]),pts[4],mid(pts[4],pts[5]),pts[5]];
+  const wAt=y=>{let i=0;while(i<P2.length-2&&y>P2[i+1][0])i++;const p0=P2[Math.max(0,i-1)],p1=P2[i],p2=P2[i+1],p3=P2[Math.min(P2.length-1,i+2)];
+    const t=Math.max(0,Math.min(1,(y-p1[0])/(p2[0]-p1[0]))),t2=t*t,t3=t2*t,dy=p2[0]-p1[0];
+    const m1=(p2[1]-p0[1])/(p2[0]-p0[0])*dy,m2=(p3[1]-p1[1])/(p3[0]-p1[0])*dy;
+    return (2*t3-3*t2+1)*p1[1]+(t3-2*t2+t)*m1+(-2*t3+3*t2)*p2[1]+(t3-t2)*m2;};
+  const yB=Y[5],R=[],L=[],n=44;
+  for(let i=0;i<=n;i++){const y=yT+(yB-yT)*i/n,w=Math.max(1,wAt(y));R.push([50+w,y]);L.push([50-w,y]);}
+  const wt=R[0][0]-50,wb=R[n][0]-50,capT=[],capB=[];
+  for(let q=1;q<12;q++){const th=Math.PI-Math.PI*q/12;capT.push([50+wt*Math.cos(th),yT-3*Math.sin(th)]);}
+  for(let q=1;q<12;q++){const th=Math.PI*q/12;capB.push([50+wb*Math.cos(th),yB+5*Math.sin(th)]);}
+  const pts2=[L[0]].concat(capT,R,capB,L.slice().reverse());
+  const dd=pts2.map((p,i)=>(i?'L':'M')+p[0].toFixed(2)+' '+p[1].toFixed(2)).join(' ')+' Z';
+  return `<path d="${dd}" fill="none" stroke="#B8864B" stroke-width="1.25" stroke-linejoin="round" stroke-linecap="round"/>`;
+}
 // opt: stroke, sw, arrows (proportion guides), k (height scale), d (intensity -1..1)
 function croquisSVG(key,opt){
   opt=opt||{};const P=Object.assign({},CROQ_SHAPES[key]||CROQ_SHAPES.hourglass);const k=opt.k||1,d=opt.d||0;
@@ -265,7 +293,8 @@ function croquisSVG(key,opt){
   const guides=opt.arrows?[[CROQ_Y.sh,P.s],[CROQ_Y.waist,P.w],[CROQ_Y.hip,P.h]].map(([y,hw])=>{
     const x1=50-hw,x2=50+hw;
     return `<line x1="3" x2="97" y1="${y}" y2="${y}" stroke="#CDBBA8" stroke-width=".4" stroke-dasharray="1.4 1.4"/><path d="M${x1+.8} ${y}H${x2-.8}M${x1+.8} ${y}l2.2-1.3M${x1+.8} ${y}l2.2 1.3M${x2-.8} ${y}l-2.2-1.3M${x2-.8} ${y}l-2.2 1.3" stroke="#8C7A5E" stroke-width=".7" fill="none" stroke-linecap="round"/>`;}).join(''):'';
-  const body=`<g transform="translate(50 256) scale(${k}) translate(-50 -256)"><ellipse cx="50" cy="17.5" rx="8.6" ry="11" fill="none" stroke="${stroke}" stroke-width="${sw}"/><path d="${croqPath(P)}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>${guides}</g>`;
+  const outline=opt.outline?croqOutline(P,key,d):'';
+  const body=`<g transform="translate(50 256) scale(${k}) translate(-50 -256)"><ellipse cx="50" cy="17.5" rx="8.6" ry="11" fill="none" stroke="${stroke}" stroke-width="${sw}"/><path d="${croqPath(P)}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>${outline}${guides}</g>`;
   return `<svg viewBox="0 -24 100 284" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
 }
 function croqOpts(BAx){const k={petite:0.92,tall:1.08}[BAx&&BAx.height]||1;const d={defined:1,soft:0,plain:-1}[BAx&&BAx.intensity];return{k,d:d===undefined?0:d};}
@@ -284,7 +313,7 @@ function croqPng(shape,BAx,w,h,stroke,extra){
 
 const CROQ_CACHE={};
 function croqKey(shape,b){return shape+'|'+(b.height||'')+'|'+(b.intensity||'');}
-async function prepCroq(r){const b={height:r.height,intensity:r.intensity};CROQ_CACHE[croqKey(r.bodyShapeKey,b)]=await croqPng(r.bodyShapeKey,b,600,1704,'#4B1515',{arrows:true,sw:1.0});return b;}
+async function prepCroq(r){const b={height:r.height,intensity:r.intensity};CROQ_CACHE[croqKey(r.bodyShapeKey,b)]=await croqPng(r.bodyShapeKey,b,600,1704,'#4B1515',{arrows:true,outline:true,sw:1.0});return b;}
 const SHAPE_WORD={hourglass:'Hourglass',pear:'Pear',apple:'Apple',rectangle:'Rectangle',inverted:'Inverted Triangle'};
 function shapeTitle(r){const w=SHAPE_WORD[r.bodyShapeKey]||'';return r.intensity==='defined'?'Defined '+w:r.intensity==='soft'?'Soft '+w:w;}
 function pdfList(arr){return '<ul class="pdf-list">'+(arr||[]).map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul>';}
@@ -356,7 +385,7 @@ function makeBlocks(r){
   const avSw=(r.avoidSwatches&&r.avoidSwatches.length)?'<div class="pdf-avsw">'+r.avoidSwatches.slice(0,4).map(c=>'<div><i style="background:'+esc(c.h)+'"></i><span>'+esc(c.n)+'</span><em>'+hexOf(c)+'</em></div>').join('')+'</div>':'';
   const matureTip=(r.ageBracket==='45+')?'<div class="pdf-tip"><strong>Near your face:</strong> choose softer, light-reflecting shades, like champagne, pearl or a soft version of your signature colors. They bounce light back onto your skin and keep your face bright.</div>':'';
   L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'+matureTip+(X.glance?glanceHtml(r):'')+(window.HX?HX.guidanceExtra(r):'')});
-  L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><div class="pdf-croq-in">'+(r.__shape?'<img class="pdf-fig" src="'+r.__shape.url+'"/>'+r.__shape.svg:'<img src="'+img+'"/>')+'<span class="pdf-croq-lbl" style="top:'+(r.__shape?r.__shape.pct.sh:CL.sh).toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+(r.__shape?r.__shape.pct.waist:CL.waist).toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+(r.__shape?r.__shape.pct.hip:CL.hip).toFixed(1)+'%">Hips</span></div></div>'
+  L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><div class="pdf-croq-in"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div></div>'
     +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p>'+(r.whyBody?bubbles(r.whyBody,true)+'<p class="pdf-section-label">Tops &amp; Necklines</p>'+topTiles((r.bodyGuide.tops||[]).slice(0,4)):'<div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div>')+'</div></div>'
     +(r.whyBody?'':'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4)))+(r.whyBody&&r.bodyGoal?'<div class="pdf-goalband"><p class="pdf-section-label">Your Styling Goal</p><p>'+esc(r.bodyGoal)+'</p></div>':'')+(X.lineup?lineupHtml(r):'')});
   if(window.HX)L.push(HX.dress(r));

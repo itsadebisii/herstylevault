@@ -238,7 +238,7 @@
     var key = DRESS_ROWS[r.bodyShapeKey] ? r.bodyShapeKey : 'rectangle', D = DRESS_ROWS[key], P = pal(r);
     var cols = [P.sig[0], P.neu[1], P.sig[2], P.neu[2], P.sig[4], P.neu[3], P.sig[1], P.acc[1], P.sig[3], P.neu[0], P.sig[5], P.acc[2]].map(function (c) { return c.h; });
     var n = 0;
-    var fig = r.__shape ? '<img src="' + r.__shape.url + '" alt="" style="width:100%;height:100%;object-fit:contain;display:block">' : (typeof croquisSVG === 'function' ? croquisSVG(key, { sw: 1.4 }) : '');
+    var fig = typeof croquisSVG === 'function' ? croquisSVG(key, { sw: 1.4 }) : '';
     var shapeWord = (typeof SHAPE_WORD !== 'undefined' && SHAPE_WORD[key]) ? SHAPE_WORD[key] : key;
     var rows = D.rows.map(function (row) {
       var items = row[2].map(function (k) { var g = G(k, cols[n++ % cols.length]); return '<div class="hx-gi">' + g + '<span>' + NAMES[k] + '</span></div>'; }).join('');
@@ -410,84 +410,10 @@
     x.putImageData(d, 0, 0); return c.toDataURL('image/jpeg', 0.86);
   }
 
-  /* ---------- body shape figure: illustrated silhouette, skin tone from her results, shape outline and measurement guides ---------- */
-  var SHAPE_DIR = 'images/report/shapes/', SHAPE_LM = null, SHAPE_W = 236, SHAPE_IMG_W = 190;
-  function shapeKey(r) {
-    var s = r.bodyShapeKey, i = r.intensity;
-    if (s === 'rectangle') return 'rectangle-' + (i === 'defined' ? 'defined' : 'soft');
-    return (i === 'defined' || i === 'soft') ? s + '-' + i : s;
-  }
-  function loadImgSrc(src) { return new Promise(function (res) { var im = new Image(); im.onload = function () { res(im); }; im.onerror = function () { res(null); }; im.src = src; }); }
-  function loadShapeLM() {
-    if (SHAPE_LM) return Promise.resolve(SHAPE_LM);
-    return fetch(SHAPE_DIR + 'landmarks.json').then(function (x) { return x.json(); }).then(function (j) { SHAPE_LM = j; return j; }).catch(function () { SHAPE_LM = {}; return SHAPE_LM; });
-  }
-  function skinHexFor(r) { var h = null; SKINS.forEach(function (s) { if (s[0] === r.depthKey) h = s[2]; }); return h; }
-  /* the outline follows the named shape, built from the measurements of her own figure, and sits outside the body so the body stays visible */
-  function shapeOutline(r, lm, X, Y) {
-    var base = r.bodyShapeKey, inten = r.intensity;
-    var cx = lm.cx || (lm.shx[0] + lm.shx[1]) / 2;
-    var wS = (lm.shx[1] - lm.shx[0]) / 2 * 0.8, wW = (lm.wx[1] - lm.wx[0]) / 2, wH = (lm.hx[1] - lm.hx[0]) / 2, avg = (wS + wH) / 2;
-    var waistK = inten === 'defined' ? 0.93 : inten === 'soft' ? 1.04 : 1;
-    var M = { pear: [0.84, 1, 1.1], hourglass: [1, 0.9, 1], apple: [0.95, 1.14, 0.92], inverted: [1.1, 1, 0.86], rectangle: [1, 1.02, 1] }[base] || [1, 1, 1];
-    var a = base === 'rectangle' ? [avg * M[0], avg * M[1] * (inten === 'defined' ? 0.96 : 1.02), avg * M[2]] : [wS * M[0], wW * M[1] * waistK, wH * M[2]];
-    var gap = 13, yT = lm.ysh - 34, yB = lm.yh + 46, pts = [[yT, 0.34 * a[0]], [lm.ysh, a[0]], [lm.yw, a[1]], [lm.yh, a[2]], [yB, 0.5 * a[2]]];
-    /* smooth width profile through the landmarks (Catmull-Rom), so the outline reads as one clean curve */
-    var mid1 = [(lm.ysh + lm.yw) / 2, (a[0] + a[1]) / 2 + (base === 'apple' ? 4 : 0)], mid2 = [(lm.yw + lm.yh) / 2, (a[1] + a[2]) / 2];
-    pts = [pts[0], pts[1], mid1, pts[2], mid2, pts[3], pts[4]];
-    function wAt(y) {
-      var i = 0; while (i < pts.length - 2 && y > pts[i + 1][0]) i++;
-      var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
-      var t = Math.max(0, Math.min(1, (y - p1[0]) / (p2[0] - p1[0]))), t2 = t * t, t3 = t2 * t;
-      var m1 = (p2[1] - p0[1]) / (p2[0] - p0[0]) * (p2[0] - p1[0]), m2 = (p3[1] - p1[1]) / (p3[0] - p1[0]) * (p2[0] - p1[0]);
-      return (2 * t3 - 3 * t2 + 1) * p1[1] + (t3 - 2 * t2 + t) * m1 + (-2 * t3 + 3 * t2) * p2[1] + (t3 - t2) * m2;
-    }
-    var right = [], left = [], n = 36;
-    for (var k = 0; k <= n; k++) { var y = yT + (yB - yT) * k / n, w = wAt(y) + gap; right.push([cx + w, y]); left.push([cx - w, y]); }
-    /* rounded caps */
-    var wt = right[0][0] - cx, wb = right[n][0] - cx, capT = [], capB = [];
-    for (var q = 1; q < 12; q++) { var th = Math.PI - Math.PI * q / 12; capT.push([cx + wt * Math.cos(th), yT - 12 * Math.sin(th)]); }
-    for (var q2 = 1; q2 < 12; q2++) { var th2 = Math.PI * q2 / 12; capB.push([cx + wb * Math.cos(th2), yB + 18 * Math.sin(th2)]); }
-    var path = [left[0]].concat(capT, right, capB, left.slice().reverse()).map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(' ') + ' Z';
-    return '<path d="' + path + '" fill="none" stroke="#FFFFFF" stroke-width="4.2" stroke-linejoin="round" opacity=".7"/><path d="' + path + '" fill="none" stroke="#7E4318" stroke-width="2.6" stroke-linejoin="round"/>';
-  }
-  function shapeFig(r) {
-    var key = shapeKey(r);
-    return loadShapeLM().then(function (LMs) {
-      var lm = LMs && LMs[key]; if (!lm) return null;
-      return Promise.all([loadImgSrc(SHAPE_DIR + key + '.png'), loadImgSrc(SHAPE_DIR + key + '-skin.png')]).then(function (ims) {
-        var base = ims[0], mask = ims[1]; if (!base) return null;
-        var c = document.createElement('canvas'); c.width = base.width; c.height = base.height; var x = c.getContext('2d'); x.drawImage(base, 0, 0);
-        var hex = skinHexFor(r);
-        if (hex && mask) {
-          var d = x.getImageData(0, 0, c.width, c.height), px = d.data, mc = document.createElement('canvas'); mc.width = c.width; mc.height = c.height; var mx = mc.getContext('2d'); mx.drawImage(mask, 0, 0, c.width, c.height);
-          var md = mx.getImageData(0, 0, c.width, c.height).data, T = [1, 3, 5].map(function (i) { return parseInt(hex.substr(i, 2), 16); });
-          var TL = (0.299 * T[0] + 0.587 * T[1] + 0.114 * T[2]) / 255;
-          for (var i = 0; i < px.length; i += 4) {
-            var m = md[i] / 255; if (m <= 0.01) continue;
-            var rr = Math.max(0.3, Math.min(1.12, (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 220)), K = 130 * (0.3 + 0.7 * TL);
-            for (var q = 0; q < 3; q++) { var nv = Math.max(0, Math.min(255, T[q] * (0.55 + 0.45 * rr) + (rr - 1) * K * 0.6 + (rr - 1) * T[q] * 0.35)); px[i + q] = px[i + q] * (1 - m) + nv * m; }
-          }
-          x.putImageData(d, 0, 0);
-        }
-        var s = SHAPE_IMG_W / lm.W, ox = (SHAPE_W - SHAPE_IMG_W) / 2, H2 = lm.H * s;
-        var X = function (v) { return ox + v * s; }, Y = function (v) { return v * s; };
-        function arrow(y, a, b) {
-          var yy = Y(y).toFixed(1), x1 = X(a).toFixed(1), x2 = X(b).toFixed(1);
-          return '<line x1="3" x2="' + (SHAPE_W - 3) + '" y1="' + yy + '" y2="' + yy + '" stroke="#A79F94" stroke-width=".7" stroke-dasharray="2 3"/>'
-            + '<line x1="' + x1 + '" x2="' + x2 + '" y1="' + yy + '" y2="' + yy + '" stroke="#7A1321" stroke-width="1"/>'
-            + '<path d="M' + x1 + ' ' + yy + ' l5 -3 v6 z M' + x2 + ' ' + yy + ' l-5 -3 v6 z" fill="#7A1321"/>';
-        }
-        var svg = '<svg class="pdf-fig-ov" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + SHAPE_W + ' ' + H2.toFixed(1) + '" width="' + SHAPE_W + '" height="' + H2.toFixed(1) + '">' + shapeOutline(r, lm, X, Y) + arrow(lm.ysh, lm.shx[0], lm.shx[1]) + arrow(lm.yw, lm.wx[0], lm.wx[1]) + arrow(lm.yh, lm.hx[0], lm.hx[1]) + '</svg>';
-        return { url: c.toDataURL('image/png'), svg: svg, imgW: SHAPE_IMG_W, h: H2, pct: { sh: Y(lm.ysh) / H2 * 100, waist: Y(lm.yw) / H2 * 100, hip: Y(lm.yh) / H2 * 100 } };
-      });
-    }).catch(function () { return null; });
-  }
   function prep(r) {
     var P = pal(r), pick = { n0: P.neu[0], n1: P.neu[1], n2: P.neu[2], n3: P.neu[3], dk: P.neu.slice().sort(function (a, b) { return lumH(a.h) - lumH(b.h); }).filter(function (c) { return lumH(c.h) > 0.05; })[0] || P.neu[3], s0: P.sig[0], s2: P.sig[2], s3: P.sig[3] || P.sig[0], s4: P.sig[4] || P.sig[1] }; r.__fab = {};
     curHeel = (r.life && r.life.heel) || ''; curAlt = !!(r.persona && r.persona.vibe === 'alt');
-    r.__shape = null;
-    return Promise.all([shapeFig(r).then(function (f) { r.__shape = f; })].concat(Object.keys(GKEYS).map(loadGarment)).concat(Object.keys(FABP).map(function (id) {
+    return Promise.all(Object.keys(GKEYS).map(loadGarment).concat(Object.keys(FABP).map(function (id) {
       return new Promise(function (res) {
         var im = new Image();
         im.onload = function () { try { r.__fab[id] = FABP[id][1] ? tintImage(im, id === 'chiffon' ? airy(pick[FABP[id][1]].h) : ((curAlt && (id === 'velvet' || id === 'satin')) ? pick.dk : pick[FABP[id][1]]).h) : 'images/report/fabrics/' + FABP[id][0]; } catch (e) {} res(); };
@@ -834,5 +760,5 @@
 
   function ensureCss() { if (document.getElementById('hx-css')) return; var s = document.createElement('style'); s.id = 'hx-css'; s.textContent = CSS; document.head.appendChild(s); }
   ensureCss();
-  window.HX = { shapeFig: shapeFig, prep: prep, glance: glanceBlock, capsule: capsuleBlock, recipes: recipesBlock, fitguide: fitGuideBlock, audit: auditBlock, session: sessionBlock, fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock };
+  window.HX = { prep: prep, glance: glanceBlock, capsule: capsuleBlock, recipes: recipesBlock, fitguide: fitGuideBlock, audit: auditBlock, session: sessionBlock, fabrics: fabricsBlock, guidanceExtra: guidanceExtra, wheelHtml: wheelHtml, shades: shadesBlock, work: workBlock, beauty: beautyBlock, dress: dressBlock, formulas: formulasBlock, patterns: patternsBlock };
 })();
