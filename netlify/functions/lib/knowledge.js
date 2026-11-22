@@ -748,20 +748,33 @@ const S = {
   jjill: ['J.Jill', 'https://www.jjill.com/search?q='],
   talbots: ['Talbots', 'https://www.talbots.com/search?q='],
   chicos: ["Chico's", 'https://www.chicos.com/store/search/?q='],
-  eileenfisher: ['Eileen Fisher', 'https://www.eileenfisher.com/search?q=']
+  eileenfisher: ['Eileen Fisher', 'https://www.eileenfisher.com/search?q='],
+  fashionnova: ['Fashion Nova', 'https://www.fashionnova.com/search?q='],
+  cider: ['Cider', 'https://www.google.com/search?q=shopcider.com+'],
+  finesse: ['Finesse', 'https://finesse.us/search?q='],
+  marsthelabel: ['Mars the Label', 'https://www.google.com/search?q=Mars+the+Label+'],
+  boohoo: ['Boohoo', 'https://us.boohoo.com/search?q='],
+  ego: ['EGO', 'https://www.egoshoes.com/search?q='],
+  coach: ['Coach', 'https://www.coach.com/search?q=', (q, c) => ((c || '') + ' leather bag').trim()],
+  levi: ["Levi's", 'https://www.levi.com/US/en_US/search/', (q, c) => (/jean|denim|trouser|pant|wide leg|jacket/i.test(q) ? q : ((c || '') + ' denim jacket').trim())],
+  wildoak: ['Wild Oak Boutique', 'https://www.wildoakboutique.com/search?q='],
+  shein: ['SHEIN', 'https://us.shein.com/pdsearch/'],
+  revolve: ['Revolve', 'https://www.revolve.com/r/Search.jsp?search='],
+  shopbop: ['Shopbop', 'https://www.shopbop.com/s?query='],
+  bloomingdales: ["Bloomingdale's", 'https://www.bloomingdales.com/shop/search?keyword=']
 };
 const STORE_DIR = {
-  '18-24': { budget: ['oldnavy','asos','target','hm'], mid: ['abercrombie','aritzia','madewell','mango'], invest: ['reformation','nordstrom','saks','anthropologie'] },
-  '25-34': { budget: ['quince','gap','mango','uniqlo'], mid: ['madewell','bananarepublic','abercrombie','jcrew'], invest: ['nordstrom','reformation','mmlafleur','saks'] },
-  '35-44': { budget: ['quince','loft','gap','oldnavy'], mid: ['jcrew','bananarepublic','anntaylor','boden'], invest: ['nordstrom','universalstandard','mmlafleur','saks'] },
-  '45+':   { budget: ['quince','landsend','loft','jjill'], mid: ['talbots','chicos','jcrew','bananarepublic'], invest: ['nordstrom','eileenfisher','universalstandard','saks'] }
+  '18-24': { budget: ['oldnavy','asos','target','hm','fashionnova','cider','boohoo','finesse','shein','ego','wildoak','levi'], mid: ['abercrombie','aritzia','madewell','mango','marsthelabel','finesse','wildoak','levi','coach','ego'], invest: ['reformation','nordstrom','saks','anthropologie','coach','revolve','shopbop','bloomingdales','marsthelabel'] },
+  '25-34': { budget: ['quince','gap','mango','uniqlo','fashionnova','cider','boohoo','finesse','shein','ego','wildoak','levi'], mid: ['madewell','bananarepublic','abercrombie','jcrew','marsthelabel','finesse','wildoak','levi','coach','ego'], invest: ['nordstrom','reformation','mmlafleur','saks','coach','revolve','shopbop','bloomingdales','marsthelabel'] },
+  '35-44': { budget: ['quince','loft','gap','oldnavy','shein','ego','wildoak','levi'], mid: ['jcrew','bananarepublic','anntaylor','boden','wildoak','levi','coach','ego'], invest: ['nordstrom','universalstandard','mmlafleur','saks','coach','bloomingdales','shopbop'] },
+  '45+':   { budget: ['quince','landsend','loft','jjill','shein','ego','wildoak','levi'], mid: ['talbots','chicos','jcrew','bananarepublic','wildoak','levi','coach','ego'], invest: ['nordstrom','eileenfisher','universalstandard','saks','coach','bloomingdales','shopbop'] }
 };
 /* ---------- Age-tailored color + cut pairings for the shopping links ----------
    18-34: trend-forward cuts and shades (the shape's own shopKeywords, e.g. corset top, apple green).
    35+:   classic, elevated cuts, and trendier color names are swapped for classic ones (apple green -> sage). */
 const SHOP_CUTS_CLASSIC = {
   apple: 'wrap dress, belted shirt dress, A-line dress, silk blouse, V-neck knit top, wide leg trousers, tailored blazer',
-  pear: 'A-line dress, tailored blazer, silk blouse, wide leg trousers, structured shoulder top, wrap top',
+  pear: 'A-line dress, tailored blazer, silk blouse, wide leg trousers, structured shoulder top, V-neck top',
   hourglass: 'wrap dress, tailored blazer, silk blouse, high waisted trousers, pencil skirt, belted dress, fit and flare dress',
   rectangle: 'peplum top, wrap dress, belted dress, tailored blazer, silk blouse, A-line skirt, fit and flare dress',
   inverted: 'wide leg trousers, A-line skirt, V-neck top, flared trousers, tiered midi skirt, soft draped blouse'
@@ -794,9 +807,13 @@ function buildShopLinks(a, signature, keywords, neutrals, shapeKey){
   } else {
     colors = kws.map((k, i) => sig[i % sig.length].n);
   }
+  const seed = String(shapeKey || '') + age + (sig[0].n || '');
+  let offset = 0; for (let j = 0; j < seed.length; j++) offset = (offset * 31 + seed.charCodeAt(j)) % 9973;
+  offset = offset % stores.length;
   return kws.map((k, i) => {
-    const q = (colors[i] + ' ' + k).trim();
-    const st = stores[i % stores.length];
+    const q0 = (colors[i] + ' ' + k).trim();
+    const st = stores[(offset + i) % stores.length];
+    const q = st[2] ? st[2](q0, colors[i]) : q0;
     return { q, store: st[0], url: st[1] + encodeURIComponent(q).replace(/%20/g, '+') };
   });
 }

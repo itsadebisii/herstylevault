@@ -741,13 +741,13 @@ const VEIN_SETS = {
   light: { label: 'Lighter skin tones', bg: '#f2d3b8', strokes: { blue: '#3a4a8c', green: '#3a6b3a', both: '#4a5c4a' } }
 };
 const VEIN_LABELS = { blue: 'Blue / Purple', green: 'Green', both: 'Mix of both' };
-const STYLE_ART = { flowy: ['wrap'], fitted: ['blazer'], waist: ['dressBelted'], oversized: ['coat'], layered: ['coat', 'tee'], cropped: ['topV', 'trousers'], bodyskim: ['dress'], sets: ['matching'], mix: ['wrap', 'blazer', 'dressBelted'] };
+const STYLE_ART = { flowy: ['dress'], fitted: ['blazer'], waist: ['dressBelted'], oversized: ['coat'], layered: ['coat', 'tee'], cropped: ['topV', 'trousers'], bodyskim: ['dress'], sets: ['matching'], mix: ['topV', 'blazer', 'dressBelted'] };
 const SEP_ART = { dresses: ['dress'], separates: ['topV', 'trousers'], both: ['dress', 'trousers'] };
 const SH_MAP = { shouldersMuchWider: ['inverted', 2], shouldersSlightlyWider: ['inverted', 0], equal: ['rectangle', 0], hipsSlightlyWider: ['pear', 0], hipsMuchWider: ['pear', 2], hipsWiderShouldersFull: ['hourglass', 0] };
 const WD_MAP = { veryDefined: ['hourglass', 2], slightlyDefined: ['hourglass', 0], barelyDefined: ['rectangle', 0], fullMidsection: ['apple', 1] };
 const BH_MAP = { bustMuchLarger: ['inverted', 2], bustSlightlyLarger: ['inverted', 0], roughlyEqual: ['rectangle', 0], hipsSlightlyLarger: ['pear', 0], hipsMuchLarger: ['pear', 2], fullBoth: ['hourglass', -1] };
 const PQ1_ART = { blazer: ['blazer'], casual: ['tee', 'trousers'], feminine: ['dress'], allblack: ['coat'], bold: ['statement'], set: ['matching'], sporty: ['sneaker'], heels: ['matching', 'heel'], other: ['pencil'] };
-const PQ2_ART = { tailored: ['blazer'], drape: ['wrap'], quality: ['fabric'], effortless: ['tee', 'trousers'], drama: ['statement'], comfort: ['sneaker'], waist: ['dressBelted'], color: ['statement'], versatile: ['topV', 'trousers', 'blazer'], other: ['pencil'] };
+const PQ2_ART = { tailored: ['blazer'], drape: ['dress'], quality: ['fabric'], effortless: ['tee', 'trousers'], drama: ['statement'], comfort: ['sneaker'], waist: ['dressBelted'], color: ['statement'], versatile: ['topV', 'trousers', 'blazer'], other: ['pencil'] };
 const PQ3_ART = { mono: ['topV', 'trousers', 'bag'], set: ['matching'], outerwear: ['coat'], standout: ['statement', 'bag'], bottoms: ['trousers'], dress: ['dress'], color: ['statement'], occasion: ['bag', 'heel'], other: ['pencil'] };
 function artProportion(v) {
   const Y = CROQ_Y, crotch = v === 'longTorso' ? 158 : v === 'longLegs' ? 124 : 141;
