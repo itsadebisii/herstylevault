@@ -24,7 +24,8 @@ const {
 const reportStore = require('./lib/report-store');
 
 const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5';
-const AI_TIMEOUT_MS = 20000;
+// Netlify's default function limit is 10s, so keep the AI call under it (override with AI_TIMEOUT_MS if the site allows longer functions).
+const AI_TIMEOUT_MS = Number(process.env.AI_TIMEOUT_MS) || 8500;
 
 // Phrases that make a report sound machine-written, plus any echo of the quiz wording.
 // Anything the model returns that matches is thrown away and replaced by the template version.
@@ -179,7 +180,9 @@ async function askClaude(anthropicKey, userContent) {
       },
       body: JSON.stringify({
         model: ANTHROPIC_MODEL,
-        max_tokens: 1200,
+        // Sonnet 5.5 always thinks before answering. Low effort keeps that short, and the larger limit leaves room for the answer itself.
+        max_tokens: 3000,
+        output_config: { effort: 'low' },
         system: SYSTEM_PROMPT,
         messages: [{ role: 'user', content: userContent }]
       }),
@@ -194,7 +197,7 @@ async function askClaude(anthropicKey, userContent) {
     const data = await res.json();
     const rawText = (data.content || []).map((b) => b.text || '').join('');
     const m = rawText.match(/\{[\s\S]*\}/);
-    if (!m) { LAST_AI_ERR = 'Claude replied but not in the expected format'; return null; }
+    if (!m) { LAST_AI_ERR = 'Claude replied but not in the expected format (stopped because: ' + data.stop_reason + '; reply began: ' + JSON.stringify(rawText.slice(0, 80)) + ')'; return null; }
     return JSON.parse(m[0]);
   } catch (e) {
     LAST_AI_ERR = (e && e.name === 'AbortError') ? 'Claude took longer than ' + (AI_TIMEOUT_MS / 1000) + ' seconds' : 'Error: ' + (e && e.message);
