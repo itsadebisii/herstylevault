@@ -681,7 +681,20 @@ async function init() {
   } catch (e) { data = null; }
 
   AGE = (data && data.answers && data.answers.ageBracket) || '';
-  if (PREVIEW && (!data || !data.answers || new URLSearchParams(window.location.search).get('sample') === '1')) { data = SAMPLE_DATA; AGE = '25-34'; }
+  /* Preview-only sample clients. ?sample=1 is the default one; the others open a different kind of client so each can be checked quickly. */
+  const SAMPLE_KIND = new URLSearchParams(window.location.search).get('sample');
+  const SAMPLE_VARIANTS = {
+    cool: { jewelry: 'silver', veins: 'blue', depth: 'fair', contrast: 'high', comp: 'cool', wash: 'warm', ageBracket: '35-44', shoulderHip: 'hipsWider', bustHip: 'hipsLarger', waistDef: 'defined', heel: 'flats', climate: 'cold' },
+    alt: { ageBracket: '18-24', pq1: 'alt', pq2: 'edge', pq3: 'mono', feel: ['expressive', 'confident'] },
+    darkromance: { ageBracket: '45+', jewelry: 'silver', veins: 'blue', depth: 'fair', contrast: 'high', comp: 'cool', wash: 'warm', pq1: 'allblack', pq2: 'edge', pq3: 'mono' },
+    nodress: { ageBracket: '35-44', dressSep: 'separates', styleGrav: 'fitted' },
+    mature: { ageBracket: '45+', heel: 'flats', dressCode: 'formal' },
+    petite: { height: 'petite', proportion: 'longTorso', quiet: ['hips', 'midsection'], ageBracket: '25-34' }
+  };
+  if (PREVIEW && (!data || !data.answers || SAMPLE_KIND === '1' || SAMPLE_VARIANTS[SAMPLE_KIND])) {
+    data = SAMPLE_VARIANTS[SAMPLE_KIND] ? Object.assign({}, SAMPLE_DATA, { answers: Object.assign({}, SAMPLE_DATA.answers, SAMPLE_VARIANTS[SAMPLE_KIND]) }) : SAMPLE_DATA;
+    AGE = data.answers.ageBracket || '25-34';
+  }
   if (!data || !data.answers) {
     // Opened on a different phone or browser: the saved copy opens with the email used at checkout.
     showGate(sessionId);
