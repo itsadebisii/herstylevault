@@ -72,18 +72,18 @@ var DIGITALS = [
     ],
     trustTitle: 'Not a generic <em>quiz result</em>',
     trust: [
-      ['Real styling data, not guesses', 'Your color season and body shape are identified using the same tested color and body-shape system HerStyleVault uses with in-person clients: 12 color seasons, 5 body shapes, real palettes and real styling rules. Your results are personalized recommendations based on your answers and optional photo, and are not a substitute for an in-person color analysis.'],
+      ['Real styling data, not guesses', 'Your color season and body shape are identified using the same tested color and body-shape system HerStyleVault uses with in-person clients: 12 color seasons, 5 body shapes, real palettes and real styling rules.'],
       ['Written for you, not templated', 'A personalized digital report explaining exactly how your specific answers point to your result, including resolving any answers that seem to contradict each other, the way a real stylist would.']
     ],
     faqs: [
       ['How do I get my report?', 'It opens on screen as soon as it is ready, and one tap sends the PDF to the email you checked out with, so you can keep it.'],
       ['How long does it take?', 'About 5 minutes for the quiz itself. Your report generates in under a minute after checkout.'],
       ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
-      ['How accurate is the color analysis?', 'It is a careful, personalized read of your coloring from your answers and optional photo, using the same method and palettes as in-person sessions. Because it cannot see you in person, it is not a substitute for an in-person color analysis, which is more precise. If something looks off, email hello@herstylevault.com within 48 hours and I will take a look.'],
       ['Is this the same report as The Full Reveal?', 'Yes. The Signature Style Report is the same report that comes with The Full Reveal package. If you book The Full Reveal, you receive this report as part of it, and your $40 is credited toward your package if you booked within 12 months.'],
       ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
       ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the $40 comes off your final payment.']
     ],
+    finePrint: 'Personalized recommendations based on your answers and optional photo, not an in-person color analysis.',
     buyLabel: 'Start Style Analysis',
     cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },
     meta: 'Instant results · One-time payment · No account needed'
