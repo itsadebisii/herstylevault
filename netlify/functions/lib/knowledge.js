@@ -8,7 +8,7 @@ function computeColorAxes(a){
   let warmScore=0,coolScore=0;
   if(a.jewelry==='gold')warmScore+=3;
   if(a.jewelry==='silver')coolScore+=3;
-  if(a.jewelry==='both'){warmScore++;coolScore++;}
+  if(a.jewelry==='both'||a.jewelry==='rosegold'){warmScore++;coolScore++;} // rose gold sits between warm and cool
   if(a.wash==='cool')warmScore+=2;
   if(a.wash==='pale')warmScore+=1;
   if(a.wash==='warm')coolScore+=2;
@@ -44,7 +44,7 @@ function getSeason(a) {
 function colorSignals(a){
   // Each quiz answer, tagged with the undertone direction it points to, in the order we trust them.
   const T={
-    jewelry:{gold:['warm','gold jewelry looks best on you'],silver:['cool','silver jewelry looks best on you'],both:['neutral','both gold and silver look good on you']},
+    jewelry:{gold:['warm','gold jewelry looks best on you'],silver:['cool','silver jewelry looks best on you'],both:['neutral','both gold and silver look good on you'],rosegold:['neutral','rose gold jewelry looks best on you']},
     wash:{cool:['warm','cool tones wash you out'],pale:['warm','very pale, icy colors wash you out'],warm:['cool','warm tones wash you out']},
     comp:{warm:['warm','your compliments come in warm colors'],cool:['cool','your compliments come in cool colors'],neutral:['neutral','your compliments come in soft neutrals']},
     sun:{tan:['warm','you tan easily rather than burn'],burn:['cool','you burn rather than tan'],both:['neutral','you tan and then burn']},

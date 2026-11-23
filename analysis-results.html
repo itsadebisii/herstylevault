@@ -494,7 +494,9 @@ async function renderReport(r){
   fetch('/.netlify/functions/send-report?health=1').then(r=>r.json()).then(j=>{if(!(j&&j.ok))useDownload();}).catch(()=>useDownload());
   function useDownload(){if(eb2){eb2.textContent='Get my PDF';eb2.onclick=()=>downloadPdf(eb2);}eb.textContent='Get my PDF';eb.onclick=()=>downloadPdf(eb);const rh=document.getElementById('report-hint');if(rh)rh.innerHTML='Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+'<b>Get my PDF</b> in the top right corner now to save a copy. Thinking of booking a session? Keep this PDF so you can share it at your consultation.';}
 }
-async function buildPdf(){
+/* opt.scale and opt.q make a smaller copy (used for the emailed PDF, which has to stay under the server's upload limit) */
+async function buildPdf(opt){
+  opt=opt||{};
   const root=document.getElementById('pdf-root');
   try{
     root.innerHTML=buildPages(REPORT).join('');
@@ -504,9 +506,9 @@ async function buildPdf(){
     const pdf=new jsPDF({unit:'px',format:[816,1056],compress:true});
     pdf.setProperties({title:'Signature Style Report',subject:'Your personalized color and body style report',author:'HerStyleVault',creator:'HerStyleVault'});
     for(let i=0;i<els.length;i++){
-      const canvas=await html2canvas(els[i],{scale:(/iP(hone|ad|od)|Android/.test(navigator.userAgent)?1.5:2),backgroundColor:'#ffffff',useCORS:true});
+      const canvas=await html2canvas(els[i],{scale:(opt.scale||(/iP(hone|ad|od)|Android/.test(navigator.userAgent)?1.5:2)),backgroundColor:'#ffffff',useCORS:true});
       if(i>0)pdf.addPage([816,1056],'portrait');
-      pdf.addImage(canvas.toDataURL('image/jpeg',0.92),'JPEG',0,0,816,1056);
+      pdf.addImage(canvas.toDataURL('image/jpeg',opt.q||0.92),'JPEG',0,0,816,1056);
       canvas.width=canvas.height=0; /* free memory as we go (helps on phones) */
       const pr=els[i].getBoundingClientRect();
       els[i].querySelectorAll('[data-page]').forEach(el=>{const q=el.getBoundingClientRect();pdf.link(q.left-pr.left,q.top-pr.top,q.width,q.height,{pageNumber:parseInt(el.getAttribute('data-page'),10)});});
@@ -536,7 +538,7 @@ async function emailPdf(btn){
   const label=btn.textContent,box=document.getElementById('dl-ready');btn.disabled=true;btn.textContent='Building your PDF…';
   const say=t=>{box.innerHTML=t;box.hidden=false;const b2=document.getElementById('dl-ready-2');if(b2){b2.innerHTML=t;b2.hidden=false;}};
   try{
-    const {pdf}=await buildPdf();
+    const {pdf}=await buildPdf({scale:1.3,q:0.78}); /* a lighter copy for email: the full-quality one is what the Download button gives */
     btn.textContent='Sending…';
     const buf=new Uint8Array(pdf.output('arraybuffer'));let bin='';for(let i=0;i<buf.length;i+=0x8000)bin+=String.fromCharCode.apply(null,buf.subarray(i,i+0x8000));
     const res=await fetch('/.netlify/functions/send-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:getSessionId(),pdf:btoa(bin)})});
