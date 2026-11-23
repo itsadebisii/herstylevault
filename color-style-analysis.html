@@ -1164,10 +1164,19 @@ function submitAndPay() {
 function showReportPick() {
   const keep = new URLSearchParams(location.search);
   const link = (k) => { const q = new URLSearchParams(keep); q.set('tier', k); return '?' + q.toString(); };
+  const soon = (k) => !HSV_TIERS.live(k) && !IS_PREVIEW;
   document.getElementById('app').innerHTML = `<div class="cover"><p class="cover-eyebrow">Style reports</p><h1 class="cover-title">Which <em>report</em> would you like?</h1>
-    <div class="opts" style="grid-template-columns:1fr;margin-top:1.2rem;">${HSV_TIERS.order.map(k => { const t = HSV_TIERS.get(k); return `<a class="opt" href="${link(k)}" style="display:block;text-decoration:none;color:inherit;text-align:left;"><strong>${t.name} · ${HSV_TIERS.money(k)}</strong><br><span style="font-size:.9rem;opacity:.75;">${t.blurb} ${t.pages} pages, ${t.questions} questions.</span></a>`; }).join('')}</div></div>`;
+    <div class="opts" style="grid-template-columns:1fr;margin-top:1.2rem;">${HSV_TIERS.order.map(k => { const t = HSV_TIERS.get(k); return `<a class="opt" ${soon(k) ? 'aria-disabled="true" style="opacity:.55;pointer-events:none;display:block;text-decoration:none;color:inherit;text-align:left;"' : 'href="' + link(k) + '" style="display:block;text-decoration:none;color:inherit;text-align:left;"'}><strong>${t.name} · ${soon(k) ? 'Opens soon' : HSV_TIERS.money(k)}</strong><br><span style="font-size:.9rem;opacity:.75;">${t.blurb} ${t.pages} pages, ${t.questions} questions.</span></a>`; }).join('')}</div></div>`;
 }
-if (!new URLSearchParams(location.search).get('tier')) showReportPick(); else render();
+function showNotYet() {
+  const live = HSV_TIERS.order.filter(k => HSV_TIERS.live(k));
+  document.getElementById('app').innerHTML = `<div class="cover"><p class="cover-eyebrow">${TINFO.name}</p><h1 class="cover-title">Opens <em>very soon</em></h1>
+    <p class="cover-sub">This report is not open for checkout yet. ${live.length ? 'You can take ' + live.map(k => HSV_TIERS.get(k).name).join(' or ') + ' right now.' : 'Please check back soon.'}</p>
+    ${live.map(k => `<a class="cover-btn" href="?tier=${k}" style="display:block;text-align:center;text-decoration:none;margin-top:.6rem;">Start the ${HSV_TIERS.get(k).name}</a>`).join('')}</div>`;
+}
+if (!new URLSearchParams(location.search).get('tier')) showReportPick();
+else if (!CAN_PAY && !IS_PREVIEW) showNotYet();
+else render();
 </script>
 
 <script src="arrows.js?v=ad91749e"></script>

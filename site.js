@@ -233,6 +233,7 @@ function hsvReportChooser(href){
     m.innerHTML = '<div class="ch-panel"><button type="button" class="ch-x" aria-label="Close">×</button>' +
       '<p class="ch-k">Style reports</p><h2 id="hsvChT" tabindex="-1">Which report would you like?</h2>' +
       T.order.map(function(k){ var t = T.get(k);
+        if (quiz && !T.live(k)) return '<button type="button" class="ch-opt" disabled style="opacity:.55;cursor:default"><b>' + t.name + ' <i>Opens soon</i></b><span>' + t.blurb + ' ' + t.pages + ' pages.</span></button>';
         return '<button type="button" class="ch-opt" data-k="' + k + '"><b>' + t.name + ' <i>' + T.money(k) + '</i></b><span>' + t.blurb + ' ' + t.pages + ' pages.</span></button>'; }).join('') + '</div>';
     function close(){ m.remove(); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); }
     function esc(e){ if (e.key === 'Escape') close(); }

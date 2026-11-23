@@ -24,8 +24,9 @@
       blurb: 'Your colors and body shape, with a closet plan.', cover: 'images/digitals/report-cover-blueprint.jpg'
     },
     signature: {
-      key: 'signature', name: 'Signature Style Report', short: 'Signature', price: 55,
-      link: 'STRIPE_LINK_HERE',
+      key: 'signature', name: 'Signature Style Report', short: 'Signature', price: 40,
+      /* TEMPORARY: this is still today's $40 link, so the report keeps selling. When the $55 Payment Link exists, change price to 55 and paste the new link here. */
+      link: 'https://buy.stripe.com/4gM7sMgEle946DOd577kc00',
       includedIn: 'The Full Reveal', questions: 26, pages: 21,
       blurb: 'The full picture: colors, shape, style persona and shopping.', cover: 'images/digitals/report-cover.jpg'
     }

@@ -374,7 +374,7 @@ async function run(event) {
       type: 'text',
       text: `Client name: ${clientName}
 
-${tier === 'starter' ? 'THIS IS THE COLOR-ONLY REPORT. The client was not asked about her body. Do not mention body shape, proportions, silhouettes or fit anywhere in your answer.\n\n' : ''}QUIZ ANSWERS:
+${tier === 'starter' ? 'THIS IS THE COLOR-ONLY REPORT. The client was not asked about her body. Write only the narrative, about her coloring. Do not mention body shape, proportions, silhouettes or fit. Return "silhouettes" as an empty list and "avoidText" as an empty string: they are not used.\n\n' : ''}QUIZ ANSWERS:
 ${JSON.stringify(tier === 'starter' ? Object.assign({}, answers, { shape: undefined, intensity: undefined }) : answers, null, 2)}
 
 FREE-TEXT NOTE FROM CLIENT: ${freeText || '(none provided)'}
@@ -400,8 +400,9 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
   }
 
   const narrative = cleanNarrative(ai && ai.narrative);
-  const silhouettes = cleanSilhouettes(ai && ai.silhouettes, bodyFacts, answers);
-  const avoidText = cleanAvoid(ai && ai.avoidText);
+  // The color-only Starter report has no body pages, so only its narrative is written and checked.
+  const silhouettes = tier === 'starter' ? null : cleanSilhouettes(ai && ai.silhouettes, bodyFacts, answers);
+  const avoidText = tier === 'starter' ? null : cleanAvoid(ai && ai.avoidText);
 
   // --- Step 5: merge with fixed factual data and return. ---
   const report = {
@@ -454,9 +455,9 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
     avoidText: avoidText || fallback.avoidText,
     generatedBy: {
       narrative: narrative ? 'ai' : 'template',
-      silhouettes: silhouettes ? 'ai' : 'template',
-      avoidText: avoidText ? 'ai' : 'template',
-      why: (previewTest && !(narrative && silhouettes && avoidText)) ? (anthropicKey ? (LAST_AI_ERR || 'Claude answered, but the wording did not pass my safety checks') : 'ANTHROPIC_API_KEY is not set on this site') : undefined
+      silhouettes: tier === 'starter' ? 'skipped' : (silhouettes ? 'ai' : 'template'),
+      avoidText: tier === 'starter' ? 'skipped' : (avoidText ? 'ai' : 'template'),
+      why: (previewTest && !(narrative && (tier === 'starter' || (silhouettes && avoidText)))) ? (anthropicKey ? (LAST_AI_ERR || 'Claude answered, but the wording did not pass my safety checks') : 'ANTHROPIC_API_KEY is not set on this site') : undefined
     }
   };
 
