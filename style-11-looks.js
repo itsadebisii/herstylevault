@@ -346,7 +346,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Raspberry Slow Dance",
-  "short": "Raspberry Slow Dance",
+  "short": "Slow Dance",
   "art": "images/lookbook/art-raspberry-slow-dance.jpg",
   "alt": "HerStyleVault Edit style board: raspberry fringe knit maxi dress, brown leather trench coat, burgundy kitten-heel slingbacks, brown suede clutch, chunky gold amber earrings",
   "colors": [
@@ -673,7 +673,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Red Jacket Weather",
-  "short": "Red Jacket Weather",
+  "short": "Red Jacket",
   "art": "images/lookbook/art-red-jacket-weather.jpg",
   "alt": "HerStyleVault Edit style board: black fitted turtleneck, taupe barrel pants, red buckle jacket, burgundy Mary Jane flats, burgundy croc box bag",
   "colors": [
@@ -919,7 +919,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Navy & Merlot",
-  "short": "Navy & Merlot",
+  "short": "Navy Merlot",
   "art": "images/lookbook/art-navy-and-merlot.jpg",
   "alt": "HerStyleVault Edit style board: navy flare-sleeve cinched dress, burgundy platform knit boots, burgundy croc box bag, tortoise gold hoop earrings, black tights",
   "colors": [
@@ -1107,7 +1107,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Cocoa Leather Moment",
-  "short": "Cocoa Leather Moment",
+  "short": "Cocoa Leather",
   "art": "images/lookbook/art-cocoa-leather-moment.jpg",
   "alt": "HerStyleVault Edit style board: brown faux-leather peplum top, brown faux-leather skirt, brown multi stiletto booties, patchwork shoulder bag, chunky gold amber earrings",
   "colors": [
@@ -1437,7 +1437,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Powder Blue Sunday",
-  "short": "Powder Blue Sunday",
+  "short": "Blue Sunday",
   "art": "images/lookbook/art-powder-blue-sunday.jpg",
   "alt": "HerStyleVault Edit style board: powder blue knit zip-up, khaki wide-leg jeans, burgundy kitten-heel slingbacks, burgundy slouchy hobo bag, tortoise gold hoop earrings",
   "colors": [
@@ -1558,7 +1558,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Pinstripe & Platforms",
-  "short": "Pinstripe & Platforms",
+  "short": "Pinstripe Platforms",
   "art": "images/lookbook/art-pinstripe-and-platforms.jpg",
   "alt": "HerStyleVault Edit style board: gray lace-up cutout top, black pinstripe jorts, burgundy platform knit boots, brown suede clutch, chunky gold amber earrings",
   "colors": [
@@ -1661,7 +1661,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Cheetah Capri Club",
-  "short": "Cheetah Capri Club",
+  "short": "Capri Club",
   "art": "images/lookbook/art-cheetah-capri-club.jpg",
   "alt": "HerStyleVault Edit style board: black asymmetric-neck sweatshirt, leopard denim capris, brown multi stiletto booties, burgundy croc box bag, tortoise gold hoop earrings",
   "colors": [
@@ -2358,7 +2358,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Stripes & Slouch",
-  "short": "Stripes & Slouch",
+  "short": "Stripe Slouch",
   "art": "images/lookbook/art-stripes-and-slouch.jpg",
   "alt": "HerStyleVault Edit style board: striped half-zip knit sweater, gray barrel pants, burgundy Mary Jane flats, burgundy slouchy hobo bag, tortoise gold hoop earrings",
   "colors": [
@@ -2477,7 +2477,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Mocha Knit Set",
-  "short": "Mocha Knit Set",
+  "short": "Mocha Knit",
   "art": "images/lookbook/art-mocha-knit-set.jpg",
   "alt": "HerStyleVault Edit style board: brown knit lounge set, burgundy Mary Jane flats, cognac suede hobo bag, tortoise gold hoop earrings, chunky bangle set",
   "colors": [
@@ -3110,7 +3110,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Leopard & Black",
-  "short": "Leopard & Black",
+  "short": "Leopard Black",
   "art": "images/lookbook/art-leopard-and-black.jpg",
   "alt": "HerStyleVault Edit style board: black fitted turtleneck, leopard leather pants, black faux-leather coat with fur trim, chocolate wedge gladiator sandals, cognac suede hobo bag",
   "colors": [
@@ -3242,7 +3242,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Corset & Cargo",
-  "short": "Corset & Cargo",
+  "short": "Corset Cargo",
   "art": "images/lookbook/art-corset-and-cargo.jpg",
   "alt": "HerStyleVault Edit style board: black high-neck corset top, olive wide-leg pants, chocolate wedge gladiator sandals, patchwork shoulder bag, chunky bangle set",
   "colors": [
@@ -3357,7 +3357,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Soft Neutral Shower",
-  "short": "Soft Neutral Shower",
+  "short": "Neutral Shower",
   "art": "images/lookbook/art-soft-neutral-shower.jpg",
   "alt": "HerStyleVault Edit style board: black fitted turtleneck, cream and brown pleated midi skirt, brown knee-high boots, brown suede clutch, chunky gold amber earrings",
   "colors": [
@@ -3479,7 +3479,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Gray Cardi Shower",
-  "short": "Gray Cardi Shower",
+  "short": "Cardi Shower",
   "art": "images/lookbook/art-gray-cardi-shower.jpg",
   "alt": "HerStyleVault Edit style board: gray fitted zip cardigan, cream and brown pleated midi skirt, burgundy kitten-heel slingbacks, burgundy slouchy hobo bag, tortoise gold hoop earrings",
   "colors": [
@@ -3599,7 +3599,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Satin & Fur",
-  "short": "Satin & Fur",
+  "short": "Satin Fur",
   "art": "images/lookbook/art-satin-and-fur.jpg",
   "alt": "HerStyleVault Edit style board: brown satin halter and pants set, black faux-leather coat with fur trim, burgundy kitten-heel slingbacks, burgundy croc box bag, chunky gold amber earrings",
   "colors": [
@@ -3827,7 +3827,7 @@ window.STYLE11_LOOKS = [
  },
  {
   "title": "Navy Stripe Set",
-  "short": "Navy Stripe Set",
+  "short": "Navy Stripe",
   "art": "images/lookbook/art-navy-stripe-set.jpg",
   "alt": "HerStyleVault Edit style board: navy striped shirt and black pants set, burgundy kitten-heel slingbacks, burgundy croc box bag, tortoise gold hoop earrings, chunky bangle set",
   "colors": [
