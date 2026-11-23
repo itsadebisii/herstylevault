@@ -193,7 +193,8 @@
 .s9-links li:first-child{border-top:0;}
 .s9-links li.whole{font-weight:600;}
 .s9-links a{flex:none; color:#8B1226; font-weight:600; text-decoration:underline; text-underline-offset:2px;}
-.s9-aff{margin:.7rem auto 0; max-width:340px; font-size:11.5px; line-height:1.4; color:#7A5A56;}
+.s9-stock{margin:.7rem auto 0; max-width:340px; font-size:11.5px; line-height:1.4; color:#7A5A56; font-style:italic;}
+.s9-aff{margin:.5rem auto 0; max-width:340px; font-size:11.5px; line-height:1.4; color:#7A5A56;}
 .s9-card-in .s9-handle{margin-top:.8rem;}
 .s9-toast{position:fixed; left:50%; bottom:22px; z-index:10000; transform:translate(-50%,20px); padding:.55rem 1rem; border-radius:99px; background:#2A1814; color:#fff; font:500 13px var(--font-body); opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;}
 .s9-toast.on{opacity:1; transform:translate(-50%,0);}
@@ -514,3 +515,27 @@
 
 /* in the pop-up, keep "Help me out" in view on short screens */
 .s11-modal .s11-slot{position:sticky; bottom:12px; z-index:8; margin-top:.8rem;}
+
+/* ===== Two rows of three: Roll, Spin, Pick / Scratch, Gift box, Doors ===== */
+.s9-methods{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; max-width:360px; margin-left:auto; margin-right:auto;}
+.s9-methods .s9-m{max-width:none; width:100%; padding:.55rem .3rem; font-size:12.5px; white-space:nowrap;}
+.s11-bonus{margin:-.2rem auto .7rem;}
+.s11-bonus .s9-m{flex:none; padding:.5rem .3rem; gap:.3rem;}
+
+/* ===== Doors (Suite Key bonus mode) ===== */
+.s11-doors{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; max-width:340px; margin:.4rem auto .8rem;}
+.s11-door{display:flex; flex-direction:column; align-items:center; gap:.45rem; padding:0; border:0; background:none; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:opacity .35s, transform .35s;}
+.s11-door .dr-frame{position:relative; display:block; width:100%; aspect-ratio:3/5; border-radius:10px 10px 3px 3px; background:#3B0A14; padding:6px; box-shadow:0 8px 16px -6px rgba(60,20,20,.45), inset 0 0 0 2px #C99A2E; perspective:420px;}
+.s11-door .dr-in{position:absolute; inset:6px; border-radius:6px 6px 0 0; background:radial-gradient(circle at 50% 60%, #FFF4D2 0%, #F5D9A0 45%, #E7B96A 100%); display:flex; align-items:center; justify-content:center;}
+.s11-door .dr-in img{width:56%; height:auto; opacity:.75;}
+.s11-door .dr-leaf{position:absolute; inset:6px; border-radius:6px 6px 0 0; background:linear-gradient(160deg,#A31B34,#7A1022 55%,#5E0C1A); transform-origin:0 50%; transition:transform .9s cubic-bezier(.3,1.1,.4,1); display:flex; align-items:flex-start; justify-content:center; box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);}
+.s11-door .dr-p{position:absolute; left:14%; right:14%; top:12%; height:34%; border-radius:4px; box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.28), inset 0 0 0 3px rgba(255,255,255,.08);}
+.s11-door .dr-p.b{top:54%; height:34%;}
+.s11-door .dr-knob{position:absolute; right:12%; top:52%; width:9px; height:9px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#FFF1B8,#C99A2E 60%,#8A5F10); box-shadow:0 1px 2px rgba(0,0,0,.4);}
+.s11-door .dr-num{position:absolute; left:50%; top:2%; transform:translateX(-50%); font:700 11px var(--font-body); font-style:normal; letter-spacing:.06em; color:#F6DE8E; background:#4E0B14; padding:1px 7px; border-radius:99px; box-shadow:0 0 0 1px #C99A2E;}
+.s11-door .dr-plate{font:600 11px var(--font-body); letter-spacing:.12em; text-transform:uppercase; color:#8B1226;}
+.s11-door.open .dr-leaf{transform:rotateY(-78deg);}
+.s11-door.open .dr-in{animation:s11doorGlow .9s ease-out both;}
+.s11-door.dim{opacity:.35; transform:scale(.96);}
+@keyframes s11doorGlow{0%{filter:brightness(1)}60%{filter:brightness(1.18)}100%{filter:brightness(1.05)}}
+@media (prefers-reduced-motion:no-preference){.s11-door:not(.open):not(.dim):hover .dr-leaf{transform:rotateY(-12deg);}}
