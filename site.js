@@ -219,7 +219,8 @@ document.addEventListener('click', function(e){
 /* ===== Style report chooser =====
    Any link to the style report (its page or its quiz) first asks which of the three reports she wants, with a tiny description of each.
    The choice is added to the link: ?opt=starter on the report page, ?tier=starter on the quiz. */
-var HSV_REPORT_LINK = /(?:^|\/)(color-style-analysis|digital-signature-style-report)\.html(?:[?#]|$)/;
+/* the live site shows these links without .html (/color-style-analysis), so the ending is optional */
+var HSV_REPORT_LINK = /(?:^|\/)(color-style-analysis|digital-signature-style-report)(?:\.html)?(?:[?#]|$)/;
 function hsvReportChooser(href){
   var here = (location.pathname.split('/').pop() || 'index.html');
   var quiz = /color-style-analysis/.test(href), pick = function(key){
