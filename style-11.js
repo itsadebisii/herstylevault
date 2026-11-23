@@ -139,6 +139,7 @@
     pick: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-1.2a1.5 1.5 0 0 1 3 0V11m0-.6a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a5 5 0 0 1-4-2L4.2 15.7a1.5 1.5 0 0 1 2.4-1.8L9 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     scratch: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 15c2-4 3-4 5 0s3 3 5-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     gift: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><rect x="3.5" y="9" width="17" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 9v11M3.5 13h17M12 9C9 9 7.5 7.6 8.2 6.3S11 5.2 12 9zm0 0c3 0 4.5-1.4 3.8-2.7S13 5.2 12 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',
+    door: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M6.5 20.5V4.5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M4 20.5h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="12.4" r="1.1" fill="currentColor"/></svg>',
     lock: '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="9.5" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     heart: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'
   };
@@ -220,7 +221,7 @@
       return '<div class="s11-meter" role="status"><span>Rolls today</span><span class="pips" aria-hidden="true">' + pips + '</span><b>' + left + ' left</b></div>';
     }
     function howText(){
-      return {roll:'Tap the dice. We shuffle your matches and land on one.', spin:'Spin the wheel. It lands on one of your matches.', pick:'Tap the piece you would grab first. We reveal the full look.', scratch:'Scratch the foil with your finger or mouse to uncover your look.', gift:'Tap the gift to open it and see what is inside.'}[st.method];
+      return {roll:'Tap the dice. We shuffle your matches and land on one.', spin:'Spin the wheel. It lands on one of your matches.', pick:'Tap the piece you would grab first. We reveal the full look.', scratch:'Scratch the foil with your finger or mouse to uncover your look.', gift:'Tap the gift to open it and see what is inside.', door:'Pick a door. Your look is waiting inside.'}[st.method];
     }
     function methodsHtml(){
       var M = [['roll','Roll'],['spin','Spin'],['pick','Pick']];
@@ -230,7 +231,7 @@
     }
     /* Suite Key bonus modes: open for key holders, shown locked for everyone else */
     function bonusHtml(){
-      var B = [['scratch','Scratch to reveal'],['gift','Gift box']], has = isClient();
+      var B = [['scratch','Scratch'],['gift','Gift box'],['door','Doors']], has = isClient();
       return '<div class="s9-methods s11-bonus" role="group" aria-label="Suite Key bonus modes">' + B.map(function(m){
         if (has) return '<button type="button" class="s9-m' + (st.method === m[0] ? ' on' : '') + '" data-method="' + m[0] + '" aria-pressed="' + (st.method === m[0]) + '">' + IC[m[0]] + ' ' + m[1] + '</button>';
         return '<button type="button" class="s9-m locked" data-act="key" aria-label="' + m[1] + ', a bonus mode. Enter a Suite Key to unlock.">' + IC.lock + ' ' + m[1] + '</button>';
@@ -243,8 +244,9 @@
       st.strip.forEach(function(l, k){
         var a0 = k * seg, a1 = a0 + seg, p0 = polar(104, a0), p1 = polar(104, a1), big = seg > 180 ? 1 : 0, mid = a0 + seg / 2;
         var words = String(l.short || l.title).split(' '), half = Math.ceil(words.length / 2), l1 = words.slice(0, half).join(' '), l2 = words.slice(half).join(' ');
+        var fs = Math.max(9.5, Math.min(14, 76 / (Math.max(l1.length, l2.length) * 0.56)));
         s += '<path d="M0 0 L' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + ' A104 104 0 ' + big + ' 1 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' Z" fill="' + fills[k % fills.length] + '" stroke="#fff" stroke-width="1.5"/>' +
-          '<g transform="rotate(' + mid + ')"><g' + ((mid > 90 && mid < 270) ? ' transform="rotate(180 0 -62)"' : '') + ' fill="' + inks[k % inks.length] + '" font-family="Cormorant Garamond, Georgia, serif" font-weight="600" text-anchor="middle"><text y="' + (l2 ? '-69' : '-62') + '" font-size="14">' + esc(l1) + '</text>' + (l2 ? '<text y="-54" font-size="14">' + esc(l2) + '</text>' : '') + '</g></g>';
+          '<g transform="rotate(' + mid + ')"><g' + ((mid > 90 && mid < 270) ? ' transform="rotate(180 0 -62)"' : '') + ' fill="' + inks[k % inks.length] + '" font-family="Cormorant Garamond, Georgia, serif" font-weight="600" text-anchor="middle"><text y="' + (l2 ? '-69' : '-62') + '" font-size="' + fs.toFixed(1) + '">' + esc(l1) + '</text>' + (l2 ? '<text y="-54" font-size="' + fs.toFixed(1) + '">' + esc(l2) + '</text>' : '') + '</g></g>';
       });
       for (i = 0; i < 24; i++) { var q = polar(118, i * 15); lights += '<circle cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="2.2" fill="' + (i % 2 ? '#F4B3BB' : '#fff') + '"/>'; }
       return '<div class="s9-wheelwrap"><span class="s9-ptr" aria-hidden="true"></span><svg class="s9-wheel" viewBox="-126 -126 252 252" aria-hidden="true" focusable="false">' +
@@ -273,9 +275,16 @@
       return '<button type="button" class="s11-gift" id="gift" data-act="gift" aria-label="Tap to open the gift"><svg class="g-svg" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><defs><linearGradient id="gBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8213D"/><stop offset=".55" stop-color="#8A1427"/><stop offset="1" stop-color="#5E0C1A"/></linearGradient><linearGradient id="gSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6E0F20"/><stop offset="1" stop-color="#430812"/></linearGradient><linearGradient id="gLidF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C52A47"/><stop offset="1" stop-color="#8E1629"/></linearGradient><linearGradient id="gLidT" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E0506A"/><stop offset="1" stop-color="#B01E39"/></linearGradient><linearGradient id="gLidS" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7C1325"/><stop offset="1" stop-color="#4E0A15"/></linearGradient><linearGradient id="gRib" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C6E14"/><stop offset=".3" stop-color="#F3D67F"/><stop offset=".55" stop-color="#C99A2E"/><stop offset="1" stop-color="#8E6410"/></linearGradient><linearGradient id="gRibT" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#C99A2E"/><stop offset=".5" stop-color="#F6DE8E"/><stop offset="1" stop-color="#B98A22"/></linearGradient><linearGradient id="gIn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C0206"/><stop offset="1" stop-color="#4A0914"/></linearGradient><linearGradient id="gSheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".30"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient><radialGradient id="gShadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A0A0F" stop-opacity=".45"/><stop offset="1" stop-color="#2A0A0F" stop-opacity="0"/></radialGradient><radialGradient id="gBowG" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#F8E39A"/><stop offset=".6" stop-color="#D2A537"/><stop offset="1" stop-color="#9A6F17"/></radialGradient></defs><ellipse cx="104" cy="184" rx="86" ry="10" fill="url(#gShadow)"/><polygon points="28,98 150,98 172,86 50,86" fill="url(#gIn)"/><rect x="28" y="98" width="122" height="80" rx="2" fill="url(#gBody)"/><polygon points="150,98 172,86 172,166 150,178" fill="url(#gSide)"/><rect x="28" y="98" width="122" height="80" rx="2" fill="url(#gSheen)"/><rect x="79" y="98" width="20" height="80" fill="url(#gRib)"/><rect x="79" y="98" width="2.2" height="80" fill="#fff" opacity=".28"/><circle cx="89" cy="138" r="18.5" fill="#FBF1E6" stroke="#C99A2E" stroke-width="2.2"/><circle cx="89" cy="138" r="15" fill="none" stroke="#C99A2E" stroke-width=".8" opacity=".7"/><image class="g-hanger" href="images/brand/icon-header.png" x="73" y="128.9" width="32" height="18.2"/><g class="g-lidg"><rect x="22" y="72" width="134" height="26" rx="2.5" fill="url(#gLidF)"/><polygon points="156,72 178,60 178,86 156,98" fill="url(#gLidS)"/><polygon points="22,72 156,72 178,60 44,60" fill="url(#gLidT)"/><polygon points="22,72 156,72 178,60 44,60" fill="url(#gSheen)"/><rect x="79" y="72" width="20" height="26" fill="url(#gRib)"/><polygon points="79,72 99,72 121,60 101,60" fill="url(#gRibT)"/><rect x="22" y="96" width="134" height="2" fill="#4A0914" opacity=".35"/><path d="M100 61 C78 26 48 34 60 56 C67 69 90 67 100 61Z" fill="url(#gBowG)" stroke="#8A5F10" stroke-width="1.2"/><path d="M100 61 C122 26 152 34 140 56 C133 69 110 67 100 61Z" fill="url(#gBowG)" stroke="#8A5F10" stroke-width="1.2"/><path d="M92 56 C80 40 66 42 68 52" fill="none" stroke="#FBEBB0" stroke-width="2" stroke-linecap="round" opacity=".8"/><path d="M108 56 C120 40 134 42 132 52" fill="none" stroke="#FBEBB0" stroke-width="2" stroke-linecap="round" opacity=".8"/><path d="M97 64 L84 86 L92 84 L96 92 L103 66Z" fill="#C99A2E" stroke="#8A5F10" stroke-width="1"/><path d="M103 64 L118 84 L110 83 L108 91 L99 66Z" fill="#B98A22" stroke="#8A5F10" stroke-width="1"/><ellipse cx="100" cy="61" rx="9.5" ry="7.5" fill="url(#gBowG)" stroke="#8A5F10" stroke-width="1.2"/></g></svg><span class="g-spk"><b></b><b></b><b></b><b></b><b></b><b></b></span></button>' +
         '<button type="button" class="lbk-btn s9-rollbtn" data-act="gift">Open the gift</button>';
     }
+    function doorsHtml(){
+      var nums = ['1', '2', '3'];
+      return '<p class="s11-pickq">Which door will you open?</p><div class="s11-doors" role="group" aria-label="Pick a door">' + nums.map(function(n, i){
+        return '<button type="button" class="s11-door" data-door="' + i + '" aria-label="Open door ' + n + '"><span class="dr-frame"><span class="dr-in"><img src="' + ICON + '" alt="" width="40" height="23"></span><span class="dr-leaf"><i class="dr-p"></i><i class="dr-p b"></i><b class="dr-knob"></b><em class="dr-num">' + n + '</em></span></span><span class="dr-plate">Suite ' + n + '</span></button>';
+      }).join('') + '</div>';
+    }
     function stageHtml(){
       if (st.method === 'scratch' && isClient()) return scratchHtml();
       if (st.method === 'gift' && isClient()) return giftHtml();
+      if (st.method === 'door' && isClient()) return doorsHtml();
       if (st.method === 'spin') { if (!st.strip.length) dealStrip(); return wheelHtml() + '<button type="button" class="lbk-btn s9-rollbtn" data-act="spin">Spin the wheel</button>'; }
       if (st.method === 'pick') return pickHtml();
       var faces = [1,2,3,4,5,6].map(function(n){ return '<span class="f f' + n + '"><img src="' + ICON + '" alt="" width="58" height="33"></span>'; }).join('');
@@ -285,7 +294,7 @@
         '<button type="button" class="lbk-btn s9-rollbtn" data-act="roll">Roll the dice</button>';
     }
     function renderPlay(){
-      if ((st.method === 'scratch' || st.method === 'gift') && !isClient()) st.method = 'roll';
+      if ((st.method === 'scratch' || st.method === 'gift' || st.method === 'door') && !isClient()) st.method = 'roll';
       var left = rollsLeft(), n = savedList().length;
       return '<section class="s9-quiz s9-play"><h2 class="s9-h2" data-title tabindex="-1">find your look</h2>' +
         '<div class="s11-brief"><p class="s11-chips">' + briefChips().map(function(c){ return '<span>' + esc(c) + '</span>'; }).join('') + '</p><button type="button" class="link-btn" data-act="edit">Edit answers</button>' +
@@ -296,7 +305,7 @@
     }
     function renderKey(){
       return '<section class="s9-quiz s11-keyscr"><p class="s11-kicker">Suite Key</p><h2 class="s9-h2" data-title tabindex="-1">Have a Suite Key?</h2>' +
-        '<p class="s9-rsub">Your key came with your style guide. It unlocks unlimited rolls and two bonus modes: Scratch to reveal and Gift box.</p>' +
+        '<p class="s9-rsub">Your key came with your style guide. It unlocks unlimited rolls and three bonus modes: Scratch to reveal, Gift box and Doors.</p>' +
         '<form class="s11-wl s11-keyform" id="cc" novalidate><label class="s11-vh" for="ccCode">Suite Key</label><input id="ccCode" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="SUITE-XXXX" required><button type="submit" class="lbk-btn">Unlock</button></form>' +
         '<p class="s9-hint" id="ccMsg" role="status" aria-live="polite"></p>' +
         '<p class="s11-fine">No key yet? One comes with every package. <a href="packages.html" target="_blank" rel="noopener">See the packages</a></p>' +
@@ -358,6 +367,7 @@
         (l.outfit ? '<a class="lbk-btn s9-whole" href="' + esc(l.outfit.url) + '" target="_blank" rel="noopener noreferrer' + (l.outfit.affiliate ? ' sponsored' : '') + '">Get the whole look' + star(l.outfit.affiliate) + '</a>' : '') +
         '<button type="button" class="lbk-btn ghost s9-allbtn" data-act="links" aria-expanded="false" aria-controls="s11links">Get all the links</button>' +
         '<ul class="s9-links" id="s11links" hidden>' + all + '</ul>' +
+        '<p class="s9-stock">I rotate looks often, so a piece can sell out while a look is up.</p>' +
         (anyAff ? '<p class="s9-aff">* Affiliate link: I may earn a small commission at no extra cost to you. Not every link is an affiliate link.</p>' : '') +
         '<p class="s9-handle">@herstylevault.official</p></div>' +
         '<div class="s9-acts">' + (st.fromBrief ? '<button type="button" class="lbk-btn s9-again" data-act="again">' + (left ? 'Play again (' + left + ' left)' : 'Get more rolls') + '</button>' : '<button type="button" class="lbk-btn s9-again" data-act="restart">Find my own look</button>') +
@@ -373,7 +383,7 @@
         '<li><b>3</b><strong>Shop it</strong><span>Tap any piece to get it, or get the whole look in one tap. Save the ones you love with the heart.</span></li></ol>' +
         '<details><summary>Good to know</summary><ul class="s9-tiles two">' +
         '<li><strong>' + FREE_ROLLS + ' free rolls a day</strong><span>Look at the packages for ' + EARN + ' more. Your rolls reset every day.</span></li>' +
-        '<li><strong>Have a Suite Key?</strong><span>Every package comes with one. It unlocks unlimited rolls plus two bonus modes: Scratch to reveal and Gift box.</span></li>' +
+        '<li><strong>Have a Suite Key?</strong><span>Every package comes with one. It unlocks unlimited rolls plus three bonus modes: Scratch to reveal, Gift box and Doors.</span></li>' +
         '<li><strong>Always fresh</strong><span>New looks and links are added all the time.</span></li>' +
         '<li><strong>Sizing</strong><span>Every shop sizes differently, so check each size chart.</span></li>' +
         '<li><strong>Affiliate links*</strong><span>Some links may earn me a small commission, at no cost to you.</span></li>' +
@@ -545,6 +555,16 @@
       lockButtons(true); el.classList.add('open');
       setTimeout(function(){ reveal(win); }, 1250);
     }
+    function openDoor(i, el){
+      if (st.busy) return;
+      if (!useRoll()) { go('locked'); return; }
+      st.busy = true; refreshMeter();
+      var win = choose(candidates()), all = view.querySelectorAll('.s11-door');
+      if (!el || reduce) { reveal(win); return; }
+      lockButtons(true);
+      Array.prototype.forEach.call(all, function(d, n){ d.classList.add(n === i ? 'open' : 'dim'); });
+      setTimeout(function(){ reveal(win); }, 1250);
+    }
     function dealPicksFresh(){ st.picks = null; dealPicks(); }
     function pickPiece(i){
       if (st.busy || !st.picks || st.picks.some(function(c){ return c.chosen; })) return;
@@ -566,6 +586,7 @@
       Array.prototype.forEach.call(root.querySelectorAll('.hs.active'), function(x){ if (x !== hs) x.classList.remove('active'); });
       if (hs && noHover && !hs.classList.contains('active')) { e.preventDefault(); hs.classList.add('active'); return; }
       var mb = e.target.closest('[data-method]'); if (mb) { if (!st.busy) { st.method = mb.getAttribute('data-method'); go('play'); } return; }
+      var dr = e.target.closest('[data-door]'); if (dr) { openDoor(+dr.getAttribute('data-door'), dr); return; }
       var pk = e.target.closest('[data-pick]'); if (pk) { pickPiece(+pk.getAttribute('data-pick')); return; }
       var op = e.target.closest('[data-open]'); if (op) { var l = LOOKS.filter(function(x){ return x.slug === op.getAttribute('data-open'); })[0]; if (l) { st.result = {look:l, s:0}; st.fromBrief = briefDone(); go('result'); } return; }
       var opt = e.target.closest('.s11-opt');
