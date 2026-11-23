@@ -1,5 +1,5 @@
 /* Style-11 Suite Keys: one per booked client.
-   A valid key unlocks unlimited rolls plus the bonus modes (Scratch to reveal, Gift box) on that device.
+   A valid key unlocks unlimited rolls plus the bonus modes (Scratch to reveal, Gift box, Doors) on that device.
    To turn one off, delete its line. To add more, add lines in the same format.
    Note: keys live in the page files, so someone technical could find them. That is fine for a perk. */
 window.STYLE11_KEYS = [

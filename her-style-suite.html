@@ -93,7 +93,7 @@
     hero.hidden = false;
     var list = LOOKBOOK.filter(function(i){ return filter === 'All' || i.tag === filter; });
     grid.className = 'lbk-looks is-grid';
-    grid.innerHTML = '<div class="lbk-bar"><h2 class="lbk-cat">Concierge <em>Catalog</em></h2><p class="lbk-cat-sub">Every look Style-11 can pick for you. Tap one to see the pieces. Next theme coming soon, stay tuned.</p>' +
+    grid.innerHTML = '<div class="lbk-bar"><h2 class="lbk-cat">Concierge <em>Catalog</em></h2><p class="lbk-cat-sub">Tap a look to see the pieces. Next theme coming soon, stay tuned.</p>' +
       '<div class="lbk-chips" role="group" aria-label="Filter by occasion">' + tags().map(function(t){ return '<button type="button" class="lbk-chip' + (t === filter ? ' on' : '') + '" data-tag="' + esc(t) + '" aria-pressed="' + (t === filter) + '">' + esc(t) + '</button>'; }).join('') + '</div></div>' +
       '<div class="lbk-grid">' + list.map(function(i){
         return '<a class="lbk-card" href="#' + i.slug + '" aria-label="' + esc(i.title) + ', ' + esc(tagOf(i)) + '">' + art(i, false) +
@@ -113,6 +113,7 @@
       (i.client ? '<p class="lbk-clientnote">Styled for a real client</p>' : '') +
       '<h3 class="lbk-h3">The colors</h3><div class="lbk-pal">' + ripple(i.colors) + '<ul class="lbk-cols">' + i.colors.map(function(c){ return '<li><b style="background:' + c[1] + '"></b>' + esc(c[0]) + '</li>'; }).join('') + '</ul></div>' +
       '<h3 class="lbk-h3">The pieces</h3><ul class="lbk-pieces">' + (i.pieces || []).map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' +
+      '<p class="lbk-stock">I rotate looks often, so a piece can sell out while a look is up.</p>' +
       (i.why ? '<h3 class="lbk-h3">Why it works</h3><p class="lbk-why">' + esc(i.why) + '</p>' : '') +
       (i.wear ? '<h3 class="lbk-h3">Wear it to</h3><ul class="lbk-wear">' + i.wear.map(function(w){ return '<li>' + esc(w) + '</li>'; }).join('') + '</ul>' : '') +
       '<div class="lbk-dcta"><a class="lbk-btn solid" href="service-occasion-edit.html">Book an Occasion Edit</a><a class="lbk-btn" href="book.html">Free Consultation</a></div></div></article>' +
