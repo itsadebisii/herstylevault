@@ -1141,3 +1141,13 @@ a.hc-cta:hover,a.hc-cta:focus-visible{background:#6E0F20;}
 .lbk-cat{margin:0; font-family:var(--font-display); font-weight:500; font-size:clamp(1.9rem,5vw,2.7rem); line-height:1.05; color:#2A1814; text-align:center;}
 .lbk-cat em{color:#8B1226; font-style:italic;}
 .lbk-cat-sub{margin:.15rem auto .3rem; max-width:36ch; font:400 14.5px/1.5 var(--font-body); color:#5E3B38; text-align:center;}
+
+/* ===== Style report options: the tiny description under each choice, and the "choose one" state ===== */
+.dg-opt small{display:block; margin-top:.2rem; font-size:12px; line-height:1.35; color:var(--ink-soft);}
+.dg-pickhint{margin:.2rem 0 1rem; font-size:14px; line-height:1.5; color:var(--ink-soft);}
+.vd-opt small{display:block; flex-basis:100%; margin-top:.15rem; font-size:12px; line-height:1.35; color:var(--ink-soft); font-weight:400;}
+.vd-opt{flex-wrap:wrap;}
+@media (max-width:560px){.dg-opts:has(.dg-opt:nth-child(3):last-child){display:grid; grid-template-columns:1fr;}}
+
+#hsvChooser .ch-opt b i{font-style:normal; font-weight:500; margin-left:.35rem; color:var(--ink-soft);}
+#hsvChooser .ch-opt:hover b i,#hsvChooser .ch-opt:focus-visible b i{color:var(--accent-ink);}

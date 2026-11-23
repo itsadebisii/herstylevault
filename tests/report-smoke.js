@@ -33,21 +33,27 @@ const server = http.createServer((q, r) => { const f = path.join(root, decodeURI
 (async () => {
   await new Promise(res => server.listen(8199, res));
   const browser = await chromium.launch(); let bad = 0;
-  const run = async (name, answers, strip) => {
+  const run = async (name, answers, strip, tier = 'signature', expectPages = 21) => {
     const ctx = await browser.newContext({ viewport: { width: 900, height: 1200 } }), page = await ctx.newPage(), errs = [];
     page.on('pageerror', e => errs.push(String(e)));
     await page.route('**/generate-report', async r => { const res = await handler({ httpMethod: 'POST', headers: { host: 'deploy-preview-1--herstylevault.netlify.app' }, body: r.request().postData() }); let body = res.body; if (strip) { const j = JSON.parse(body); ['depthKey', 'directions', 'life', 'stores', 'contrastLevel', 'chromaKey', 'styleGrav', 'dressSep'].forEach(k => delete j[k]); body = JSON.stringify(j); } r.fulfill({ status: res.statusCode, contentType: 'application/json', body }); });
     await page.route('**/fonts.*/**', r => r.abort());
-    await page.addInitScript(a => localStorage.setItem('hsv_analysis_data', JSON.stringify({ name: 'Test', email: 't@example.com', answers: a })), answers);
-    await page.goto('http://localhost:8199/analysis-results.html?session_id=preview-test&preview=1');
+    await page.addInitScript(([a, tr]) => localStorage.setItem('hsv_analysis_data', JSON.stringify({ name: 'Test', email: 't@example.com', tier: tr, answers: a })), [answers, tier]);
+    await page.goto('http://localhost:8199/analysis-results.html?session_id=preview-test&preview=1&tier=' + tier);
     try { await page.waitForSelector('.pdf-page', { timeout: 30000 }); } catch (e) { errs.push('report did not render'); }
     await page.waitForTimeout(800);
     const info = await page.evaluate(() => ({ pages: document.querySelectorAll('.pdf-page').length, tall: [...document.querySelectorAll('.hx-page')].filter(e => e.scrollHeight > 915).length }));
-    if (errs.length || info.tall || info.pages !== 21) { bad++; console.log('FAIL', name, JSON.stringify(info), errs.slice(0, 2)); } else console.log('ok  ', name, info.pages + ' pages');
+    if (errs.length || info.tall || info.pages !== expectPages) { bad++; console.log('FAIL', name, JSON.stringify(info), errs.slice(0, 2)); } else console.log('ok  ', name, info.pages + ' pages');
     await ctx.close();
   };
   for (const [n, a] of Object.entries(profiles)) await run(n, a, false);
   await run('old-format saved report', profiles['warm 18-24 no extras'], true);
+  /* the two shorter reports: only the pages and questions that belong to them */
+  const colorOnly = Object.assign({}, profiles['cool petite 35-44 formal']);
+  ['fit','styleGrav','dressSep','shoulderHip','waistDef','bustHip','height','proportion','showOff','quiet','pq1','pq2','pq3','budget'].forEach(k => delete colorOnly[k]);
+  await run('starter report (colors only)', colorOnly, false, 'starter', 10);
+  const noPersona = Object.assign({}, profiles['45+ with every extra']); ['pq1','pq2','pq3','guideFirst','fit','styleGrav'].forEach(k => delete noPersona[k]);
+  await run('blueprint report', noPersona, false, 'blueprint', 15);
   mockClaude();
   await run('longest AI text, 45+', profiles['45+ with every extra'], false);
   await run('longest AI text, petite 35-44', profiles['cool petite 35-44 formal'], false);

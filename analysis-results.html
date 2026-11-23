@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Signature Style Report | HerStyleVault</title>
+<title>Your Style Report | HerStyleVault</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="tiers.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="report-extra.js?v=fd079c4e"></script>
+<script src="report-extra.js?v=ea0ac819"></script>
 <style>
 :root{--bg:#FAF9F6;--surface:#EFECE6;--ink:#181716;--ink-soft:#6B6862;--line:#DCD8D0;--accent:#7A1321;--accent-deep:#4E0B14;--accent-ink:#FAF9F6;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -321,7 +322,16 @@ const TEE='M14 6 L4 12 L8 20 L13 17 L13 34 L35 34 L35 17 L40 20 L44 12 L34 6';
 const NECK=[[/v-?neck|deep v|plunge/i,'M18 6 L24 17 L30 6'],[/scoop/i,'M17 6 Q24 18 31 6'],[/square/i,'M18 6 L18 13 L30 13 L30 6'],[/boat|bateau|off[- ]the[- ]shoulder|off[- ]shoulder/i,'M13 7 Q24 12 35 7'],[/sweetheart|corset|bustier/i,'M16 6 L16 11 Q20 15 24 11 Q28 15 32 11 L32 6 M20 14 L20 33 M28 14 L28 33'],[/wrap|surplice|faux wrap/i,'M18 6 L30 22 M30 6 L18 22'],[/turtle|mock|funnel|high neck|cowl/i,'M19 6 L19 2 L29 2 L29 6'],[/button|collar|shirt|tied/i,'M18 6 L24 14 L30 6 M24 14 L24 34 M17 6 L21 11 M31 6 L27 11'],[/crew|round|jewel/i,'M18 6 Q24 12 30 6']];
 function neckIcon(t){const m=NECK.find(n=>n[0].test(t));const d=m?m[1]:'M18 6 Q24 12 30 6';return '<svg viewBox="0 0 48 38" fill="none" stroke="#7A1321" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="'+TEE+'"/><path d="'+d+'"/></svg>';}
 function topTiles(arr){const vw={feminine:'feminine',luxury:'elevated',sleek:'sleek',tailored:'tailored',casual:'casual chic',bold:'statement',classic:'classic',sporty:'athleisure',alt:'dark romantic'}[(REPORT&&REPORT.persona&&REPORT.persona.vibe)||'']||'';return '<div class="pdf-tiles">'+(arr||[]).map((t,i)=>{const u='https://www.pinterest.com/search/pins/?q='+encodeURIComponent(('trending '+vw+' '+String(t).toLowerCase()+' outfit ideas for women').replace(/\s+/g,' '));return '<div class="pdf-tile"><div class="pdf-tile-ic">'+neckIcon(t)+'<span class="pdf-tile-n">'+(i+1)+'</span></div><div>'+esc(t)+' <a class="pdf-tpin" href="'+u+'" target="_blank" rel="noopener" data-href="'+u+'">Pinterest</a></div></div>';}).join('')+'</div>';}
-function pdfFoot(label,n){return (n&&n>2?'<a class="pdf-backtoc" href="#rp-2" data-page="2">\u2190 Contents</a>':'')+'<div class="pdf-head">Signature Style Report \u00b7 '+esc((REPORT&&REPORT.clientName)||'HerStyleVault')+'</div><div class="pdf-foot"><span>For personal use only \u00b7 \u00a9 2026 HerStyleVault'+(n?' \u00b7 Page '+n:'')+'</span></div>';}
+/* The three reports: the same report builder, with a different set of pages. The Starter is color only; the Blueprint adds body shape and a closet plan. */
+const TIER_PAGES={
+  starter:['palette','colortype','shades','work','beauty','guidance','formulas'],
+  blueprint:['palette','colortype','shades','work','beauty','guidance','body','dress','silh','fab','formulas','capsule','audit']
+};
+function tierOf(r){return (r&&HSV_TIERS.valid(r.tier))?r.tier:'signature';}
+function creditOf(r){return Number(r&&r.credit)||((r&&r.tier)?HSV_TIERS.get(r.tier).price:40);}
+function tierName(r){return HSV_TIERS.get(tierOf(r)).name;}
+function coverFor(r){const t=tierOf(r);return t==='signature'?'images/report-cover-sig.jpg':'images/report-cover-'+t+'.jpg';}
+function pdfFoot(label,n){return (n&&n>2?'<a class="pdf-backtoc" href="#rp-2" data-page="2">\u2190 Contents</a>':'')+'<div class="pdf-head">'+esc(tierName(REPORT))+' \u00b7 '+esc((REPORT&&REPORT.clientName)||'HerStyleVault')+'</div><div class="pdf-foot"><span>For personal use only \u00b7 \u00a9 2026 HerStyleVault'+(n?' \u00b7 Page '+n:'')+'</span></div>';}
 function coverNameSize(n){n=String(n||'');const l=n.length;return l<=9?54:l<=13?46:l<=18?38:l<=26?30:24;}
 function pdfPage(cls,inner){return '<div class="pdf-page '+(cls||'')+'">'+inner+'</div>';}
 function arches(arr){return '<div class="pdf-swatches">'+arr.map(c=>'<div class="pdf-sw"><div class="pdf-arch" style="background:'+esc(c.h)+'"></div><div class="pdf-sw-label">'+esc(c.n)+'</div><div class="pdf-sw-hex">'+esc(String(c.h||'').toUpperCase())+'</div></div>').join('')+'</div>';}
@@ -384,7 +394,7 @@ function makeBlocks(r){
   if(window.HX){L.push(HX.shades(r));L.push(HX.work(r));L.push(HX.beauty(r));}
   const avSw=(r.avoidSwatches&&r.avoidSwatches.length)?'<div class="pdf-avsw">'+r.avoidSwatches.slice(0,4).map(c=>'<div><i style="background:'+esc(c.h)+'"></i><span>'+esc(c.n)+'</span><em>'+hexOf(c)+'</em></div>').join('')+'</div>':'';
   const matureTip=(r.ageBracket==='45+')?'<div class="pdf-tip"><strong>Near your face:</strong> choose softer, light-reflecting shades, like champagne, pearl or a soft version of your signature colors. They bounce light back onto your skin and keep your face bright.</div>':'';
-  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div><div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div></div>'+matureTip+(X.glance?glanceHtml(r):'')+(window.HX?HX.guidanceExtra(r):'')});
+  L.push({key:'guidance',label:'Color Guidance',html:'<h1 class="pdf-h1" style="margin-top:0;">Accessories &amp; <em>Avoid</em></h1><p class="pdf-section-label" style="margin-top:0;">Accessory Color Guide</p><div class="pdf-box">'+esc(r.accessory)+'</div><div class="pdf-two"><div><p class="pdf-section-label">Colors to Avoid</p><div class="pdf-box">'+esc(r.colorAvoid)+avSw+'</div></div>'+(tierOf(r)==='starter'?'':'<div><p class="pdf-section-label">Step Back From</p><div class="pdf-box">'+esc(r.avoidText)+'</div></div>')+'</div>'+matureTip+(X.glance?glanceHtml(r):'')+(window.HX?HX.guidanceExtra(r):'')});
   L.push({key:'body',label:'Body Analysis',html:'<p class="pdf-section-label" style="margin-top:0;">Body Shape</p><div class="pdf-bodyrow"><div class="pdf-croq"><div class="pdf-croq-in"><img src="'+img+'"/><span class="pdf-croq-lbl" style="top:'+CL.sh.toFixed(1)+'%">Shoulders</span><span class="pdf-croq-lbl" style="top:'+CL.waist.toFixed(1)+'%">Waist</span><span class="pdf-croq-lbl" style="top:'+CL.hip.toFixed(1)+'%">Hips</span></div></div>'
     +'<div class="pdf-bodycol"><h1 class="pdf-h1" style="margin:0 0 0.7rem;">'+esc(shapeTitle(r))+'</h1><div class="pdf-box">'+esc(r.bodyShapeDesc)+'</div><p class="pdf-section-label">Why This Is You</p>'+(r.whyBody?bubbles(r.whyBody,true)+'<p class="pdf-section-label">Tops &amp; Necklines</p>'+topTiles((r.bodyGuide.tops||[]).slice(0,4)):'<div class="pdf-box">'+esc(r.bodyNarrative)+'</div><p class="pdf-section-label">Styling Goal</p><div class="pdf-box" style="font-style:italic;">'+esc(r.bodyGoal)+'</div>')+'</div></div>'
     +(r.whyBody?'':'<p class="pdf-section-label">Tops &amp; Necklines</p>'+pdfList((r.bodyGuide.tops||[]).slice(0,4)))+(r.whyBody&&r.bodyGoal?'<div class="pdf-goalband"><p class="pdf-section-label">Your Styling Goal</p><p>'+esc(r.bodyGoal)+'</p></div>':'')+(X.lineup?lineupHtml(r):'')});
@@ -394,7 +404,8 @@ function makeBlocks(r){
   L.push({key:'fab',label:'Fabric Guide',html:'<h1 class="pdf-h1" style="margin-top:0;font-size:1.7rem;">Fabric, Avoid &amp; <em>Accessories</em></h1><div class="pdf-two"><div><p class="pdf-section-label" style="margin-top:0;">Best Fabrics</p><div class="pdf-box">'+esc(r.bodyGuide.fabGood)+'</div></div><div><p class="pdf-section-label" style="margin-top:0;">Fabrics To Avoid</p><div class="pdf-box">'+esc(r.bodyGuide.fabAvoid)+'</div></div></div>'
     +'<div class="pdf-two"><div><p class="pdf-section-label">Things To Minimize</p>'+pdfList(r.bodyGuide.avd)+'</div><div><p class="pdf-section-label">Accessory Styling Guide</p>'+pdfList(r.bodyGuide.acc)+'</div></div>'});
   if(window.HX){L.push(HX.formulas(r));if(HX.fabrics)L.push(HX.fabrics(r));L.push(HX.patterns(r));if(HX.capsule){L.push(HX.capsule(r));L.push(HX.recipes(r));L.push(HX.fitguide(r));L.push(HX.audit(r));if(!r.__shared)L.push(HX.session(r));}}
-  return L;
+  const keep=TIER_PAGES[tierOf(r)];
+  return keep?L.filter(b=>keep.indexOf(b.key)>-1):L;
 }
 /* Make sure the web fonts are really loaded before anything is measured or photographed.
    Some phones report "ready" before the fonts have even started loading, which made the page planner measure with the wrong text size. */
@@ -454,12 +465,12 @@ function tocPage(r,layout,byKey,th){
   return pdfPage(th||'','<div class="toc-wrap"><h1 class="toc-h">Your report, <em style="color:#7A1321">page by page</em></h1><p class="toc-sub">Psst, tap a title to jump to that page.</p>'+ask+rows+'<p class="toc-home"><a href="https://herstylevault.com" target="_blank" rel="noopener" data-href="https://herstylevault.com">Back to herstylevault.com</a></p></div>'+pdfFoot('Contents',2));
 }
 function buildPages(r){
-  const label='Signature Style Report';
+  const label=tierName(r),tp=HSV_TIERS.get(tierOf(r));
   const today=new Date();const date=today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const untilD=new Date(today);untilD.setFullYear(untilD.getFullYear()+1);const until=untilD.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const blocks=makeBlocks(r),byKey={};blocks.forEach(b=>{byKey[b.key]=b;});
   const pages=[];
-  pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="images/report-cover-sig.jpg" alt="">'));
+  pages.push(pdfPage('pdf-cover2','<img class="pdf-cover-bg" src="'+coverFor(r)+'" alt="">'));
   const th='th-'+({'18-24':'18','25-34':'25','35-44':'35','45+':'45'}[r.ageBracket]||'25');
   const layout=(LAYOUT||blocks.map(b=>[b.key]));
   pages.push(tocPage(r,layout,byKey,th));
@@ -468,7 +479,7 @@ function buildPages(r){
     pages.push(pdfPage((r.__tight?'pdf-tight ':'')+th,bs.map((b,i)=>'<div class="'+(i?'pdf-blk-n':'')+'">'+b.html+'</div>').join('')+pdfFoot(label+' · '+bs.map(b=>b.label).join(' & '),pi+3)));
   });
   pages.push(pdfPage('pdf-closing '+th,'<a class="pdf-backtoc" href="#rp-2" data-page="2">\u2190 Contents</a><div class="pdf-logo">HerStyleVault</div><p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.35rem;color:var(--accent);max-width:560px;margin:1.2rem 0 0.4rem;line-height:1.6;">This is your starting point. Take it shopping, take it to your closet, and come back when you want it turned into real outfits.</p>'
-    +(r.__shared?'':'<div class="pdf-credit"><strong>Your $40 credit</strong>Your Signature Style Report fee is credited toward any 1:1 package when you book within 12 months (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $40 comes off your final payment. It cannot be combined with other offers.</div>')
+    +(r.__shared?'':'<div class="pdf-credit"><strong>Your $'+creditOf(r)+' credit</strong>Your '+esc(tp.name)+' fee is credited toward any 1:1 package when you book within 12 months (by '+esc(until)+'). One use, on your first package. Mention your report when you book and the $'+creditOf(r)+' comes off your final payment. It cannot be combined with other offers.</div>')
     +'<p style="font-size:0.72rem;color:#6b625c;max-width:560px;line-height:1.5;margin:0.8rem 0 0;">About your results: this report gives personalized recommendations based on your answers and optional photo. It cannot see you in person, so it is not a substitute for an in-person color analysis, which is more precise.</p>'
     +'<p style="font-size:0.9rem;color:#3F3C38;margin-top:0.4rem;">With love,<br><strong>HerStyleVault</strong></p>'
     +'<p class="pdf-more-top">Ready for your next step?</p><a class="pdf-pill" data-href="https://herstylevault.com/shop.html" href="https://herstylevault.com/shop.html" target="_blank" rel="noopener"><span>Explore What Else We Offer</span><i><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></i></a>'));
@@ -483,7 +494,7 @@ async function renderReport(r){
   REPORT=r;await prepCroq(r);if(window.HX&&HX.prep){try{await HX.prep(r);}catch(e){}}await layoutPages(r);
   const pages=buildPages(r);
   document.getElementById('app').innerHTML='<p class="hint" id="report-hint">Your report is ready, and it is yours to keep. '+(REPORT_SAVED?'For your own copy, tap ':'We do not store it, so tap ')+(AGE==='45+'?'<a href="#" id="hint-email" class="hint-link">Email me my PDF</a>':'<b>Email me my PDF</b>')+', the button in the <b>top right corner</b>, now to put a copy in your inbox. After that, you can look at it any time. Thinking of booking a session? Keep this PDF so you can share it at your consultation.</p>'+pages.map((p,i)=>'<div class="prev-slot" id="rp-'+(i+1)+'">'+p+'</div>').join('')
-    +(r.__shared?'':'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $40 is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a> <button type="button" class="dl-btn alt" id="email-btn-2" style="margin:0.4rem 0 0 0.4rem;padding:0.85rem 1.5rem;font-size:0.85rem">Email me my PDF</button><div class="dl-ready" id="dl-ready-2" hidden></div></div>');
+    +(r.__shared?'':'<div class="cta"><h3>Ready to turn this into outfits?</h3><p>A free consultation turns this report into a real wardrobe. Your $'+creditOf(r)+' is credited toward any 1:1 package if you book within 12 months.</p><a href="'+(r.isReturning?'book.html':'https://tally.so/r/yPeEjp')+'">'+(r.isReturning?'Book Your Session':'Book a Consultation')+'</a> <button type="button" class="dl-btn alt" id="email-btn-2" style="margin:0.4rem 0 0 0.4rem;padding:0.85rem 1.5rem;font-size:0.85rem">Email me my PDF</button><div class="dl-ready" id="dl-ready-2" hidden></div></div>');
   fitPreviews();window.addEventListener('resize',fitPreviews);
   /* the PDF goes to the buyer's email; if email sending is ever unavailable we quietly fall back to a download link so nobody is stuck */
   const eb=document.getElementById('email-btn');eb.style.display='';eb.disabled=false;eb.onclick=()=>emailPdf(eb);
@@ -504,7 +515,7 @@ async function buildPdf(opt){
     await loadFonts();
     const els=root.querySelectorAll('.pdf-page');const {jsPDF}=window.jspdf;
     const pdf=new jsPDF({unit:'px',format:[816,1056],compress:true});
-    pdf.setProperties({title:'Signature Style Report',subject:'Your personalized color and body style report',author:'HerStyleVault',creator:'HerStyleVault'});
+    pdf.setProperties({title:tierName(REPORT),subject:'Your personalized color and body style report',author:'HerStyleVault',creator:'HerStyleVault'});
     for(let i=0;i<els.length;i++){
       const canvas=await html2canvas(els[i],{scale:(opt.scale||(/iP(hone|ad|od)|Android/.test(navigator.userAgent)?1.5:2)),backgroundColor:'#ffffff',useCORS:true});
       if(i>0)pdf.addPage([816,1056],'portrait');
@@ -515,7 +526,7 @@ async function buildPdf(opt){
       els[i].querySelectorAll('[data-href]').forEach(el=>{const q=el.getBoundingClientRect();pdf.link(q.left-pr.left,q.top-pr.top,q.width,q.height,{url:el.getAttribute('data-href')});});
     }
     const safe=String(REPORT.clientName||'Client').replace(/[\\/:*?"<>|]/g,'').trim()||'Client';
-    return{pdf,fname:safe+' - Signature Style Report.pdf'};
+    return{pdf,fname:safe+' - '+tierName(REPORT)+'.pdf'};
   }finally{root.innerHTML='';}
 }
 async function downloadPdf(btn){
@@ -738,6 +749,7 @@ async function init() {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         sessionId,
+        tier: data.tier || new URLSearchParams(window.location.search).get('tier') || 'signature',
         name: data.name,
         returningClient: data.returningClient,
         answers: data.answers,
@@ -762,7 +774,7 @@ async function init() {
     const report = await res.json();
     report.hadPhoto = !!data.photoBase64;
     SHARE_TOKEN = report.shareToken || null; delete report.shareToken;
-    if (PREVIEW) { const g = report.generatedBy || {}, ok = g.narrative === 'ai' && g.silhouettes === 'ai' && g.avoidText === 'ai'; const w = document.createElement('div'); w.id = 'prev-writer'; w.style.cssText = 'font:700 13px/1.4 sans-serif;text-align:center;padding:9px 12px;position:sticky;top:34px;z-index:49;color:#fff;background:' + (ok ? '#1F7A3A' : '#B26A00'); w.textContent = ok ? 'REPORT WRITER: AI IS WORKING (all 3 sections written by AI)' : 'REPORT WRITER: AI DID NOT RUN, pre-written backup text is showing. Reason: ' + (g.why || 'unknown') + ' (sections: ' + [g.narrative, g.silhouettes, g.avoidText].join(' / ') + ')'; const pb = document.getElementById('prev-banner'); if (pb && pb.parentNode) pb.parentNode.insertBefore(w, pb.nextSibling); }
+    if (PREVIEW) { const g = report.generatedBy || {}, ok = g.narrative === 'ai' && (g.silhouettes === 'ai' || g.silhouettes === 'skipped') && (g.avoidText === 'ai' || g.avoidText === 'skipped'); const w = document.createElement('div'); w.id = 'prev-writer'; w.style.cssText = 'font:700 13px/1.4 sans-serif;text-align:center;padding:9px 12px;position:sticky;top:34px;z-index:49;color:#fff;background:' + (ok ? '#1F7A3A' : '#B26A00'); w.textContent = ok ? 'REPORT WRITER: AI IS WORKING (all 3 sections written by AI)' : 'REPORT WRITER: AI DID NOT RUN, pre-written backup text is showing. Reason: ' + (g.why || 'unknown') + ' (sections: ' + [g.narrative, g.silhouettes, g.avoidText].join(' / ') + ')'; const pb = document.getElementById('prev-banner'); if (pb && pb.parentNode) pb.parentNode.insertBefore(w, pb.nextSibling); }
     if (res.headers.get('x-hsv-saved') === '1') { REPORT_SAVED = true; writeCache(sessionId, report, SHARE_TOKEN); showSavedNote(); }
     if (data.photoBase64) report.__photo = 'data:' + (data.photoMediaType || 'image/jpeg') + ';base64,' + data.photoBase64;
     await renderReport(report);

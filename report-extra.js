@@ -727,7 +727,7 @@
     return { key: 'session', label: 'Bring to Your Session', html: '<div class="hx-page">' + head('Bring this to your <em>session</em>', 'Your style snapshot, the questions to ask and what to photograph. It saves your stylist hours.')
       + label('Your style snapshot', true) + tbl + '<div class="hx-2" style="margin-top:12px"><div class="hx-box"><h6>Questions to ask your stylist</h6>' + ul(qs) + '</div><div class="hx-box"><h6>What to bring or photograph</h6>' + ul(bring) + '</div></div>'
       + '<div class="hx-2" style="margin-top:12px"><div class="hx-box hx-lines"><h6>My top three goals</h6><p>1. ______________________________</p><p>2. ______________________________</p><p>3. ______________________________</p></div><div class="hx-box hx-lines"><h6>Notes</h6><p>______________________________</p><p>______________________________</p><p>______________________________</p></div></div>'
-      + '<div class="hx-tip" style="margin-top:12px">Ready to turn this into outfits? Your $40 is credited toward any 1:1 package. <a class="hx-pin" style="color:#fff" href="https://herstylevault.com/book.html" target="_blank" rel="noopener" data-href="https://herstylevault.com/book.html">Book a free consultation</a></div></div>' };
+      + '<div class="hx-tip" style="margin-top:12px">Ready to turn this into outfits? Your $' + (Number(r.credit) || 40) + ' is credited toward any 1:1 package. <a class="hx-pin" style="color:#fff" href="https://herstylevault.com/book.html" target="_blank" rel="noopener" data-href="https://herstylevault.com/book.html">Book a free consultation</a></div></div>' };
   }
 
   function guidanceExtra(r) {
