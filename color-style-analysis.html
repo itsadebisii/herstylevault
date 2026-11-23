@@ -524,7 +524,7 @@ function render() {
           <button type="button" class="returning-opt ${planToBook === 'yes' ? 'sel' : ''}" id="plan-yes-btn">Yes, I might</button>
           <button type="button" class="returning-opt ${planToBook === 'no' ? 'sel' : ''}" id="plan-no-btn">No, just the report</button>
         </div>
-        <p class="plan-note">${planToBook === 'yes' ? 'Great. We will keep your answers and results on file. When you book, we will ask if you want to use this report as your starting point or run a new analysis. If you feel your answers would be different now, a new analysis is a good choice.' : planToBook === 'no' ? 'No problem. We will keep only your name and email on file. Your finished report is also stored privately so you can reopen it online with the email you paid with, and you can ask us to delete it any time. If you book later, we will do your analysis in your session.' : 'Your answer decides what we keep on file. Yes: your answers and results, so you do not have to start over. No: only your name and email. Either way, your finished report is stored privately so you can reopen it with the email you paid with.'}</p>
+        ${planToBook ? '<p class="plan-note">' + (planToBook === 'yes' ? 'Great. We will keep your answers and results on file, so you do not have to start over when you book.' : 'No problem. We will keep only your name and email on file. You can ask us to delete your report any time.') + '</p>' : ''}
         <p class="field-err" id="start-err" style="display:none;">Please add your first name, a valid email, and choose Yes or No above so we can send your report.</p>
         <button class="cover-btn" id="begin-btn">Begin →</button>
       </div>`;
