@@ -9,6 +9,7 @@ const root = path.join(__dirname, '..');
 const SITE = 'https://herstylevault.com';
 const ctx = { window: {}, document: { addEventListener() {} } };
 vm.createContext(ctx);
+vm.runInContext(fs.readFileSync(path.join(root, 'tiers.js'), 'utf8'), ctx); ctx.HSV_TIERS = ctx.window.HSV_TIERS;
 vm.runInContext(fs.readFileSync(path.join(root, 'digitals.js'), 'utf8') + '\nthis.__D = DIGITALS; this.__soon = digitalSoon; this.__view = digitalView;', ctx);
 const tpl = fs.readFileSync(path.join(root, 'digital.html'), 'utf8');
 const plain = (t) => String(t || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
@@ -21,7 +22,7 @@ items.forEach((p) => {
   const file = 'digital-' + p.slug + '.html', url = SITE + '/' + file;
   const title = p.seoTitle || (plain(p.name) + ' | HerStyleVault');
   const desc = plain(p.seoDesc || p.short || p.lead);
-  const v0 = ctx.__view(p, 0);
+  const v0 = ctx.__view(p, p.pick ? -1 : 0); /* a page that opens with nothing chosen is described from the product itself */
   const img = SITE + '/' + (p.cardCover || v0.coverImage || 'images/Hero_Closet.jpg');
   const name = plain(p.seoName || p.name), nameH = name.replace(/&/g, '&amp;');
 

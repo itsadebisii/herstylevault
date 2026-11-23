@@ -22,6 +22,7 @@ const {
 } = require('./lib/knowledge');
 
 const reportStore = require('./lib/report-store');
+const TIERS = require('../../tiers.js');
 
 const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-5-5';
 // Netlify's default function limit is 10s, so keep the AI call under it (override with AI_TIMEOUT_MS if the site allows longer functions).
@@ -273,11 +274,13 @@ async function run(event) {
   }
 
   const { sessionId, name, returningClient, answers, freeText, photoBase64, photoMediaType } = payload;
+  // Which of the three reports the quiz was for. Untrusted: the real one is worked out from what she paid, below.
+  const askedTier = TIERS.valid(payload.tier) ? payload.tier : 'signature';
 
   if (!sessionId) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing sessionId' }) };
   }
-  if (!answers || (!answers.shape && !(answers.shoulderHip && answers.waistDef && answers.bustHip))) {
+  if (!answers || (askedTier !== 'starter' && !answers.shape && !(answers.shoulderHip && answers.waistDef && answers.bustHip))) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing quiz answers' }) };
   }
 
@@ -314,6 +317,11 @@ async function run(event) {
     return { statusCode: 402, body: JSON.stringify({ error: 'Payment not completed' }) };
   }
 
+  // Which report she paid for comes from the list price on her Stripe checkout (never from the browser), and she can never
+  // receive more than she paid for. Older $40 checkouts count as the full report.
+  const paidTier = previewTest ? askedTier : TIERS.fromCents(Number(session.amount_subtotal != null ? session.amount_subtotal : session.amount_total) || 0);
+  const tier = TIERS.rank(askedTier) <= TIERS.rank(paidTier) ? askedTier : paidTier;
+
   // --- Step 2: compute the factual season/shape data from the classifier. ---
   // --- Saved reports: the same checkout always gets the same report, and we never pay for the AI twice. ---
   const payerEmail = (session.customer_details && session.customer_details.email) || session.customer_email || '';
@@ -329,8 +337,10 @@ async function run(event) {
     return { statusCode: 409, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ error: 'already_generated' }) };
   }
 
+  // The Starter report is color-only and does not ask about the body. A neutral placeholder keeps the rest of the report working; no body page is shown.
+  if (tier === 'starter') { answers.shape = 'hourglass'; answers.intensity = 'plain'; }
   // Shape comes from the three proportion answers; older quiz sessions that self-selected a shape still work.
-  if (answers.shoulderHip && answers.waistDef && answers.bustHip) { answers.shape = computeBodyShape(answers); }
+  if (tier !== 'starter' && answers.shoulderHip && answers.waistDef && answers.bustHip) { answers.shape = computeBodyShape(answers); }
   answers.intensity = answers.shape ? computeIntensity(answers.shape, answers) : 'plain';
   const { key: seasonKey, axes } = getSeason(answers);
   const colorFacts = colorData[seasonKey];
@@ -364,8 +374,8 @@ async function run(event) {
       type: 'text',
       text: `Client name: ${clientName}
 
-QUIZ ANSWERS:
-${JSON.stringify(answers, null, 2)}
+${tier === 'starter' ? 'THIS IS THE COLOR-ONLY REPORT. The client was not asked about her body. Do not mention body shape, proportions, silhouettes or fit anywhere in your answer.\n\n' : ''}QUIZ ANSWERS:
+${JSON.stringify(tier === 'starter' ? Object.assign({}, answers, { shape: undefined, intensity: undefined }) : answers, null, 2)}
 
 FREE-TEXT NOTE FROM CLIENT: ${freeText || '(none provided)'}
 
@@ -373,10 +383,10 @@ DETERMINED COLOR SEASON: ${colorFacts.label}
 Season description: ${colorFacts.desc}
 Undertone axis: ${axes.undertone}, depth: ${axes.value}, chroma: ${axes.chroma}
 
-DETERMINED BODY SHAPE: ${bodyFacts.shape}
+${tier === 'starter' ? '' : `DETERMINED BODY SHAPE: ${bodyFacts.shape}
 Shape description: ${bodyFacts.desc}
 Styling goal: ${bodyFacts.goal}
-${proportionNote ? `Proportion note: ${proportionNote}` : ''}
+${proportionNote ? `Proportion note: ${proportionNote}` : ''}`}
 
 Available silhouette options to choose 3 from (copy the text exactly):
 ${JSON.stringify(bodyFacts.sils)}
@@ -395,6 +405,9 @@ Body avoid facts: ${JSON.stringify(bodyFacts.avd)}`
 
   // --- Step 5: merge with fixed factual data and return. ---
   const report = {
+    tier,
+    // What she paid for the report: it comes off her first 1:1 package. Older $40 checkouts keep their $40.
+    credit: previewTest ? TIERS.get(tier).price : (Math.round((Number(session.amount_subtotal) || 0) / 100) || TIERS.get(tier).price),
     clientName,
     isReturning: !!returningClient,
     seasonKey,

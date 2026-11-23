@@ -9,6 +9,7 @@
 // Needs Netlify env vars: RESEND_API_KEY (from resend.com) and, optionally, REPORT_FROM_EMAIL
 // (default: "HerStyleVault <reports@herstylevault.com>"; that domain must be verified in Resend).
 
+const TIERS = require('../../tiers.js');
 const MAX_PDF_BYTES = 4.2 * 1024 * 1024; // base64 adds a third, and Netlify rejects requests over about 6 MB
 const FROM = process.env.REPORT_FROM_EMAIL || 'HerStyleVault <reports@herstylevault.com>';
 const sentCount = new Map(); // best-effort limit per warm server: 3 emails per checkout session
@@ -34,7 +35,7 @@ async function payerEmail(sessionId) {
   const email = (s.customer_details && s.customer_details.email) || s.customer_email || '';
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, code: 400, error: 'no_email' };
   const first = String((s.customer_details && s.customer_details.name) || '').trim().split(/\s+/)[0].replace(/[^A-Za-z'\u00C0-\u024F-]/g, '').slice(0, 30);
-  return { ok: true, email, first };
+  return { ok: true, email, first, cents: Number(s.amount_subtotal) || 0 };
 }
 
 exports.handler = async (event) => {
@@ -59,6 +60,7 @@ exports.handler = async (event) => {
     if (n > 3) return json(429, { ok: false, error: 'too_many' });
     sentCount.set(sessionId, n);
 
+    const tier = TIERS.get(TIERS.fromCents(who.cents)), credit = Math.round(who.cents / 100) || tier.price;
     const link = 'https://herstylevault.com/analysis-results.html?session_id=' + encodeURIComponent(sessionId);
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -67,25 +69,25 @@ exports.handler = async (event) => {
         from: FROM,
         to: [who.email],
         reply_to: 'hello@herstylevault.com',
-        subject: 'Your Signature Style Report is here',
-        text: 'Hi ' + (who.first || 'there') + ',\n\nThank you for taking the quiz. Your Signature Style Report is attached as a PDF.\n\n- Save it to your phone or computer so you always have it.\n- Reopen your report online anytime, on any device, with this link and the email you paid with: ' + link + '\n- Take it shopping. The links in your report open live searches at stores in your price range.\n- Thinking about booking a styling session? Keep this PDF and bring it to your consultation, so we can start from it.\n\nYour $40 credit toward a 1:1 package is explained on the last page of your report.\n\nWant help turning your report into real outfits? Book a free consultation: https://herstylevault.com/book.html\n\nStep into Her Style Suite: https://herstylevault.com/her-style-suite.html\n\nQuestions? Just reply to this email.\n\nWith love,\nHerStyleVault',
+        subject: 'Your ' + tier.name + ' is here',
+        text: 'Hi ' + (who.first || 'there') + ',\n\nThank you for taking the quiz. Your ' + tier.name + ' is attached as a PDF.\n\n- Save it to your phone or computer so you always have it.\n- Reopen your report online anytime, on any device, with this link and the email you paid with: ' + link + '\n- Take it shopping. The links in your report open live searches at stores in your price range.\n- Thinking about booking a styling session? Keep this PDF and bring it to your consultation, so we can start from it.\n\nYour $' + credit + ' credit toward a 1:1 package is explained on the last page of your report.\n\nWant help turning your report into real outfits? Book a free consultation: https://herstylevault.com/book.html\n\nStep into Her Style Suite: https://herstylevault.com/her-style-suite.html\n\nQuestions? Just reply to this email.\n\nWith love,\nHerStyleVault',
         html: '<div style="font-family:Arial,Helvetica,sans-serif;color:#181716;max-width:520px;margin:0 auto;padding:24px;line-height:1.6">' +
           '<p style="font-family:Georgia,serif;font-size:26px;margin:0 0 16px">HerStyleVault</p>' +
           '<p>Hi ' + (who.first || 'there') + ',</p>' +
-          '<p>Thank you for taking the quiz. Your Signature Style Report is attached as a PDF.</p>' +
+          '<p>Thank you for taking the quiz. Your ' + tier.name + ' is attached as a PDF.</p>' +
           '<ul style="padding-left:18px">' +
           '<li style="margin-bottom:8px"><strong>Save it</strong> to your phone or computer so you always have it.</li>' +
           '<li style="margin-bottom:8px"><strong>Reopen it online</strong> anytime, on any device, with <a href="' + link + '" style="color:#7A1321">this link</a> and the email you paid with.</li>' +
           '<li style="margin-bottom:8px"><strong>Take it shopping.</strong> The links in your report open live searches at stores in your price range.</li>' +
           '<li style="margin-bottom:8px"><strong>Thinking about booking a styling session?</strong> Keep this PDF and bring it to your consultation, so we can start from it.</li></ul>' +
-          '<p>Your $40 credit toward a 1:1 package is explained on the last page of your report.</p>' +
+          '<p>Your $' + credit + ' credit toward a 1:1 package is explained on the last page of your report.</p>' +
           '<p style="margin:20px 0 8px">Want help turning your report into real outfits?</p>' +
           '<p style="margin:0 0 24px"><a href="https://herstylevault.com/book.html" style="display:inline-block;background:#7A1321;color:#ffffff;padding:12px 22px;border-radius:4px;text-decoration:none;font-weight:600">Book a free consultation</a></p>' +
           '<a href="https://herstylevault.com/her-style-suite.html" style="text-decoration:none"><img src="https://herstylevault.com/images/share/her-style-suite.jpg" width="472" alt="Her Style Suite: shoppable outfit boards from HerStyleVault" style="display:block;width:100%;max-width:472px;height:auto;border-radius:4px;border:0"></a>' +
           '<p style="margin:12px 0 24px"><a href="https://herstylevault.com/her-style-suite.html" style="display:inline-block;border:1px solid #7A1321;color:#7A1321;padding:11px 22px;border-radius:4px;text-decoration:none;font-weight:600">Step into Her Style Suite</a></p>' +
           '<p>Questions? Just reply to this email.</p>' +
           '<p>With love,<br><strong>HerStyleVault</strong></p></div>',
-        attachments: [{ filename: 'Signature-Style-Report-HerStyleVault.pdf', content: pdf.toString('base64') }]
+        attachments: [{ filename: tier.name.replace(/ /g, '-') + '-HerStyleVault.pdf', content: pdf.toString('base64') }]
       })
     });
     if (!r.ok) return json(502, { ok: false, error: 'send_failed' });

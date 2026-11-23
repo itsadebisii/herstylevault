@@ -15,6 +15,7 @@
      coverSub     optional small line printed on the generated cover
      price, priceNote, short (keep to ~2 lines), headline (may use <em>), lead
      soonNote, soonCta  optional, for status 'coming-soon': a line shown instead of the price, and a {label, href} button (e.g. mailto)
+     pick         true = the page opens with no option chosen (shows a "choose one" state). chooseOnPage: the shop card's chooser links to the page with that option picked.
      options[]    optional tiers on one product page (tiers on one page). Each can override: label, badge, price, priceNote, soonNote, includes, cta,
                   and its own cover: coverName, coverSub, coverTone, coverImage. The cover changes when the visitor picks an option.
      includes[]   What's Inside bullets
@@ -24,70 +25,201 @@
      previews[]   optional Sneak Peek pages, portrait ~4:5: {src, alt, locked}. Shown after the cover in the flipper.
      cta          {label, href}      meta  'Instant delivery · One-time payment' (split on ' · ')
    Anything optional can be left out and its section simply won't render. */
+/* The three style reports read their prices, names and links from tiers.js (load it before this file). */
+function HSV_TIERS_T(k){ return (typeof HSV_TIERS !== 'undefined') ? HSV_TIERS.get(k) : { blurb: '' }; }
+function HSV_TIERS_LIVE(k){ return (typeof HSV_TIERS !== 'undefined') ? HSV_TIERS.live(k) : false; }
+function HSV_TIERS_MONEY(k){ return (typeof HSV_TIERS !== 'undefined') ? HSV_TIERS.money(k) : ''; }
 var DIGITALS = [
   {
     slug: 'signature-style-report',
-    seoName: 'Signature Style Report', seoTitle: 'Signature Style Report: Color & Body Shape | HerStyleVault', seoDesc: 'Get your color season, body shape and style persona in one detailed 21-page Signature Style Report: your palette around your face, outfit formulas, a 12-piece starter capsule and shop links. Answer 26 questions and get your PDF by email.',
-    name: 'Signature Style Report',
+    seoName: 'Personal Style Report', seoTitle: 'Personal Style Reports: Color, Body Shape & Style | HerStyleVault', seoDesc: 'Choose your personal style report: a 10-page color report ({$starter}), a 15-page color and body shape report with a closet plan ({$blueprint}), or the full 21-page Signature Style Report ({$signature}). Your color season, palette, outfit formulas and live shop links, built from your answers.',
+    name: 'Personal Style Reports',
+    eyebrow: 'Style Reports',
     category: 'reports', status: 'live',
-    coverSub: 'Color · Shape · Style',
-    price: '$40', priceNote: 'one-time',
-    coverImage: 'images/digitals/report-cover.jpg',
-    previews: [
-      {src:'images/digitals/report-page-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
-      {src:'images/digitals/report-page-5.jpg', alt:'Sample report page: your color type, your coloring at a glance, and your face at the center of a color wheel built from your palette'},
-      {src:'images/digitals/report-page-6.jpg', alt:'Sample report page: your palette tuned across ten skin shades, with your own shade marked'},
-      {src:'images/digitals/report-page-4.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
-      {src:'images/digitals/report-b3.jpg', alt:'Blurred report page: your starter capsule of 12 pieces with shop links', locked:true},
-      {src:'images/digitals/report-b5.jpg', alt:'Blurred report page: six complete outfit recipes', locked:true}
-    ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
-    short: "A detailed 21-page personal style report: your color season on a wheel around your face, your body shape, your style persona, and exactly what to wear and where to shop.",
-    headline: 'Your <em>colors</em>, your <em>shape</em> and exactly what to wear, all in one detailed report',
-    lead: "A 21-page personal style report built from your answers and your photo, using the same method I use with real clients. You get your color season and a palette arranged around your face, your body shape and what to wear for it, your style persona, outfit formulas, a 12-piece starter capsule with live shop links, six complete outfit recipes and a closet audit checklist. It is all in one place, saved to your phone, with no appointment and no waiting.",
-    includes: [
-      'Your color season, picked from 12 seasons, and why it is yours',
-      'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors, shown on a color wheel with your photo at the center',
-      'Your palette tuned across the skin-shade range, with your shade marked',
-      'How to put your colors to work: the 60-30-10 rule, color stories to wear and where each color goes',
-      'Outfit searches on Pinterest in your colors',
-      'Hair, makeup and nail shades for your coloring',
-      'The colors to avoid, shown as swatches',
-      'Your body shape, picked from 5 shapes, with your styling goal',
-      'Dress Your Shape: tops, bottoms and dresses for your shape, with fit notes for your height and proportions',
-      'Your style persona, with a 3-piece signature formula and a rule you are allowed to break',
-      'Outfit formulas for the occasions you chose',
-      'A one-page style cheat sheet you can screenshot',
-      'A starter capsule wardrobe: 12 pieces to buy first, in your colors, with shop links',
-      'Six complete outfit recipes for the occasions you chose',
-      'A shopping and fit guide, plus a closet audit checklist',
-      'A Bring-to-your-session page with your style snapshot',
-      'Fabrics and patterns picked from your answers, plus an accessory styling guide',
-      'Live store links for your colors and cuts, matched to your price range',
-      'A table of contents with tap-to-jump page links',
-      'This is the same report that is included in The Full Reveal package',
-      'A $40 credit toward any 1:1 package when you book within 12 months'
+    pick: true, /* the page opens with no report chosen. Picking one swaps in that report's cover, sample pages, price and details. */
+    coverName: 'Your Style Report', coverSub: 'Choose yours below',
+    coverImage: 'images/digitals/report-cover-choose.jpg', /* the three covers together, shown before a report is picked */
+    cardCover: 'images/digitals/report-cover-choose.jpg',
+    buyLabel: 'Choose Your Report',
+    chooseOnPage: true, /* the shop card's "which one?" list opens the details page with that report picked, instead of going straight to checkout */
+    short: "A personal style report built from your answers: your color season on a wheel around your face, and, in the bigger ones, your body shape, outfit formulas and live shop links. Choose from three.",
+    headline: 'Your style report, <em>built around you</em>',
+    lead: "Pick the report that fits what you need. All three start with your color season and a palette arranged around your face. The bigger ones add your body shape, a closet plan and your style persona. Choose one below to see what is inside, the sample pages and the price.",
+    faqs: [
+      ['Which report should I choose?', 'The Starter (10 pages, 12 questions) is color only: your season, palette, shades to avoid, hair, makeup and nail tones, and outfit formulas. The Blueprint (15 pages, 20 questions) adds your body shape, what to wear for it, a starter capsule and a closet audit. The Signature (21 pages, 26 questions) is everything, with your style persona, fabrics and patterns, outfit recipes and a shopping and fit guide.'],
+      ['Is this the same as booking a session?', 'No. These are self-serve digital reports for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
+      ['How do I get my report?', 'It opens on screen as soon as it is ready, and one tap sends the PDF to the email you checked out with.']
+    ],
+    options: [
+      {
+        key: 'starter', label: 'Starter', badge: '10 pages', blurb: HSV_TIERS_T('starter').blurb,
+        name: 'Starter Style Report', seoName: 'Starter Style Report',
+        status: HSV_TIERS_LIVE('starter') ? '' : 'coming-soon', soonNote: 'Opens very soon.',
+        coverImage: 'images/digitals/report-cover-starter.jpg',
+        price: HSV_TIERS_MONEY('starter'), priceNote: 'one-time',
+        headline: 'Your <em>colors</em>, and outfit ideas to start with',
+        lead: "A 10-page color report built from 12 quick questions and an optional photo. You get your color season and a palette arranged around your face, the shades to avoid, how to wear your colors, hair, makeup and nail tones, and outfit formulas for the occasions you choose. It is the report that is included with The Unlock package.",
+        previews: [
+          {src:'images/digitals/preview-starter-1.jpg', alt:'Sample report page: your palette of power neutrals, signature colors and accents, with your metal tone'},
+          {src:'images/digitals/preview-starter-2.jpg', alt:'Sample report page: your color type, your coloring at a glance, and your face at the center of a color wheel built from your palette'},
+          {src:'images/digitals/preview-starter-3.jpg', alt:'Sample report page: your palette tuned across ten skin shades, with your own shade marked'},
+          {src:'images/digitals/preview-starter-4-locked.jpg', alt:'Blurred report page: hair, makeup and nail shades for your coloring', locked:true},
+          {src:'images/digitals/preview-starter-5-locked.jpg', alt:'Blurred report page: outfit formulas for the occasions you choose', locked:true}
+        ],
+        includes: [
+          'Your color season, picked from 12 seasons, and why it is yours',
+          'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors, shown on a color wheel with your photo at the center',
+          'Your palette tuned across the skin-shade range, with your shade marked',
+          'How to put your colors to work: the 60-30-10 rule, color stories to wear and where each color goes',
+          'Hair, makeup and nail shades for your coloring',
+          'The colors to avoid, shown as swatches, plus your accessory colors',
+          'Outfit formulas in your colors for the occasions you choose',
+          'A table of contents with tap-to-jump page links',
+          'This is the report that is included in The Unlock package',
+          'A {$starter} credit toward any 1:1 package when you book within 12 months'
+        ],
+        steps: [
+          ['Answer 12 Questions', 'About your natural coloring, with visual examples for the trickier ones, plus where you want your outfits to work. Plan on about five minutes.'],
+          ['Add a Photo', "Optional. Your photo sits in the center of your color wheel and helps us read your coloring. Skip it if you'd rather not, and a monogram takes its place."],
+          ['Get Your Report', 'Built from your answers in under a minute, then yours to read on screen. One tap emails you the PDF.']
+        ],
+        faqs: [
+          ['What is in the Starter Style Report?', 'Ten pages, all about color: your season, your palette on a wheel, your palette across skin shades, how to wear your colors, hair, makeup and nail shades, the colors to avoid, and outfit formulas in your colors. It does not cover body shape.'],
+          ['How long does it take?', 'About five minutes for 12 questions. Your report is built right after.'],
+          ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color, but the report works from your answers alone."],
+          ['Is this included with a package?', 'Yes. The Starter Style Report is the report that comes with The Unlock package. If you book The Unlock, you receive it as part of it, and your {$starter} is credited toward your package if you booked within 12 months.'],
+          ['What if I want body shape too?', 'Choose the Blueprint or the Signature report. They add your body shape and what to wear for it.'],
+          ['What does it cost?', '{$starter}, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the {$starter} comes off your final payment.']
+        ],
+        finePrint: 'Personalized recommendations based on your answers and optional photo, not an in-person color analysis.',
+        cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html?tier=starter' },
+        meta: 'Instant results · One-time payment · No account needed'
+      },
+      {
+        key: 'blueprint', label: 'Blueprint', badge: '15 pages', blurb: HSV_TIERS_T('blueprint').blurb,
+        name: 'Blueprint Style Report', seoName: 'Blueprint Style Report',
+        status: HSV_TIERS_LIVE('blueprint') ? '' : 'coming-soon', soonNote: 'Opens very soon.',
+        coverImage: 'images/digitals/report-cover-blueprint.jpg',
+        price: HSV_TIERS_MONEY('blueprint'), priceNote: 'one-time',
+        headline: 'Your <em>colors</em>, your <em>shape</em> and a plan for your closet',
+        lead: "A 15-page report built from 20 quick questions and an optional photo. You get your color season and palette, your body shape and what to wear for it, outfit formulas, a 12-piece starter capsule with shop links, and a closet audit checklist so you know what to keep, tailor and replace. It is the report that is included with The Vault Edit package.",
+        previews: [
+          {src:'images/digitals/preview-blueprint-1.jpg', alt:'Sample report page: your color type, your coloring at a glance, and your face at the center of a color wheel built from your palette'},
+          {src:'images/digitals/preview-blueprint-2.jpg', alt:'Sample report page: your palette tuned across ten skin shades, with your own shade marked'},
+          {src:'images/digitals/preview-blueprint-3.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
+          {src:'images/digitals/preview-blueprint-4.jpg', alt:'Sample report page: dress your shape, with tops, bottoms and dresses picked for your shape'},
+          {src:'images/digitals/preview-blueprint-5-locked.jpg', alt:'Blurred report page: outfit formulas for the occasions you chose', locked:true},
+          {src:'images/digitals/preview-blueprint-6-locked.jpg', alt:'Blurred report page: your starter capsule of 12 pieces with shop links', locked:true},
+          {src:'images/digitals/preview-blueprint-7-locked.jpg', alt:'Blurred report page: your closet audit checklist', locked:true}
+        ],
+        includes: [
+          'Your color season, picked from 12 seasons, and why it is yours',
+          'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors, shown on a color wheel with your photo at the center',
+          'Your palette tuned across the skin-shade range, with your shade marked',
+          'How to put your colors to work: the 60-30-10 rule, color stories to wear and where each color goes',
+          'Hair, makeup and nail shades for your coloring',
+          'The colors to avoid, shown as swatches',
+          'Your body shape, picked from 5 shapes, with your styling goal',
+          'Dress Your Shape: tops, bottoms and dresses for your shape, with fit notes for your height and proportions',
+          'Silhouettes and shopping, plus a fabric guide, with live store links matched to your price range',
+          'Outfit formulas for the occasions you choose',
+          'A starter capsule wardrobe: 12 pieces to buy first, in your colors, with shop links',
+          'A closet audit checklist: what to keep, tailor and replace',
+          'A table of contents with tap-to-jump page links',
+          'This is the report that is included in The Vault Edit package',
+          'A {$blueprint} credit toward any 1:1 package when you book within 12 months'
+        ],
+        steps: [
+          ['Answer 20 Questions', 'About your natural coloring and your body, with visual examples for the trickier ones, plus where you want your outfits to work. Plan on about eight minutes.'],
+          ['Add a Photo', "Optional. Your photo sits in the center of your color wheel and helps us read your coloring. Skip it if you'd rather not, and a monogram takes its place."],
+          ['Get Your Report', 'Built from your answers in under a minute, then yours to read on screen. One tap emails you the PDF.']
+        ],
+        faqs: [
+          ['What is in the Blueprint Style Report?', 'Fifteen pages: your color season and palette, your body shape and what to wear for it, silhouettes and shopping, outfit formulas, a 12-piece starter capsule and a closet audit checklist.'],
+          ['How long does it take?', 'About eight minutes for 20 questions. Your report is built right after.'],
+          ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone."],
+          ['Is this included with a package?', 'Yes. The Blueprint Style Report is the report that comes with The Vault Edit package. If you book The Vault Edit, you receive it as part of it, and your {$blueprint} is credited toward your package if you booked within 12 months.'],
+          ['What is the difference from the Signature report?', 'The Signature report adds your style persona, fabrics and patterns, six outfit recipes, a shopping and fit guide and a Bring-to-your-session page, and asks a few optional questions about your life.'],
+          ['What does it cost?', '{$blueprint}, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the {$blueprint} comes off your final payment.']
+        ],
+        finePrint: 'Personalized recommendations based on your answers and optional photo, not an in-person color analysis.',
+        cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html?tier=blueprint' },
+        meta: 'Instant results · One-time payment · No account needed'
+      },
+      {
+        key: 'signature', label: 'Signature', badge: '21 pages', blurb: HSV_TIERS_T('signature').blurb,
+        name: 'Signature Style Report', seoName: 'Signature Style Report',
+        status: HSV_TIERS_LIVE('signature') ? '' : 'coming-soon', soonNote: 'Opens very soon.',
+        coverImage: 'images/digitals/report-cover.jpg',
+        price: HSV_TIERS_MONEY('signature'), priceNote: 'one-time',
+        headline: 'Your <em>colors</em>, your <em>shape</em> and exactly what to wear, all in one detailed report',
+        lead: "A 21-page personal style report built from your answers and your photo, using the same method I use with real clients. You get your color season and a palette arranged around your face, your body shape and what to wear for it, your style persona, outfit formulas, a 12-piece starter capsule with live shop links, six complete outfit recipes, fabrics and patterns picked for you, and a closet audit. It is the report that is included with The Full Reveal package.",
+        previews: [
+          {src:'images/digitals/preview-signature-1.jpg', alt:'Sample report page: your style at a glance, with your color season, body shape and style persona'},
+          {src:'images/digitals/preview-signature-2.jpg', alt:'Sample report page: your style persona, 3-piece formula and full color palette'},
+          {src:'images/digitals/preview-signature-3.jpg', alt:'Sample report page: your color type, your coloring at a glance, and your face at the center of a color wheel built from your palette'},
+          {src:'images/digitals/preview-signature-4.jpg', alt:'Sample report page: your palette tuned across ten skin shades, with your own shade marked'},
+          {src:'images/digitals/preview-signature-5.jpg', alt:'Sample report page: put your colors to work, with the 60-30-10 rule and color stories'},
+          {src:'images/digitals/preview-signature-6.jpg', alt:'Sample report page: hair, makeup and nail shades for your coloring'},
+          {src:'images/digitals/preview-signature-7.jpg', alt:'Sample report page: your body shape, why it fits you and your styling goal'},
+          {src:'images/digitals/preview-signature-8.jpg', alt:'Sample report page: dress your shape, with tops, bottoms and dresses picked for your shape'},
+          {src:'images/digitals/preview-signature-9.jpg', alt:'Sample report page: patterns you can wear, picked from your colors and your style'},
+          {src:'images/digitals/preview-signature-10-locked.jpg', alt:'Blurred report page: your starter capsule of 12 pieces with shop links', locked:true},
+          {src:'images/digitals/preview-signature-11-locked.jpg', alt:'Blurred report page: six complete outfit recipes', locked:true},
+          {src:'images/digitals/preview-signature-12-locked.jpg', alt:'Blurred report page: your closet audit checklist', locked:true}
+        ], /* sneak peek pages (portrait, sample client). Slide 1 is always the cover. */
+        includes: [
+          'Your color season, picked from 12 seasons, and why it is yours',
+          'Your palette: 4 power neutrals, 6 signature colors, your metal tone and accent colors, shown on a color wheel with your photo at the center',
+          'Your palette tuned across the skin-shade range, with your shade marked',
+          'How to put your colors to work: the 60-30-10 rule, color stories to wear and where each color goes',
+          'Outfit searches on Pinterest in your colors',
+          'Hair, makeup and nail shades for your coloring',
+          'The colors to avoid, shown as swatches',
+          'Your body shape, picked from 5 shapes, with your styling goal',
+          'Dress Your Shape: tops, bottoms and dresses for your shape, with fit notes for your height and proportions',
+          'Your style persona, with a 3-piece signature formula and a rule you are allowed to break',
+          'Outfit formulas for the occasions you chose',
+          'A one-page style cheat sheet you can screenshot',
+          'A starter capsule wardrobe: 12 pieces to buy first, in your colors, with shop links',
+          'Six complete outfit recipes for the occasions you chose',
+          'A shopping and fit guide, plus a closet audit checklist',
+          'A Bring-to-your-session page with your style snapshot',
+          'Fabrics and patterns picked from your answers, plus an accessory styling guide',
+          'Live store links for your colors and cuts, matched to your price range',
+          'A table of contents with tap-to-jump page links',
+          'This is the same report that is included in The Full Reveal package',
+          'A {$signature} credit toward any 1:1 package when you book within 12 months'
+        ],
+        steps: [
+          ['Answer 26 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess. A few optional questions about your life, like work, climate and comfort, make it fit even better."],
+          ['Add a Photo', "Optional. Your photo sits in the center of your color wheel and helps us read your coloring. Skip it if you'd rather not, and a monogram takes its place."],
+          ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear. Read it on screen, and we email you the PDF.']
+        ],
+        trustTitle: 'Not a generic <em>quiz result</em>',
+        trust: [
+          ['Real styling data, not guesses', 'Your color season and body shape are identified using the same tested color and body-shape system HerStyleVault uses with in-person clients: 12 color seasons, 5 body shapes, real palettes and real styling rules.'],
+          ['Written for you, not templated', 'A personalized digital report explaining exactly how your specific answers point to your result, including resolving any answers that seem to contradict each other, the way a real stylist would.']
+        ],
+        faqs: [
+          ['How do I get my report?', 'It opens on screen as soon as it is ready, and one tap sends the PDF to the email you checked out with, so you can keep it.'],
+          ['How long does it take?', 'You answer the quiz at your own pace. Your full 21-page report is built for you right after, and it is yours to keep.'],
+          ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
+          ['Is this the same report as The Full Reveal?', 'Yes. The Signature Style Report is the same report that comes with The Full Reveal package. If you book The Full Reveal, you receive this report as part of it, and your {$signature} is credited toward your package if you booked within 12 months.'],
+          ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
+          ['What does it cost?', '{$signature}, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the {$signature} comes off your final payment.']
+        ],
+        finePrint: 'Personalized recommendations based on your answers and optional photo, not an in-person color analysis.',
+        cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html?tier=signature' },
+        meta: 'Instant results · One-time payment · No account needed'
+      }
     ],
     steps: [
-      ['Answer 26 Questions', "About your natural coloring and body, with visual examples for the trickier ones, so nothing's a guess. A few optional questions about your life, like work, climate and comfort, make it fit even better."],
-      ['Add a Photo', "Optional. Your photo sits in the center of your color wheel and helps us read your coloring. Skip it if you'd rather not, and a monogram takes its place."],
-      ['Get Your Report', 'Built from your answers in under a minute: your color season, body shape, and exactly what to wear. Read it on screen, and we email you the PDF.']
-    ],
-    trustTitle: 'Not a generic <em>quiz result</em>',
-    trust: [
-      ['Real styling data, not guesses', 'Your color season and body shape are identified using the same tested color and body-shape system HerStyleVault uses with in-person clients: 12 color seasons, 5 body shapes, real palettes and real styling rules.'],
-      ['Written for you, not templated', 'A personalized digital report explaining exactly how your specific answers point to your result, including resolving any answers that seem to contradict each other, the way a real stylist would.']
-    ],
-    faqs: [
-      ['How do I get my report?', 'It opens on screen as soon as it is ready, and one tap sends the PDF to the email you checked out with, so you can keep it.'],
-      ['How long does it take?', 'You answer the quiz at your own pace. Your full 21-page report is built for you right after, and it is yours to keep.'],
-      ['Do I need to upload a photo?', "No, it's optional. It sharpens the read on your color and shape, but the report works from your answers alone if you'd rather skip it."],
-      ['Is this the same report as The Full Reveal?', 'Yes. The Signature Style Report is the same report that comes with The Full Reveal package. If you book The Full Reveal, you receive this report as part of it, and your $40 is credited toward your package if you booked within 12 months.'],
-      ['Is this the same as booking a session?', 'No, this is a self-serve digital product for anyone, anywhere. If you want hands-on styling help, book a free consultation instead.'],
-      ['What does it cost?', '$40, one-time. No subscription, no hidden extras. If you book a 1:1 package within 12 months, the $40 comes off your final payment.']
+      ['Choose your report', 'The Starter, the Blueprint or the Signature.'],
+      ['Answer the questions', 'Visual examples for the trickier ones, so nothing is a guess.'],
+      ['Get your report', 'Built for you in under a minute, then emailed as a PDF.']
     ],
     finePrint: 'Personalized recommendations based on your answers and optional photo, not an in-person color analysis.',
-    buyLabel: 'Start Style Analysis',
-    cta: { label: 'Start Your Analysis', href: 'color-style-analysis.html' },
     meta: 'Instant results · One-time payment · No account needed'
   },
   {
@@ -330,6 +462,16 @@ var DIGITALS = [
   }
 ];
 
+/* fill the {$starter} / {$blueprint} / {$signature} price tokens used in the report text */
+(function fill(o){
+  if (typeof o === 'string' || o == null || typeof HSV_TIERS === 'undefined') return;
+  Object.keys(o).forEach(function(k){
+    var v = o[k];
+    if (typeof v === 'string') o[k] = v.replace(/\{\$(starter|blueprint|signature)\}/g, function(m, t){ return HSV_TIERS.money(t); });
+    else if (v && typeof v === 'object') fill(v);
+  });
+})(DIGITALS);
+
 /* ---------- Catalog helpers ---------- */
 var DIGITAL_CATEGORIES = {
   reports: { label: 'Style Reports', eyebrow: 'Style Report' },
@@ -367,15 +509,16 @@ function digitalCover(p, first){
    A product with options shows one button that opens a "which one?" chooser. */
 function digitalCard(p){
   var url = digitalUrl(p), opts = p.options, v0 = digitalView(p, 0);
-  var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(p.cardCover ? { coverImage: p.cardCover, name: p.name, category: p.category } : (opts ? v0 : p)) + '</a>';
+  var cover = '<a class="vd-media" href="' + url + '" aria-label="Details: ' + digitalAttr(p.name) + '">' + digitalCover(p.pick ? p : (p.cardCover ? { coverImage: p.cardCover, name: p.name, category: p.category } : (opts ? v0 : p))) + '</a>';
   var prices = '', buy;
   if (opts) {
     buy = '<button type="button" class="btn btn-primary vd-buy" data-vd-choose aria-expanded="false">' + (p.buyLabel || 'Buy Now') + '</button>' +
       '<div class="vd-choose" hidden><p class="vd-choose-lab">Which one?</p>' + opts.map(function(o, i){
         var v = digitalView(p, i), nm = digitalAttr(v.name || o.label);
-        return digitalSoon(v)
+        var tiny = (p.chooseOnPage && o.blurb) ? '<small>' + digitalAttr(o.blurb) + '</small>' : '';
+        return (digitalSoon(v) && !p.chooseOnPage)
           ? '<span class="vd-opt is-soon"><b>' + nm + '</b><i>' + (v.price ? v.price + ' \u00b7 ' : '') + 'Coming soon</i></span>'
-          : '<a class="vd-opt" href="' + v.cta.href + '"><b>' + nm + '</b><i>' + (v.price || '') + ' \u2192</i></a>';
+          : '<a class="vd-opt" href="' + (p.chooseOnPage ? url + '?opt=' + o.key : v.cta.href) + '"><b>' + nm + '</b><i>' + (v.price || '') + ' \u2192</i>' + tiny + '</a>';
       }).join('') + '</div>';
   } else {
     var soon = digitalSoon(p);

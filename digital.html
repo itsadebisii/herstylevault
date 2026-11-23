@@ -24,10 +24,11 @@
 <main id="digitalMain"></main>
 <footer class="site"><div class="footer-mount"></div></footer>
 <script src="site.js"></script>
+<script src="tiers.js"></script>
 <script src="digitals.js"></script>
 <script>
 (function(){
-  var main = document.getElementById('digitalMain'), optIdx = 0, keepScroll = false;
+  var main = document.getElementById('digitalMain'), optIdx = null, keepScroll = false;
   function list(a){ return a && a.length ? a : null; }
   var plain = function(t){ return String(t || '').replace(/<[^>]*>/g, ''); };
   function render(){
@@ -35,9 +36,15 @@
     var all = visibleDigitals();
     var p = all.filter(function(d){ return d.slug === slug; })[0] || all[0];
     if (!p) { main.innerHTML = '<section class="band wrap"><p class="sub center" style="margin:0 auto;">Nothing here yet. <a href="vault-digitals.html">See Vault Digitals</a>.</p></section>'; return; }
-    var opts = list(p.options), oi = opts ? Math.min(optIdx, opts.length - 1) : 0, o = opts ? opts[oi] : {};
+    /* a report page can open with nothing chosen yet (p.pick); ?opt=starter picks one */
+    if (optIdx === null) {
+      optIdx = 0;
+      if (p.pick) { optIdx = -1; var want = new URLSearchParams(location.search).get('opt'); (p.options || []).forEach(function(x, k){ if (x.key === want) optIdx = k; }); }
+    }
+    var opts = list(p.options), oi = opts ? (p.pick && optIdx < 0 ? -1 : Math.min(optIdx, opts.length - 1)) : 0, o = (opts && oi > -1) ? opts[oi] : {};
+    var none = !!(p.pick && oi < 0);
     var view = digitalView(p, oi);
-    var cat = digitalCat(p), soon = digitalSoon(view), cta = view.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
+    var cat = digitalCat(p), soon = !none && digitalSoon(view), cta = view.cta || { label: 'Get ' + p.name, href: 'vault-digitals.html' };
     if (!window.HSV_SLUG) { /* the built product pages already carry their own title and description */
     document.title = p.name + ' | HerStyleVault';
       var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', plain(p.short || p.lead));
@@ -46,8 +53,10 @@
     }
     var others = all.filter(function(d){ return d !== p; });
     var assure = (view.meta || 'Instant delivery · One-time payment').split(' · ');
-    var buy = soon
-      ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span><p class="meta">Not available to buy yet.' + ((view.soonCta || p.soonCta) ? ' <a href="' + (view.soonCta || p.soonCta).href + '">' + (view.soonCta || p.soonCta).label + '</a>' : ' Check back soon.') + '</p>'
+    var buy = none
+      ? '<p class="dg-pickhint">Choose a report above to see what\u2019s inside, the sample pages and the price.</p>'
+      : soon
+      ? '<span class="btn btn-primary is-disabled" aria-disabled="true">Coming Soon</span><p class="meta">Not available to buy yet.' + ((view.soonCta || p.soonCta) ? ' <a href="' + (view.soonCta || p.soonCta).href + '">' + (view.soonCta || p.soonCta).label + '</a>' : ' Check back soon.') + '</p>' + (/--herstylevault\.netlify\.app$|^localhost$/.test(location.hostname) && /color-style-analysis/.test(cta.href || '') ? '<p class="meta"><a class="btn" href="' + cta.href + '">Preview only: try the quiz</a></p>' : '')
       : '<a class="btn btn-primary" href="' + cta.href + '">' + cta.label + '</a><ul class="dg-assure">' + assure.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
 
     /* flipper slides: cover first, then any sneak-peek pages */
@@ -68,10 +77,10 @@
 
     var h = '<section class="band wrap" style="padding-bottom:clamp(2rem,4vw,3rem);"><p class="crumb"><a href="vault-digitals.html">Vault Digitals</a> / ' + plain(p.name) + '</p>' +
       '<div class="dg-hero">' + media +
-      '<div class="dg-info"><p class="eyebrow">' + (p.eyebrow || cat.eyebrow) + '</p><h1 class="page-title"><span class="h1-kw">' + (p.seoName || plain(p.name)) + '</span>' + (view.headline || p.name) + '</h1>' +
+      '<div class="dg-info"><p class="eyebrow">' + (p.eyebrow || cat.eyebrow) + '</p><h1 class="page-title"><span class="h1-kw">' + (view.seoName || p.seoName || plain(p.name)) + '</span>' + (view.headline || p.name) + '</h1>' +
       (view.lead ? '<p class="sub" style="margin-bottom:1rem;">' + view.lead + '</p>' : '') +
-      (opts ? '<div class="dg-opts" role="group" aria-label="Choose your version">' + opts.map(function(x,k){ return '<button type="button" class="dg-opt' + (k === oi ? ' on' : '') + '" data-oi="' + k + '" aria-pressed="' + (k === oi) + '"><b>' + x.label + '</b>' + (x.badge ? '<span>' + x.badge + '</span>' : '') + (x.price ? '<i>' + x.price + '</i>' : '') + '</button>'; }).join('') + '</div>' : '') +
-      (view.price ? '<div class="dg-price"><span class="price">' + view.price + '</span>' + (view.priceNote ? '<span class="meta" style="margin:0;">' + view.priceNote + '</span>' : '') + '</div>' : '<p class="dg-soon">' + (view.soonNote || 'Coming soon.') + '</p>') + buy + '<p class="dg-license" style="font-size:12px;color:var(--ink-soft);margin:.8rem 0 0;">For personal use only. Please don\u2019t share or resell. See the <a href="policies.html#digital-products">digital product terms</a>.' + (view.finePrint ? ' ' + view.finePrint : '') + '</p>' +
+      (opts ? '<div class="dg-opts" role="group" aria-label="Choose your version">' + opts.map(function(x,k){ return '<button type="button" class="dg-opt' + (k === oi ? ' on' : '') + '" data-oi="' + k + '" aria-pressed="' + (k === oi) + '"><b>' + x.label + '</b>' + (x.badge ? '<span>' + x.badge + '</span>' : '') + (x.price ? '<i>' + x.price + '</i>' : '') + (x.blurb ? '<small>' + x.blurb + '</small>' : '') + '</button>'; }).join('') + '</div>' : '') +
+      (none ? '' : view.price ? '<div class="dg-price"><span class="price">' + view.price + '</span>' + (view.priceNote ? '<span class="meta" style="margin:0;">' + view.priceNote + '</span>' : '') + '</div>' : '<p class="dg-soon">' + (view.soonNote || 'Coming soon.') + '</p>') + buy + (none ? '' : '<p class="dg-license" style="font-size:12px;color:var(--ink-soft);margin:.8rem 0 0;">For personal use only. Please don\u2019t share or resell. See the <a href="policies.html#digital-products">digital product terms</a>.' + (view.finePrint ? ' ' + view.finePrint : '') + '</p>') +
       (acc.length ? '<div class="dg-acc">' + acc.join('') + '</div>' : '') + '</div></div></section>';
     if (others.length) h += '<section class="band stone dg-more wrap" style="border-radius:4px;"><div class="more-head"><div><p class="eyebrow">More From Vault Digitals</p><h2>You may also <em>like</em></h2></div><a class="compare-link" href="vault-digitals.html">See all \u2192</a></div><div class="vd-mini-grid">' + others.map(digitalMini).join('') + '</div></section>';
     main.innerHTML = h;
@@ -87,12 +96,12 @@
       show(0);
     })();
     if (window.initAccordions) initAccordions('.acc-item');
-    Array.prototype.forEach.call(main.querySelectorAll('.dg-opt'), function(b){ b.addEventListener('click', function(){ optIdx = +b.getAttribute('data-oi'); keepScroll = true; render(); }); });
+    Array.prototype.forEach.call(main.querySelectorAll('.dg-opt'), function(b){ b.addEventListener('click', function(){ optIdx = +b.getAttribute('data-oi'); keepScroll = true; if (p.pick && p.options[optIdx] && history.replaceState) { try { history.replaceState(null, '', location.pathname + '?opt=' + p.options[optIdx].key); } catch (e) {} } render(); }); });
     if (window.digitalMore) digitalMore(main);
     if (!keepScroll) window.scrollTo(0,0); keepScroll = false;
   }
   render();
-  window.addEventListener('hashchange', function(){ optIdx = 0; render(); });
+  window.addEventListener('hashchange', function(){ optIdx = null; render(); });
 })();
 </script>
 <script src="arrows.js"></script>

@@ -156,8 +156,14 @@ input.nameinput{width:100%;border:1px solid var(--line);background:var(--bg);pad
   <div class="pad" id="app"></div>
 </div>
 
+<script src="tiers.js"></script>
 <script>
-const STRIPE_LINK = 'https://buy.stripe.com/4gM7sMgEle946DOd577kc00';
+/* Which of the three reports this quiz is for comes from the link: ?tier=starter, blueprint or signature. No link setting means the full report. */
+const TIER = (function(){ const t = new URLSearchParams(location.search).get('tier'); return HSV_TIERS.valid(t) ? t : 'signature'; })();
+const TINFO = HSV_TIERS.get(TIER);
+const STRIPE_LINK = TINFO.link;
+const PAYMONEY = '$' + TINFO.price;
+const CAN_PAY = HSV_TIERS.live(TIER);
 const STORAGE_KEY = 'hsv_analysis_data';
 // Lead capture: paste a Google Apps Script web-app URL here. Left blank, the quiz skips it and checkout is unaffected.
 const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzu7aqCZmfVZNBdsuheX-9UhA1ImhTjnN9UD16jzQ6PwBQPnaZx-mI_RhmH5JWNtwZtbA/exec';
@@ -468,22 +474,39 @@ function finalAnswers() {
   delete out.compColors; delete out.compOther;
   return out;
 }
+/* The shorter reports ask fewer questions. Anything not listed for a report is left out of its quiz. */
+const TIER_KEYS = {
+  starter: { body: [], persona: ['feel', 'worksBest', 'guideFirst'], life: false },
+  blueprint: { body: ['dressSep', 'shoulderHip', 'waistDef', 'bustHip', 'height', 'proportion'], persona: ['showOff', 'quiet', 'feel', 'worksBest', 'budget'], life: false }
+}[TIER] || null;
+const askBody = QUESTIONS.filter(q => q.section === 'body' && (!TIER_KEYS || TIER_KEYS.body.indexOf(q.key) > -1));
+const askPersona = QUESTIONS.filter(q => q.section === 'persona' && (!TIER_KEYS || TIER_KEYS.persona.indexOf(q.key) > -1));
+const askLife = (!TIER_KEYS || TIER_KEYS.life) ? LIFE_QUESTIONS : [];
 const FLOW = [];
 FLOW.push({ type: 'name-cover' });
 QUESTIONS.filter(q => q.section === 'about').forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'body-part-cover', part: 'color' });
 QUESTIONS.filter(q => q.section === 'color').forEach(q => { FLOW.push({ type: 'question', q }); if (q.key === 'comp') FLOW.push({ type: 'question', q: COMP_FOLLOWUP }); });
-FLOW.push({ type: 'body-part-cover', part: 'body' });
-QUESTIONS.filter(q => q.section === 'body').forEach(q => FLOW.push({ type: 'question', q }));
-FLOW.push({ type: 'body-part-cover', part: 'persona' });
-QUESTIONS.filter(q => q.section === 'persona').forEach(q => FLOW.push({ type: 'question', q }));
-FLOW.push({ type: 'body-part-cover', part: 'life' });
-LIFE_QUESTIONS.forEach(q => FLOW.push({ type: 'question', q }));
+if (askBody.length) FLOW.push({ type: 'body-part-cover', part: 'body' });
+askBody.forEach(q => FLOW.push({ type: 'question', q }));
+if (askPersona.length) FLOW.push({ type: 'body-part-cover', part: 'persona' });
+askPersona.forEach(q => FLOW.push({ type: 'question', q }));
+if (askLife.length) FLOW.push({ type: 'body-part-cover', part: 'life' });
+askLife.forEach(q => FLOW.push({ type: 'question', q }));
 FLOW.push({ type: 'freetext' });
 FLOW.push({ type: 'photo' });
 
+/* number each section's questions as they are really asked: "Question 3 of 8" */
+(function () {
+  const bySec = {};
+  FLOW.forEach(f => { if (f.type === 'question' && !f.q.followUp && !f.q.optional) (bySec[f.q.section] = bySec[f.q.section] || []).push(f.q); });
+  Object.keys(bySec).forEach(k => bySec[k].forEach((q, i) => { q.n = i + 1; q.of = bySec[k].length; }));
+})();
+const PARTS = ['color'].concat(askBody.length ? ['body'] : []).concat(askPersona.length ? ['persona'] : []).concat(askLife.length ? ['life'] : []);
+const NUMW = ['One', 'Two', 'Three', 'Four', 'Five'];
+const partLabel = (p) => 'Part ' + NUMW[PARTS.indexOf(p)] + ' of ' + NUMW[PARTS.length - 1];
 let step = 0;
-const totalQuestions = QUESTIONS.length;
+const totalQuestions = FLOW.filter(f => f.type === 'question' && !f.q.followUp && !f.q.optional).length;
 
 function questionsCompletedSoFar() {
   let n = 0;
@@ -513,9 +536,9 @@ function render() {
   if (f.type === 'name-cover') {
     html = `
       <div class="cover">
-        <p class="cover-eyebrow">Signature Style Report</p>
-        <h1 class="cover-title">Let's find <em>your</em> colors and shape</h1>
-        <p class="cover-sub">26 quick questions about your natural coloring, body and style, a few optional extras about your life, then an optional photo. Your personalized report is generated right after you check out.</p>
+        <p class="cover-eyebrow">${TINFO.name}</p>
+        <h1 class="cover-title">${TIER === 'starter' ? 'Let\'s find <em>your</em> colors' : 'Let\'s find <em>your</em> colors and shape'}</h1>
+        <p class="cover-sub">${TIER === 'starter' ? totalQuestions + ' quick questions about your natural coloring and the outfits you want, then an optional photo. ' : TIER === 'blueprint' ? totalQuestions + ' quick questions about your natural coloring, body and style, then an optional photo. ' : totalQuestions + ' quick questions about your natural coloring, body and style, a few optional extras about your life, then an optional photo. '}Your personalized report is generated right after you check out.</p>
         <input type="text" class="nameinput" id="name-field" placeholder="First name" value="${name}" autocomplete="given-name">
         <input type="email" class="nameinput" id="email-field" placeholder="Email address" value="${email}" autocomplete="email">
         <label class="mkt-opt" style="display:flex;gap:10px;align-items:flex-start;text-align:left;font-size:13px;line-height:1.45;margin:.4rem 0 .9rem;cursor:pointer;"><input type="checkbox" id="mkt-box" ${marketing === 'yes' ? 'checked' : ''} style="margin-top:3px;flex:none;width:18px;height:18px;accent-color:#7A1321;"><span>Yes, send me occasional style tips and offers by email. <span style="opacity:.65">(Optional. You will still get your report either way, and you can unsubscribe any time.)</span></span></label>
@@ -532,7 +555,7 @@ function render() {
     if (f.part === 'color') {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part One of Four</p>
+          <p class="cover-eyebrow">${partLabel('color')}</p>
           <h1 class="cover-title">Your <em>Color</em> Analysis</h1>
           <p class="cover-sub">8 quick questions about your natural coloring, such as jewelry, sun and your hair, skin and eyes. Choose whatever is closest. There are no wrong answers.</p>
           <button class="cover-btn" id="next-cover-btn">Begin →</button>
@@ -540,7 +563,7 @@ function render() {
     } else if (f.part === 'life') {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part Four of Four · Optional</p>
+          <p class="cover-eyebrow">${partLabel('life')} · Optional</p>
           <h1 class="cover-title">Your <em>Life</em> &amp; Details</h1>
           <p class="cover-sub">11 optional questions about your work, climate, comfort and shopping habits. They make your outfits, fabrics and shopping plan fit your real life. Skip any you like, or skip them all.</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
@@ -549,17 +572,17 @@ function render() {
     } else if (f.part === 'persona') {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part Three of Four</p>
-          <h1 class="cover-title">Your <em>Style Persona</em></h1>
-          <p class="cover-sub">9 last questions about how you want to feel, where you want your outfits to work, and how you dress and shop. They shape your persona, your outfit ideas and the stores we link you to.</p>
+          <p class="cover-eyebrow">${partLabel('persona')}</p>
+          <h1 class="cover-title">${TIER_KEYS ? 'Your <em>Style Direction</em>' : 'Your <em>Style Persona</em>'}</h1>
+          <p class="cover-sub">${TIER_KEYS ? askPersona.length + ' last question' + (askPersona.length === 1 ? '' : 's') + ' about how you want to feel and where you want your outfits to work. They shape your outfit ideas' + (askPersona.some(q => q.key === 'budget') ? ' and the stores we link you to.' : '.') : '9 last questions about how you want to feel, where you want your outfits to work, and how you dress and shop. They shape your persona, your outfit ideas and the stores we link you to.'}</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
         </div>`;
     } else {
       html = `
         <div class="cover">
-          <p class="cover-eyebrow">Part Two of Four</p>
+          <p class="cover-eyebrow">${partLabel('body')}</p>
           <h1 class="cover-title">Your <em>Body &amp; Style</em></h1>
-          <p class="cover-sub">8 more questions about how clothes fit you and your proportions.</p>
+          <p class="cover-sub">${askBody.length} more questions about how clothes fit you and your proportions.</p>
           <button class="cover-btn" id="next-cover-btn">Continue →</button>
         </div>`;
     }
@@ -586,7 +609,7 @@ function render() {
         ${photoBase64 ? `<img src="data:${photoMediaType};base64,${photoBase64}" alt="Your uploaded photo">` : ''}
         <input type="file" accept="image/*" id="photo-field">
       </label>
-      ${navHtml(true, 'Continue to Payment — $40')}
+      ${navHtml(true, 'Continue to Payment — ' + PAYMONEY)}
       ${IS_PREVIEW ? '<button type="button" class="preview-skip" id="preview-skip">Preview test only: skip payment and see my report</button>' : ''}`;
   }
 
@@ -597,7 +620,7 @@ function render() {
 function navHtml(showNext, nextLabel) {
   const isLast = step === FLOW.length - 1;
   const fq = FLOW[step] && FLOW[step].q, unanswered = fq && fq.optional && !(fq.type === 'sizes' ? (A.sizeTop || A.sizeBottom || A.sizeShoe) : fq.type === 'inspo' ? String(A.inspo || '').trim() : (Array.isArray(A[fq.key]) ? A[fq.key].length : A[fq.key]));
-  const label = nextLabel || (isLast ? 'Continue to Payment — $40' : (unanswered ? 'Skip' : 'Next'));
+  const label = nextLabel || (isLast ? 'Continue to Payment — ' + PAYMONEY : (unanswered ? 'Skip' : 'Next'));
   return `<div class="nav">
     <button class="back-link" id="back-btn" ${step === 0 ? 'disabled' : ''}>← Back</button>
     <button class="next-btn" id="next-btn" ${showNext && !canAdvanceForCurrent() ? 'disabled' : ''}>${label}</button>
@@ -1050,7 +1073,7 @@ function attachHandlers(f) {
   if (freetextField) freetextField.addEventListener('input', (e) => { freeText = e.target.value; });
 
   const previewSkip = document.getElementById('preview-skip');
-  if (previewSkip) previewSkip.addEventListener('click', () => { saveForReport(); window.location.href = 'analysis-results.html?session_id=preview-test&preview=1'; });
+  if (previewSkip) previewSkip.addEventListener('click', () => { saveForReport(); window.location.href = 'analysis-results.html?session_id=preview-test&preview=1&tier=' + TIER; });
   const photoField = document.getElementById('photo-field');
   if (photoField) photoField.addEventListener('change', handlePhoto);
 }
@@ -1094,7 +1117,7 @@ function onNext() {
 // No  -> name and email only (plus the choice itself). Answers and results are not sent to the sheet.
 // Yes -> also the answers and results, so we can offer to reuse them at the consultation or first session. The photo is never sent.
 function leadPayload(stage, p) {
-  const base = { stage: stage || 'payment', name, email, planToBook: planToBook || '', marketingOptIn: marketing === 'yes' ? 'yes' : 'no', keepResults: planToBook === 'yes' ? 'yes' : 'no', createdAt: new Date().toISOString() };
+  const base = { stage: stage || 'payment', report: TIER, name, email, planToBook: planToBook || '', marketingOptIn: marketing === 'yes' ? 'yes' : 'no', keepResults: planToBook === 'yes' ? 'yes' : 'no', createdAt: new Date().toISOString() };
   if (planToBook !== 'yes') return base;
   return Object.assign(base, {
     ageBracket: A.ageBracket || '', budget: A.budget || '', primaryVibe: p.vibe, persona: p.name,
@@ -1119,7 +1142,7 @@ function sendLead(stage) {
 
 const IS_PREVIEW = /--herstylevault\.netlify\.app$/.test(location.hostname) || location.hostname === 'localhost';
 function saveForReport() {
-  const data = { name, email, planToBook, answers: finalAnswers(), freeText, photoBase64, photoMediaType, createdAt: Date.now() };
+  const data = { tier: TIER, name, email, planToBook, answers: finalAnswers(), freeText, photoBase64, photoMediaType, createdAt: Date.now() };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
@@ -1130,13 +1153,21 @@ function saveForReport() {
   }
 }
 function submitAndPay() {
+  if (!CAN_PAY) { alert('Checkout for the ' + TINFO.name + ' opens very soon. Please check back in a little while.'); return; }
   saveForReport();
   sendLead('payment');
   // Stripe fills in the email they already typed here (they can still change it). The report is emailed to the address on the Stripe checkout.
   window.location.href = STRIPE_LINK + (email ? (STRIPE_LINK.indexOf('?') > -1 ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(email) : '');
 }
 
-render();
+/* Arriving without a report chosen (an old link or a bookmark): ask which one first. */
+function showReportPick() {
+  const keep = new URLSearchParams(location.search);
+  const link = (k) => { const q = new URLSearchParams(keep); q.set('tier', k); return '?' + q.toString(); };
+  document.getElementById('app').innerHTML = `<div class="cover"><p class="cover-eyebrow">Style reports</p><h1 class="cover-title">Which <em>report</em> would you like?</h1>
+    <div class="opts" style="grid-template-columns:1fr;margin-top:1.2rem;">${HSV_TIERS.order.map(k => { const t = HSV_TIERS.get(k); return `<a class="opt" href="${link(k)}" style="display:block;text-decoration:none;color:inherit;text-align:left;"><strong>${t.name} · ${HSV_TIERS.money(k)}</strong><br><span style="font-size:.9rem;opacity:.75;">${t.blurb} ${t.pages} pages, ${t.questions} questions.</span></a>`; }).join('')}</div></div>`;
+}
+if (!new URLSearchParams(location.search).get('tier')) showReportPick(); else render();
 </script>
 
 <script src="arrows.js?v=ad91749e"></script>

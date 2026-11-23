@@ -216,6 +216,47 @@ document.addEventListener('click', function(e){
   else hsvOpenForm('yPeEjp', { source: (b.textContent || '').trim().slice(0, 60) });
 }, true);
 
+/* ===== Style report chooser =====
+   Any link to the style report (its page or its quiz) first asks which of the three reports she wants, with a tiny description of each.
+   The choice is added to the link: ?opt=starter on the report page, ?tier=starter on the quiz. */
+var HSV_REPORT_LINK = /(?:^|\/)(color-style-analysis|digital-signature-style-report)\.html(?:[?#]|$)/;
+function hsvReportChooser(href){
+  var here = (location.pathname.split('/').pop() || 'index.html');
+  var quiz = /color-style-analysis/.test(href), pick = function(key){
+    var u = new URL(href, location.href), q = u.searchParams;
+    q.set(quiz ? 'tier' : 'opt', key);
+    window.location.href = u.pathname.split('/').pop() + '?' + q.toString() + u.hash;
+  };
+  function show(){
+    var old = document.getElementById('hsvChooser'); if (old) old.remove();
+    var T = window.HSV_TIERS, m = document.createElement('div'); m.id = 'hsvChooser'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-labelledby', 'hsvChT');
+    m.innerHTML = '<div class="ch-panel"><button type="button" class="ch-x" aria-label="Close">×</button>' +
+      '<p class="ch-k">Style reports</p><h2 id="hsvChT" tabindex="-1">Which report would you like?</h2>' +
+      T.order.map(function(k){ var t = T.get(k);
+        return '<button type="button" class="ch-opt" data-k="' + k + '"><b>' + t.name + ' <i>' + T.money(k) + '</i></b><span>' + t.blurb + ' ' + t.pages + ' pages.</span></button>'; }).join('') + '</div>';
+    function close(){ m.remove(); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); }
+    function esc(e){ if (e.key === 'Escape') close(); }
+    m.addEventListener('click', function(e){
+      if (e.target === m || e.target.classList.contains('ch-x')) { close(); return; }
+      var o = e.target.closest && e.target.closest('.ch-opt'); if (!o) return;
+      close(); pick(o.getAttribute('data-k'));
+    });
+    document.addEventListener('keydown', esc);
+    document.body.appendChild(m); document.body.style.overflow = 'hidden';
+    var t = m.querySelector('h2'); if (t) t.focus();
+  }
+  if (window.HSV_TIERS) show();
+  else { var sc = document.createElement('script'); sc.src = 'tiers.js'; sc.onload = show; sc.onerror = function(){ window.location.href = href; }; document.head.appendChild(sc); }
+}
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[href]');
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1 || a.target === '_blank') return;
+  var href = a.getAttribute('href') || '';
+  if (!HSV_REPORT_LINK.test(href) || /[?&](tier|opt)=/.test(href)) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  hsvReportChooser(href);
+}, true);
+
 /* ===== Style-11 =====
    Opens as a pop-up from anywhere. Its files load the first time someone asks for it (or hovers/touches a Style-11 link). */
 var S11_V = '20261122m', s11Loading = null;
@@ -314,7 +355,7 @@ window.addEventListener('load', function(){ hsvScrollTop(); setTimeout(hsvScroll
     mini:     {n:'The Mini Collection', p:'From $240', u:'service-mini-collection.html', t:'A small set of new pieces that all mix and match, sourced for you with shopping links.'},
     detox:    {n:'The Wardrobe Detox', p:'From $225', u:'service-wardrobe-detox.html', t:'I come to you and we declutter and reorganize your closet in one visit (near Boston and Southern NH).'},
     guide:    {n:'The Wardrobe Detox Guide', p:'$28.99', u:'digital-wardrobe-detox-bundle.html', t:'An 11-page PDF with the step-by-step method to reset your closet on your own, today.'},
-    report:   {n:'Signature Style Report', p:'$40', u:'digital-signature-style-report.html', t:'Your color season, body shape and style persona in one custom report, ready in minutes.'},
+    report:   {n:'Personal Style Reports', p:'From $25', u:'digital-signature-style-report.html', t:'Your color season, body shape and style persona in a custom report, ready in minutes. Choose from three.'},
     consult:  {n:'A free consultation', p:'Free', u:'book.html', t:'A free 30-minute call for first-time clients. We talk it through and I recommend what fits.'}
   };
   var A = {};
