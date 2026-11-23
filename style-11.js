@@ -358,6 +358,7 @@
         (l.outfit ? '<a class="lbk-btn s9-whole" href="' + esc(l.outfit.url) + '" target="_blank" rel="noopener noreferrer' + (l.outfit.affiliate ? ' sponsored' : '') + '">Get the whole look' + star(l.outfit.affiliate) + '</a>' : '') +
         '<button type="button" class="lbk-btn ghost s9-allbtn" data-act="links" aria-expanded="false" aria-controls="s11links">Get all the links</button>' +
         '<ul class="s9-links" id="s11links" hidden>' + all + '</ul>' +
+        '<p class="s9-stock">I rotate looks often, so a piece can sell out while a look is up.</p>' +
         (anyAff ? '<p class="s9-aff">* Affiliate link: I may earn a small commission at no extra cost to you. Not every link is an affiliate link.</p>' : '') +
         '<p class="s9-handle">@herstylevault.official</p></div>' +
         '<div class="s9-acts">' + (st.fromBrief ? '<button type="button" class="lbk-btn s9-again" data-act="again">' + (left ? 'Play again (' + left + ' left)' : 'Get more rolls') + '</button>' : '<button type="button" class="lbk-btn s9-again" data-act="restart">Find my own look</button>') +

@@ -193,7 +193,8 @@
 .s9-links li:first-child{border-top:0;}
 .s9-links li.whole{font-weight:600;}
 .s9-links a{flex:none; color:#8B1226; font-weight:600; text-decoration:underline; text-underline-offset:2px;}
-.s9-aff{margin:.7rem auto 0; max-width:340px; font-size:11.5px; line-height:1.4; color:#7A5A56;}
+.s9-stock{margin:.7rem auto 0; max-width:340px; font-size:11.5px; line-height:1.4; color:#7A5A56; font-style:italic;}
+.s9-aff{margin:.5rem auto 0; max-width:340px; font-size:11.5px; line-height:1.4; color:#7A5A56;}
 .s9-card-in .s9-handle{margin-top:.8rem;}
 .s9-toast{position:fixed; left:50%; bottom:22px; z-index:10000; transform:translate(-50%,20px); padding:.55rem 1rem; border-radius:99px; background:#2A1814; color:#fff; font:500 13px var(--font-body); opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;}
 .s9-toast.on{opacity:1; transform:translate(-50%,0);}
