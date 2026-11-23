@@ -9,7 +9,7 @@
 // Needs Netlify env vars: RESEND_API_KEY (from resend.com) and, optionally, REPORT_FROM_EMAIL
 // (default: "HerStyleVault <reports@herstylevault.com>"; that domain must be verified in Resend).
 
-const MAX_PDF_BYTES = 4.5 * 1024 * 1024;
+const MAX_PDF_BYTES = 4.2 * 1024 * 1024; // base64 adds a third, and Netlify rejects requests over about 6 MB
 const FROM = process.env.REPORT_FROM_EMAIL || 'HerStyleVault <reports@herstylevault.com>';
 const sentCount = new Map(); // best-effort limit per warm server: 3 emails per checkout session
 
