@@ -4090,21 +4090,9 @@ window.STYLE11_LOOKS = [
     "url": "https://www.dillards.com/p/lauren-ralph-lauren-gold-tone-tortoise-hoop-earrings/521740373?googleShop=Y&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9Wi1aTndOYlExeGxrckNTakNUZ1FSWUJWSFRGM01od1kmcD0wJm49dnZMdUJ4b291NGR4RzdqUFpTOHMtZyZ0PUFBQUFBR3NENWFn",
     "affiliate": false,
     "box": [
-     3.3,
-     5.6,
-     22.3,
-     12.2
-    ]
-   },
-   {
-    "name": "Chunky gold amber earrings",
-    "type": "jewelry",
-    "url": "https://www.amazon.com/dp/B0DCR2V2H7?ref_=cm_sw_r_cp_ud_dp_TYHPN4RQ57BAPNE8G1X4",
-    "affiliate": false,
-    "box": [
-     25.4,
+     9.1,
      2.7,
-     22.3,
+     32.9,
      17.9
     ]
    }
