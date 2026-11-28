@@ -1151,3 +1151,5 @@ a.hc-cta:hover,a.hc-cta:focus-visible{background:#6E0F20;}
 
 #hsvChooser .ch-opt b i{font-style:normal; font-weight:500; margin-left:.35rem; color:var(--ink-soft);}
 #hsvChooser .ch-opt:hover b i,#hsvChooser .ch-opt:focus-visible b i{color:var(--accent-ink);}
+
+.lbk-stock{margin:.6rem 0 0; font-size:12.5px; line-height:1.4; color:#7A5A56; font-style:italic;}
