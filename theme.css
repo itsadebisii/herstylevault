@@ -1153,3 +1153,27 @@ a.hc-cta:hover,a.hc-cta:focus-visible{background:#6E0F20;}
 #hsvChooser .ch-opt:hover b i,#hsvChooser .ch-opt:focus-visible b i{color:var(--accent-ink);}
 
 .lbk-stock{margin:.6rem 0 0; font-size:12.5px; line-height:1.4; color:#7A5A56; font-style:italic;}
+
+/* Shop the look: button on a look's page and the small pop-up it opens */
+.lbk-detail .lbk-shopbtn{width:100%; margin:.2rem 0 .4rem; cursor:pointer; font-family:var(--font-body);}
+.lbk-shop{position:fixed; inset:0; z-index:900; display:flex; align-items:center; justify-content:center; padding:16px; background:rgba(42,24,20,.55);}
+.lbk-shop-panel{position:relative; width:min(420px,100%); max-height:calc(100vh - 32px); overflow:auto; padding:1.4rem 1.2rem 1.1rem; border-radius:18px; background:#FFFBF8; border:1px solid #F0CFC8; box-shadow:0 18px 50px rgba(42,24,20,.35);}
+.lbk-shop-x{position:absolute; top:8px; right:10px; width:36px; height:36px; border:0; background:transparent; color:#7A1321; font-size:26px; line-height:1; cursor:pointer;}
+.lbk-shop-k{margin:0 0 .15rem; font:500 11px var(--font-body); letter-spacing:.2em; text-transform:uppercase; color:#8B1226;}
+.lbk-shop-panel h2{margin:0 0 .8rem; font-family:var(--font-display); font-style:italic; font-weight:500; font-size:1.6rem; line-height:1.1; color:#2A1814; outline:none;}
+.lbk-shop-list{list-style:none; margin:0; padding:0;}
+.lbk-shop-list li{display:flex; align-items:center; justify-content:space-between; gap:.7rem; padding:.6rem 0; border-top:1px solid #F0CFC8; font:400 14px/1.35 var(--font-body); color:#2A1814;}
+.lbk-shop-get{flex:0 0 auto; padding:.4rem .75rem; border-radius:99px; background:#8B1226; color:#FCF3EE; font:600 11.5px var(--font-body); letter-spacing:.02em; text-decoration:none; white-space:nowrap;}
+.lbk-shop-get:hover,.lbk-shop-get:focus-visible{background:#4E0B14;}
+.lbk-shop-note{margin:.8rem 0 0; font-size:12px; line-height:1.4; color:#7A5A56; font-style:italic;}
+
+/* a hanger button beside every piece on a look's page */
+.lbk-pieces.shoppable li{display:flex; align-items:center; justify-content:space-between; gap:.7rem;}
+.lbk-hang{flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#8B1226; color:#FFFBF8; text-decoration:none; box-shadow:0 2px 8px rgba(60,20,20,.22); transition:transform .18s ease, background .18s ease;}
+.lbk-hang svg,.lbk-hangnote svg,.lbk-shop-get svg{width:19px; height:19px;}
+.lbk-hang:hover,.lbk-hang:focus-visible{background:#4E0B14; transform:translateY(-2px) rotate(-6deg);}
+.lbk-hangnote{display:flex; align-items:center; gap:.4rem; margin:.5rem 0 0; font:500 12.5px var(--font-body); color:#7A5A56;}
+.lbk-hangnote svg{width:16px; height:16px; color:#8B1226;}
+.lbk-shop-get{display:inline-flex; align-items:center; gap:.35rem;}
+.lbk-shop-get svg{width:15px; height:15px;}
+@media (prefers-reduced-motion:reduce){.lbk-hang{transition:none;} .lbk-hang:hover,.lbk-hang:focus-visible{transform:none;}}

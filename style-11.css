@@ -539,3 +539,16 @@
 .s11-door.dim{opacity:.35; transform:scale(.96);}
 @keyframes s11doorGlow{0%{filter:brightness(1)}60%{filter:brightness(1.18)}100%{filter:brightness(1.05)}}
 @media (prefers-reduced-motion:no-preference){.s11-door:not(.open):not(.dim):hover .dr-leaf{transform:rotateY(-12deg);}}
+
+/* "Get this piece" tags are small hanger buttons in empty space beside each piece, never on top of one */
+.hs .tg .ts,.hs .tg .hg{display:none;}
+.hs.at .tg,.hs.at.al-l .tg,.hs.at.al-r .tg{bottom:auto; right:auto; transform:translate(-50%,-50%); translate:none; box-sizing:border-box;}
+.s9-board.pre:not(.dropin) .hs.at:not(:hover):not(:focus-visible):not(.active) .tg{bottom:auto; right:auto; translate:none; transform:translate(-50%,-50%); box-sizing:border-box; width:26px; height:26px; padding:0; gap:0; justify-content:center; border-radius:50%; background:#8B1226; color:#FFFBF8; border:2px solid #FFFBF8; box-shadow:0 2px 8px rgba(60,20,20,.3); -webkit-backdrop-filter:none; backdrop-filter:none;}
+.s9-board.pre:not(.dropin) .hs.at:not(:hover):not(:focus-visible):not(.active) .tg::before{display:none;}
+.s9-board.pre:not(.dropin) .hs.at:not(:hover):not(:focus-visible):not(.active) .tg .tl,.s9-board.pre:not(.dropin) .hs.at:not(:hover):not(:focus-visible):not(.active) .tg .ts{display:none;}
+.s9-board.pre:not(.dropin) .hs.at:not(:hover):not(:focus-visible):not(.active) .tg .hg{display:block; width:15px; height:15px;}
+/* second time in: the texts are already there, so the intro just fades in */
+@keyframes s11quick{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+.s11-intro.quick .s11-phonewrap{animation:s11quick .35s ease both;}
+.s11-replay{margin-left:.6rem;}
+@media (prefers-reduced-motion:reduce){.s11-intro.quick .s11-phonewrap{animation:none;}}
