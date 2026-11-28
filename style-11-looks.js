@@ -12,19 +12,27 @@ window.STYLE11_LOOKS = [
   "title": "Burgundy Bossy",
   "short": "Burgundy Bossy",
   "art": "images/lookbook/art-burgundy-bossy.jpg",
-  "alt": "HerStyleVault Edit style board: burgundy leather bomber jacket, tan tailored Bermuda shorts, chocolate wedge gladiator sandals, cognac suede hobo bag, chunky gold amber earrings",
+  "alt": "HerStyleVault Edit style board: burgundy leather bomber jacket, tan tailored Bermuda shorts, espresso wedge gladiator sandals, cognac suede hobo bag, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Tan",
+    "#C4A982"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "burgundy-bossy",
@@ -78,7 +86,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Chocolate wedge gladiator sandals",
+    "name": "Espresso wedge gladiator sandals",
     "type": "shoes",
     "url": "https://www.dillards.com/p/azalea-wang-douma-shin-guard-wrap-tie-gladiator-wedge-sandals/521088447?inf=909883537&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9MXZiRmhDOUFPTnlraDZxSEtNbUt1WHVIRmhLMW1Lb1omcD0wJm49cjhHTERjeEhwZlFRWWNkbDdJejNkQSZ0PUFBQUFBR3NENE5Z",
     "affiliate": false,
@@ -138,12 +146,20 @@ window.STYLE11_LOOKS = [
     "#1A1A1A"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cognac",
+    "#9A5B2B"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "leopard-lounge",
@@ -245,19 +261,27 @@ window.STYLE11_LOOKS = [
   "title": "Merlot Dinner",
   "short": "Merlot Dinner",
   "art": "images/lookbook/art-merlot-dinner.jpg",
-  "alt": "HerStyleVault Edit style board: burgundy pleated leather mini dress, black faux-leather coat with fur trim, brown multi stiletto booties, mulberry wand clutch, chunky bangle set",
+  "alt": "HerStyleVault Edit style board: burgundy pleated leather mini dress, black faux-leather coat with fur trim, burgundy and cream lace-up stiletto booties, burgundy wand clutch, chunky bangle set",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Black",
+    "#1A1A1A"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "merlot-dinner",
@@ -307,7 +331,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Brown multi stiletto booties",
+    "name": "Burgundy and cream lace-up stiletto booties",
     "type": "shoes",
     "url": "https://azaleawang.com/products/amada-brownmulti?utm_source=Pinterest&utm_medium=organic&variant=46375515324655",
     "affiliate": false,
@@ -319,7 +343,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Mulberry wand clutch",
+    "name": "Burgundy wand clutch",
     "type": "bag",
     "url": "https://www.target.com/p/wand-clutch-harry-potter-x-target-marveling-mulberry/-/A-95292307#lnk=sametab",
     "affiliate": false,
@@ -351,12 +375,28 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: raspberry fringe knit maxi dress, brown leather trench coat, burgundy kitten-heel slingbacks, brown suede clutch, chunky gold amber earrings",
   "colors": [
    [
-    "Burgundy",
-    "#6B1B2A"
+    "Raspberry",
+    "#8E1C4A"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "raspberry-slow-dance",
@@ -461,19 +501,27 @@ window.STYLE11_LOOKS = [
   "title": "Forest Femme",
   "short": "Forest Femme",
   "art": "images/lookbook/art-forest-femme.jpg",
-  "alt": "HerStyleVault Edit style board: olive faux-leather corset mini dress, brown multi stiletto booties, burgundy croc box bag, chunky bangle set, black tights",
+  "alt": "HerStyleVault Edit style board: olive faux-leather corset mini dress, burgundy and cream lace-up stiletto booties, burgundy croc box bag, chunky bangle set, black tights",
   "colors": [
    [
     "Olive",
     "#5C5A3A"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Burgundy",
+    "#7A1321"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
    ]
   ],
   "slug": "forest-femme",
@@ -514,7 +562,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Brown multi stiletto booties",
+    "name": "Burgundy and cream lace-up stiletto booties",
     "type": "shoes",
     "url": "https://azaleawang.com/products/amada-brownmulti?utm_source=Pinterest&utm_medium=organic&variant=46375515324655",
     "affiliate": false,
@@ -555,15 +603,27 @@ window.STYLE11_LOOKS = [
   "title": "Brunch, Cozy Edition",
   "short": "Cozy Brunch",
   "art": "images/lookbook/art-brunch-cozy-edition.jpg",
-  "alt": "HerStyleVault Edit style board: brown knit vest with red collar, cream and brown pleated midi skirt, burgundy Mary Jane flats, burgundy slouchy hobo bag, tortoise gold hoop earrings",
+  "alt": "HerStyleVault Edit style board: brown knit vest with burgundy collar, cream and brown pleated midi skirt, burgundy Mary Jane flats, burgundy slouchy hobo bag, tortoise gold hoop earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "brunch-cozy-edition",
@@ -590,7 +650,7 @@ window.STYLE11_LOOKS = [
   "theme": "The Winter Edit",
   "pieces": [
    {
-    "name": "Brown knit vest with red collar",
+    "name": "Brown knit vest with burgundy collar",
     "type": "top",
     "url": "https://thecommense.com/collections/casual/products/contrast-collar-horsebit-knit-sleeveless-top?variant=47024749084929&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9eHljb3dTRG01MTVYc2lld0JUM1NfZ1Q2ajZzYkpXU2kmcD0wJm49VEdWNHlCWXd0bDVndzdHVzRyQWphQSZ0PUFBQUFBR3NEMXo0",
     "affiliate": false,
@@ -674,16 +734,28 @@ window.STYLE11_LOOKS = [
     "#1A1A1A"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Taupe",
+    "#8B7B6B"
+   ],
+   [
+    "Red",
+    "#A31621"
    ],
    [
     "Burgundy",
-    "#6B1B2A"
+    "#7A1321"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
    ]
   ],
   "slug": "red-jacket-weather",
@@ -817,12 +889,24 @@ window.STYLE11_LOOKS = [
     "#E8D36A"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Black",
+    "#1A1A1A"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "lemon-drop",
@@ -920,8 +1004,20 @@ window.STYLE11_LOOKS = [
     "#1E2B4F"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
    ]
   ],
   "slug": "navy-and-merlot",
@@ -1000,15 +1096,35 @@ window.STYLE11_LOOKS = [
   "title": "Satin Espresso",
   "short": "Satin Espresso",
   "art": "images/lookbook/art-satin-espresso.jpg",
-  "alt": "HerStyleVault Edit style board: brown satin halter and pants set, cow-print slingback heels, brown suede clutch, chunky gold amber earrings, pink-burgundy oval sunglasses",
+  "alt": "HerStyleVault Edit style board: rust-brown satin halter and pants set, cow-print slingback heels, brown suede clutch, chunky gold amber earrings, pink-burgundy oval sunglasses",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Rust",
+    "#964A28"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Black",
+    "#1A1A1A"
+   ],
+   [
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
    ]
   ],
   "slug": "satin-espresso",
@@ -1036,7 +1152,7 @@ window.STYLE11_LOOKS = [
   "theme": "The Winter Edit",
   "pieces": [
    {
-    "name": "Brown satin halter and pants set",
+    "name": "Rust-brown satin halter and pants set",
     "type": "top",
     "url": "https://www.shoplunab.com/products/moodboard-set?variant=68192160448833&utm_source=Pinterest&utm_medium=organic",
     "affiliate": false,
@@ -1101,19 +1217,35 @@ window.STYLE11_LOOKS = [
   "title": "Cocoa Leather Moment",
   "short": "Cocoa Leather Moment",
   "art": "images/lookbook/art-cocoa-leather-moment.jpg",
-  "alt": "HerStyleVault Edit style board: brown faux-leather peplum top, brown faux-leather skirt, brown multi stiletto booties, patchwork shoulder bag, chunky gold amber earrings",
+  "alt": "HerStyleVault Edit style board: brown faux-leather peplum top, brown faux-leather skirt, burgundy and cream lace-up stiletto booties, patchwork shoulder bag, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
     "Espresso",
     "#33211B"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "cocoa-leather-moment",
@@ -1163,7 +1295,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Brown multi stiletto booties",
+    "name": "Burgundy and cream lace-up stiletto booties",
     "type": "shoes",
     "url": "https://azaleawang.com/products/amada-brownmulti?utm_source=Pinterest&utm_medium=organic&variant=46375515324655",
     "affiliate": false,
@@ -1207,12 +1339,28 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: brown tracksuit set, green Nike Air Rift sneakers, burgundy slouchy hobo bag, tortoise gold hoop earrings, brown Kangol cap",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Cream",
+    "#EFE7D2"
    ],
    [
     "Forest",
-    "#1E4D36"
+    "#1F4D36"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "cocoa-errands",
@@ -1298,7 +1446,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Green tinted sunglasses",
+    "name": "Burgundy sunglasses with green lenses",
     "type": "accessory",
     "url": "https://dezi.co/products/pusha?utm_source=Pinterest&utm_medium=organic",
     "affiliate": false,
@@ -1318,12 +1466,28 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: navy vest and striped shirt, brown tailored trousers, burgundy Mary Jane flats, burgundy slouchy hobo bag, chunky gold amber earrings",
   "colors": [
    [
-    "Powder blue",
-    "#8FA9C9"
+    "Navy",
+    "#1E2B4F"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "vest-assured",
@@ -1430,16 +1594,28 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: powder blue knit zip-up, khaki wide-leg jeans, burgundy kitten-heel slingbacks, burgundy slouchy hobo bag, tortoise gold hoop earrings",
   "colors": [
    [
-    "Powder blue",
+    "Powder Blue",
     "#8FA9C9"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Cream",
+    "#EFE7D2"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Khaki",
+    "#B3A07C"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "powder-blue-sunday",
@@ -1547,16 +1723,28 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: gray lace-up cutout top, black pinstripe jorts, burgundy platform knit boots, brown suede clutch, chunky gold amber earrings",
   "colors": [
    [
-    "Olive",
-    "#5C5A3A"
+    "Gray",
+    "#8B8B8B"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
    ],
    [
     "Espresso",
     "#33211B"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "pinstripe-and-platforms",
@@ -1647,23 +1835,35 @@ window.STYLE11_LOOKS = [
   "title": "Cheetah Capri Club",
   "short": "Cheetah Capri Club",
   "art": "images/lookbook/art-cheetah-capri-club.jpg",
-  "alt": "HerStyleVault Edit style board: black asymmetric-neck sweatshirt, leopard denim capris, brown multi stiletto booties, burgundy croc box bag, tortoise gold hoop earrings",
+  "alt": "HerStyleVault Edit style board: black asymmetric-neck sweatshirt, leopard denim capris, burgundy and cream lace-up stiletto booties, burgundy croc box bag, tortoise gold hoop earrings",
   "colors": [
    [
     "Black",
     "#1A1A1A"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Camel",
+    "#B88A55"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "cheetah-capri-club",
@@ -1716,7 +1916,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Brown multi stiletto booties",
+    "name": "Burgundy and cream lace-up stiletto booties",
     "type": "shoes",
     "url": "https://azaleawang.com/products/amada-brownmulti?utm_source=Pinterest&utm_medium=organic&variant=46375515324655",
     "affiliate": false,
@@ -1772,12 +1972,20 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: brown ruched pleated-hem mini dress, black faux-leather coat with fur trim, brown knee-high boots, cognac suede hobo bag, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Black",
+    "#1A1A1A"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "chocolate-chic",
@@ -1876,12 +2084,20 @@ window.STYLE11_LOOKS = [
     "#1A1A1A"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Butter",
+    "#E8D36A"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "distressed-date",
@@ -1989,16 +2205,24 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: gray fitted zip cardigan, black tie-belt jeans, burgundy Mary Jane flats, burgundy croc box bag, tortoise gold hoop earrings",
   "colors": [
    [
-    "Taupe",
-    "#8B7B6B"
+    "Gray",
+    "#8B8B8B"
    ],
    [
     "Black",
     "#1A1A1A"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "tie-belt-tuesday",
@@ -2105,16 +2329,20 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: brown pinstripe flare-sleeve top, brown suede Bermuda shorts, brown knee-high boots, cognac suede hobo bag, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
    ],
    [
-    "Rust",
-    "#964A28"
+    "Cognac",
+    "#9A5B2B"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "suede-season",
@@ -2214,20 +2442,24 @@ window.STYLE11_LOOKS = [
     "#1A1A1A"
    ],
    [
-    "Espresso",
-    "#33211B"
+    "Olive",
+    "#5C5A3A"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
     "Forest",
-    "#1E4D36"
+    "#1F4D36"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "tobacco-road",
@@ -2347,12 +2579,28 @@ window.STYLE11_LOOKS = [
     "#964A28"
    ],
    [
-    "Powder blue",
-    "#8FA9C9"
+    "Cream",
+    "#EFE7D2"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Gray",
+    "#8B8B8B"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
    ]
   ],
   "slug": "stripes-and-slouch",
@@ -2458,16 +2706,20 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: brown knit lounge set, burgundy Mary Jane flats, cognac suede hobo bag, tortoise gold hoop earrings, chunky bangle set",
   "colors": [
    [
-    "Espresso",
-    "#33211B"
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "mocha-knit-set",
@@ -2560,16 +2812,24 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: brown zip hoodie and pants set, green Nike Air Rift sneakers, cognac suede hobo bag, tortoise gold hoop earrings, brown Kangol cap",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
     "Forest",
-    "#1E4D36"
+    "#1F4D36"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
    ]
   ],
   "slug": "hoodie-glam",
@@ -2654,7 +2914,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Green tinted sunglasses",
+    "name": "Burgundy sunglasses with green lenses",
     "type": "accessory",
     "url": "https://dezi.co/products/pusha?utm_source=Pinterest&utm_medium=organic",
     "affiliate": false,
@@ -2674,12 +2934,24 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: burgundy suede-look mock neck mini dress, brown leather trench coat, black fur-cuff platform boots, burgundy croc box bag, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
     "Black",
     "#1A1A1A"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "wine-hour",
@@ -2779,8 +3051,28 @@ window.STYLE11_LOOKS = [
     "#1E2B4F"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
    ]
   ],
   "slug": "navy-night",
@@ -2883,15 +3175,27 @@ window.STYLE11_LOOKS = [
   "title": "Olive Evening",
   "short": "Olive Evening",
   "art": "images/lookbook/art-olive-evening.jpg",
-  "alt": "HerStyleVault Edit style board: olive faux-leather corset mini dress, chocolate wedge gladiator sandals, brown suede clutch, chunky bangle set, chunky gold amber earrings",
+  "alt": "HerStyleVault Edit style board: olive faux-leather corset mini dress, espresso wedge gladiator sandals, brown suede clutch, chunky bangle set, chunky gold amber earrings",
   "colors": [
    [
     "Olive",
     "#5C5A3A"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "olive-evening",
@@ -2928,7 +3232,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Chocolate wedge gladiator sandals",
+    "name": "Espresso wedge gladiator sandals",
     "type": "shoes",
     "url": "https://www.dillards.com/p/azalea-wang-douma-shin-guard-wrap-tie-gladiator-wedge-sandals/521088447?inf=909883537&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9MXZiRmhDOUFPTnlraDZxSEtNbUt1WHVIRmhLMW1Lb1omcD0wJm49cjhHTERjeEhwZlFRWWNkbDdJejNkQSZ0PUFBQUFBR3NENE5Z",
     "affiliate": false,
@@ -2984,12 +3288,24 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: burgundy pleated leather mini dress, red buckle jacket, burgundy platform knit boots, burgundy croc box bag, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
    ],
    [
-    "Burgundy",
-    "#6B1B2A"
+    "Red",
+    "#A31621"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
    ]
   ],
   "slug": "red-on-red",
@@ -3080,19 +3396,31 @@ window.STYLE11_LOOKS = [
   "title": "Leopard & Black",
   "short": "Leopard & Black",
   "art": "images/lookbook/art-leopard-and-black.jpg",
-  "alt": "HerStyleVault Edit style board: black fitted turtleneck, leopard leather pants, black faux-leather coat with fur trim, chocolate wedge gladiator sandals, cognac suede hobo bag",
+  "alt": "HerStyleVault Edit style board: black fitted turtleneck, leopard leather pants, black faux-leather coat with fur trim, espresso wedge gladiator sandals, cognac suede hobo bag",
   "colors": [
    [
     "Black",
     "#1A1A1A"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cognac",
+    "#9A5B2B"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
    ]
   ],
   "slug": "leopard-and-black",
@@ -3155,7 +3483,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Chocolate wedge gladiator sandals",
+    "name": "Espresso wedge gladiator sandals",
     "type": "shoes",
     "url": "https://www.dillards.com/p/azalea-wang-douma-shin-guard-wrap-tie-gladiator-wedge-sandals/521088447?inf=909883537&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9MXZiRmhDOUFPTnlraDZxSEtNbUt1WHVIRmhLMW1Lb1omcD0wJm49cjhHTERjeEhwZlFRWWNkbDdJejNkQSZ0PUFBQUFBR3NENE5Z",
     "affiliate": false,
@@ -3208,19 +3536,27 @@ window.STYLE11_LOOKS = [
   "title": "Corset & Khaki",
   "short": "Corset & Khaki",
   "art": "images/lookbook/art-corset-and-khaki.jpg",
-  "alt": "HerStyleVault Edit style board: black high-neck corset top, khaki wide-leg jeans, chocolate wedge gladiator sandals, patchwork shoulder bag, chunky bangle set",
+  "alt": "HerStyleVault Edit style board: black high-neck corset top, khaki wide-leg jeans, espresso wedge gladiator sandals, patchwork shoulder bag, chunky bangle set",
   "colors": [
    [
     "Black",
     "#1A1A1A"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Khaki",
+    "#B3A07C"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
    ]
   ],
   "slug": "corset-and-khaki",
@@ -3270,7 +3606,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Chocolate wedge gladiator sandals",
+    "name": "Espresso wedge gladiator sandals",
     "type": "shoes",
     "url": "https://www.dillards.com/p/azalea-wang-douma-shin-guard-wrap-tie-gladiator-wedge-sandals/521088447?inf=909883537&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9MXZiRmhDOUFPTnlraDZxSEtNbUt1WHVIRmhLMW1Lb1omcD0wJm49cjhHTERjeEhwZlFRWWNkbDdJejNkQSZ0PUFBQUFBR3NENE5Z",
     "affiliate": false,
@@ -3330,16 +3666,28 @@ window.STYLE11_LOOKS = [
     "#1A1A1A"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Cream",
+    "#EFE7D2"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Espresso",
+    "#33211B"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
    ]
   ],
   "slug": "soft-neutral-shower",
@@ -3448,16 +3796,28 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: gray fitted zip cardigan, cream and brown pleated midi skirt, burgundy kitten-heel slingbacks, burgundy slouchy hobo bag, tortoise gold hoop earrings",
   "colors": [
    [
-    "Taupe",
-    "#8B7B6B"
-   ],
-   [
     "Gray",
     "#8B8B8B"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "gray-cardi-shower",
@@ -3561,11 +3921,31 @@ window.STYLE11_LOOKS = [
   "title": "Satin & Fur",
   "short": "Satin & Fur",
   "art": "images/lookbook/art-satin-and-fur.jpg",
-  "alt": "HerStyleVault Edit style board: brown satin halter and pants set, black faux-leather coat with fur trim, burgundy kitten-heel slingbacks, burgundy croc box bag, chunky gold amber earrings",
+  "alt": "HerStyleVault Edit style board: rust-brown satin halter and pants set, black faux-leather coat with fur trim, burgundy kitten-heel slingbacks, burgundy croc box bag, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Rust",
+    "#964A28"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "satin-and-fur",
@@ -3590,7 +3970,7 @@ window.STYLE11_LOOKS = [
   "theme": "The Winter Edit",
   "pieces": [
    {
-    "name": "Brown satin halter and pants set",
+    "name": "Rust-brown satin halter and pants set",
     "type": "top",
     "url": "https://www.shoplunab.com/products/moodboard-set?variant=68192160448833&utm_source=Pinterest&utm_medium=organic",
     "affiliate": false,
@@ -3667,15 +4047,23 @@ window.STYLE11_LOOKS = [
   "title": "Cocoa Trench",
   "short": "Cocoa Trench",
   "art": "images/lookbook/art-cocoa-trench.jpg",
-  "alt": "HerStyleVault Edit style board: brown faux-leather peplum top, brown faux-leather skirt, brown leather trench coat, chocolate wedge gladiator sandals, brown suede clutch",
+  "alt": "HerStyleVault Edit style board: brown faux-leather peplum top, brown faux-leather skirt, brown leather trench coat, espresso wedge gladiator sandals, brown suede clutch",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
    ],
    [
     "Espresso",
     "#33211B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "cocoa-trench",
@@ -3736,7 +4124,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Chocolate wedge gladiator sandals",
+    "name": "Espresso wedge gladiator sandals",
     "type": "shoes",
     "url": "https://www.dillards.com/p/azalea-wang-douma-shin-guard-wrap-tie-gladiator-wedge-sandals/521088447?inf=909883537&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9MXZiRmhDOUFPTnlraDZxSEtNbUt1WHVIRmhLMW1Lb1omcD0wJm49cjhHTERjeEhwZlFRWWNkbDdJejNkQSZ0PUFBQUFBR3NENE5Z",
     "affiliate": false,
@@ -3784,8 +4172,24 @@ window.STYLE11_LOOKS = [
     "#1E2B4F"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Powder Blue",
+    "#8FA9C9"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "navy-stripe-set",
@@ -3885,16 +4289,28 @@ window.STYLE11_LOOKS = [
     "#964A28"
    ],
    [
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
     "Black",
     "#1A1A1A"
    ],
    [
     "Forest",
-    "#1E4D36"
+    "#1F4D36"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "sporty-chic",
@@ -3991,7 +4407,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Green tinted sunglasses",
+    "name": "Burgundy sunglasses with green lenses",
     "type": "accessory",
     "url": "https://dezi.co/products/pusha?utm_source=Pinterest&utm_medium=organic",
     "affiliate": false,
@@ -4008,11 +4424,23 @@ window.STYLE11_LOOKS = [
   "title": "Mary Jane Monday",
   "short": "Mary Jane Monday",
   "art": "images/lookbook/art-mary-jane-monday.jpg",
-  "alt": "HerStyleVault Edit style board: brown knit vest with red collar, brown tailored trousers, burgundy Mary Jane flats, burgundy croc box bag, tortoise gold hoop earrings",
+  "alt": "HerStyleVault Edit style board: brown knit vest with burgundy collar, brown tailored trousers, burgundy Mary Jane flats, burgundy croc box bag, tortoise gold hoop earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "mary-jane-monday",
@@ -4037,7 +4465,7 @@ window.STYLE11_LOOKS = [
   "theme": "The Winter Edit",
   "pieces": [
    {
-    "name": "Brown knit vest with red collar",
+    "name": "Brown knit vest with burgundy collar",
     "type": "top",
     "url": "https://thecommense.com/collections/casual/products/contrast-collar-horsebit-knit-sleeveless-top?variant=47024749084929&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9eHljb3dTRG01MTVYc2lld0JUM1NfZ1Q2ajZzYkpXU2kmcD0wJm49VEdWNHlCWXd0bDVndzdHVzRyQWphQSZ0PUFBQUFBR3NEMXo0",
     "affiliate": false,
@@ -4102,15 +4530,19 @@ window.STYLE11_LOOKS = [
   "title": "Bordeaux Bomber",
   "short": "Bordeaux Bomber",
   "art": "images/lookbook/art-bordeaux-bomber.jpg",
-  "alt": "HerStyleVault Edit style board: burgundy suede-look mock neck mini dress, burgundy leather bomber jacket, burgundy kitten-heel slingbacks, mulberry wand clutch, chunky gold amber earrings",
+  "alt": "HerStyleVault Edit style board: burgundy suede-look mock neck mini dress, burgundy leather bomber jacket, burgundy kitten-heel slingbacks, burgundy wand clutch, chunky gold amber earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Burgundy",
+    "#7A1321"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "bordeaux-bomber",
@@ -4175,7 +4607,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Mulberry wand clutch",
+    "name": "Burgundy wand clutch",
     "type": "bag",
     "url": "https://www.target.com/p/wand-clutch-harry-potter-x-target-marveling-mulberry/-/A-95292307#lnk=sametab",
     "affiliate": false,
@@ -4216,11 +4648,23 @@ window.STYLE11_LOOKS = [
   "title": "Fringe Benefits",
   "short": "Fringe Benefits",
   "art": "images/lookbook/art-fringe-benefits.jpg",
-  "alt": "HerStyleVault Edit style board: brown ruched pleated-hem mini dress, chocolate wedge gladiator sandals, brown suede clutch, tortoise gold hoop earrings",
+  "alt": "HerStyleVault Edit style board: brown ruched pleated-hem mini dress, espresso wedge gladiator sandals, brown suede clutch, tortoise gold hoop earrings",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "fringe-benefits",
@@ -4260,7 +4704,7 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Chocolate wedge gladiator sandals",
+    "name": "Espresso wedge gladiator sandals",
     "type": "shoes",
     "url": "https://www.dillards.com/p/azalea-wang-douma-shin-guard-wrap-tie-gladiator-wedge-sandals/521088447?inf=909883537&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9MXZiRmhDOUFPTnlraDZxSEtNbUt1WHVIRmhLMW1Lb1omcD0wJm49cjhHTERjeEhwZlFRWWNkbDdJejNkQSZ0PUFBQUFBR3NENE5Z",
     "affiliate": false,
@@ -4301,19 +4745,31 @@ window.STYLE11_LOOKS = [
   "title": "Pleats Under the Trench",
   "short": "Pleats Under the Trench",
   "art": "images/lookbook/art-pleats-under-the-trench.jpg",
-  "alt": "HerStyleVault Edit style board: brown knit vest with red collar, cream and brown pleated midi skirt, brown leather trench coat, burgundy kitten-heel slingbacks, cognac suede hobo bag",
+  "alt": "HerStyleVault Edit style board: brown knit vest with burgundy collar, cream and brown pleated midi skirt, brown leather trench coat, burgundy kitten-heel slingbacks, cognac suede hobo bag",
   "colors": [
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
    ],
    [
-    "Gray",
-    "#8B8B8B"
+    "Burgundy",
+    "#7A1321"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
    ]
   ],
   "slug": "pleats-under-the-trench",
@@ -4341,7 +4797,7 @@ window.STYLE11_LOOKS = [
   "theme": "The Winter Edit",
   "pieces": [
    {
-    "name": "Brown knit vest with red collar",
+    "name": "Brown knit vest with burgundy collar",
     "type": "top",
     "url": "https://thecommense.com/collections/casual/products/contrast-collar-horsebit-knit-sleeveless-top?variant=47024749084929&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9eHljb3dTRG01MTVYc2lld0JUM1NfZ1Q2ajZzYkpXU2kmcD0wJm49VEdWNHlCWXd0bDVndzdHVzRyQWphQSZ0PUFBQUFBR3NEMXo0",
     "affiliate": false,
@@ -4425,8 +4881,24 @@ window.STYLE11_LOOKS = [
     "#1A1A1A"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
+   ],
+   [
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "espresso-sunday",
@@ -4547,16 +5019,32 @@ window.STYLE11_LOOKS = [
   "alt": "HerStyleVault Edit style board: gray lace-up cutout top, brown tailored trousers, burgundy buckle leather jacket, black and zebra platform sandals, patchwork shoulder bag",
   "colors": [
    [
-    "Olive",
-    "#5C5A3A"
+    "Gray",
+    "#8B8B8B"
    ],
    [
-    "Chocolate",
-    "#4A2A1E"
+    "Espresso",
+    "#33211B"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Burgundy",
+    "#7A1321"
+   ],
+   [
+    "Black",
+    "#1A1A1A"
+   ],
+   [
+    "Cream",
+    "#EFE7D2"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cognac",
+    "#9A5B2B"
    ]
   ],
   "slug": "buckle-up",
@@ -4679,16 +5167,24 @@ window.STYLE11_LOOKS = [
     "#1A1A1A"
    ],
    [
-    "Taupe",
-    "#8B7B6B"
+    "Khaki",
+    "#B3A07C"
    ],
    [
     "Forest",
-    "#1E4D36"
+    "#1F4D36"
    ],
    [
-    "Olive",
-    "#5C5A3A"
+    "Cognac",
+    "#9A5B2B"
+   ],
+   [
+    "Gold",
+    "#D1AE4F"
+   ],
+   [
+    "Cocoa",
+    "#5A3A2E"
    ]
   ],
   "slug": "khaki-kicks",
