@@ -12,5 +12,17 @@ try {
     if (out !== s) fs.writeFileSync(p, out);
     console.log('stamped', html, js, v);
   });
+
+  /* theme.css and site.js on every page */
+  ['theme.css', 'site.js'].forEach((asset) => {
+    if (!fs.existsSync(path.join(root, asset))) return;
+    const v = hash(asset), re = new RegExp(asset.replace('.', '\\.') + '\\?v=[A-Za-z0-9]*', 'g');
+    let n = 0;
+    fs.readdirSync(root).filter((f) => f.endsWith('.html')).forEach((f) => {
+      const p = path.join(root, f), s = fs.readFileSync(p, 'utf8'), out = s.replace(re, asset + '?v=' + v);
+      if (out !== s) { fs.writeFileSync(p, out); n++; }
+    });
+    console.log('stamped', asset, v, 'on', n, 'pages');
+  });
 } catch (e) { console.log('stamp skipped:', e.message); }
 process.exit(0);
