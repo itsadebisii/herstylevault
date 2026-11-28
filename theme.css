@@ -1177,3 +1177,45 @@ a.hc-cta:hover,a.hc-cta:focus-visible{background:#6E0F20;}
 .lbk-shop-get{display:inline-flex; align-items:center; gap:.35rem;}
 .lbk-shop-get svg{width:15px; height:15px;}
 @media (prefers-reduced-motion:reduce){.lbk-hang{transition:none;} .lbk-hang:hover,.lbk-hang:focus-visible{transform:none;}}
+
+/* ===== Home page tidy-up ===== */
+/* phones: headline, subheadline and the main button come first; the welcome card follows */
+@media (max-width:860px){
+  .hero{padding-top:1.6rem;}
+  .hero .photo-frame.hero-car{order:0; margin-top:1.8rem;}
+  .hero-grid > div:first-child{display:flex; flex-direction:column;}
+  .hero-grid > div:first-child .hero-sub{order:1;}
+  .hero-grid > div:first-child .hero-actions{order:2; margin-bottom:.4rem;}
+  .hero-grid > div:first-child .badges{order:3; margin-top:1rem;}
+  .hero-grid > div:first-child .hero-links{order:4; margin-top:.9rem;}
+}
+/* report tiers you can scan in a second */
+.rep-tiers{list-style:none; margin:0 0 1rem; padding:0; display:grid; gap:.4rem;}
+.rep-tiers li{display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; padding:.5rem .8rem; background:var(--bg); border:1px solid var(--line); border-radius:4px; font-size:14px;}
+.rep-tiers b{font-family:var(--font-display); font-weight:600; font-size:1.05rem; min-width:5.4rem;}
+.rep-tiers span{color:var(--accent); font-weight:600;}
+.rep-tiers em{font-style:normal; color:var(--ink-soft); font-size:13px;}
+/* low-risk bridges under the packages */
+.pkg-bridge{list-style:none; margin:1.6rem auto 0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; max-width:960px;}
+.pkg-bridge li{background:var(--bg); border:1px solid var(--line); border-radius:4px; padding:.9rem 1rem; font-size:13.5px; line-height:1.5; color:var(--ink-soft);}
+.pkg-bridge b{display:block; margin-bottom:.15rem; font-family:var(--font-display); font-size:1.1rem; font-weight:600; color:var(--accent);}
+@media (max-width:760px){.pkg-bridge{grid-template-columns:1fr;}}
+/* client quotes (hidden until there are real ones) */
+.proof-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem;}
+.proof-grid figure{margin:0; padding:1.2rem 1.3rem; background:var(--surface); border-radius:4px;}
+.proof-grid blockquote{margin:0 0 .6rem; font-family:var(--font-display); font-style:italic; font-size:1.2rem; line-height:1.35;}
+.proof-grid figcaption{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+/* Three Ways to Work Together: tighter */
+#how-it-works{padding-block:clamp(2rem,5vw,3.4rem); border-top:1px solid var(--line);}
+#how-it-works .heading{margin-bottom:1.3rem;}
+.how-split{gap:.9rem;}
+.how-steps{line-height:1.6; font-size:14px;}
+.how-steps li{margin-bottom:.15rem;}
+.how-card.pkg-card{gap:.6rem;}
+.help-links{margin-top:1.2rem;}
+/* footer: less air */
+footer.site{padding-block:2.1rem 1.1rem;}
+.footer-top{gap:1.5rem; padding-bottom:1.2rem;}
+.footer-bottom{padding-top:1rem;}
+.footer-privacy{margin-top:.7rem;}
+@media (max-width:760px){.footer-top{gap:1.2rem;}}
