@@ -1168,10 +1168,10 @@ window.STYLE11_LOOKS = [
     "url": "https://azaleawang.com/products/amada-brownmulti?utm_source=Pinterest&utm_medium=organic&variant=46375515324655",
     "affiliate": false,
     "box": [
-     3.4,
-     57.8,
-     27.9,
-     34.3
+     7.5,
+     52.7,
+     36.1,
+     44.5
     ]
    },
    {
@@ -1611,10 +1611,10 @@ window.STYLE11_LOOKS = [
     "url": "https://www.jwpei.com/products/reyna-square-toe-platform-knit-boots-claret-red?option1=9%20%7C%20US",
     "affiliate": false,
     "box": [
-     3.4,
-     58.6,
-     28.0,
-     32.7
+     6.5,
+     52.6,
+     38.1,
+     44.7
     ]
    },
    {
@@ -1833,7 +1833,7 @@ window.STYLE11_LOOKS = [
     "url": "https://www.revolve.com/raye-eden-overlay-boot-in-chocolate-brown/dp/RAYE-WZ2743/?cjdata=MXxOfDB8WXww&AID=11017645&PID=100046529&utm_medium=affiliate&utm_source=cj&source=cj&utm_campaign=glob_p_5370367&cjevent=a5713013e70911f1826b03320a82b821",
     "affiliate": false,
     "box": [
-     10.0,
+     18.2,
      73.8,
      14.8,
      23.6
@@ -2171,7 +2171,7 @@ window.STYLE11_LOOKS = [
     "url": "https://www.revolve.com/raye-eden-overlay-boot-in-chocolate-brown/dp/RAYE-WZ2743/?cjdata=MXxOfDB8WXww&AID=11017645&PID=100046529&utm_medium=affiliate&utm_source=cj&source=cj&utm_campaign=glob_p_5370367&cjevent=a5713013e70911f1826b03320a82b821",
     "affiliate": false,
     "box": [
-     3.7,
+     11.9,
      52.6,
      27.3,
      44.7
@@ -3205,25 +3205,25 @@ window.STYLE11_LOOKS = [
   ]
  },
  {
-  "title": "Corset & Cargo",
-  "short": "Corset & Cargo",
-  "art": "images/lookbook/art-corset-and-cargo.jpg",
-  "alt": "HerStyleVault Edit style board: black high-neck corset top, olive wide-leg pants, chocolate wedge gladiator sandals, patchwork shoulder bag, chunky bangle set",
+  "title": "Corset & Khaki",
+  "short": "Corset & Khaki",
+  "art": "images/lookbook/art-corset-and-khaki.jpg",
+  "alt": "HerStyleVault Edit style board: black high-neck corset top, khaki wide-leg jeans, chocolate wedge gladiator sandals, patchwork shoulder bag, chunky bangle set",
   "colors": [
    [
     "Black",
     "#1A1A1A"
    ],
    [
-    "Espresso",
-    "#33211B"
+    "Taupe",
+    "#8B7B6B"
    ],
    [
     "Chocolate",
     "#4A2A1E"
    ]
   ],
-  "slug": "corset-and-cargo",
+  "slug": "corset-and-khaki",
   "tags": {
    "occ": [
     "nightout",
@@ -3258,14 +3258,14 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Olive wide-leg pants",
+    "name": "Khaki wide-leg jeans",
     "type": "bottom",
-    "url": "https://shopgaui.com/products/essential-pants-tobacco?epik=dj0zJnU9RGpGeG1LUDNvUHBXSVRPcC1teXpta1VCSVdCTUpIM0smaT1PWTRvQU9BREFBQkFwQmxTRk1EeVAyTG1uY1ZOQVp0S1RreVh5eVZCdjM0JmE9LTEmcD0xJm49Q3k0QlZoS1psRlRCYm8tdGNpZWdYUSZ0PUFBQUFBR3NEdDFJ",
+    "url": "https://www.stories.com/en-ww/product/relaxed-wide-leg-jeans-khaki-green-1259944011/?epik=dj0yJnU9WjhNdjVickc5YmM1cmFmRDZvSmplQmNaeHVwX1ZfeVYmcD0wJm49ZWhYekRBRjFVT195T0VBOElrczVKdyZ0PUFBQUFBR3NEMm9n",
     "affiliate": false,
     "box": [
-     55.7,
+     54.0,
      43.6,
-     36.8,
+     40.2,
      53.8
     ]
    },
@@ -3667,7 +3667,7 @@ window.STYLE11_LOOKS = [
   "title": "Cocoa Trench",
   "short": "Cocoa Trench",
   "art": "images/lookbook/art-cocoa-trench.jpg",
-  "alt": "HerStyleVault Edit style board: brown faux-leather peplum top, brown faux-leather skirt, brown leather trench coat, brown multi stiletto booties, brown suede clutch",
+  "alt": "HerStyleVault Edit style board: brown faux-leather peplum top, brown faux-leather skirt, brown leather trench coat, chocolate wedge gladiator sandals, brown suede clutch",
   "colors": [
    [
     "Chocolate",
@@ -3676,10 +3676,6 @@ window.STYLE11_LOOKS = [
    [
     "Espresso",
     "#33211B"
-   ],
-   [
-    "Gray",
-    "#8B8B8B"
    ]
   ],
   "slug": "cocoa-trench",
@@ -3740,15 +3736,15 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Brown multi stiletto booties",
+    "name": "Chocolate wedge gladiator sandals",
     "type": "shoes",
-    "url": "https://azaleawang.com/products/amada-brownmulti?utm_source=Pinterest&utm_medium=organic&variant=46375515324655",
+    "url": "https://www.dillards.com/p/azalea-wang-douma-shin-guard-wrap-tie-gladiator-wedge-sandals/521088447?inf=909883537&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9MXZiRmhDOUFPTnlraDZxSEtNbUt1WHVIRmhLMW1Lb1omcD0wJm49cjhHTERjeEhwZlFRWWNkbDdJejNkQSZ0PUFBQUFBR3NENE5Z",
     "affiliate": false,
     "box": [
-     7.7,
+     17.8,
      73.8,
-     19.3,
-     23.6
+     15.6,
+     23.5
     ]
    },
    {
@@ -4012,15 +4008,11 @@ window.STYLE11_LOOKS = [
   "title": "Mary Jane Monday",
   "short": "Mary Jane Monday",
   "art": "images/lookbook/art-mary-jane-monday.jpg",
-  "alt": "HerStyleVault Edit style board: brown knit vest with red collar, brown tailored trousers, navy structured peplum jacket, burgundy Mary Jane flats, burgundy croc box bag",
+  "alt": "HerStyleVault Edit style board: brown knit vest with red collar, brown tailored trousers, burgundy Mary Jane flats, burgundy croc box bag, tortoise gold hoop earrings",
   "colors": [
    [
     "Chocolate",
     "#4A2A1E"
-   ],
-   [
-    "Navy",
-    "#1E2B4F"
    ]
   ],
   "slug": "mary-jane-monday",
@@ -4069,25 +4061,13 @@ window.STYLE11_LOOKS = [
     ]
    },
    {
-    "name": "Navy structured peplum jacket",
-    "type": "outerwear",
-    "url": "https://editorialist.com/p/ma-mulier-zei-jacket/?sku=44097035&pla=true&utm_source=pinterest&utm_medium=social_pinterest&utm_campaign=pinterest",
-    "affiliate": false,
-    "box": [
-     3.4,
-     2.7,
-     44.2,
-     35.1
-    ]
-   },
-   {
     "name": "Burgundy Mary Jane flats",
     "type": "shoes",
     "url": "https://www.nordstromrack.com/s/puma-replicatch-ballet-croco-2s/9266067?utm_id=10078&utm_source_platform=impa&utm_source=Skimbit%20Ltd.&utm_medium=affcon&utm_campaign=cc~site_ma~nem_fl~mif_ow~jwn_tc~affcon_mk~usa_br~rack_lt~ntg_pb~affpub-10078_ff~alwaysonrack_pk~clk_id~b000a4eo&utm_creative_format=pd~textlink_pt~impa_ra~cps_ac~cont_ti~contextual_ff~alwaysonrack_id~d003xs59&utm_content=cv~Online%20Tracking%20Link_ct~txt_at~txt_ot~nof_mb~1000000_ff~alwaysonrack_id~f000x967&utm_term=con&irclickid=Tj6x9PXAwxyZRJZQXNSgmzzKUkrUqNTJyW1g2c0&irgwc=1&afsrc=1",
     "affiliate": false,
     "box": [
      3.3,
-     78.4,
+     67.8,
      44.4,
      14.3
     ]
@@ -4098,10 +4078,10 @@ window.STYLE11_LOOKS = [
     "url": "https://a.co/d/02DnbxrN",
     "affiliate": false,
     "box": [
-     14.2,
-     55.5,
-     22.8,
-     17.9
+     5.6,
+     21.0,
+     39.9,
+     31.2
     ]
    },
    {
@@ -4110,10 +4090,10 @@ window.STYLE11_LOOKS = [
     "url": "https://www.dillards.com/p/lauren-ralph-lauren-gold-tone-tortoise-hoop-earrings/521740373?googleShop=Y&utm_source=Pinterest&utm_medium=organic&epik=dj0yJnU9Wi1aTndOYlExeGxrckNTakNUZ1FSWUJWSFRGM01od1kmcD0wJm49dnZMdUJ4b291NGR4RzdqUFpTOHMtZyZ0PUFBQUFBR3NENWFn",
     "affiliate": false,
     "box": [
-     6.2,
-     45.9,
-     16.7,
-     9.2
+     3.3,
+     5.6,
+     22.3,
+     12.2
     ]
    },
    {
@@ -4122,10 +4102,10 @@ window.STYLE11_LOOKS = [
     "url": "https://www.amazon.com/dp/B0DCR2V2H7?ref_=cm_sw_r_cp_ud_dp_TYHPN4RQ57BAPNE8G1X4",
     "affiliate": false,
     "box": [
-     30.8,
-     45.9,
-     11.6,
-     9.2
+     25.4,
+     2.7,
+     22.3,
+     17.9
     ]
    }
   ]
