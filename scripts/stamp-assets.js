@@ -4,7 +4,7 @@ const fs = require('fs'), crypto = require('crypto'), path = require('path');
 try {
   const root = path.join(__dirname, '..');
   const hash = (f) => crypto.createHash('sha1').update(fs.readFileSync(path.join(root, f))).digest('hex').slice(0, 8);
-  const pairs = [['analysis-results.html', 'report-extra.js']];
+  const pairs = [['analysis-results.html', 'report-extra.js'], ['her-style-suite.html', 'lookbook.js'], ['her-style-suite.html', 'theme.css']];
   pairs.forEach(([html, js]) => {
     const p = path.join(root, html); if (!fs.existsSync(p) || !fs.existsSync(path.join(root, js))) return;
     const s = fs.readFileSync(p, 'utf8'), v = hash(js);
