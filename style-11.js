@@ -189,8 +189,11 @@
       [[400, false], [1200, false], [2100, true], [2900, true]].forEach(function(c){ st.cues.push(setTimeout(function(){ blip(c[1]); }, c[0])); });
       st.cues.push(setTimeout(chime, 3650));
     }
-    function renderIntro(){
-      return '<div class="s9-hero s11-intro"><p class="s9-psst">Style-11, what’s your outfit emergency?</p>' +
+    var ISEEN = 'hsv_s11_intro';
+    function introSeen(){ try { return localStorage.getItem(ISEEN) === '1' && !st.replay; } catch (e) { return false; } }
+    function markIntroSeen(){ try { localStorage.setItem(ISEEN, '1'); } catch (e) {} }
+    function renderIntro(seen){
+      return '<div class="s9-hero s11-intro' + (seen ? ' done quick' : '') + '"><p class="s9-psst">Style-11, what’s your outfit emergency?</p>' +
         '<h' + hl + ' class="s9-title" data-title tabindex="-1"><span class="h1-kw">Style-11 outfit shuffle</span><span aria-hidden="true">Style-<em>11</em></span></h' + hl + '>' +
         '<p class="s9-sub">Nothing to wear? Roll for it.</p>' +
         '<div class="s11-toprow">' +
@@ -198,7 +201,8 @@
         '<button type="button" class="s11-skip" data-act="ff" aria-label="Skip to the end of the text messages"><span>Skip</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>' +
         '<div class="s11-phonewrap">' + chatHtml() + bannerHtml() + '</div>' +
         '<div class="s11-slot"><button type="button" class="lbk-btn s9-start s11-pop" style="--d:3.9s" data-act="start">Help me out</button></div>' +
-        '<button type="button" class="link-btn s11-howlink" data-act="how">How it works</button></div>';
+        '<button type="button" class="link-btn s11-howlink" data-act="how">How it works</button>' +
+        (seen ? ' <button type="button" class="link-btn s11-replay" data-act="replay">Replay the texts</button>' : '') + '</div>';
     }
     function renderBrief(){
       var s = STEPS[st.step], b = st.brief, list = s.list(b), total = STEPS.length;
@@ -340,7 +344,9 @@
         var px = w >= 100 ? 0 : l / (100 - w) * 100, py = h >= 100 ? 0 : t / (100 - h) * 100;
         var cx = l + w / 2, al = cx < 30 ? ' al-l' : (cx > 70 ? ' al-r' : '');
         var flag = flagTypes && flagTypes.indexOf(p.type) > -1 ? ' flag' : '';
-        return '<a class="hs' + al + flag + '" href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer' + (p.affiliate ? ' sponsored' : '') + '" style="left:' + l + '%;top:' + t + '%;width:' + w + '%;height:' + h + '%;background-image:url(' + esc(look.art) + ');background-size:' + (10000 / w) + '% ' + (10000 / h) + '%;background-position:' + px + '% ' + py + '%" aria-label="Get this piece: ' + esc(p.name) + (p.affiliate ? ' (affiliate link)' : '') + ', opens in a new tab"><span class="tg">Get this piece' + star(p.affiliate) + '<small>' + esc(p.name) + '</small></span></a>';
+        var at = '', tgs = '';
+        if (p.tag && w > 0 && h > 0) { at = ' at'; tgs = ' style="left:' + ((p.tag[0] - l) / w * 100).toFixed(1) + '%;top:' + ((p.tag[1] - t) / h * 100).toFixed(1) + '%"'; }
+        return '<a class="hs' + al + flag + at + '" href=""' + esc(p.url) + '" target="_blank" rel="noopener noreferrer' + (p.affiliate ? ' sponsored' : '') + '" style="left:' + l + '%;top:' + t + '%;width:' + w + '%;height:' + h + '%;background-image:url(' + esc(look.art) + ');background-size:' + (10000 / w) + '% ' + (10000 / h) + '%;background-position:' + px + '% ' + py + '%" aria-label="Get this piece: ' + esc(p.name) + (p.affiliate ? ' (affiliate link)' : '') + ', opens in a new tab"><span class="tg"' + tgs + '><svg class="hg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.4V7.6a2.2 2.2 0 1 0-2.2-2.2"/><path d="M12 8.4 3.7 14.7a1.5 1.5 0 0 0 .95 2.7h14.7a1.5 1.5 0 0 0 .95-2.7L12 8.4z"/></svg><span class="tl">Get this piece' + star(p.affiliate) + '</span><span class="ts">Get it' + star(p.affiliate) + '</span><small>' + esc(p.name) + '</small></span></a>';
       }).join('');
     }
     function renderResult(r){
@@ -360,7 +366,7 @@
         '<p class="s9-rk">Your Style-11 pick</p>' + match +
         (l.wearing ? '<p class="s9-wear"><img src="' + ICON + '" alt="" width="58" height="33"> I’m wearing this</p>' : '') +
         '<div class="s9-board pre"><img src="' + esc(l.art) + '" alt="' + esc(l.alt) + '">' + hotspots(l, flagTypes) + '</div>' +
-        '<p class="s9-boardhint"><svg class="bh-ic" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 14a8 8 0 0 1-8 8"/><path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1"/><path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span>' + (noHover ? 'Tap any piece to shop it' : 'Hover any piece to shop it') + '</span></p>' + credit +
+        '<p class="s9-boardhint"><svg class="bh-ic" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 14a8 8 0 0 1-8 8"/><path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1"/><path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span>' + (noHover ? 'Tap a hanger to shop that piece' : 'Click a hanger to shop that piece') + '</span></p>' + credit +
         (focusPiece ? '<a class="s11-focus" href="' + esc(focusPiece.url) + '" target="_blank" rel="noopener noreferrer' + (focusPiece.affiliate ? ' sponsored' : '') + '"><small>' + focusLabel + '</small><strong>' + esc(focusPiece.name) + '</strong><span>Get this piece' + star(focusPiece.affiliate) + ' &rarr;</span></a>' : '') +
         '<h3 data-title tabindex="-1">' + esc(l.title) + '</h3>' + tags +
         '<span class="lbk-dots" aria-hidden="true">' + (l.colors || []).map(function(c){ return '<b style="background:' + c[1] + '"></b>'; }).join('') + '</span>' +
@@ -400,7 +406,7 @@
       var s = st.screen;
       if (s !== 'intro') clearCues();
       if (s === 'ring') view.innerHTML = renderRing();
-      else if (s === 'intro') { view.innerHTML = renderIntro(); startCues(); }
+      else if (s === 'intro') { var seenIntro = introSeen(); st.replay = false; view.innerHTML = renderIntro(seenIntro); if (!seenIntro) { startCues(); st.cues.push(setTimeout(markIntroSeen, 4300)); } }
       else if (s === 'brief') view.innerHTML = renderBrief();
       else if (s === 'play') view.innerHTML = renderPlay();
       else if (s === 'locked') view.innerHTML = renderLocked();
@@ -419,7 +425,7 @@
       var board = view.querySelector('.s9-board.pre'); if (!board) return;
       var br = board.getBoundingClientRect(), items = [];
       Array.prototype.forEach.call(board.querySelectorAll('.hs'), function(h){ h.style.removeProperty('--dy'); });
-      Array.prototype.forEach.call(board.querySelectorAll('.hs:not(.tapped)'), function(h){
+      Array.prototype.forEach.call(board.querySelectorAll('.hs:not(.tapped):not(.at)'), function(h){
         var t = h.querySelector('.tg'); if (!t || getComputedStyle(t).display === 'none') return;
         var r = t.getBoundingClientRect(); items.push({h:h, top:r.top, bottom:r.bottom, left:r.left, right:r.right});
       });
@@ -604,10 +610,11 @@
       }
       var act = e.target.closest('[data-act]'); if (!act) return;
       var what = act.getAttribute('data-act');
-      if (what === 'ff') { var ig = view.querySelector('.s11-intro'); if (ig) { clearCues(); chime(); ig.classList.add('done'); var sb = ig.querySelector('.s9-start'); if (sb) sb.focus({preventScroll:true}); } }
+      if (what === 'ff') { var ig = view.querySelector('.s11-intro'); if (ig) { clearCues(); chime(); markIntroSeen(); ig.classList.add('done'); var sb = ig.querySelector('.s9-start'); if (sb) sb.focus({preventScroll:true}); } }
       else if (what === 'snd') { var on = !soundOn(); try { localStorage.setItem(SNDKEY, on ? '1' : '0'); } catch (x) {} act.setAttribute('aria-pressed', on); act.setAttribute('aria-label', 'Sound ' + (on ? 'on' : 'off')); act.innerHTML = on ? SNDI.on : SNDI.off; if (on) chime(); }
       else if (what === 'answer') go('intro');
-      else if (what === 'start') { st.step = 0; go(briefDone() ? 'play' : 'brief'); }
+      else if (what === 'replay') { st.replay = true; go('intro'); }
+      else if (what === 'start') { markIntroSeen(); st.step = 0; go(briefDone() ? 'play' : 'brief'); }
       else if (what === 'back') {
         if (st.screen === 'brief') { if (st.step > 0) { st.step--; if (STEPS[st.step].key === 'time' && (TIMES[st.brief.occ] || []).length === 1) st.step--; go('brief'); } else go('intro'); }
         else if (st.screen === 'play') { st.step = STEPS.length - 1; go('brief'); }

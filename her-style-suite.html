@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme.css?v=583b1d3a">
+<link rel="stylesheet" href="theme.css?v=8b064f2e">
 </head>
 <body class="lbk-page">
 <header class="site"><nav><div class="nav-mount"></div></nav></header>
@@ -57,8 +57,8 @@
 </section>
 
 <footer class="site"><div class="footer-mount"></div></footer>
-<script src="site.js?v=dcd632a2"></script>
-<script src="lookbook.js"></script>
+<script src="site.js?v=d31919a3"></script>
+<script src="lookbook.js?v=165b9784"></script>
 <script>
 (function(){
   var grid = document.getElementById('lookGrid'), me = document.getElementById('lbkMe'), hero = document.getElementById('lbkHero');
@@ -93,7 +93,7 @@
     hero.hidden = false;
     var list = LOOKBOOK.filter(function(i){ return filter === 'All' || i.tag === filter; });
     grid.className = 'lbk-looks is-grid';
-    grid.innerHTML = '<div class="lbk-bar"><h2 class="lbk-cat">Concierge <em>Catalog</em></h2><p class="lbk-cat-sub">Every look Style-11 can pick for you. Tap one to see the pieces. Next theme coming soon, stay tuned.</p>' +
+    grid.innerHTML = '<div class="lbk-bar"><h2 class="lbk-cat">Concierge <em>Catalog</em></h2><p class="lbk-cat-sub">The Winter Edit. Tap a look to see the pieces. Next theme coming soon, stay tuned.</p>' +
       '<div class="lbk-chips" role="group" aria-label="Filter by occasion">' + tags().map(function(t){ return '<button type="button" class="lbk-chip' + (t === filter ? ' on' : '') + '" data-tag="' + esc(t) + '" aria-pressed="' + (t === filter) + '">' + esc(t) + '</button>'; }).join('') + '</div></div>' +
       '<div class="lbk-grid">' + list.map(function(i){
         return '<a class="lbk-card" href="#' + i.slug + '" aria-label="' + esc(i.title) + ', ' + esc(tagOf(i)) + '">' + art(i, false) +
@@ -111,8 +111,13 @@
       '<h2 class="lbk-name">' + esc(i.title) + '</h2>' +
       (i.caption ? '<p class="lbk-story">' + esc(i.caption) + '</p>' : '') +
       (i.client ? '<p class="lbk-clientnote">Styled for a real client</p>' : '') +
+      (i.shop && i.shop.length ? '<button type="button" class="lbk-btn solid lbk-shopbtn" data-shop="' + n + '">Shop the look</button>' : '') +
       '<h3 class="lbk-h3">The colors</h3><div class="lbk-pal">' + ripple(i.colors) + '<ul class="lbk-cols">' + i.colors.map(function(c){ return '<li><b style="background:' + c[1] + '"></b>' + esc(c[0]) + '</li>'; }).join('') + '</ul></div>' +
-      '<h3 class="lbk-h3">The pieces</h3><ul class="lbk-pieces">' + (i.pieces || []).map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' +
+      '<h3 class="lbk-h3">The pieces</h3><ul class="lbk-pieces' + (i.shop ? ' shoppable' : '') + '">' + (i.pieces || []).map(function(p){
+        var hit = (i.shop || []).filter(function(x){ return x.name === p; })[0];
+        return '<li><span>' + esc(p) + '</span>' + (hit ? '<a class="lbk-hang" href="' + esc(hit.url) + '" target="_blank" rel="noopener noreferrer' + (hit.affiliate ? ' sponsored' : '') + '" aria-label="Get this piece: ' + esc(p) + ', opens in a new tab">' + HANGER + '</a>' : '') + '</li>'; }).join('') + '</ul>' +
+      (i.shop && i.shop.length ? '<p class="lbk-hangnote">' + HANGER + ' Tap a hanger to get that piece.</p>' : '') +
+      '<p class="lbk-stock">I rotate looks often, so a piece can sell out while a look is up.</p>' +
       (i.why ? '<h3 class="lbk-h3">Why it works</h3><p class="lbk-why">' + esc(i.why) + '</p>' : '') +
       (i.wear ? '<h3 class="lbk-h3">Wear it to</h3><ul class="lbk-wear">' + i.wear.map(function(w){ return '<li>' + esc(w) + '</li>'; }).join('') + '</ul>' : '') +
       '<div class="lbk-dcta"><a class="lbk-btn solid" href="service-occasion-edit.html">Book an Occasion Edit</a><a class="lbk-btn" href="book.html">Free Consultation</a></div></div></article>' +
@@ -127,8 +132,25 @@
     var top = document.querySelector('.lbk-wall'); if (top && top.scrollIntoView && !first) { try { top.scrollIntoView({block: 'start'}); } catch (e) {} }
     first = false;
   }
+  var HANGER = '<svg class="hg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.4V7.6a2.2 2.2 0 1 0-2.2-2.2"/><path d="M12 8.4 3.7 14.7a1.5 1.5 0 0 0 .95 2.7h14.7a1.5 1.5 0 0 0 .95-2.7L12 8.4z"/></svg>';
+  function openShop(i, opener){
+    var old = document.getElementById('lbkShop'); if (old) old.remove();
+    var aff = i.shop.some(function(p){ return p.affiliate; });
+    var m = document.createElement('div'); m.id = 'lbkShop'; m.className = 'lbk-shop'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-labelledby', 'lbkShopT');
+    m.innerHTML = '<div class="lbk-shop-panel"><button type="button" class="lbk-shop-x" aria-label="Close">\u00d7</button><p class="lbk-shop-k">Shop the look</p><h2 id="lbkShopT" tabindex="-1">' + esc(i.title) + '</h2>' +
+      '<ul class="lbk-shop-list">' + i.shop.map(function(p){ return '<li><span>' + esc(p.name) + '</span><a class="lbk-shop-get" href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer' + (p.affiliate ? ' sponsored' : '') + '">' + HANGER + 'Get this piece' + (p.affiliate ? '*' : '') + '</a></li>'; }).join('') + '</ul>' +
+      '<p class="lbk-shop-note">I rotate looks often, so a piece can sell out while a look is up.' + (aff ? ' *Affiliate link.' : '') + '</p></div>';
+    function close(){ m.remove(); document.body.style.overflow = ''; document.removeEventListener('keydown', onKey); if (opener && opener.focus) opener.focus(); }
+    function onKey(e){ if (e.key === 'Escape') close(); }
+    m.addEventListener('click', function(e){ if (e.target === m || e.target.classList.contains('lbk-shop-x')) close(); });
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(m); document.body.style.overflow = 'hidden';
+    var h = m.querySelector('h2'); if (h) h.focus();
+  }
   window.addEventListener('hashchange', route);
   grid.addEventListener('click', function(e){
+    var sb = e.target.closest('.lbk-shopbtn');
+    if (sb) { openShop(LOOKBOOK[+sb.getAttribute('data-shop')], sb); return; }
     var c = e.target.closest('.lbk-chip');
     if (c) { filter = c.getAttribute('data-tag'); renderGrid(); return; }
     var z = e.target.closest('.lbk-zoom');

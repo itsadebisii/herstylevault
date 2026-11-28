@@ -261,7 +261,7 @@ document.addEventListener('click', function(e){
 
 /* ===== Style-11 =====
    Opens as a pop-up from anywhere. Its files load the first time someone asks for it (or hovers/touches a Style-11 link). */
-var S11_V = '20261123e', s11Loading = null;
+var S11_V = '20261128c', s11Loading = null;
 function loadStyle11(){
   if (window.Style11) return Promise.resolve();
   if (s11Loading) return s11Loading;
